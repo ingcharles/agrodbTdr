@@ -31,7 +31,7 @@ class Conexion{
 
 	public $mensajeError;
 
-	public function __construct($servidor = 'localhost', $puerto = '', $baseDatos = 'agrocalidadprueba', $usuario = 'postgres', $clave = 'A9r@07c@/i.'){
+	public function __construct($servidor = 'localhost', $puerto = '5434', $baseDatos = 'agrocalidadtdr', $usuario = 'postgres', $clave = 'admin'){
 		$this->servidor = $servidor;
 		$this->puerto = $puerto;
 		$this->baseDatos = $baseDatos;

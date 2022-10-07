@@ -9,3 +9,4 @@
 *.json
 *.svn-base
 clases/Conexion.php
+aplicaciones/mvc/config/config.php

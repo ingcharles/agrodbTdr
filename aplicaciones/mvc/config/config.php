@@ -48,7 +48,7 @@ if(PHP_SAPI!=='cli'){
     $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 }else {
     $host = 'localhost';
-    $scriptName = '/agrodbPrueba/aplicaciones/mvc/index.php';
+    $scriptName = '/agrodbTdr/aplicaciones/mvc/index.php';
 }
 
 define('URL_MVC_FOLDER', 'mvc/'); //Utilizado en las listas  para el enlace editar
