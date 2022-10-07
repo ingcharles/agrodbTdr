@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="528fd1ce-7617-4708-8079-c4d4b1623329">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="produccion"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="idProveedorExterior" class="java.lang.Integer"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+	pe.id_proveedor_exterior
+	, pe.identificador_operador
+	, CASE WHEN o.razon_social = '' THEN o.nombre_representante ||' '|| o.apellido_representante ELSE o.razon_social END nombre_operador
+	, o.direccion as direccion_operador
+	, pe.nombre_provincia_operador
+	, pe.nombre_fabricante
+	, pe.id_pais_fabricante
+	, pe.nombre_pais_fabricante
+	, pe.direccion_fabricante
+	, pe.servicio_oficial
+	, pe.codigo_creacion_solicitud
+	, pe.codigo_aprobacion_solicitud
+	, pe.estado_solicitud
+    , to_char(pe.fecha_aprobacion_solicitud, 'yyyy-mm-dd') as fecha_aprobacion_solicitud
+	, STRING_AGG(pp.id_subtipo_producto::text, ', ') as id_tipos_productos
+	, STRING_AGG(pp.nombre_subtipo_producto, ', ') as nombre_tipos_productos
+FROM 
+	g_proveedores_exterior.proveedor_exterior pe
+	INNER JOIN g_proveedores_exterior.productos_proveedor pp ON pe.id_proveedor_exterior = pp.id_proveedor_exterior
+	INNER JOIN g_operadores.operadores o ON pe.identificador_operador = o.identificador
+WHERE
+	pe.id_proveedor_exterior =  $P{idProveedorExterior} 
+	and pe.estado_solicitud = 'Aprobado' 
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]]>
+	</queryString>
+	<field name="id_proveedor_exterior" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_proveedor_exterior"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="identificador_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="nombre_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_operador"/>
+	</field>
+	<field name="direccion_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="direccion_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="nombre_provincia_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_provincia_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="nombre_fabricante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_fabricante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="id_pais_fabricante" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_pais_fabricante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="nombre_pais_fabricante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_pais_fabricante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="direccion_fabricante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="direccion_fabricante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="servicio_oficial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="servicio_oficial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="codigo_creacion_solicitud" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo_creacion_solicitud"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="codigo_aprobacion_solicitud" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo_aprobacion_solicitud"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="estado_solicitud" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estado_solicitud"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proveedor_exterior"/>
+	</field>
+	<field name="fecha_aprobacion_solicitud" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_aprobacion_solicitud"/>
+	</field>
+	<field name="id_tipos_productos" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="id_tipos_productos"/>
+	</field>
+	<field name="nombre_tipos_productos" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_tipos_productos"/>
+	</field>
+	<background>
+		<band height="822" splitType="Stretch">
+			<image>
+				<reportElement x="-20" y="-20" width="594" height="842" uuid="7a26b890-128e-481b-92f0-87dc910bd2f5"/>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="14" width="550" height="16" uuid="b53d4e76-da66-47bb-a47e-04048ea85695"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO DE HABILITACIÓN DE FABRICANTES EN EL EXTERIOR]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="403" splitType="Stretch">
+			<rectangle radius="4">
+				<reportElement mode="Transparent" x="13" y="178" width="532" height="132" uuid="f299d684-3d63-427c-9fbb-0388dc575967"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement mode="Opaque" x="12" y="154" width="532" height="20" backcolor="#B1D7FA" uuid="f68d83c4-6362-4a9f-90dd-caa7382cf434">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement mode="Transparent" x="12" y="29" width="532" height="90" uuid="97451013-7105-4390-b02f-464d8331816b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="28" y="36" width="90" height="19" uuid="ea573976-eb83-4d8a-9b8c-f60a61f361f0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="74" width="90" height="19" uuid="6d7f7ca0-fff4-4e89-bcf0-a9b8d1331e1c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="55" width="90" height="19" uuid="81518808-b412-4b1b-8f5e-cf5e11857e6c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC / RISE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="93" width="90" height="19" uuid="19d21b8f-8c06-4993-a854-1f3033d0e173"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="127" width="170" height="19" uuid="b837fd26-0bf9-4b10-a74f-b1fedeec8c23"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO DE HABILITACIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="154" width="350" height="19" uuid="9c64d45d-1795-4e14-8b97-a28b9253aebe"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN DEL FABRICANTE EN EL EXTERIOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="189" width="142" height="19" uuid="bd141466-7548-4c75-a37b-ef07da7f15e8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del fabricante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="262" width="142" height="19" uuid="9318e707-9700-4b50-82a7-31e160ba5bd8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de productos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="224" width="142" height="19" uuid="a7b0c00c-342e-47ef-bbfb-8baf0d7dcef3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[País fabricante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="243" width="142" height="19" uuid="9d7bfac0-8c53-4c4f-b05c-be447a973f13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección fabricante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="319" width="510" height="19" uuid="af33ccac-5a7a-405b-a9e7-2c026e81d0eb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del servicio oficial que regula los productos veterinarios que fabrica la planta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="374" width="130" height="19" uuid="937dbd13-f657-4b7c-8f8c-afa22a9ae9fa"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de habilitación:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="118" y="36" width="350" height="19" uuid="af820c7f-db77-4ca7-84cd-80d2c615e118">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d12f881c-4d7c-40da-adb1-9a70f73c7845"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="55" width="350" height="19" uuid="c1ae7d23-f22a-4836-b7a1-afe106a24b03">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f840fd4c-8af7-4b1d-a6ab-de87f51b94ac"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificador_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="93" width="350" height="19" uuid="91160cc3-af00-47a9-8c77-77729933ca73">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_provincia_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="127" width="190" height="19" uuid="f0f8a24b-69d7-4a11-b657-8135e2807c49">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1db9cab6-7121-4445-a291-6e0fc4af365e"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_aprobacion_solicitud}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="189" width="358" height="30" uuid="0f19d66e-2cf0-4bf5-ab88-c29696c08b88">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d0af6ecc-a259-414b-9352-6927fbf35ea2"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_fabricante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="243" width="328" height="19" uuid="fc6f96c6-d8fa-45a9-afd5-2675e4dabaf3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26e30ac5-1f83-444a-aefd-1b0cdab6ac7f"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_fabricante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="224" width="358" height="19" uuid="0485b4ab-5d14-471e-8027-5999d09c34bd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="67ff9142-8500-4fb4-93d9-7da3b6e62a6e"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_pais_fabricante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="74" width="350" height="19" uuid="a0145606-cb4f-4af4-90bd-fb056f10a6a0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04f25fef-8510-40c2-8f4c-c810c5a4242c"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="374" width="200" height="19" uuid="648672f1-703e-4299-8499-a8476d5c9b70">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7e790fc6-f760-4d35-8923-7c5f4c18324e"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_aprobacion_solicitud}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="338" width="510" height="30" uuid="221320c3-b658-44b2-b6f7-f9e51abe6b12">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af5d5fed-51d3-4f96-a111-2ed8d986b86a"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{servicio_oficial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="266" width="369" height="40" uuid="e887a625-fc46-4868-afa5-fcca8b956c55"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_tipos_productos}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="4">
+				<reportElement mode="Opaque" x="11" y="5" width="532" height="20" backcolor="#B1D7FA" uuid="e35d112b-6eba-42eb-a781-8146363cc774">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="27" y="5" width="350" height="19" uuid="e3ea059e-cd7a-4d01-b914-20620072003c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN DEL OPERADOR]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="186">
+			<rectangle>
+				<reportElement mode="Transparent" x="12" y="5" width="101" height="101" uuid="169b6803-7689-4b7b-82c0-815b9c78271b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="12" y="5" width="533" height="101" uuid="6d2a0d19-47b9-4727-9690-51b2b0ce844e"/>
+			</rectangle>
+			<componentElement>
+				<reportElement x="13" y="7" width="99" height="99" uuid="42bda698-6e40-4e67-9ab9-3b0453cc623a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Código certificado :" + $F{codigo_aprobacion_solicitud}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<staticText>
+				<reportElement x="166" y="71" width="318" height="18" uuid="ff4fa795-0c36-409f-8e5b-46f5411bcf0d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[AGENCIA DE REGULACIÓN Y CONTROL FITO Y ZOOSANITARIO - AGROCALIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="17" width="218" height="19" uuid="e884b407-3207-4761-acf5-e1b4da3b74ff"/>
+				<textElement>
+					<font size="12" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Documento firmado electronicamente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="43" width="318" height="18" uuid="29981254-ab55-4efd-9917-592500906791"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[DANIEL ALEJANDRO SUAREZ TIPAN]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

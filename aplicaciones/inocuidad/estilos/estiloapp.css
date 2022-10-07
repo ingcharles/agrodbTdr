@@ -1,0 +1,388 @@
+@CHARSET "UTF-8";
+@import "fonts/material/material-icons.css";
+
+#__icDashboard:before{
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e871";
+    color:#fffb7d;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icCasos:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e2cc";
+    color:#fffb7d;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icMuestras:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e23a";
+    color:#fffb7d;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icLaboratorio:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e3f3";
+    color:#fffb7d;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icAnalisis:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e417";
+    color:#fffb7d;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icComite:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e7fb";
+    color:#fffb7d;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icComite:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e7fb";
+    color:#fffb7d;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icReportes:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e24d";
+    color:#fffb7d;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icConfiguracion{
+    background-color: #4f4f4f;
+    border-radius: 0px;
+    margin: 0px !important;
+}
+.config_open:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e5ce";
+    color:#ffffff;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+.config_close:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    content: "\e5cf";
+    color:#ffffff;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+#__icAdminInsumos, #__icAdminLmrs, #__icAdminProductos{
+    background-color: #4f4f4f;
+    margin-top: -5px !important;
+    margin-bottom: 5px !important;
+    border-radius: 0px !important;
+    font-size: 13px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+#__icAdminInsumos{
+    margin-top: 0px !important;
+}
+#__icAdminInsumos:before{
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    content: "\032\032\e87b";
+    color:#ffffff;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+#__icAdminLmrs:before{
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    content: "\032\032\e894";
+    color:#ffffff;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+#__icAdminProductos:before{
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    content: "\032\032\e8cb";
+    color:#ffffff;
+    padding-right: 20px;
+    margin-left: -30px;
+}
+
+.numeric{
+    text-align: right;
+}
+.decimal{
+    text-align: right;
+}
+
+div h2 {
+    text-align: right;
+    font-size: 1.7em;
+    font-weight: lighter;
+    border-bottom: 1px solid #DEDEDE;
+    color: #656569;
+}
+
+#_refrescar{
+    background-image: url('../img/actualizar.png');
+}
+#_regresar{
+    background-image: url('../img/arrow_left_24.png');
+}
+
+._search{
+    display: inline-grid;
+    height: 30px;
+}
+
+._search #searchField{
+    width: 99%;
+}
+
+._search #search{
+    border-radius: 3px;
+    background-image: url('../img/demo/search.png');
+    width: 17px;
+    border: 0;
+    height: 17px;
+    margin-top: 2px;
+}
+
+/*Estilos de resumen*/
+
+.table-header{
+    width: 100%;
+}
+
+.table-header tr{
+    border: 0;
+}
+
+.table-header td:nth-child(1) {
+    width: 33.4%;
+}
+
+.fieldset-header{
+    padding-top: 20px;
+}
+
+.fieldset-header legend{
+    background-color:rgba(30, 68, 144, 0.5);
+    color: #ffffff;
+}
+
+.header-titulo{
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.header-contenido{
+    color: #000000;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.table-resumen{
+    width: 100%;
+}
+
+.table-resumen tr{
+    border: 0;
+}
+
+.table-resumen td:nth-child(1) {
+    width: 33.4%;
+}
+
+.fieldset-resumen{
+    padding-top: 0px
+}
+
+.resumen-titulo{
+    color: #000000;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.resumen-contenido{
+    color: #000000;
+    font-weight: normal;
+    font-size: 13px;
+}
+
+.resumen-subtitulo{
+    border-bottom: 1px solid #9E9E9E !important;
+}
+
+.resumen-subtitulo-label{
+    color: #5f5f5f;
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 15px;
+}
+.submenu-nav{
+    background-color: transparent
+}
+
+.submenu-nav i{
+    font-size: 65px;
+    z-index: 1;
+    color: #ffffff;
+    padding-left: 30%;
+}
+.submenu-nav label{
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+.submenu-text{
+    display: grid;
+}
+.submenu-title{
+    text-align: center;
+}
+.submenu{
+    padding-left: 5px !important;
+    text-decoration: none;
+    color: white;
+    background-color: #3ea851;
+    border-radius: 5px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 200px;
+    height: 110px;
+    display: inline-table;
+    padding: 5px;
+    margin-top: 2%;
+    margin-left: 4%;
+    margin-right: 1%;
+    margin-bottom: 2%;
+    position: relative;
+    right: -5px;
+    top: -5px;
+    box-shadow: -5px 5px 12px #666;
+}
+
+#imgMain {
+    z-index: 2;
+}
+
+.action-container nav {
+    display: unset !important;
+    margin-top: 0px !important;
+    padding:0px !important;
+    background-color: transparent !important;
+}
+
+.action-container nav a{
+    padding:0px !important;
+    padding-left: 0px !important;
+}
+
+.action-container ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.action-container li {
+    float: left;
+}
+
+.action-container li a {
+    display: block !important;
+    text-align: center;
+    text-decoration: none;
+    color: #157e88;
+}
+.action-container li a::after {
+    content: "" !important;
+}
+
+.dataTables_paginate a::after{
+    content: "" !important;
+}
+
+.material_link::after{
+    content: "" !important;
+}
+
+.report-action{
+    display: unset !important;
+    margin-top: 0px !important;
+    padding:0px !important;
+    background-color: transparent !important;
+}
+
+.report-launcher{
+    color: white;
+    width: auto;
+    padding: 7px !important;
+    text-shadow: -1px -1px #666;
+    border: 1px solid #459A00;
+    position: relative;
+    margin: 5px auto !important;
+    border-radius: 5px !important;
+    background: -webkit-linear-gradient(top, #5CCD00 0%, #4AA400 100%);
+    text-decoration: none;
+}
+
+.report-launcher::after{
+    content: "" !important;
+}
+
+#tecnico_props, #inspector_props, #finca_props, #importador_props{
+    background-color: #CCCCCC;
+}

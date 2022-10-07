@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+
+.circulo_rojo,.circulo_verde,.circulo_amarillo {
+	width: 20px;
+	height: 20px;
+	border-radius: 5px;
+	float: right;
+	border-right: 1px solid rgba(255, 255, 255, .75);
+	border-left: 1px solid rgba(0, 0, 0, .5);
+	border-bottom: 1px solid rgba(255, 255, 255, .75);
+	border-top: 1px solid rgba(0, 0, 0, .5);
+}
+
+.circulo_rojo {
+	background: repeating-linear-gradient(45deg, #ffffff, #f23953 2px, #f23953 5px);
+}
+
+.circulo_verde {
+	background: repeating-linear-gradient(45deg, #005588, #8cc63f 2px, #8cc63f 5px);
+}
+
+.circulo_amarillo {
+	background: repeating-linear-gradient(45deg, #ffffff, #f8c52b 2px, #f8c52b 5px);
+}
+
+div h1 {
+	text-align: right;
+	font-size: 1.4em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+._h1 {
+	text-align: right;
+	font-size: 1.4em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+#__certificacionBPA{
+	background-image: url('../img/certificacionBPAIcono.png');
+}
+
+#__registrarAsociacion{
+	background-image: url('../img/miembrosAsociacionIcono.png');
+}

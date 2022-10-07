@@ -1,0 +1,83 @@
+@CHARSET "UTF-8";
+
+body{
+	font-family: sans-serif;
+	font-size: small;
+}
+
+th{
+	width: 200px;
+	text-transform: uppercase;
+	background-color: rgba(0, 0, 0, .1);
+}
+
+td{
+	background-color: rgba(255, 255, 255, .5);
+	padding: 5px;
+}
+
+label{
+	text-decoration: underline;
+	margin-right: 5px;
+}
+
+/***********************/
+
+table.operador{
+	margin:30px;
+	width: 960px;
+	border-radius: 5px;
+	border: 1px solid gray;
+	background-color: rgba(230, 230, 230, 1);
+	box-shadow: 2px 2px 8px rgba(0, 0, 0, .3);
+}
+
+.tituloSeccion{
+	background-color: rgba(41, 171, 226, .5);
+	padding: 10px;
+}
+
+
+.tituloSitio{
+	background-color: rgba(255, 234, 82, 1);
+	padding: 10px;
+}
+
+/****************************/
+
+table.sitios, table.areas{
+	width: 100%;
+}
+
+/*****************************/
+
+
+
+div.datosGenerales{
+	
+}
+
+.razon{
+	
+	display: block;
+	
+	border-radius: 5px;
+	padding: 5px 5px;
+	font-weight: bold;
+	background-color: rgba(255, 255, 255, .5)
+}
+
+.alerta{
+	font-weight:bold;
+	color: rgba(239, 48, 48, 1);
+	
+}
+
+.referencia{
+	font-style:  italic;	
+}
+
+.estado{
+	font-weight: bold;
+	text-transform: uppercase;
+}

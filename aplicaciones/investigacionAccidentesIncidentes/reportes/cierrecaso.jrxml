@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cierrecaso" language="groovy" pageWidth="595" pageHeight="842" columnWidth="580" leftMargin="5" rightMargin="10" topMargin="10" bottomMargin="10" uuid="79a8ce30-f929-4648-a0e4-b0bd7e03747b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codSolicitud" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rutaRiesgoTrabajo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+archivo_cedula_papeleta_accidentado, archivo_cedula_papeleta_reporta,
+archivo_informe_reporte,
+archivo_unidad_riesgos_iess,
+archivo_certificado_medico,
+responsabilidad
+FROM
+g_investigacion_accidente_incidente.cierre_caso
+WHERE codigo_datos_accidente = $P{codSolicitud} ;]]>
+	</queryString>
+	<field name="archivo_cedula_papeleta_accidentado" class="java.lang.String"/>
+	<field name="archivo_cedula_papeleta_reporta" class="java.lang.String"/>
+	<field name="archivo_informe_reporte" class="java.lang.String"/>
+	<field name="archivo_unidad_riesgos_iess" class="java.lang.String"/>
+	<field name="archivo_certificado_medico" class="java.lang.String"/>
+	<field name="responsabilidad" class="java.lang.String"/>
+	<detail>
+		<band height="118" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="558" height="32" uuid="eb6d23d9-b0de-4519-9127-8cd85befd533"/>
+				<imageExpression><![CDATA[$P{rutaRiesgoTrabajo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="57" y="6" width="168" height="20" forecolor="#FFFFFF" uuid="77ff9ca0-27dc-4e0d-a04a-02c1396c1444"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RIESGOS DE TRABAJO:]]></text>
+			</staticText>
+			<rectangle radius="4">
+				<reportElement x="1" y="96" width="377" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="2a4a79d8-d7db-41b7-af12-443070f1523b"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="378" y="39" width="180" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="78ff5a61-2d75-4156-921b-f6838f08383f"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="1" y="39" width="377" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="4097a0e9-e7ad-48df-84ee-eb3a92018fa5"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="378" y="96" width="180" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="dbb41f64-6461-426b-9b14-8e4264d7d42d"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="378" y="67" width="180" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="43196ea8-b9ad-4e02-9cf5-a496fc6ef382"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="1" y="67" width="377" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="993a1fd7-7724-46fd-ab2e-c3bfaef0c586"/>
+			</rectangle>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="8" y="40" width="370" height="20" uuid="6571545c-993d-47b0-82cf-01e7aafea9ac"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Tiene el documento de riesgos de trabajo del IESS escaneado?:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="68" width="269" height="20" uuid="689591ca-35b7-497e-af5c-1678e375a803"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Tiene el certificado médico escaneado?:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="98" width="268" height="20" uuid="665b25d3-3772-47e3-a9e5-69f342aa87ed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Responsable Patronal?:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="41" width="100" height="20" forecolor="#000000" uuid="a2588435-aa9b-413b-bfd4-f7a89fc94b2a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[SI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="70" width="100" height="20" forecolor="#000000" uuid="92f68835-53c0-4018-a7a0-7222661b5b02"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[SI]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="389" y="98" width="100" height="20" forecolor="#000000" uuid="a14b92be-3c2d-43f4-b841-f8be932c601e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{responsabilidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

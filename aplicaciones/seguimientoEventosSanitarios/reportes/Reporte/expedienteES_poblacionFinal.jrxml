@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES_poblacionFinal" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f71058b7-bbbf-4760-aac4-b5cf0cf0c4af">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_evento_sanitario" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+paf.id_poblacion_final,
+paf.id_evento_sanitario,
+paf.id_especie_poblacion_final,
+paf.nombre_especie_poblacion_final,
+paf.id_categoria_poblacion_final,
+--paf.nombre_categoria_poblacion_final,
+(SELECT nombre FROM g_seguimiento_eventos_sanitarios.catalogo
+WHERE codigo = id_categoria_poblacion_final AND id_codigo_padre = id_especie_poblacion_final AND tipo_catalogo = 'CATEGORIA') AS nombre_categoria_poblacion_final,
+paf.existentes_poblacion_final,
+paf.enfermos_poblacion_final,
+paf.muertos_poblacion_final,
+paf.sacrificados_poblacion_final,
+paf.matados_eliminados_poblacion_final,
+paf.identificador,
+paf.fecha_creacion
+FROM
+g_seguimiento_eventos_sanitarios.poblacion_animal_final AS paf
+ where
+id_evento_sanitario = $P{id_evento_sanitario}]]>
+	</queryString>
+	<field name="id_poblacion_final" class="java.lang.Integer"/>
+	<field name="id_evento_sanitario" class="java.lang.Integer"/>
+	<field name="id_especie_poblacion_final" class="java.lang.Integer"/>
+	<field name="nombre_especie_poblacion_final" class="java.lang.String"/>
+	<field name="id_categoria_poblacion_final" class="java.lang.Integer"/>
+	<field name="nombre_categoria_poblacion_final" class="java.lang.String"/>
+	<field name="existentes_poblacion_final" class="java.lang.Integer"/>
+	<field name="enfermos_poblacion_final" class="java.lang.Integer"/>
+	<field name="muertos_poblacion_final" class="java.lang.Integer"/>
+	<field name="sacrificados_poblacion_final" class="java.lang.Integer"/>
+	<field name="matados_eliminados_poblacion_final" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<group name="id_especie_poblacion_final">
+		<groupExpression><![CDATA[$F{id_especie_poblacion_final}]]></groupExpression>
+	</group>
+	<group name="id_categoria_poblacion_final">
+		<groupExpression><![CDATA[$F{id_categoria_poblacion_final}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="134" height="20" uuid="0511de66-ae1a-4d63-b0eb-8e8ad5a7a60f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="73" height="20" uuid="92d12d58-4fe3-4b26-8e9f-8e240d46956a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[# Existentes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="323" y="0" width="72" height="20" uuid="bb9ead53-4863-4cc2-aa6f-29269b3183ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[# Enfermos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="0" width="73" height="20" uuid="d7594e35-2954-45a1-b5cb-a09a5d4ed06f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[# Muertos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="0" width="88" height="20" uuid="f928be26-3187-4520-8c9c-87c5bf50eb50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[# Sacrificados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="0" width="116" height="20" uuid="20270341-bb14-45ce-a97f-077aa856082b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Categoría]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="134" height="20" uuid="57b506a7-f9f3-47c7-a41c-2aca10caf53a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_especie_poblacion_final}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="73" height="20" uuid="0a333d80-80ef-4323-8808-a039c591e5a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{existentes_poblacion_final}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="323" y="0" width="72" height="20" uuid="f93af830-975e-4a2a-8c9b-4efd4cc63cbf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{enfermos_poblacion_final}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="395" y="0" width="73" height="20" uuid="bbded41e-ee23-4c8c-a774-cf66d95ecb64"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{muertos_poblacion_final}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="468" y="0" width="88" height="20" uuid="56d7e530-6228-45f9-93f6-aa998e5a309a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sacrificados_poblacion_final}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="0" width="116" height="20" uuid="c9c6453a-cca5-4279-8101-a6c282eac7a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_categoria_poblacion_final}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

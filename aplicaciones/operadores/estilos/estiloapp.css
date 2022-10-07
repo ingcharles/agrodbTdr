@@ -1,0 +1,166 @@
+@CHARSET "UTF-8";
+
+.__area_registrado,
+.__area_espera,
+.__area_noHabilitado,
+.__area_registradoObservacion,
+.__area_subsanacion,
+.__area_rechazado,
+.__operacion_registrado,
+.__operacion_inspeccion,
+.__operacion_pago,
+.__operacion_verificacion,
+.__operacion_cargarAdjunto,
+.__operacion_cargarIA,
+.__operacion_noHabilitado,
+.__operacion_asignadoInspeccion,
+.__operacion_registradoObservacion,
+.__operacion_subsanacion,
+.__operacion_subsanacionRepresentanteTecnico,
+.__operacion_rechazado,
+.__operacion_declararDVehiculo,
+.__operacion_declararICentroAcopio,
+.__operacion_cargarProducto,
+.__operacion_porCaducar,
+.__operacion_representanteTecnico,
+.__operacion_creado,
+.__operacion_cargarRendimiento,
+.__operacion_subsanacionProducto,
+.__operacion_declararProveedor,
+.__operacion_documental,
+.__operacion_asignadoDocumental{
+    padding-top: 10px;
+    margin-left: 30px;
+    position: relative;
+    vertical-align: sub;
+    font-size: smaller !important;
+}
+
+.__area_registrado:before,
+.__area_espera:before,
+.__area_noHabilitado:before,
+.__area_registradoObservacion:before,
+.__area_subsanacion:before,
+.__area_rechazado:before,
+.__operacion_registrado:before,
+.__operacion_inspeccion:before,
+.__operacion_pago:before,
+.__operacion_verificacion:before,
+.__operacion_cargarAdjunto:before,
+.__operacion_cargarIA:before,
+.__operacion_noHabilitado:before,
+.__operacion_asignadoInspeccion:before,
+.__operacion_registradoObservacion:before,
+.__operacion_subsanacion:before,
+.__operacion_subsanacionRepresentanteTecnico:before,
+.__operacion_rechazado:before,
+.__operacion_declararDVehiculo:before,
+.__operacion_declararICentroAcopio:before,
+.__operacion_cargarProducto:before,
+.__operacion_porCaducar:before,
+.__operacion_representanteTecnico:before,
+.__operacion_creado:before,
+.__operacion_cargarRendimiento:before,
+.__operacion_subsanacionProducto:before,
+.__operacion_declararProveedor:before,
+.__operacion_documental:before,
+.__operacion_asignadoDocumental:before{
+    position: absolute;
+    left: -23px;
+    top: 3px;
+}
+
+.__area_registrado:before,
+.__operacion_registrado:before{
+	content: url('../img/aprobado.png');
+}
+
+.__area_rechazado:before,
+.__operacion_rechazado:before {
+	content: url('../img/rechazado.png');
+}
+
+.__area_subsanacion:before,
+.__operacion_subsanacion:before {
+	content: url('../img/subsanar.png');
+}
+
+.__area_noHabilitado:before,
+.__operacion_noHabilitado:before {
+	content: url('../img/rechazado.png');
+}
+
+.__area_registradoObservacion:before,
+.__operacion_registradoObservacion:before {
+	content: url('../img/registradoObservacion.png');
+}
+
+.__area_espera:before{
+    content: url('../img/proceso.png');
+}
+
+.__operacion_cargarAdjunto:before{
+    content: url('../img/adjunto.png');
+}
+
+.__operacion_pago:before{
+    content: url('../img/pago.png');
+}
+
+.__operacion_verificacion:before{
+    content: url('../img/verificacion.png');
+}
+
+.__operacion_asignadoInspeccion:before{
+    content: url('../img/inspeccionAsignado.png');
+}
+
+.__operacion_inspeccion:before{
+    content: url('../img/inspeccion.png');
+}
+
+.__operacion_cargarIA:before,
+.__operacion_declararDVehiculo:before,
+.__operacion_declararICentroAcopio:before{
+    content: url('../img/cargarInformacion.png');
+}
+
+.__operacion_cargarProducto:before{
+    content: url('../img/cargarProducto.png');
+}
+
+.__operacion_porCaducar:before{
+    content: url('../img/porCaducar.png');
+}
+
+.__operacion_representanteTecnico:before{
+    content: url('../img/representanteTecnico.png');
+}
+
+.__operacion_creado:before{
+    content: url('../img/creado.png');
+}
+
+.__operacion_cargarRendimiento:before{
+    content: url('../img/cargarRendimiento.png');
+}
+
+.__operacion_subsanacionProducto:before{
+    content: url('../img/subsanarProducto.png');
+}
+
+.__operacion_subsanacionRepresentanteTecnico:before{
+    content: url('../img/subsanarRepresentanteTecnico.png');
+}
+
+.__operacion_declararProveedor:before{
+    content: url('../img/declararProveedor.png');
+}
+
+.__operacion_documental:before{
+    content: url('../img/documental.png');
+}
+
+.__operacion_asignadoDocumental:before{
+    content: url('../img/documentalAsignado.png');
+}

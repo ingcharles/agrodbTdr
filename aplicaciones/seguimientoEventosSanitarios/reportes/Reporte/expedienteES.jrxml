@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="950a8985-0449-46e6-a227-2ae0b67a8371">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1071"/>
+	<parameter name="id_evento_sanitario" class="java.lang.Integer"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="magap" class="java.lang.String"/>
+	<parameter name="agrocalidad" class="java.lang.String"/>
+	<parameter name="rutaSubreporte" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+nes.id_notificacion_evento_sanitario,
+nes.identificador,
+nes.fecha_creacion,
+nes.numero,
+nes.fecha,
+nes.id_origen,
+nes.nombre_origen,
+nes.id_canal,
+nes.nombre_canal,
+nes.nombre_informante,
+nes.telefono_informante,
+nes.celular_informante,
+nes.correo_electronico_informante,
+nes.id_provincia,
+nes.provincia,
+nes.id_canton,
+nes.canton,
+nes.id_parroquia,
+nes.parroquia,
+nes.sitio_predio,
+nes.finca_predio,
+nes.identificador_modificacion,
+nes.fecha_modificacion,
+nes.ruta_informe,
+nes.identificador_cierre,
+nes.fecha_cierre,
+nes.fecha_nueva_inspeccion,
+nes.estado,
+nes.es_evento_sanitario,
+nes.justificacion_evento_sanitario,
+nes.numero_formulario,
+es.id_evento_sanitario,
+es.identificador,
+es.fecha_creacion,
+es.numero_formulario,
+es.fecha,
+es.id_origen,
+es.nombre_origen,
+es.id_canal,
+es.nombre_canal,
+es.nombre_propietario,
+es.cedula_propietario,
+es.telefono_propietario,
+es.celular_propietario,
+es.correo_electronico_propietario,
+es.id_provincia,
+es.provincia,
+es.id_canton,
+es.canton,
+es.id_parroquia,
+es.parroquia,
+es.id_oficina,
+es.oficina,
+es.semana,
+es.huso_zona,
+es.utm_x,
+es.utm_y,
+es.utm_z,
+es.sitio_predio,
+es.nombre_predio,
+es.extencion_predio,
+es.id_medida,
+es.medida,
+es.otros_predios,
+es.numero_predios,
+es.bioseg,
+es.identificador_modificacion,
+es.fecha_modificacion,
+es.ruta_mapa,
+es.identificador_cierre,
+es.fecha_cierre,
+es.estado,
+es.id_realiza_explotacion_aves,
+es.vacunacion_aves,
+es.farmaco_aves,
+es.sintomatologia,
+es.leciones_necropsia,
+es.id_especie_primer_animal,
+es.nombre_especie_primer_animal,
+es.edad_primer_animal,
+es.vacuna_primer_animal,
+es.ingresado_primer_animal,
+es.sindrome_presuntivo,
+es.otros_predios_afectados,
+es.numero_predios_afectados,
+--es.movimiento_animal,
+CASE
+	WHEN movimiento_animal = '1' THEN 'Ingresos'
+	WHEN movimiento_animal = '2' THEN 'Egresos'
+	WHEN movimiento_animal = '3' THEN 'Ingresos y Egresos'
+	ELSE 'No Movilizados'
+END AS movimiento_animal,
+es.enfermaron_movimiento_animal,
+es.vacunacion_final,
+es.conclusion_final,
+es.ruta_acta_final,
+es.ruta_informe_cierre,
+es.nueva_inspeccion,
+es.fecha_nueva_inspeccion,
+es.observaciones,
+es.ruta_informe,
+es.num_inspeccion,
+es.id_laboratorio,
+es.laboratorio,
+es.informe,
+es.fecha_siguiente_visita
+FROM
+	g_seguimiento_eventos_sanitarios.evento_sanitario es,
+	g_seguimiento_eventos_sanitarios.notificacion_evento_sanitario nes
+WHERE
+	es.numero_formulario = nes.numero_formulario  and
+	es.id_evento_sanitario =$P{id_evento_sanitario}]]>
+	</queryString>
+	<field name="id_notificacion_evento_sanitario" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="id_origen" class="java.lang.Integer"/>
+	<field name="nombre_origen" class="java.lang.String"/>
+	<field name="id_canal" class="java.lang.Integer"/>
+	<field name="nombre_canal" class="java.lang.String"/>
+	<field name="nombre_informante" class="java.lang.String"/>
+	<field name="telefono_informante" class="java.lang.String"/>
+	<field name="celular_informante" class="java.lang.String"/>
+	<field name="correo_electronico_informante" class="java.lang.String"/>
+	<field name="id_provincia" class="java.lang.Integer"/>
+	<field name="provincia" class="java.lang.String"/>
+	<field name="id_canton" class="java.lang.Integer"/>
+	<field name="canton" class="java.lang.String"/>
+	<field name="id_parroquia" class="java.lang.Integer"/>
+	<field name="parroquia" class="java.lang.String"/>
+	<field name="sitio_predio" class="java.lang.String"/>
+	<field name="finca_predio" class="java.lang.String"/>
+	<field name="identificador_modificacion" class="java.lang.String"/>
+	<field name="fecha_modificacion" class="java.sql.Timestamp"/>
+	<field name="ruta_informe" class="java.lang.String"/>
+	<field name="identificador_cierre" class="java.lang.String"/>
+	<field name="fecha_cierre" class="java.sql.Timestamp"/>
+	<field name="fecha_nueva_inspeccion" class="java.sql.Timestamp"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="es_evento_sanitario" class="java.lang.Boolean"/>
+	<field name="justificacion_evento_sanitario" class="java.lang.String"/>
+	<field name="numero_formulario" class="java.lang.String"/>
+	<field name="id_evento_sanitario" class="java.lang.Integer"/>
+	<field name="nombre_propietario" class="java.lang.String"/>
+	<field name="cedula_propietario" class="java.lang.String"/>
+	<field name="telefono_propietario" class="java.lang.String"/>
+	<field name="celular_propietario" class="java.lang.String"/>
+	<field name="correo_electronico_propietario" class="java.lang.String"/>
+	<field name="id_oficina" class="java.lang.Integer"/>
+	<field name="oficina" class="java.lang.String"/>
+	<field name="semana" class="java.lang.String"/>
+	<field name="huso_zona" class="java.lang.String"/>
+	<field name="utm_x" class="java.lang.String"/>
+	<field name="utm_y" class="java.lang.String"/>
+	<field name="utm_z" class="java.lang.String"/>
+	<field name="nombre_predio" class="java.lang.String"/>
+	<field name="extencion_predio" class="java.lang.String"/>
+	<field name="id_medida" class="java.lang.Integer"/>
+	<field name="medida" class="java.lang.String"/>
+	<field name="otros_predios" class="java.lang.String"/>
+	<field name="numero_predios" class="java.lang.Integer"/>
+	<field name="bioseg" class="java.lang.String"/>
+	<field name="ruta_mapa" class="java.lang.String"/>
+	<field name="id_realiza_explotacion_aves" class="java.lang.Integer"/>
+	<field name="vacunacion_aves" class="java.lang.String"/>
+	<field name="farmaco_aves" class="java.lang.String"/>
+	<field name="sintomatologia" class="java.lang.String"/>
+	<field name="leciones_necropsia" class="java.lang.String"/>
+	<field name="id_especie_primer_animal" class="java.lang.Integer"/>
+	<field name="nombre_especie_primer_animal" class="java.lang.String"/>
+	<field name="edad_primer_animal" class="java.lang.Integer"/>
+	<field name="vacuna_primer_animal" class="java.lang.String"/>
+	<field name="ingresado_primer_animal" class="java.lang.String"/>
+	<field name="sindrome_presuntivo" class="java.lang.String"/>
+	<field name="otros_predios_afectados" class="java.lang.String"/>
+	<field name="numero_predios_afectados" class="java.lang.Integer"/>
+	<field name="movimiento_animal" class="java.lang.String"/>
+	<field name="enfermaron_movimiento_animal" class="java.lang.String"/>
+	<field name="vacunacion_final" class="java.lang.String"/>
+	<field name="conclusion_final" class="java.lang.String"/>
+	<field name="ruta_acta_final" class="java.lang.String"/>
+	<field name="ruta_informe_cierre" class="java.lang.String"/>
+	<field name="nueva_inspeccion" class="java.lang.String"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<field name="num_inspeccion" class="java.lang.String"/>
+	<field name="id_laboratorio" class="java.lang.Integer"/>
+	<field name="laboratorio" class="java.lang.String"/>
+	<field name="informe" class="java.lang.String"/>
+	<field name="fecha_siguiente_visita" class="java.sql.Date"/>
+	<group name="id_evento_sanitario">
+		<groupExpression><![CDATA[$F{id_evento_sanitario}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="60" width="554" height="20" uuid="e6a9dec0-c64d-40d9-a133-6dc5bc38231d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMULARIO DE SEGUIMIENTO DE EVENTOS SANITARIOS VIGILANCIA PASIVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="0" width="188" height="60" uuid="448c914b-1ed2-48bf-83bd-ad1430b57c8c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AGENCIA DE REGULACIÓN Y CONTROL FITO Y ZOOSANITARIO]]></text>
+			</staticText>
+			<image onErrorType="Blank">
+				<reportElement x="-1" y="0" width="189" height="60" uuid="9c4b943e-4d94-4412-8bc5-57a51d6f3fcb"/>
+				<imageExpression><![CDATA[$P{magap}]]></imageExpression>
+			</image>
+			<image onErrorType="Blank">
+				<reportElement x="376" y="0" width="178" height="60" uuid="47523fd2-e163-4265-933a-cf04e38bafff"/>
+				<imageExpression><![CDATA[$P{agrocalidad}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="100" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#9999FF" uuid="e1469d59-d5aa-4f30-9826-f498681ce64e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="9ec1bacb-87e4-4c12-8a22-aeb03c5128fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[A. UBICACIÓN Y DATOS GENERALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="64" height="20" uuid="6784891d-9162-4a7e-8fdf-5465d945b9df"/>
+				<text><![CDATA[1. Provincia:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="64" y="20" width="147" height="20" uuid="c489f2b6-f760-4533-a603-74735793a03f"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="223" y="20" width="53" height="20" uuid="c678b505-865c-4eae-aae7-20de6206668c"/>
+				<text><![CDATA[2. Cantón:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="276" y="20" width="100" height="20" uuid="3e7b6047-2b87-4bf0-ad8c-b5051d64fb68"/>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="388" y="20" width="67" height="20" uuid="082066c1-c45e-4d5a-99fd-8a9a4ba26271"/>
+				<text><![CDATA[3. Parroquia:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="455" y="20" width="100" height="20" uuid="9c7978c8-2de4-4ab2-8eb9-14f84149173f"/>
+				<textFieldExpression><![CDATA[$F{parroquia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="64" height="20" uuid="ec8a1cbc-3b6e-4fc9-9baf-9bd70093a541"/>
+				<text><![CDATA[4. Sitio / Vía:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="64" y="40" width="491" height="20" uuid="342f94f1-6c6c-41a6-8703-79e5c9f56091"/>
+				<textFieldExpression><![CDATA[$F{sitio_predio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="105" height="20" uuid="45e36a39-ea6e-4253-8a18-da95bf039e65"/>
+				<text><![CDATA[5. Oficina/Localidad:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="60" width="136" height="20" uuid="90224ba9-efd4-4cf3-804e-dd3aee917e96"/>
+				<textFieldExpression><![CDATA[$F{oficina}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="241" y="60" width="62" height="20" uuid="79ecd291-cc89-4248-8468-13339b653e96"/>
+				<text><![CDATA[6. N° Orden:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="303" y="60" width="120" height="20" uuid="5280dfac-58e1-4b83-b61f-37f3e34443d1"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="303" y="60" width="120" height="20" uuid="35e6724c-339b-47c5-bf3e-3d83b7f4920f"/>
+				<textFieldExpression><![CDATA[$F{numero_formulario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="428" y="60" width="59" height="20" uuid="4d2cb923-2f6d-4a68-beea-e4980e6f2fc4"/>
+				<text><![CDATA[7. Semana:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="487" y="60" width="68" height="20" uuid="6a15a193-8bad-4e20-843e-ec2a9deef3f2"/>
+				<textFieldExpression><![CDATA[$F{semana}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="124" height="20" uuid="93968fca-d0bb-4cb5-847c-3d69a764c00b"/>
+				<text><![CDATA[8. Fecha de Elaboración:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="124" y="80" width="100" height="20" uuid="c67bb14b-5f80-49f5-818e-49f3d419c3d0"/>
+				<textFieldExpression><![CDATA[$F{fecha_creacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="241" y="80" width="78" height="20" uuid="83a3ebbe-4868-42a8-8194-1ecb82f2b4c8"/>
+				<text><![CDATA[9. Huso o Zona:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="319" y="80" width="31" height="20" uuid="3feb93ea-4890-4bd5-9d32-430170c443ca"/>
+				<textFieldExpression><![CDATA[$F{huso_zona}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="371" y="80" width="77" height="20" uuid="5d23b440-5030-46b0-8f66-dd1ef52f1f2d"/>
+				<text><![CDATA[Coord UTM:  X:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="448" y="80" width="47" height="20" uuid="5a83f4e8-d57b-40b3-a93d-540a6b0aae9d"/>
+				<textFieldExpression><![CDATA[$F{utm_x}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="495" y="80" width="11" height="20" uuid="59ed8d4b-8b29-4ea6-9539-98b813bb9f19"/>
+				<text><![CDATA[Y:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="506" y="80" width="49" height="20" uuid="fd7585c5-7492-42b9-bb89-6ece1ea3a007"/>
+				<textFieldExpression><![CDATA[$F{utm_y}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="105">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#9999FF" uuid="d717d70a-4eb9-4a0e-90ae-b5c932db9495"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="7aa8cf44-f6eb-448d-942b-f07ae25c6a8d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[B. IDENTIFICACIÓN DE LA FINCA Y EXPLOTACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="74" height="20" uuid="389a06f6-e068-49ac-be27-dee15934e91b"/>
+				<text><![CDATA[1. Propietario:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="74" y="20" width="182" height="20" uuid="befc3a69-4797-4553-af69-d2ca0ff71d0c"/>
+				<textFieldExpression><![CDATA[$F{nombre_propietario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="276" y="20" width="112" height="20" uuid="b88c5dfc-d779-497b-ad76-6854c56e08dd"/>
+				<text><![CDATA[4. Nombre del Predio:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="388" y="20" width="167" height="20" uuid="8cae58aa-9b4c-4e6b-8767-7bcc37e1ede1"/>
+				<textFieldExpression><![CDATA[$F{nombre_predio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="52" height="20" uuid="2464223e-d8f9-451b-ac06-e0506f1de896"/>
+				<text><![CDATA[2. Cédula:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="52" y="40" width="110" height="20" uuid="a3695c0e-1632-46cd-ab3d-6e743c1d0d42"/>
+				<textFieldExpression><![CDATA[$F{cedula_propietario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="276" y="40" width="152" height="20" uuid="7ded3863-7251-4832-afa2-d64e72ac0a91"/>
+				<text><![CDATA[5. Extensión del Predio (HAS):]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="428" y="40" width="37" height="20" uuid="81e023e0-e0df-4fc3-b43d-391901c078b8"/>
+				<textFieldExpression><![CDATA[$F{extencion_predio}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="465" y="40" width="90" height="20" uuid="b3cda4ab-51b4-42aa-9286-13c69ca2e0ee"/>
+				<textFieldExpression><![CDATA[$F{medida}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="74" height="20" uuid="bde876f5-3a17-4b8c-aa4d-36a4d5fbaaff"/>
+				<text><![CDATA[3. Tel/Celular:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="74" y="60" width="88" height="20" uuid="1e198468-fd67-4b7b-a74f-ee91f583d759"/>
+				<textFieldExpression><![CDATA[$F{telefono_propietario}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="162" y="60" width="94" height="20" uuid="255c9b45-c011-455a-a660-40af8f03d1a4"/>
+				<textFieldExpression><![CDATA[$F{celular_propietario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="276" y="60" width="74" height="20" uuid="c6a19ac3-d9c7-4db6-bebc-4196ccf00ccd"/>
+				<text><![CDATA[6. Explotación:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="350" y="60" width="205" height="45" uuid="ec36e807-c663-48f3-924a-550ad777ff36"/>
+				<subreportParameter name="id_evento_sanitario_ex">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_explotaciones.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="57">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#9999FF" uuid="09768353-3770-4d2b-ad28-fb1479a296f0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="0" width="555" height="20" uuid="495459dc-65d3-4386-9870-e5d9a61f36d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[C. NOTIFICACIÓN]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="20" width="555" height="37" uuid="aff39617-8b75-48d6-9404-002eee400828"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_origen}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="58">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#9999FF" uuid="16e19917-19c7-45a1-adb3-55edbf154696"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="1e58f2c9-cd98-409b-9379-cdaf12f114f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[E. ESPECIE ANIMAL AFECTADA]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="38" uuid="9ac3c192-2342-486b-aeba-8cb1fd4cb0dc"/>
+				<subreportParameter name="id_notificacion_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_notificacion_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_patologiaEspecieAfectada.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="58">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#9999FF" uuid="33f2e182-37e2-4ebf-8c3c-b6c2696c2b69"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="ab8928e3-43d4-4787-abd7-63aa3ea96b06"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[F. VACUNA FIEBRE AFTOSA / OTRAS VACUNAS]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="38" uuid="6d22e85c-7152-4fe3-a057-a2972215ec1b"/>
+				<subreportParameter name="id_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_vacunacionAftosa.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<rectangle>
+				<reportElement x="0" y="0" width="276" height="20" backcolor="#9999FF" uuid="33344765-7633-4cca-a63f-4361e572daec"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="276" y="0" width="279" height="20" backcolor="#9999FF" uuid="7e5a1389-f6ab-47d4-ade7-9480910636f7"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="0" width="275" height="20" uuid="cd12869b-a004-446a-bb8c-1550c3d765b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[G. SINTOMATOLOGÍA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="0" width="277" height="20" uuid="4c271a68-f8ed-4f07-a094-5a3fec96186c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[H. LECIONES EN LA NECROPSIA]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="20" width="276" height="30" uuid="bfb1958d-6e37-4a62-80c9-b241a26903ac"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sintomatologia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="276" y="20" width="279" height="30" uuid="33c6cba0-a90a-4100-92e9-a145c2cf1745"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{leciones_necropsia}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="80">
+			<rectangle>
+				<reportElement x="0" y="0" width="276" height="20" backcolor="#9999FF" uuid="4da5d049-a30c-4ad2-a748-2a165232d9d2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="276" y="0" width="279" height="20" backcolor="#9999FF" uuid="f52d392f-b35a-4ff2-bb84-54da22a749bf"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="0" width="275" height="20" uuid="e882ff66-edcf-40fe-9da6-33be5289d919"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[I. 1er ANIMAL ENFERMO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="0" width="279" height="20" uuid="bb63062a-f902-4d0a-a404-d5457670ebcb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[J. SÍNDROME PRESUNTIVO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="42" height="20" uuid="03193e9e-46c1-47e8-bf64-8440ffc1ee51"/>
+				<text><![CDATA[Especie:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="84" height="20" uuid="ae57c6cd-8797-46dd-b0d6-728899d2e86f"/>
+				<text><![CDATA[Edad en meses:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="42" y="20" width="100" height="20" uuid="a9e9496d-4bbc-47ab-bbf8-aa4bfd2ce278"/>
+				<textFieldExpression><![CDATA[$F{nombre_especie_primer_animal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="84" y="40" width="58" height="20" uuid="04811483-7c3d-4f99-885c-0cc06e140ea2"/>
+				<textFieldExpression><![CDATA[$F{edad_primer_animal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="60" width="82" height="20" uuid="4e0cc08e-c23a-49ce-87b7-2a7652c3ee89"/>
+				<text><![CDATA[¿Fue Ingresado?:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="83" y="60" width="35" height="20" uuid="a809c3bc-930a-400c-b79a-d735b5c6de2a"/>
+				<textFieldExpression><![CDATA[$F{ingresado_primer_animal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="20" width="279" height="60" uuid="59667236-4c5a-4905-b017-6aa45f97535b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sindrome_presuntivo}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="63">
+			<rectangle>
+				<reportElement x="1" y="0" width="554" height="20" backcolor="#9999FF" uuid="fc5abdd4-e099-41fb-b04e-16d0d975b514"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="0" width="553" height="20" uuid="03dd5317-09f6-450a-a00a-18142e1d565a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[K. DETALLE COLECTA DE MATERIA POR VISITA]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="43" uuid="dd7a6415-d0b4-430a-8484-c1d1ad1ee577"/>
+				<subreportParameter name="id_evento_sanitario_m">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_muestras.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="63">
+			<rectangle>
+				<reportElement x="1" y="0" width="554" height="20" backcolor="#9999FF" uuid="bb4d1ade-3db9-4276-94bd-82adfb34eb7b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="0" width="553" height="20" uuid="56d4ab43-9ded-4d9f-9e95-dcee939647c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[L. POBLACIÓN ANIMAL EXISTENTE, ENFERMA, MUERTA Y SACRIFICADA POR VISITA]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="43" uuid="69157521-f6de-4e71-8855-3b74eee230f7"/>
+				<subreportParameter name="id_evento_sanitario_p">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_POBLACION.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="6" width="188" height="20" uuid="bd7826f3-22e5-4b27-8b04-efd1af64179b"/>
+				<text><![CDATA[Cantidad de predios vecinos afectados:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="188" y="6" width="100" height="20" uuid="57fde554-3339-402d-bafe-397284431fbf"/>
+				<textFieldExpression><![CDATA[$F{numero_predios_afectados}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="82">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#9999FF" uuid="91b811ab-020e-42d8-8c56-e2c247aac682"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="20" width="465" height="20" uuid="dcd3316f-ee56-4146-b798-e3728add0863"/>
+				<text><![CDATA[1. ¿Hubo ingreso/egreso de animales y/o vehiculizantes de enfermedad 30 días antes del inicio?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="554" height="20" uuid="22d5c9e2-267c-4a82-95d1-54d6af077cb0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[M. MOVIMIENTO DE ANIMALES]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="465" y="20" width="90" height="20" uuid="75a1a5b1-2b82-4d26-b5ce-97ca87437d86"/>
+				<textFieldExpression><![CDATA[$F{movimiento_animal}]]></textFieldExpression>
+			</textField>
+			<subreport isUsingCache="true">
+				<reportElement x="0" y="40" width="553" height="42" uuid="44b42bb7-b858-4e00-8cb8-7d72327b36b3"/>
+				<subreportParameter name="id_evento_sanitario_p">
+					<subreportParameterExpression><![CDATA[$P{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_ingresos.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="39">
+			<subreport>
+				<reportElement x="1" y="0" width="552" height="39" uuid="1fa0790b-423a-460e-b067-5c8b62493be0"/>
+				<subreportParameter name="id_evento_sanitario_p">
+					<subreportParameterExpression><![CDATA[$P{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_egresos.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="60">
+			<rectangle>
+				<reportElement x="2" y="0" width="554" height="20" backcolor="#9999FF" uuid="038a8c81-218e-4287-840f-a39c30c92f27"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="0" width="554" height="20" uuid="c70faa61-da4a-42c3-83a5-7e3fc1126b58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[N. ORIGEN PROBABLE DE LA ENFERMEDAD]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="2" y="20" width="553" height="40" uuid="591d7e3c-25b0-4308-9591-3572d9b5be47"/>
+				<subreportParameter name="id_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_medidaSanitaria.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<rectangle>
+				<reportElement x="0" y="0" width="553" height="20" backcolor="#9999FF" uuid="78c3395d-d401-4a56-9a45-38b554c01d71"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="553" height="20" uuid="d40d2432-08ca-4160-aa87-be182c488cf7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[O. MEDIDAS SANITARIAS]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="2" y="20" width="554" height="30" uuid="1ecbd33d-852b-44ee-a8b8-ab07aee52ebc"/>
+				<subreportParameter name="id_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_medidaSanitariaCuarentena.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="39">
+			<subreport>
+				<reportElement x="1" y="0" width="554" height="39" uuid="7a76f83a-7761-4120-8f12-e7b8a1e90224"/>
+				<subreportParameter name="id_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_medidaSanitariaReporte.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="77">
+			<rectangle>
+				<reportElement x="0" y="0" width="554" height="20" backcolor="#9999FF" uuid="2625617a-38d5-43e0-a783-603f38f91191"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="0" width="553" height="20" uuid="1be16f0f-440f-4be8-aa8a-f10e8df30f71"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[DATOS FINALES]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="20" width="276" height="20" backcolor="#9999FF" uuid="ad6fc4e3-fe50-491d-ae46-23a6827de491"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="20" width="274" height="20" uuid="9b86668c-ef50-49fd-ae1b-11529724dcf5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[P. CRONOLOGÍA FINAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="276" y="20" width="278" height="20" backcolor="#9999FF" uuid="7a201eb4-f6f9-413e-991c-fd3c6f988ba5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="278" y="20" width="276" height="20" uuid="5f4e5f16-d639-4b70-9bc7-155f1d1a0a44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Q. DIAGNÓSTICO DEFINITIVO]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="276" y="40" width="278" height="37" uuid="e1f63057-07ba-4590-afef-c754010a08f0"/>
+				<subreportParameter name="id_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte}+ "expedienteES_diagnostico.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="40" width="277" height="37" uuid="1884c395-0fd2-44d6-a027-42230fa844fc"/>
+				<subreportParameter name="id_evento_sanitario_c">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte} + "expedienteES_cronologias.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="56">
+			<subreport>
+				<reportElement x="0" y="19" width="555" height="37" uuid="020aceaa-83d7-499b-b23e-755232eb2b3a"/>
+				<subreportParameter name="id_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte}+ "expedienteES_vacunacionFinal.jasper"]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement x="1" y="0" width="554" height="20" backcolor="#9999FF" uuid="024e01f7-e3fc-45a2-8767-44d2d39cf1bc"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="552" height="20" uuid="58be8957-c14d-4076-9c19-307620000268"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[R. VACUNACIÓN FINAL]]></text>
+			</staticText>
+		</band>
+		<band height="60">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#9999FF" uuid="fac25606-5ca6-455c-bf3f-82736c3f3204"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="0" width="554" height="20" uuid="6c13d8d9-1075-4a7e-8536-a00f9f45adb8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S. CONCLUSIONES FINALES SOBRE EL ORIGEN DE LA ENFERMEDAD]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="20" uuid="7d9f6815-2bee-4670-95bd-3d75a7c3afd8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{conclusion_final}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="61">
+			<rectangle>
+				<reportElement x="-1" y="0" width="555" height="20" backcolor="#9999FF" uuid="4214e5d9-ff44-4d9d-9fbc-7b17f4456a23"/>
+			</rectangle>
+			<subreport>
+				<reportElement x="2" y="20" width="550" height="40" uuid="1e6c6eb3-fb81-4814-af02-cb541b1374ed"/>
+				<subreportParameter name="id_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte}+ "expedienteES_poblacionFinal.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="0" width="553" height="20" uuid="858c3b1d-1fd9-45e0-912a-fc229a36cdc5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[T. RESUMEN TOTAL ACUMULADO, POBLACIÓN INICIO HASTA EL CIERRE DEL EVENTO]]></text>
+			</staticText>
+		</band>
+		<band height="63">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#9999FF" uuid="b2666d0a-1546-4052-8f2d-5e9f8182384a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="5a5ae1eb-9187-4a5f-af43-960caac3ab3e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[U. RESUMEN DE RESULTADOS]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="43" uuid="43e95a97-15a9-4111-b222-fab043f190ad"/>
+				<subreportParameter name="id_evento_sanitario">
+					<subreportParameterExpression><![CDATA[$F{id_evento_sanitario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte}+ "expedienteES_resultadoLaboratorio.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="82">
+			<staticText>
+				<reportElement x="1" y="62" width="161" height="20" uuid="e7c9f4f9-a6e4-4215-8383-9cfc17ed7a98"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Nombre del Médico Veterinario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="62" width="159" height="20" uuid="06996966-76fc-4292-8e06-8c76d50ae328"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Firma Responsable]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="61" width="160" height="1" uuid="783ea0b0-9784-45a3-88e6-fdb5ca410012"/>
+			</line>
+			<line>
+				<reportElement x="395" y="62" width="160" height="1" uuid="41ea1048-5de4-4562-aa5b-4607467ba9c2"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

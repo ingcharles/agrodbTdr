@@ -1,0 +1,134 @@
+.lblEstado {
+    margin-right: 25px;
+}
+#loadingImage {
+    position: absolute;
+    width: 48px; /*image width */
+    height: 48px; /*image height */
+    left: 50%;
+    top: 75px;
+    margin-left: -24px; /*image width/2 */
+    margin-top: -24px; /*image height/2 */
+}
+textarea {
+    overflow: auto
+}
+a:after {
+    content: "";
+}
+.legendBusqueda{
+    background-color: rgba(0, 0, 0, .2);
+}
+#_subirSaldo
+{
+    background-image: url('../img/excel.png');
+}
+
+#ayudaSubirSaldos{
+    display: block;
+    margin-top: 30px;
+    height: 130px;
+    background-image: url('../img/ayuda/formato_exel_saldo_reactivos.jpg');
+    background-repeat: no-repeat;
+    background-position-y: 30px;
+}
+
+#tablaCertificados{
+    margin-top: 25px;
+    width:100%;
+}
+
+#_reactivosLaboratorios{
+    background-image: url('../img/reactivo.png');
+}
+#_informacionAdicional{
+    background-image: url('../img/informacion_adicional.png');
+}
+#_ingresoReactivo{
+    background-image: url('../img/muestras.png');
+}
+#_ingresarSoluciones{
+    background-image: url('../img/informes.png');
+}
+#_ingresoReaOtroLab{
+    background-image: url('../img/informes.png');
+}
+
+#_solicitudLaboratorio{
+    background-image: url('../img/nuevo.png');
+}
+
+#__subirSaldos{
+    background: url('../img/menu/subir.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+
+#__solicitudes{
+    background: url('../img/menu/solicitar.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+
+#__ingresoReactivos{
+    background: url('../img/menu/ingreso.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+
+#__salidaReactivos{
+    background: url('../img/menu/salida.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+
+#__reactivos{
+    background: url('../img/menu/reactivos.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+
+#__soluciones{
+    background: url('../img/menu/soluciones.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+
+#__procedimiento{
+    background: url('../img/menu/procedimiento.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+
+#__consolidarSaldos{
+    background: url('../img/menu/consolidar.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+
+#__aprobacionSaldos{
+    background: url('../img/menu/aprobacion.png') center left no-repeat;
+    -webkit-background-size: 15%;
+    -moz-background-size: 15%;
+    -o-background-size: 15%;
+    background-size: 15%;
+}
+.invalid {
+    border: 1px solid red;
+}

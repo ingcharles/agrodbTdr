@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteTres" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6b4f3041-7daa-4881-b26f-738869784bc9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="identificadorSubreporte" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT institucion, tipo_cuenta, numero_cuenta, identificador, fecha_modificacion,
+       id_datos_bancarios
+  FROM g_uath.datos_bancarios
+WHERE
+	identificador = $P{identificadorSubreporte}]]>
+	</queryString>
+	<field name="institucion" class="java.lang.String"/>
+	<field name="tipo_cuenta" class="java.lang.String"/>
+	<field name="numero_cuenta" class="java.lang.String"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_modificacion" class="java.sql.Timestamp"/>
+	<field name="id_datos_bancarios" class="java.lang.Integer"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="3dde702c-cf0b-4983-b823-a9cc9e8b2d2d"/>
+				<text><![CDATA[tipo_cuenta]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="0" width="198" height="20" uuid="bf495e92-70a6-4027-b8ec-6e718589a5f3"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_cuenta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="298" y="0" width="100" height="20" uuid="a43285b0-57c3-4de7-9cf3-7c8db7a2ff3b"/>
+				<text><![CDATA[institucion]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="398" y="0" width="157" height="20" uuid="38e2c018-149f-4f1b-af21-1ed2a8e05e63"/>
+				<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

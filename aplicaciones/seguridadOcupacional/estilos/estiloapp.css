@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+#__buscarMaterialPeligroso{
+	background-image: url('../img/buscarMaterialPeligroso.png');
+}
+
+#__asignarMaterialPeligrosoLaboratorio{
+	background-image: url('../img/asignarMaterialPeligrosoLaboratorio.png');
+}
+
+#__catalogoMaterialPeligroso{
+	background-image: url('../img/catalogoMaterialPeligroso.png');	
+}
+
+#__catalogoGuiaMaterialPeligroso{
+	background-image: url('../img/catalogoGuiaMaterialPeligroso.png');
+}
+
+#__catalogoPictogramaMaterialPeligroso{
+	background-image: url('../img/catalogoPictogramaMaterialPeligroso.png');
+}
+
+#__catalogosLaboratorioMaterialPeligroso{
+	background-image: url('../img/catalogosLaboratorioMaterialPeligroso.png');
+}
+
+#__reporteMaterialPeligrosoLaboratorio{
+	background-image: url('../img/reporteMaterialPeligrosoLaboratorio.png');
+}
+
+#__reporteMaterialPeligroso{
+	background-image: url('../img/reporteMaterialPeligroso.png');
+}

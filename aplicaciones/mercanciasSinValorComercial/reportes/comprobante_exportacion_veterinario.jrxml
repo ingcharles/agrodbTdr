@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comprobante-exportacion-veterinario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="11840c69-71ff-4d20-bade-5b883f92cd30">
+	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="idSolicitud" class="java.lang.Integer"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT id_solicitud, nombre_propietario, identificador_propietario, fecha_solicitud
+FROM g_mercancias_valor_comercial.solicitudes
+WHERE id_solicitud = $P{idSolicitud}]]>
+	</queryString>
+	<field name="id_solicitud" class="java.lang.Integer"/>
+	<field name="nombre_propietario" class="java.lang.String"/>
+	<field name="identificador_propietario" class="java.lang.String"/>
+	<field name="fecha_solicitud" class="java.sql.Timestamp"/>
+	<background>
+		<band height="822">
+			<image scaleImage="FillFrame">
+				<reportElement x="-20" y="-30" width="595" height="852" uuid="699a2ee1-ad54-4fec-8145-05b0b0bdffbf"/>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="73" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="19" uuid="ff6b4aa8-679c-4b64-81d5-49d5ace29b99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MINISTERIO DE AGRICULTURA Y GANADERÍA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="45" width="555" height="20" forecolor="#999999" backcolor="#CCCCCC" uuid="0526d05a-d6c0-4185-99b7-fa5cf40cd9c3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="45" width="555" height="20" uuid="5b65b117-77f1-4001-8e87-a055f4c91bf0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Comprobante de Solicitud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="261" y="73" width="14" height="20" uuid="f6977244-f131-4b70-b8d5-ca9a14396a80"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="275" y="73" width="100" height="20" uuid="bb3d2304-3372-497c-af96-3e62d842dbd4"/>
+				<textFieldExpression><![CDATA[$F{id_solicitud}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="19" uuid="4e2fac68-03df-41ee-8879-f1e373e3e272"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AGENCIA DE REGULACIÓN Y CONTROL FITO Y ZOOSANITARIO - AGROCALIDAD]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="140" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="0" width="555" height="98" uuid="7e1a39f6-74dc-4c6c-bdc1-6909c25245f1"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="8" width="143" height="20" uuid="c527fc77-c2d7-42c7-861b-568a6d28f154"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del Solicitante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="28" width="143" height="20" uuid="4b79f977-22e6-4f07-9887-317d21209d99"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identificación del Solicitante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="48" width="143" height="20" uuid="28bcf402-aac1-447a-99c8-5c6908de4f11"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="68" width="143" height="20" uuid="b0e66dbb-19b6-4abf-8724-23d80aad6cd9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitud:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="153" y="8" width="388" height="20" uuid="946a56a1-1d95-46b0-a51e-63fad21e44cf"/>
+				<textFieldExpression><![CDATA[$F{nombre_propietario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="28" width="388" height="20" uuid="9eabf025-525f-42f6-b4f6-8558d0d48083"/>
+				<textFieldExpression><![CDATA[$F{identificador_propietario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="48" width="388" height="20" uuid="a3026370-d095-46c4-8f62-3b902a031c85"/>
+				<textFieldExpression><![CDATA[$F{fecha_solicitud}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="153" y="68" width="388" height="20" uuid="2ef7443f-4063-4ac0-881c-1801bebd454c"/>
+				<text><![CDATA[Exportación - Certificado Zoosanitario para la Exportación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="113" width="555" height="20" uuid="619d6827-acef-4bfd-811b-5e502f65947f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Emitido mediante Sistema GUIA]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="R_valoracionper_subreport1" language="groovy" pageWidth="595" pageHeight="600" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="49dcf82e-636f-4066-a312-3deba76ce7f9">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="identificador" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{identificador}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT id_datos_academicos, identificador, nivel_instruccion, num_certificado,
+       institucion, anios_estudio, titulo, pais, estado, fecha_modificacion,
+       archivo_academico, observaciones_rrhh, horas_capacitacion, carrera
+  FROM g_uath.datos_academicos WHERE identificador=$P{identificador};]]>
+	</queryString>
+	<field name="id_datos_academicos" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="nivel_instruccion" class="java.lang.String"/>
+	<field name="num_certificado" class="java.lang.String"/>
+	<field name="institucion" class="java.lang.String"/>
+	<field name="anios_estudio" class="java.lang.Integer"/>
+	<field name="titulo" class="java.lang.String"/>
+	<field name="pais" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="fecha_modificacion" class="java.sql.Timestamp"/>
+	<field name="archivo_academico" class="java.lang.String"/>
+	<field name="observaciones_rrhh" class="java.lang.String"/>
+	<field name="horas_capacitacion" class="java.lang.Integer"/>
+	<field name="carrera" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="-1" y="-1" width="551" height="20" backcolor="#D7D7D7" uuid="20e421a8-a7c6-4521-882e-6b85bd2003fe"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIVEL ACADEMICO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="82">
+			<rectangle>
+				<reportElement x="-1" y="0" width="551" height="82" forecolor="#D7D7D7" backcolor="#FEFEFE" uuid="d18a8dc4-bce9-488c-8ca0-a5b7f041d339"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="2" width="68" height="20" uuid="80848bb9-a74b-44da-975e-49f41dd395e8"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="22" width="68" height="20" uuid="27c9c023-b530-421b-957a-dc58163da6ac"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carrera:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="3" y="42" width="68" height="20" uuid="c06ad09b-7d8a-4940-ba05-fe2cd42474e5"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Institución:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="3" y="62" width="121" height="20" uuid="a1a17af0-3b68-4ea3-bd53-93260956b032"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nivel de Instrucción:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="62" width="30" height="20" uuid="869ca41b-a383-4d72-92c8-014199af12fc"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pais:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="71" y="2" width="480" height="20" uuid="274dd2be-bcc1-4920-99c4-8ae82b888573"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="71" y="22" width="480" height="20" uuid="bfc3c79b-0864-4749-9217-02dbda8b1542"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{carrera}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="71" y="42" width="480" height="20" uuid="3cb09296-f6d1-4379-8f58-84dcf4c78c70"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="124" y="62" width="143" height="20" uuid="8465fb85-f6a0-498d-8f84-15eee857d9a0"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nivel_instruccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="297" y="62" width="254" height="20" uuid="6a420e80-c32a-4b7f-89c1-917ed59b170c"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

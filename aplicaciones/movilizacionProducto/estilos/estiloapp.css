@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+/*Opciones del menu*/
+
+#__emision{
+	background-image: url('../img/emisionCertificadoMovilizacion.png');
+}
+
+#__fiscalizacion{
+	background-image: url('../img/fiscalizacionCertificadoMovilizacion.png');
+}
+
+#__reportesMovilizacionProductosAgropecuarios{
+	background-image: url('../img/reportes.png');
+}
+
+#__administradorRolEmpleado{
+	background-image: url('../img/administradorDigitador.png');	
+}

@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+
+.centrar{
+	text-align:center;
+}
+	
+#tablaLotes td:nth-child(2),#tablaLotes thead th:nth-child(2),#tablaLotesConformar td:nth-child(1),#tablaLotesConformar thead th:nth-child(1){               
+              
+   width: 0;
+   max-width: 0;
+   max-height: 0;
+   display:none;               
+}
+
+
+#tablaListaLotes td:nth-child(2), #tablaListaLotes thead th:nth-child(2),#tablaListaLotes td:nth-child(8), #tablaListaLotes thead th:nth-child(8),#tablaListaLotes td:nth-child(9), #tablaListaLotes thead th:nth-child(9),#tablaListaLotes td:nth-child(10), #tablaListaLotes thead th:nth-child(10),#tablaListaLotes td:nth-child(11), #tablaListaLotes thead th:nth-child(11),#tablaListaLotes td:nth-child(12), #tablaListaLotes thead th:nth-child(12),#tablaListaLotes td:nth-child(13), #tablaListaLotes thead th:nth-child(13),#tablaListaLotes td:nth-child(14), #tablaListaLotes thead th:nth-child(14),#tablaListaLotes td:nth-child(15), #tablaListaLotes thead th:nth-child(15){               
+               
+    width: 0;
+    max-width: 0;
+    max-height: 0;
+	display:none;
+               
+}
+
+.listaRegistros td:nth-child(3){
+	min-width:90px;	
+}
+
+
+#estadoIngresos{
+	font-weight:bold;
+	color:red;
+	text-align:center;
+}
+
+td{
+	text-align:center;
+}
+
+#__registrarIngresos{
+	background-image: url('../img/registrarIngresos.png');
+}
+
+#__conformarLote{
+	background-image: url('../img/conformarLote.png');
+}
+
+#__etiquetarLote{
+	background-image: url('../img/etiquetarLote.png');
+}
+
+#__reportes{
+	background-image: url('../img/Reportes.png');
+}

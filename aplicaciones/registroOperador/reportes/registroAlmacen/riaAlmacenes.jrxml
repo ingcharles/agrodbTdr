@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="riaAlmacenes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="7455f87d-4ded-4ee6-8a78-df558e0c262d">
+	<property name="ireport.zoom" value="3.1384283767210666"/>
+	<property name="ireport.x" value="317"/>
+	<property name="ireport.y" value="2022"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocalidadDesarrollo"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<subDataset name="dataset1" uuid="bca734bb-73ef-49a3-ad47-ab7ef196a0fc">
+		<parameter name="idSitio" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT
+	distinct
+	top.nombre as nombre_operacion,
+	CASE WHEN top.id_area='IAP' THEN 'Agrícolas'
+	WHEN top.id_area ='IAV' THEN 'Pecuarios'
+	WHEN top.id_area ='IAF' THEN 'Fertilizantes'
+	WHEN top.id_area ='CGRIA' THEN 'Agropecuarios'
+	END as area_tematica,
+	'Registrado' as estado,
+	s.identificador_operador||'.'||s.codigo_provincia||s.codigo||a.codigo||a.secuencial as codigo_area
+FROM
+	g_operadores.sitios s
+	INNER JOIN g_operadores.areas a ON s.id_sitio = a.id_sitio
+	INNER JOIN g_operadores.productos_areas_operacion pao ON a.id_area = pao.id_area
+	INNER JOIN g_operadores.operaciones op ON pao.id_operacion = op.id_operacion
+	INNER JOIN g_catalogos.tipos_operacion top ON op.id_tipo_operacion = top.id_tipo_operacion
+WHERE
+	top.id_area IN ('IAP','IAV','IAF','CGRIA')
+	and top.codigo = 'ALM'
+	and s.id_sitio = $P{idSitio}
+	and op.estado in ('registrado','cargarProducto')]]>
+		</queryString>
+		<field name="codigo_area" class="java.lang.String"/>
+		<field name="estado" class="java.lang.String">
+			<fieldDescription><![CDATA[Estado]]></fieldDescription>
+		</field>
+		<field name="area_tematica" class="java.lang.String"/>
+		<field name="nombre_operacion" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset2" uuid="1f21f222-01a1-4ae6-bf0f-b3d8fb403880">
+		<parameter name="idSitio" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT
+	distinct identificacion_representante,
+	nombre_representante,
+	titulo_academico
+FROM
+	g_operadores.sitios s
+	INNER JOIN g_operadores.areas a ON s.id_sitio = a.id_sitio
+	INNER JOIN g_operadores.productos_areas_operacion pao ON a.id_area = pao.id_area
+	INNER JOIN g_operadores.operaciones op ON pao.id_operacion = op.id_operacion
+	INNER JOIN g_catalogos.tipos_operacion top ON op.id_tipo_operacion = top.id_tipo_operacion
+	RIGHT JOIN g_operadores.representantes_tecnicos rt ON op.id_operador_tipo_operacion  = rt.id_operador_tipo_operacion
+	RIGHT JOIN g_operadores.detalle_representantes_tecnicos drt ON rt.id_representante_tecnico = drt.id_representante_tecnico
+WHERE
+	top.id_area IN ('IAP','IAV','IAF','CGRIA')
+	and top.codigo = 'ALM'
+	and s.id_sitio = $P{idSitio}
+	and drt.estado = 'registrado'
+	and op.estado in ('registrado','cargarProducto')]]>
+		</queryString>
+		<field name="identificacion_representante" class="java.lang.String"/>
+		<field name="nombre_representante" class="java.lang.String"/>
+		<field name="titulo_academico" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="idSitio" class="java.lang.Integer"/>
+	<parameter name="rutaCertificado" class="java.lang.String"/>
+	<parameter name="fechaInicio" class="java.lang.String"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	distinct o.razon_social,
+	o.nombre_representante ||' '|| o.apellido_representante as representante_legal,
+	identificador,
+	s.direccion,
+	s.provincia,
+	s.canton,
+	s.parroquia,
+	s.telefono,
+	o.correo
+FROM
+	g_operadores.operadores o
+	INNER JOIN g_operadores.sitios s ON o.identificador = s.identificador_operador
+WHERE
+	s.id_sitio = $P{idSitio}]]>
+	</queryString>
+	<field name="razon_social" class="java.lang.String">
+		<fieldDescription><![CDATA[Razón Social]]></fieldDescription>
+	</field>
+	<field name="representante_legal" class="java.lang.String">
+		<fieldDescription><![CDATA[El representante legal en el Ecuador del fabricante]]></fieldDescription>
+	</field>
+	<field name="identificador" class="java.lang.String">
+		<fieldDescription><![CDATA[Cédula/RUC]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[Dirección]]></fieldDescription>
+	</field>
+	<field name="provincia" class="java.lang.String">
+		<fieldDescription><![CDATA[Provincia]]></fieldDescription>
+	</field>
+	<field name="canton" class="java.lang.String">
+		<fieldDescription><![CDATA[Cantón]]></fieldDescription>
+	</field>
+	<field name="parroquia" class="java.lang.String">
+		<fieldDescription><![CDATA[Parroquia]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[Teléfono]]></fieldDescription>
+	</field>
+	<field name="correo" class="java.lang.String">
+		<fieldDescription><![CDATA[Correo del representante legal]]></fieldDescription>
+	</field>
+	<background>
+		<band height="822" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="-20" y="-30" width="595" height="852" uuid="cd901455-eab3-46aa-b83a-cd899a393467"/>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="78"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="214">
+			<printWhenExpression><![CDATA[(($V{PAGE_NUMBER} == 1) ? Boolean.TRUE : Boolean.FALSE)]]></printWhenExpression>
+			<staticText>
+				<reportElement x="15" y="3" width="530" height="21" uuid="6312bb9e-da66-4591-bfa2-92d764258cd3"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO DE REGISTRO DE ALMACÉN DE EXPENDIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="24" width="530" height="45" uuid="b8814d5e-6dcc-4362-b494-4f24a55014cb"/>
+				<textElement textAlignment="Center">
+					<font size="10" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Mediante el presente, la Agencia de Regulación y Control Fito y Zoosanitario, una vez cumplidos satisfactoriamente todos los requisitos establecidos por la normativa legal vigente, otorga el presente certificado de Registro como Almacén de Expendio de Insumos Agropecuarios.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="74" width="126" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="1ba06070-c430-4ca4-becc-a729c0d13754"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS DE OPERACIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="94" width="75" height="20" uuid="b0ce2984-2ec1-414e-99c4-7e19cf8bb86f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón Social:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="103" y="94" width="430" height="20" uuid="c995d6c5-dfc5-41f8-8634-322fef7792af"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{razon_social}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="114" width="30" height="20" uuid="5ceef5e6-fa17-41e7-bc4e-4b7e7588a07d"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="58" y="114" width="475" height="20" uuid="4a47d0c8-a474-446e-8433-5ca55eda8fb6"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{identificador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="134" width="110" height="20" uuid="7f1d4624-b803-44cd-9cf3-776ee9b50c81"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Representante Legal:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="138" y="134" width="395" height="20" uuid="0eb21fa4-eb2a-4acd-945f-d849154ac068"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{representante_legal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="154" width="55" height="20" uuid="0082b2b6-3f8d-4972-ad92-cb44cca81ade"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="154" width="450" height="20" uuid="2259081a-fe64-48e1-a355-7a6415b05dda"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="174" width="55" height="20" uuid="d750be36-58c4-4f07-9057-dcb3a0cb5a4f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="174" width="112" height="20" uuid="1c327c52-c469-450b-b040-fd424ee4b4a9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="196" y="174" width="43" height="20" uuid="72815465-d5c6-44e1-a474-5455bd31da22"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="239" y="174" width="119" height="20" uuid="ef7e2072-844f-438c-813a-48a3f57a770b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="361" y="174" width="56" height="20" uuid="add46bdf-b998-4b06-9080-07080b6f8529"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="417" y="174" width="116" height="20" uuid="c2d61551-256d-4f17-b514-e2f3e774a493"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{parroquia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="194" width="50" height="20" uuid="0bef2942-e944-41eb-bd26-8ab94f9dc8a4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="77" y="194" width="163" height="20" uuid="a6a935d3-f814-4adf-8ff1-0961193c42a3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="194" width="253" height="20" uuid="6b838d37-c599-40df-8e5b-f8b09fcb8201"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="242" y="194" width="38" height="20" uuid="2b2e4f3c-59ef-46be-9ea5-c1407c213bcb"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[e-mail:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="171">
+			<frame>
+				<reportElement x="15" y="6" width="530" height="157" uuid="ef72d115-3d4a-4570-932c-e5b8daa4289c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="16" width="530" height="20" uuid="cf4939be-7c57-4088-bfbe-d5b1f3c28ae3"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[ALMACÉN DE EXPENDIO DE INSUMOS AGROPECUARIOS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="38" width="530" height="20" uuid="9d2c6434-ba9f-4513-9fb9-a07413bdd372"/>
+					<box leftPadding="10">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Operaciones:]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement x="0" y="54" width="530" height="20" uuid="de8a0e33-5c91-4f8e-b1f6-0ebf0e3449f9"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="8fd0f832-e056-4be4-96ae-a9c79e80908b">
+							<datasetParameter name="idSitio">
+								<datasetParameterExpression><![CDATA[$P{idSitio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="20" width="530">
+							<textField>
+								<reportElement x="120" y="0" width="125" height="20" uuid="e613535c-6a44-4a7b-896f-059aaf329f66"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre_operacion}+" "+$F{area_tematica}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="287" y="0" width="60" height="20" uuid="1a848cea-9fc3-443e-942e-3a51ca19bd5f">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{estado}.substring(0,1).toUpperCase() +
+$F{estado}.substring(1)]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="411" y="0" width="118" height="20" uuid="6acc6834-5f2a-439a-be4d-81ba9141c8e8"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{codigo_area}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="20" y="0" width="100" height="20" uuid="26f07c40-58b1-4cfd-bab6-e8a7eb77e275">
+									<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}+". "+"Nombre operación:"]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="244" y="0" width="42" height="20" uuid="c1bc9ccb-6915-45f4-ae3f-efb6788cbda4">
+									<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Estado:"]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="347" y="0" width="65" height="20" uuid="04d8ee62-3119-450f-8839-ba9e31019fc6"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Código área:"]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="77" width="530" height="23" uuid="b0fc5c6c-3dea-4cd8-87ab-872ea7993f1f"/>
+					<box leftPadding="10">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Representante(s) Técnico(s):]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement key="table" positionType="Float" x="17" y="107" width="496" height="36" isRemoveLineWhenBlank="true" uuid="a3a65e45-9621-4e71-a2e4-af20a6fc48f6"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+						<datasetRun subDataset="dataset2" uuid="c9c260a4-0d8f-4955-867f-1e44f7be5bf4">
+							<datasetParameter name="idSitio">
+								<datasetParameterExpression><![CDATA[$P{idSitio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="20" uuid="efb40036-d63a-409c-bdf3-5840b38ffbe5">
+							<jr:columnHeader height="20" rowSpan="1"/>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField isStretchWithOverflow="true">
+									<reportElement x="0" y="0" width="20" height="20" uuid="fb452450-0763-426d-99f6-8fac29e441e3"/>
+									<box topPadding="3" leftPadding="5" bottomPadding="3" rightPadding="3">
+										<topPen lineWidth="1.0"/>
+										<leftPen lineWidth="1.0"/>
+										<bottomPen lineWidth="1.0"/>
+										<rightPen lineWidth="0.0"/>
+									</box>
+									<textElement verticalAlignment="Middle">
+										<font size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="192" uuid="5acfc9ff-c7b5-4b26-a9f3-781a52e6a1f6">
+							<jr:columnHeader height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="192" height="20" uuid="ddffb127-45d0-49f4-9e86-15b28406c0ec"/>
+									<box leftPadding="5">
+										<topPen lineWidth="1.0"/>
+										<leftPen lineWidth="1.0"/>
+										<bottomPen lineWidth="1.0"/>
+										<rightPen lineWidth="1.0"/>
+									</box>
+									<textElement verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[NOMBRE]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField isStretchWithOverflow="true">
+									<reportElement x="0" y="0" width="192" height="20" uuid="2b10a039-659c-4e44-bd11-ef120e8bacf0"/>
+									<box topPadding="3" leftPadding="5" bottomPadding="3" rightPadding="3">
+										<leftPen lineWidth="1.0"/>
+										<bottomPen lineWidth="1.0"/>
+										<rightPen lineWidth="1.0"/>
+									</box>
+									<textElement verticalAlignment="Middle">
+										<font size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nombre_representante}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="197" uuid="7d762a26-2bee-42f7-957a-a91f00243a1e">
+							<jr:columnHeader height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="197" height="20" uuid="77a6d135-96d3-482d-b95b-66b2526460af"/>
+									<box leftPadding="5">
+										<topPen lineWidth="1.0"/>
+										<leftPen lineWidth="1.0"/>
+										<bottomPen lineWidth="1.0"/>
+										<rightPen lineWidth="1.0"/>
+									</box>
+									<textElement verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[PROFESIÓN]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField isStretchWithOverflow="true">
+									<reportElement x="0" y="0" width="197" height="20" uuid="0530836b-3d88-4ec6-ae49-0b725fd68d49"/>
+									<box topPadding="3" leftPadding="5" bottomPadding="3" rightPadding="3">
+										<bottomPen lineWidth="1.0"/>
+										<rightPen lineWidth="1.0"/>
+									</box>
+									<textElement verticalAlignment="Middle">
+										<font size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{titulo_academico}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="91" uuid="a40ce704-2d2c-4068-9540-3ebfedeb7974">
+							<jr:columnHeader height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="91" height="20" uuid="df9de83d-ae40-4e3e-8482-2c77891850a7"/>
+									<box leftPadding="5">
+										<topPen lineWidth="1.0"/>
+										<leftPen lineWidth="1.0"/>
+										<bottomPen lineWidth="1.0"/>
+										<rightPen lineWidth="1.0"/>
+									</box>
+									<textElement verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[IDENTIFICACIÓN]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField isStretchWithOverflow="true">
+									<reportElement x="0" y="0" width="91" height="20" uuid="5f228a70-8814-4c0a-9135-ba57d2a7509c"/>
+									<box topPadding="3" leftPadding="5" bottomPadding="3" rightPadding="3">
+										<bottomPen lineWidth="1.0"/>
+										<rightPen lineWidth="1.0"/>
+									</box>
+									<textElement verticalAlignment="Middle">
+										<font size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{identificacion_representante}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</frame>
+			<staticText>
+				<reportElement mode="Opaque" x="15" y="6" width="530" height="16" backcolor="#CCCCCC" uuid="5b396882-e079-4c44-822e-322e52044ada"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVIDADES AUTORIZADAS]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="75" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="80">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="146" splitType="Immediate">
+			<staticText>
+				<reportElement positionType="Float" x="15" y="5" width="530" height="20" uuid="9ff18b10-5acf-4d44-b506-ed1d70901fc7"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[INSCRITO EN EL REGISTRO NACIONAL DE ALMACENES DE EXPENDIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="46" width="140" height="20" uuid="a650d8cf-fad9-4f17-8208-4287c586053c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Lugar y Fecha de Emisión:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="155" y="46" width="244" height="20" uuid="895c082d-1332-44f7-b267-942b2f777d62">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{canton}+
+new SimpleDateFormat("', 'dd' de 'MMMMM' de 'yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="419" y="26" width="126" height="97" uuid="c7f16901-c084-4247-9e7a-6e7e9883ad52">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$P{rutaCertificado}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="26" width="140" height="20" uuid="85a58757-4032-4d4f-805d-d472011fbd72">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Con fecha:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="155" y="26" width="244" height="20" uuid="862bc89c-96df-4609-a473-17b9aa1c174f">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

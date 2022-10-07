@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="360_Evaluacion" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="fa7a07a6-b187-4f55-9adb-cccb2760c7bf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IC_ANALISIS_MUESTRA_ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT EV.observacion,RD.nombre,Cm.observacion as observacion_comite,EV.IC_EVALUACION_ANALISIS_ID,EV.IC_RESULTADO_DECISION_ID, CM.IC_EVALUACION_COMITE_ID
+FROM G_INOCUIDAD.IC_EVALUACION_ANALISIS EV
+JOIN G_INOCUIDAD.IC_RESULTADO_DESICION RD ON EV.IC_RESULTADO_DECISION_ID=RD.IC_RESULTADO_DECISION_ID
+LEFT JOIN G_INOCUIDAD.IC_EVALUACION_COMITE CM ON CM.IC_EVALUACION_ANALISIS_ID = EV.IC_EVALUACION_ANALISIS_ID
+WHERE EV.IC_ANALISIS_MUESTRA_ID = $P{IC_ANALISIS_MUESTRA_ID}]]>
+	</queryString>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="observacion_comite" class="java.lang.String"/>
+	<field name="ic_evaluacion_analisis_id" class="java.lang.Integer"/>
+	<field name="ic_resultado_decision_id" class="java.math.BigDecimal"/>
+	<field name="ic_evaluacion_comite_id" class="java.lang.Integer"/>
+	<group name="Comite">
+		<groupExpression><![CDATA[$F{observacion}]]></groupExpression>
+		<groupHeader>
+			<band height="56">
+				<textField>
+					<reportElement x="0" y="0" width="311" height="56" uuid="4b4a7830-397e-41e9-a4a9-5cc50feeb31c"/>
+					<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="311" y="0" width="244" height="20" forecolor="#940101" uuid="cf5dd948-893b-40d4-a001-87be15c733b1"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="40">
+				<printWhenExpression><![CDATA[$F{ic_resultado_decision_id}.intValue() == 6]]></printWhenExpression>
+				<staticText>
+					<reportElement x="0" y="20" width="311" height="20" uuid="99fc130e-fd74-4342-8ccc-5964302476a1"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Observaciones del Comité]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#ADAFB3" uuid="06f1c1d5-a3b3-4b89-a3cd-7bf121a99f51"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Comité]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="11" width="555" height="20" forecolor="#FEFEFE" backcolor="#395A9C" uuid="0e0c125c-7e46-4a99-ad5b-c87ac7ed08d7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Evaluación y Análisis]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="311" height="20" uuid="7042adfd-acb0-4644-b6e8-88fa91432cf6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observación Evaluación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="0" width="244" height="20" uuid="90875402-357d-4adb-8807-6d1ef1866d29"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultado de la Decisión]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="63" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{observacion_comite}!=null]]></printWhenExpression>
+			<textField>
+				<reportElement x="0" y="0" width="311" height="63" uuid="df163684-f514-486e-95b7-6ff4fd8a4166"/>
+				<textFieldExpression><![CDATA[$F{observacion_comite}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

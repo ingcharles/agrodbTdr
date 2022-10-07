@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="R_valoracionper_subreport3" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3ee1b030-a38f-40f9-9e52-0f1bda1818c5">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="identificador" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+	*,REPLACE(
+		REPLACE(
+		    REPLACE(
+		      REPLACE(
+			REPLACE(
+			  REPLACE(
+			    AGE(fecha_salida, fecha_ingreso)::TEXT,
+			  'years','AÑOS'),
+			'year','AÑO'),
+		      'mons','MESES'),
+		    'mon','MES'),
+		   'days','DIAS'),
+		'day','DIA') as tiempotrabajo
+from g_uath.experiencia_laboral el
+
+where
+el.identificador=$P{identificador} order by el.fecha_ingreso desc,el.fecha_salida desc]]>
+	</queryString>
+	<field name="id_experiencia_laboral" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="tipo_institucion" class="java.lang.String"/>
+	<field name="institucion" class="java.lang.String"/>
+	<field name="unidad_administrativa" class="java.lang.String"/>
+	<field name="puesto" class="java.lang.String"/>
+	<field name="fecha_ingreso" class="java.sql.Date"/>
+	<field name="fecha_salida" class="java.sql.Date"/>
+	<field name="motivo_salida" class="java.lang.String"/>
+	<field name="fecha_modificacion" class="java.sql.Timestamp"/>
+	<field name="archivo_experiencia" class="java.lang.String"/>
+	<field name="observaciones_rrhh" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="tiempotrabajo" class="java.lang.String"/>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="-1" width="551" height="20" backcolor="#D7D7D7" uuid="a7cd7880-803f-4e29-9542-6afffba28178"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EXPERIENCIA LABORAL]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="102" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="551" height="102" forecolor="#D7D7D7" backcolor="#FEFEFE" uuid="6422a57e-ff23-47f2-afd8-b1c221a4d0d7"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="75" y="22" width="476" height="20" uuid="b8be312f-be13-4635-9919-ababdb0cf942"/>
+				<textElement textAlignment="Justified">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="5" y="1" width="30" height="20" uuid="96c8514f-d926-48eb-8ed2-cbcedafeab7a"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="5" y="21" width="70" height="20" uuid="f4610aa1-de9d-433d-89f8-c05a34e093f0"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Institución:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="56" y="42" width="495" height="20" uuid="1c0719a2-65d6-48b0-aadb-0f0ce39467b5"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidad_administrativa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="56" y="61" width="495" height="20" uuid="89419e29-150e-4436-bb44-a623d2218acd"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{puesto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="5" y="41" width="51" height="20" uuid="2739beca-d0b1-481e-a421-daeff8070f1d"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidad:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="35" y="2" width="516" height="20" uuid="cd32cacd-d838-402d-8979-9c8d243bf527"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_institucion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="60" width="51" height="20" uuid="5c0d4593-feca-42b2-a572-f83dd6473c9c"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Puesto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="80" width="108" height="20" uuid="c5459606-53ca-43a9-a7a6-c59a42657c60"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tiempo de trabajo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="80" width="98" height="20" uuid="fe23f90a-4a25-463f-a239-ff2114f71204"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Motivo de salida:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="113" y="80" width="143" height="20" uuid="960e6eed-bd81-4429-9306-ea00aac4eaa4"/>
+				<textElement textAlignment="Justified">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tiempotrabajo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="368" y="80" width="182" height="20" uuid="14aba409-89a3-4fcd-8094-86f5e57892ff"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{motivo_salida}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

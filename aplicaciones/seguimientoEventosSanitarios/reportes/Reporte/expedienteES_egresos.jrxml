@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES_egresos" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1de97857-0dfc-4f19-879b-2ba7939f8574">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_evento_sanitario_p" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT *
+FROM g_seguimiento_eventos_sanitarios.egresos_animales
+WHERE id_evento_sanitario = $P{id_evento_sanitario_p}
+ORDER BY id_evento_sanitario asc;]]>
+	</queryString>
+	<field name="id_egreso" class="java.lang.Integer"/>
+	<field name="id_evento_sanitario" class="java.lang.Integer"/>
+	<field name="id_tipo_movimiento_egreso" class="java.lang.Integer"/>
+	<field name="nombre_tipo_movimiento_egreso" class="java.lang.String"/>
+	<field name="id_provincia" class="java.lang.Integer"/>
+	<field name="nombre_provincia" class="java.lang.String"/>
+	<field name="id_canton" class="java.lang.Integer"/>
+	<field name="nombre_canton" class="java.lang.String"/>
+	<field name="id_parroquia" class="java.lang.Integer"/>
+	<field name="nombre_parroquia" class="java.lang.String"/>
+	<field name="id_especie" class="java.lang.Integer"/>
+	<field name="nombre_especie" class="java.lang.String"/>
+	<field name="propietario_movimiento" class="java.lang.String"/>
+	<field name="finca_movimiento" class="java.lang.String"/>
+	<field name="fecha_movimiento" class="java.sql.Timestamp"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<field name="numero_visita" class="java.lang.String"/>
+	<field name="numero_animales" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21">
+			<rectangle>
+				<reportElement x="1" y="0" width="555" height="20" backcolor="#9999FF" uuid="ac7466f9-3b70-4ced-92f4-88f2a89705e5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="554" height="20" uuid="741080e7-a54f-48b5-a2a2-ca8cb72da5d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Egresos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="a41b6bab-b1eb-4b40-b432-5dc2e559e25a"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Provincia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="20" uuid="5f43154f-232d-482a-8bea-102ed70ae24b"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Cantón]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="100" height="20" uuid="cb5f6957-4e57-4b95-a543-ae2ce406b964"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Parroquia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="100" height="20" uuid="2f7f56ce-b763-40dd-8a89-925ea20a5d2a"/>
+				<text><![CDATA[Especie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="100" height="20" uuid="b164b7e2-2f4e-44fd-ae50-4ae95327d8eb"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Propietario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="0" width="55" height="20" uuid="5bcc2149-9338-40d4-bb64-171541bc8b2c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[N. animales]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="7bc85bbd-614f-46ca-9acb-de05764dd40d"/>
+				<textFieldExpression><![CDATA[$F{nombre_provincia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="20" uuid="b82916dd-9e6c-4171-b940-5a61290f9961"/>
+				<textFieldExpression><![CDATA[$F{nombre_canton}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="20" uuid="6791db8e-200f-4574-8f3e-53b2456de8d1"/>
+				<textFieldExpression><![CDATA[$F{nombre_parroquia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="20" uuid="887501e4-8268-4c30-9bd4-dfc30e30b4bf"/>
+				<textFieldExpression><![CDATA[$F{nombre_especie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="20" uuid="fe0a1dbd-b14c-47ef-9663-7166046bff98"/>
+				<textFieldExpression><![CDATA[$F{propietario_movimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="55" height="20" uuid="ad43177e-88ef-4373-840e-adfeeadd3fed"/>
+				<textFieldExpression><![CDATA[$F{numero_animales}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

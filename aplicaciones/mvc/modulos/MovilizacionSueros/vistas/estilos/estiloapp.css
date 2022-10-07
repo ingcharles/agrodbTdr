@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+.bEliminar{
+	background-image: url('../../../../../general/img/eliminar2.png');
+	margin-left:5px;
+	border-radius: 5px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 0;
+	background-color: transparent !important;
+	width: 27px;
+	height: 27px;
+	border: none;
+}
+
+.bEliminar:hover{
+	background-image: url('../../../../../general/img/eliminar2.png');
+}
+
+td{
+	text-align:center;
+}
+
+#__produccionSuero {
+	background-image: url('../img/certificadoMovilizacion.png');
+}
+
+#__movilizacionSuero {
+	background-image: url('../img/emisionCertificadoMovilizacion.png');
+}
+

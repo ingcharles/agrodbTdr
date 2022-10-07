@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="360_caso" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="169aceb8-0254-4659-92ef-34bf345bc42c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocalidadPrueba"/>
+	<parameter name="requerimiento_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select *
+from G_INOCUIDAD.IC_V_REQUERIMIENTO
+WHERE ic_requerimiento_id=CAST(nullif($P{requerimiento_id}, '') AS integer)]]>
+	</queryString>
+	<field name="programa" class="java.lang.String"/>
+	<field name="fuente_denuncia" class="java.lang.String"/>
+	<field name="pais_notificacion" class="java.lang.String"/>
+	<field name="provincia" class="java.lang.String"/>
+	<field name="origen_mercaderia" class="java.lang.String"/>
+	<field name="inspector" class="java.lang.String"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="tipo_requerimiento" class="java.lang.String"/>
+	<field name="programa_id" class="java.math.BigDecimal"/>
+	<field name="ic_requerimiento_id" class="java.lang.Integer"/>
+	<field name="ic_fuente_denuncia_id" class="java.math.BigDecimal"/>
+	<field name="ic_producto_id" class="java.math.BigDecimal"/>
+	<field name="pais_notificacion_id" class="java.math.BigDecimal"/>
+	<field name="provincia_id" class="java.math.BigDecimal"/>
+	<field name="inspector_id" class="java.lang.String"/>
+	<field name="origen_mercaderia_id" class="java.math.BigDecimal"/>
+	<field name="ic_tipo_requerimiento_id" class="java.math.BigDecimal"/>
+	<field name="fecha_solicitud" class="java.sql.Timestamp"/>
+	<field name="nombre_denunciante" class="java.lang.String"/>
+	<field name="datos_denunciante" class="java.lang.String"/>
+	<field name="descripcion_denuncia" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="numero_muestras" class="java.math.BigDecimal"/>
+	<field name="fecha_inspeccion" class="java.sql.Timestamp"/>
+	<field name="fecha_denuncia" class="java.sql.Timestamp"/>
+	<field name="fuente_denuncia_id" class="java.math.BigDecimal"/>
+	<field name="fecha_notificacion" class="java.sql.Timestamp"/>
+	<field name="cancelado" class="java.lang.String"/>
+	<field name="motivo_cancelacion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="167" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="6" y="46" width="541" height="119" uuid="bdae1764-ee30-490d-a586-7e64b0fb9008"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20" uuid="26b8634a-6dd1-436b-b546-8ea8dd39fc2c"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Detalle del Caso N° "+$F{ic_requerimiento_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="203" y="115" width="238" height="20" uuid="0a247707-fbc7-4f4d-a270-dbef7fa08ac0"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_solicitud}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="34" y="75" width="155" height="20" uuid="8b38ce11-b3db-437f-923d-3110510d2315"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="203" y="135" width="238" height="20" uuid="46fb11d0-60f7-48fc-ae43-4fb91dae87ee"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inspector}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="203" y="55" width="238" height="20" uuid="f9cea0bf-ac47-41cd-9599-c47f0fcb623e"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_requerimiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="34" y="95" width="155" height="20" uuid="368c9685-7a8e-4c47-bc86-ea07ebb943da"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Numero de Muestras]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="203" y="75" width="238" height="20" uuid="6864a728-cd7e-45fd-83fc-b2b088a5f55e"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="34" y="55" width="155" height="20" uuid="c74d9d49-d1b9-4b60-91cc-4221ae814e9d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Requerimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="115" width="155" height="20" uuid="3e9280a7-c4cd-4684-9a5e-b7b4ee60c40f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha del Requerimiento]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="203" y="95" width="238" height="20" uuid="29bfab50-c934-4340-a1d6-dbd5011c019f"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_muestras}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="34" y="135" width="155" height="20" uuid="55777032-b66a-4a44-901b-4da78b182e21"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inspector]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="25" width="555" height="20" forecolor="#FEFEFE" backcolor="#395A9C" uuid="e045061e-c8b2-489a-81b6-cc82d1193e99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Caso]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="70" splitType="Stretch">
+			<printWhenExpression><![CDATA[new Boolean($F{cancelado}.equals("S"))]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" forecolor="#DA0000" uuid="849af686-afe2-48fa-8ad8-20cf6f0d9ec1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[*** REGISTRO CANCELADO ***]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="50" uuid="88ae2360-d250-42f4-a5b5-3dd591488c48"/>
+				<textFieldExpression><![CDATA[$F{motivo_cancelacion}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="80" splitType="Immediate">
+			<printWhenExpression><![CDATA[new Boolean($F{ic_tipo_requerimiento_id}.intValue()==1)]]></printWhenExpression>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#ADAFB3" uuid="045f1f90-41f2-4fe0-b2f5-03beb28b3d74"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plan de Vigilacia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="136" height="20" uuid="00907d0c-6823-4771-b432-df15a7a613b1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Programa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="20" width="419" height="20" uuid="5b792490-53e5-4c5b-9190-c6c22083291f"/>
+				<textFieldExpression><![CDATA[$F{programa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="136" height="20" uuid="5dd23972-df70-48d8-a5c9-5b9790fb730f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Inspección]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="40" width="202" height="20" uuid="0bf53fea-8333-49c3-b5f8-8b1c352567f9"/>
+				<textFieldExpression><![CDATA[$F{fecha_inspeccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="136" height="20" uuid="18f9939b-645f-4fc5-bccd-2ba51d4f05df"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="60" width="419" height="20" uuid="513576b2-a78f-4db2-877e-707776d5611a"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="162" splitType="Immediate">
+			<printWhenExpression><![CDATA[new Boolean($F{ic_tipo_requerimiento_id}.intValue()==2)]]></printWhenExpression>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#ADAFB3" uuid="8746dae3-2245-4b9b-97f2-f2ba9ce799f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Denuncia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="136" height="20" uuid="5c431076-5d82-4653-9561-5831b6836635"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Denuncia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="20" width="202" height="20" uuid="2fa5bd6e-fbae-4a0d-b830-55261418ecc7"/>
+				<textFieldExpression><![CDATA[$F{fecha_denuncia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="136" height="20" uuid="0b5e7691-dd23-4b16-b0cc-7a8a1e4ec94d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fuente Denuncia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="40" width="419" height="20" uuid="d9176658-128e-4cde-b9bb-d69e4921b5e7"/>
+				<textFieldExpression><![CDATA[$F{fuente_denuncia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="136" height="20" uuid="b34795a1-2d46-47bf-a0ea-731877932f87"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Denunciante]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="60" width="419" height="20" uuid="a52f4315-9a53-4b6e-ba99-914993ff0835"/>
+				<textFieldExpression><![CDATA[$F{nombre_denunciante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="136" height="20" uuid="1cc50545-918c-45c4-a298-4cfde8ece8b6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos Denunciante]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="80" width="419" height="20" uuid="a20586df-97e5-40ec-a363-be0069590100"/>
+				<textFieldExpression><![CDATA[$F{datos_denunciante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="100" width="136" height="20" uuid="eb0bce7d-81f9-4831-ab80-c43466a0390c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="100" width="419" height="20" uuid="f546f616-110a-4da7-8be3-7cc05a35f4d3"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="120" width="136" height="20" uuid="97fb0bf0-efcb-42c9-b687-a25ffaf20c10"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción Denuncia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="120" width="419" height="42" uuid="b27fec1b-8698-412a-9f11-2fda90500d54"/>
+				<textFieldExpression><![CDATA[$F{descripcion_denuncia}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="60" splitType="Immediate">
+			<printWhenExpression><![CDATA[new Boolean($F{ic_tipo_requerimiento_id}.intValue()==3)]]></printWhenExpression>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#ADAFB3" uuid="ece8a816-2a51-4cb1-b053-3a5f460deb32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Notificación del Exterior]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="136" height="20" uuid="561a72cb-ec90-41f0-93e4-99eebaf71993"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Notificación]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="20" width="202" height="20" uuid="5c246df7-8ceb-4cf0-ab58-50f94f4fb1af"/>
+				<textFieldExpression><![CDATA[$F{fecha_notificacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="136" height="20" uuid="eb91b738-2a3f-4ec3-a316-bbc2432da93b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[País]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="40" width="202" height="20" uuid="1f8fe830-9a88-4c12-8fac-e04522affc9e"/>
+				<textFieldExpression><![CDATA[$F{pais_notificacion}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="65" splitType="Immediate">
+			<staticText>
+				<reportElement x="0" y="0" width="136" height="20" uuid="00d9266f-420a-41b9-8677-e87b8db0c97a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="0" width="419" height="50" uuid="5a5f7fe7-1a12-4b03-b328-4b559ea20f1d"/>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="50" width="555" height="15" uuid="b0c1c6c9-7e6b-483c-af6f-75ba5c6f4ffc"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ic_requerimiento_id">
+					<subreportParameterExpression><![CDATA[$F{ic_requerimiento_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "360_Muestra.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="435" y="1" width="80" height="20" uuid="a546c2c6-eebb-4a6c-ae41-423cf6259bed"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="1" width="40" height="20" uuid="32cf5ffd-a524-4cd0-aa2a-cf6154aa75f7"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

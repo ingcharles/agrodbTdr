@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteAgenciaCertificadora" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="58cf5776-d5a7-41cd-b2ca-4c1aa1707f6e">
+	<property name="ireport.zoom" value="1.948717100000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="localFito"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="identificadorOperador" class="java.lang.String"/>
+	<parameter name="idTipoOperacion" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+	o.nombre_producto as producto,
+	tt.id_tipo_transicion,
+	CASE WHEN tt.id_tipo_transicion = 1 THEN sum(dma.superficie_miembro)
+	END as transicion1,
+	CASE WHEN tt.id_tipo_transicion = 2 THEN sum(dma.superficie_miembro)
+	END as transicion2,
+	CASE WHEN tt.id_tipo_transicion = 3 THEN sum(dma.superficie_miembro)
+	END as transicion3,
+	CASE WHEN tt.id_tipo_transicion = 4 THEN sum(dma.superficie_miembro)
+	END as organica,
+	CASE WHEN tt.id_tipo_transicion = 5 THEN sum(dma.superficie_miembro)
+	END as porganico
+FROM
+	g_operadores.operaciones o,
+	g_operadores.operaciones_organico oo,
+	g_operadores.detalle_miembros_asociacion dma,
+	g_catalogos.tipo_transicion tt
+WHERE
+	o.id_operacion = oo.id_operacion
+	and oo.id_tipo_transicion = tt.id_tipo_transicion
+	and o.id_operacion = dma.id_operacion
+	and o.id_tipo_operacion = $P{idTipoOperacion}
+	and o.identificador_operador = $P{identificadorOperador}
+	and o.estado = 'registrado'
+	GROUP BY 1, 2
+	ORDER BY 1, 2]]>
+	</queryString>
+	<field name="producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operaciones"/>
+		<fieldDescription><![CDATA[Producto a desvitalizar]]></fieldDescription>
+	</field>
+	<field name="id_tipo_transicion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_tipo_transicion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tipo_transicion"/>
+	</field>
+	<field name="transicion1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="transicion1"/>
+	</field>
+	<field name="transicion2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="transicion2"/>
+	</field>
+	<field name="transicion3" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="transicion3"/>
+	</field>
+	<field name="organica" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="organica"/>
+	</field>
+	<field name="porganico" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="porganico"/>
+	</field>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="0" width="63" height="20" backcolor="#DAE8F9" uuid="6cd31255-bc95-4cc9-8734-7262c3002334"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Transición 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="25" y="0" width="185" height="20" backcolor="#DAE8F9" uuid="e3588b55-169f-49de-9803-399f60018596"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Nombre del producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="273" y="0" width="64" height="20" backcolor="#DAE8F9" uuid="cae342e3-76f8-49c1-885d-803d0c892a0c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Transición 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="337" y="0" width="63" height="20" backcolor="#DAE8F9" uuid="9f6507d1-c422-4ab8-8a26-e1761ae4698d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Transición 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="400" y="0" width="63" height="20" backcolor="#DAE8F9" uuid="f23d3235-ba3d-4abf-acac-fe8263af5b92"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Orgánica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="463" y="0" width="63" height="20" backcolor="#DAE8F9" uuid="ce043c23-8172-441c-bd5f-db289840182c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Hecho con p. orgánicos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="25" y="0" width="185" height="20" uuid="b059ef18-1e56-4e49-aa96-f57055831fe3"/>
+				<box padding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="210" y="0" width="63" height="20" uuid="fc7ae194-e28d-4fef-b778-8fcac60c6d4f"/>
+				<box padding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{transicion1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="273" y="0" width="64" height="20" uuid="4843adb2-94a4-4e10-8526-0075cef002b2"/>
+				<box padding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{transicion2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="337" y="0" width="63" height="20" uuid="e039bcee-c001-45f4-8e53-5a637728142d"/>
+				<box padding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{transicion3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="400" y="0" width="63" height="20" uuid="a0387f15-1ec7-42f8-a553-c6ab5f15e8b7"/>
+				<box padding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{organica}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="463" y="0" width="63" height="20" uuid="14eac74b-b875-4880-9635-0a029722044a"/>
+				<box padding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{porganico}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

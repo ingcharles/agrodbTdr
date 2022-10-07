@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productorApicola" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="7455f87d-4ded-4ee6-8a78-df558e0c262d">
+	<property name="ireport.zoom" value="1.4641000000000035"/>
+	<property name="ireport.x" value="44"/>
+	<property name="ireport.y" value="192"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pruebas"/>
+	<parameter name="idOperacion" class="java.lang.Integer"/>
+	<parameter name="numeroCertificado" class="java.lang.String"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	upper(tp.nombre) as nombre_operacion,
+	upper(a.nombre_area) as nombre_area,
+	unaccent(s.nombre_lugar) as nombre_sitio,
+	o.nombre_representante ||' '|| o.apellido_representante as nombre_operador,
+	drpt.nombre_representante,
+	s.provincia,
+	s.canton,
+	s.parroquia,
+	op.fecha_aprobacion,
+	op.fecha_finalizacion
+FROM
+	g_operadores.operadores o
+	INNER JOIN g_operadores.sitios s ON o.identificador = s.identificador_operador
+	INNER JOIN g_operadores.areas a ON s.id_sitio = a.id_sitio
+	INNER JOIN g_operadores.productos_areas_operacion pao ON a.id_area = pao.id_area
+	INNER JOIN g_operadores.operaciones op ON pao.id_operacion = op.id_operacion
+	INNER JOIN g_operadores.representantes_tecnicos rpt ON op.id_operacion = rpt.id_operacion
+	INNER JOIN g_operadores.detalle_representantes_tecnicos drpt ON rpt.id_representante_tecnico = drpt.id_representante_tecnico
+	INNER JOIN g_catalogos.tipos_operacion tp ON op.id_tipo_operacion = tp.id_tipo_operacion
+WHERE
+	op.id_operacion = $P{idOperacion}
+	and drpt.estado = 'registrado']]>
+	</queryString>
+	<field name="nombre_operacion" class="java.lang.String"/>
+	<field name="nombre_area" class="java.lang.String"/>
+	<field name="nombre_sitio" class="java.lang.String"/>
+	<field name="nombre_operador" class="java.lang.String">
+		<fieldDescription><![CDATA[Operador]]></fieldDescription>
+	</field>
+	<field name="nombre_representante" class="java.lang.String"/>
+	<field name="provincia" class="java.lang.String">
+		<fieldDescription><![CDATA[Provincia]]></fieldDescription>
+	</field>
+	<field name="canton" class="java.lang.String">
+		<fieldDescription><![CDATA[Cantón]]></fieldDescription>
+	</field>
+	<field name="parroquia" class="java.lang.String">
+		<fieldDescription><![CDATA[Parroquia]]></fieldDescription>
+	</field>
+	<field name="fecha_aprobacion" class="java.sql.Timestamp"/>
+	<field name="fecha_finalizacion" class="java.sql.Timestamp"/>
+	<background>
+		<band height="822" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="-20" y="-28" width="595" height="850" uuid="37e46d1f-d2d2-4f68-99c3-8375ad4ff135"/>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="124" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="75" width="530" height="40" uuid="ea06b9ea-2381-4b81-98d1-14a8dca4af4f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERMISO SANITARIO DE FUNCIONAMIENTO DE CENTROS DE CONCENTRACIÓN DE ANIMALES]]></text>
+			</staticText>
+			<line>
+				<reportElement x="13" y="71" width="530" height="1" uuid="891014d7-7151-4875-9ee8-41485ad12e56"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="53">
+			<staticText>
+				<reportElement x="14" y="0" width="530" height="15" uuid="818dbbfa-920e-43e7-9d3d-3f3763b7549d"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Documento que autoriza la feria]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="14" y="14" width="530" height="20" uuid="482ab1bb-8d7d-4da0-beda-f9b06a062ec9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_operacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="14" y="33" width="530" height="20" uuid="7c42cbcf-c52f-4017-9e2e-7e84b7cd8034"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_area}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="427" splitType="Stretch">
+			<staticText>
+				<reportElement x="15" y="13" width="62" height="30" uuid="6fe5424e-2c73-40f5-b189-e5b5c99609fd"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del centro:]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement mode="Transparent" x="77" y="19" width="220" height="20" uuid="b3b00960-6844-45d1-a8bc-42e189b1c858"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="302" y="19" width="88" height="20" uuid="0bef2942-e944-41eb-bd26-8ab94f9dc8a4"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° de permiso:]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement mode="Transparent" x="390" y="19" width="153" height="20" uuid="3068471a-93c4-4875-ae92-1cdf23211ce0"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="56" width="144" height="30" uuid="b0ce2984-2ec1-414e-99c4-7e19cf8bb86f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del Organizador/ Administrador:]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement mode="Transparent" x="161" y="62" width="382" height="20" uuid="27c048cc-43ce-4a3a-aa7f-9e2e2212e610"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="99" width="144" height="30" uuid="5ef57251-ee05-4650-b678-0700beef937a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del Representante/ Técnico]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement mode="Transparent" x="161" y="104" width="382" height="20" uuid="ee066053-8070-4d33-8f2b-3fd2b9703fd2"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="143" width="55" height="20" uuid="d750be36-58c4-4f07-9057-dcb3a0cb5a4f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement mode="Transparent" x="70" y="143" width="117" height="20" uuid="15036eb2-2a09-4b10-adb5-364c04ed02bc"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="195" y="143" width="45" height="20" uuid="72815465-d5c6-44e1-a474-5455bd31da22"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón:]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement mode="Transparent" x="240" y="143" width="117" height="20" uuid="372210d6-1dd8-44ec-b742-4d922f7c80b6"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="366" y="143" width="60" height="20" uuid="add46bdf-b998-4b06-9080-07080b6f8529"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia:]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement mode="Transparent" x="426" y="143" width="117" height="20" uuid="f11a9f21-985b-4bbc-94dd-41ed3157d6d5"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="15" y="203" width="528" height="40" uuid="69bb444d-2221-4310-9a94-e7ff91d847a3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="13" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En la parroquia de, "+$F{parroquia}+
+new SimpleDateFormat("' a los 'dd' días del mes de 'MMMMM' del 'yyyy").format($F{fecha_aprobacion})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="390" width="528" height="20" uuid="4864f725-1d61-4aa5-aa91-d7c0f23f7855"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha de caducidad: "+
+new SimpleDateFormat("dd/MM/yyyy").format($F{fecha_finalizacion})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="19" width="194" height="20" uuid="9d4e79d0-8843-4738-be90-5e3a29ea03a5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_sitio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="404" y="19" width="126" height="20" uuid="e2f9c492-9632-4b03-8901-ef22a4b98c25"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{numeroCertificado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="169" y="62" width="366" height="20" uuid="4435a318-9613-4d57-8132-a585273e0773"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="143" width="100" height="20" uuid="f4f53cb4-2ab8-4552-a755-dc1f6924a36d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="143" width="100" height="20" uuid="be72e4e6-fc77-4ead-b70e-e13a0c3d0a4a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="143" width="100" height="20" uuid="fc07096e-1946-4b23-b037-c66a8d21ce6c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{parroquia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="169" y="104" width="366" height="20" uuid="5440658c-ce19-4ed4-95ba-00b86bf1b029"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_representante}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="417" y="283" width="126" height="97" uuid="5d74293a-0acc-49db-a5f5-cf133aa3e6a8">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Numero de permiso: "+ $P{numeroCertificado}
++"\nNombre del sitio registrado: "  + $F{nombre_sitio}
++"\nFecha de emision: " + new SimpleDateFormat("dd/MM/yyyy").format($F{fecha_aprobacion})
++"\nFecha de caducidad: " + new SimpleDateFormat("dd/MM/yyyy").format($F{fecha_finalizacion})]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+		</band>
+	</columnHeader>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+</jasperReport>

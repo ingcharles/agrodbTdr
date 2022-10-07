@@ -1,0 +1,325 @@
+<?php
+session_start();
+require_once '../../clases/Conexion.php';
+require_once '../../clases/ControladorUsuarios.php';
+require_once '../../clases/ControladorCatalogos.php';
+require_once '../../clases/ControladorAplicaciones.php';
+require_once '../../clases/ControladorRegistroOperador.php';
+require_once '../../clases/ControladorRevisionSolicitudesVUE.php';
+require_once '../../clases/ControladorGestionAplicacionesPerfiles.php';
+
+
+$mensaje = array();
+$mensaje['estado'] = 'error';
+$mensaje['mensaje'] = 'Ha ocurrido un error!';
+
+try{
+
+	$codigoTipoProducto = htmlspecialchars ($_POST['tipoProducto'],ENT_NOQUOTES,'UTF-8');
+	$codigoSubTipoProducto = htmlspecialchars ($_POST['subtipoProducto'],ENT_NOQUOTES,'UTF-8');
+	$producto = $_POST['producto'];
+	$identificadorOperador = htmlspecialchars ($_POST['identificadorOperador'],ENT_NOQUOTES,'UTF-8');	
+	$idOperacion = htmlspecialchars ($_POST['idOperacion'],ENT_NOQUOTES,'UTF-8');
+	$idArea = $_POST['idArea'];
+	
+	try {
+		$conexion = new Conexion();
+		$cc = new ControladorCatalogos();
+		$cr = new ControladorRegistroOperador();
+		$crs = new ControladorRevisionSolicitudesVUE();
+		
+		$ingreso = true;
+		$seleccionarProducto = true;
+		$productosIngresados = array();
+		$imprimirOperacion = '';
+		$tipoProceso = false;
+		$bandera = array();
+		
+		$qOperacion=$cr->abrirOperacionXid($conexion, $idOperacion);
+		$operacion = pg_fetch_assoc($qOperacion);
+		
+		if(count($producto) != 0){
+		    
+		    $todosProductos = implode(',', $producto);
+		    $todosProductos = "(".rtrim($todosProductos,',').")";
+		    
+		    $areasTipoOperacion = $cr->obtenerAreasOperacion($conexion, $idOperacion);
+		    
+		    foreach ($areasTipoOperacion as $areaOperacion){
+		        $vAreaProductoOperacion = $cr->buscarAreasOperacionProductoXSolicitud($conexion, $operacion['id_tipo_operacion'], $todosProductos, $areaOperacion['idArea'], $identificadorOperador);
+		        
+		        if(pg_num_rows($vAreaProductoOperacion)!= 0){
+		            
+		            while ($fila = pg_fetch_assoc($vAreaProductoOperacion)){
+		                
+		                if(($fila['estado_operacion'] == 'porCaducar' && $fila['estado_anterior'] == 'registrado') || ($fila['estado_operacion'] == 'noHabilitado' && $fila['estado_anterior'] == 'porCaducar')){
+		                    $ingreso = true;
+		                    $bandera[] = $ingreso;
+		                }else{
+		                    $ingreso = false;
+		                    $productosIngresados[] = $fila['nombre_producto'];
+		                    $bandera[] = $ingreso;
+		                }
+		                
+		            }
+		        }
+		    }
+		    
+		}else{
+		    $seleccionarProducto = false;
+		}
+		
+		$resultado = array_unique($bandera);
+		
+		if(count($resultado) == 1){
+		    if($resultado[0]){
+		        $ingreso = true;
+		    }else{
+		        $ingreso = false;
+		    }
+		}else if(count($resultado) == 2){
+		    $ingreso = false;
+		}
+		
+		if($ingreso && $seleccionarProducto){
+			
+			for($i = 0; $i < count($producto); $i++){
+				
+				$nombreAreaImpresion = '';
+				
+				$qOperacion=$cr->abrirOperacionXid($conexion, $idOperacion);
+				$operacion = pg_fetch_assoc($qOperacion);
+				
+				$qProducto = $cc->obtenerNombreProducto($conexion, $producto[$i]);
+				$qNombreOperacion = pg_fetch_assoc($cc->obtenerDatosTipoOperacion($conexion, $operacion['id_tipo_operacion']));
+								
+				if($operacion['id_producto'] == null){
+					
+					$cr->actualizarProductoOperacion($conexion, $idOperacion, $producto[$i],  pg_fetch_result($qProducto, 0, 'nombre_comun'));
+					foreach ($areasTipoOperacion as $areaOperacion){
+						$datosArea = pg_fetch_assoc($cr->ObtenerDatosAreaOperador($conexion, $areaOperacion['idArea']));
+						$qSitio = $cr->abrirSitio($conexion, $datosArea['id_sitio']);
+						$nombreAreaImpresion .= $datosArea['nombre_area'].', ';
+					}
+					$idSolicitud = $idOperacion;
+					
+				}else{
+					
+					$qIdSolicitud= $cr->guardarNuevaOperacionPorTipoOperacion($conexion, $operacion['id_tipo_operacion'], $identificadorOperador, $operacion['id_operador_tipo_operacion'], $operacion['id_historial_operacion'], 'cargarProducto');
+					$idSolicitud = pg_fetch_result($qIdSolicitud, 0, 'id_operacion');
+					$cr->actualizarProductoOperacion($conexion, $idSolicitud, $producto[$i],  pg_fetch_result($qProducto, 0, 'nombre_comun'));
+					
+					foreach ($areasTipoOperacion as $areaOperacion){					
+						$idAreas = $cr->guardarAreaOperacion($conexion, $areaOperacion['idArea'], $idSolicitud);
+						$datosArea = pg_fetch_assoc($cr->ObtenerDatosAreaOperador($conexion, $areaOperacion['idArea']));
+						$qSitio = $cr->abrirSitio($conexion, $datosArea['id_sitio']);
+						$nombreAreaImpresion .= $datosArea['nombre_area'].', ';
+					}
+					//REVISAR SI SE ATA EL RESTO DE PROCESOS (DOCUMENTOS, GRUPO FINANCIERO, GRUPO INSPECCION)					
+				}
+				
+				$nombreAreaImpresion = pg_fetch_result($qSitio, 0, 'nombre_lugar').' - '.$nombreAreaImpresion;
+				
+				$cr->enviarOperacionEstadoAnterior($conexion, $idSolicitud);
+				
+				if($operacion['estado']!='registrado'){
+				    $variedad = $cr->buscarVariedadOperacionProducto($conexion, $operacion['id_tipo_operacion'] , $producto[$i]);
+				    $flujoVariedad = (pg_num_rows($variedad) == '0'?'flujoNormal':'variedad');
+				    
+				    if($flujoVariedad == 'flujoNormal'){
+				        
+				        $idflujoOperacion = pg_fetch_assoc($cr->obtenerIdFlujoXOperacion($conexion, $idSolicitud));
+				        $idFlujoActual = pg_fetch_assoc($cr->obtenerEstadoActualFlujoOperacion($conexion, $idflujoOperacion['id_flujo_operacion'], 'cargarProducto'));
+				        $estado = pg_fetch_assoc($cr->obtenerEstadoFlujoOperacion($conexion, $idflujoOperacion['id_flujo_operacion'], $idFlujoActual['predecesor']));
+				        				        
+				        switch ($estado['estado']){
+				            
+				            case 'cargarAdjunto':
+				                $res = $cr -> enviarOperacion($conexion, $idSolicitud, $estado['estado']);
+				                break;
+				            case 'inspeccion':
+				                $res = $cr -> enviarOperacion($conexion,$idSolicitud, $estado['estado']);
+				                break;
+				            case 'pago':
+				                $res = $cr -> enviarOperacion($conexion, $idSolicitud, $estado['estado']);
+				                break;
+				            case 'cargarRendimiento':
+				                $res = $cr -> enviarOperacion($conexion, $idSolicitud, $estado['estado']);
+				                break;
+				            case'registrado':
+				                $fechaActual = date('Y-m-d H-i-s');
+				                $cr -> enviarOperacion($conexion, $idSolicitud,'registrado', 'Solicitud registrada '.$fechaActual);
+				                $cr -> cambiarEstadoAreaXidSolicitud($conexion, $idSolicitud, 'registrado', 'Solicitud registrada '.$fechaActual);
+				                $tipoProceso = true;
+				                break;
+				        }
+				    }else{
+				        $estado['estado'] = 'cargarIA';
+				        $res = $cr -> enviarOperacion($conexion, $idSolicitud,'cargarIA');
+				    }
+				}else{
+				    $fechaActual = date('Y-m-d H-i-s');
+				    $cr -> enviarOperacion($conexion, $idSolicitud,'registrado', 'Solicitud registrada '.$fechaActual);
+				    $cr -> cambiarEstadoAreaXidSolicitud($conexion, $idSolicitud, 'registrado', 'Solicitud registrada '.$fechaActual);
+				    $estado['estado'] = 'registrado';
+				    $tipoProceso = true;
+				}				
+
+				$nombreAreaImpresion = trim($nombreAreaImpresion, ', ');
+				$imprimirOperacion .= $cr->imprimirLineaProductoOperacion($idSolicitud, $qNombreOperacion['nombre'], pg_fetch_result($qProducto, 0, 'nombre_comun'), $nombreAreaImpresion);
+					
+			}
+			
+			$cr-> actualizarEstadoTipoOperacionPorIndentificadorSitio($conexion, $operacion['id_operador_tipo_operacion'], $estado['estado']);
+			
+			if($tipoProceso){
+				$modulosAgregados = "";
+				$perfilesAgregados = "";
+				
+				$qcodigoTipoOperacion= $cc->obtenerCodigoTipoOperacion($conexion, $idOperacion);
+				$opcionArea=  pg_fetch_result($qcodigoTipoOperacion, 0, 'codigo');
+					
+				switch ($idArea){
+						
+					case 'SA':
+						switch ($opcionArea){
+							case 'MVB':
+							case 'MVC':
+							case 'MVE':
+								$qOperaciones=$cr->buscarOperacionesPorCodigoyAreaOperacion($conexion, $identificadorOperador,"('$opcionArea')","('$idArea')");
+									
+								if(pg_num_rows($qOperaciones)>0){
+									$modulosAgregados.="('PRG_NOTIF_ENF'),";
+									$perfilesAgregados.="('PFL_NOTIF_ENF'),";
+								}
+									
+								break;
+							case 'FER':
+								$qOperaciones=$cr->buscarOperacionesPorCodigoyAreaOperacion($conexion, $identificadorOperador,"('$opcionArea')","('$idArea')");
+									
+								if(pg_num_rows($qOperaciones)>0){
+									$modulosAgregados.="('PRG_MOVIL_PRODU'),";
+									$perfilesAgregados.="('PFL_FISCA_MOVIL'),";
+								}
+									
+							break;
+							case 'CUA':
+							    $cr->actualizarFechaAprobacionFinalizacionOperaciones ($conexion, $operacion['id_operador_tipo_operacion'], $operacion['id_historial_operacion'], $operacion['fecha_aprobacion'], $operacion['fecha_finalizacion']);
+							break;
+								
+						}
+						break;
+							
+					case 'SV':
+						$contador=0;
+						switch ($opcionArea){
+							case 'ACO':
+								$qOperaciones=$cr->buscarOperacionesPorCodigoyAreaOperacion($conexion, $identificadorOperador,"('$opcionArea')","('$idArea')");
+									
+								if(pg_num_rows($qOperaciones)>0){
+									$modulosAgregados.="('PRG_EMISI_ETIQU'),";
+									$perfilesAgregados.="('PFL_SOLIC_ETIQU'),";
+								}
+									
+								$qOperacionesCacao=$cr->buscarOperacionesPorCodigoyAreaOperacionCacao($conexion, $identificadorOperador,"('$opcionArea')","('$idArea')");
+									
+								if(pg_num_rows($qOperacionesCacao)>0){ 
+									$modulosAgregados.="('PRG_CONFO_LOTE'),";
+									$perfilesAgregados.="('PFL_CONFO_LOTE'),";
+								}
+								
+							break;
+									
+							case 'COM':
+								$qOperaciones=$cr->buscarOperacionesPorCodigoyAreaOperacion($conexion, $identificadorOperador,"('$opcionArea')","('$idArea')");
+									
+								if(pg_num_rows($qOperaciones)>0){
+									$modulosAgregados.="('PRG_EMISI_ETIQU'),";
+									$perfilesAgregados.="('PFL_SOLIC_ETIQU'),";
+								}
+								break;
+				
+							/*case 'EXP':
+									
+								$qOperacionesCacao=$cr->buscarOperacionesPorCodigoyAreaOperacionCacao($conexion, $identificadorOperador,"('$opcionArea')","('$idArea')");
+									
+								if(pg_num_rows($qOperacionesCacao)>0){
+									$contador++;
+									$qOperacionesCacao=$cr->buscarOperacionesPorCodigoyAreaOperacionCacao($conexion, $identificadorOperador,"('ACO')","('$idArea')");
+										
+									if(pg_num_rows($qOperacionesCacao)>0)
+										$contador++;
+										
+									if($contador==2){
+										$modulosAgregados.="('PRG_CONFO_LOTE'),";
+										$perfilesAgregados.="('PFL_CONFO_LOTE'),";
+									}
+								}
+							break;*/
+									
+						}
+						break;
+				}
+			}
+			
+			if(strlen($modulosAgregados)==0){
+				$modulosAgregados="''";
+				$perfilesAgregados="''";
+			}
+			
+			$cu = new ControladorUsuarios();
+			$ca = new ControladorAplicaciones();
+			$cgap= new ControladorGestionAplicacionesPerfiles();
+			
+			$qGrupoAplicacion=$cgap->obtenerGrupoAplicacion($conexion,'('.rtrim($modulosAgregados,',').')' );
+			
+			if(pg_num_rows($qGrupoAplicacion)>0){
+				while($filaAplicacion=pg_fetch_assoc($qGrupoAplicacion)){
+					if(pg_num_rows($ca->obtenerAplicacionPerfil($conexion, $filaAplicacion['id_aplicacion'] , $identificadorOperador))==0){
+						$qAplicacionVacunacion=$cgap->guardarGestionAplicacion($conexion, $identificadorOperador,$filaAplicacion['codificacion_aplicacion']);
+						$qGrupoPerfiles=$cgap->obtenerGrupoPerfilXAplicacion($conexion, $filaAplicacion['id_aplicacion'], '('.rtrim($perfilesAgregados,',').')' );
+						while($filaPerfil=pg_fetch_assoc($qGrupoPerfiles)){
+							$cgap->guardarGestionPerfil($conexion, $identificadorOperador,$filaPerfil['codificacion_perfil']);
+						}
+					}else{
+						$qGrupoPerfiles=$cgap->obtenerGrupoPerfilXAplicacion($conexion, $filaAplicacion['id_aplicacion'], '('.rtrim($perfilesAgregados,',').')' );
+						while($filaPerfil=pg_fetch_assoc($qGrupoPerfiles)){
+							$qPerfil = $cu-> obtenerPerfilUsuario($conexion, $filaPerfil['id_perfil'], $identificadorOperador);
+							if (pg_num_rows($qPerfil) == 0)
+								$cgap->guardarGestionPerfil($conexion, $identificadorOperador,$filaPerfil['codificacion_perfil']);
+						}
+					}
+				}
+			}
+			
+			$mensaje['estado'] = 'exito';
+			$mensaje['mensaje'] = $imprimirOperacion;
+			
+		}else{
+			$mensaje['estado'] = 'error';
+			if(!$seleccionarProducto){
+				$mensaje['mensaje'] = 'Seleccione al menos un producto.';
+			}else{
+				$productosIngresados = array_unique($productosIngresados);
+				$cadenaProducto = implode(', ',$productosIngresados);				
+				$mensaje['mensaje'] = 'Los productos '.trim($cadenaProducto,', ').' ya han sido ingresados previamente para el área y operacion seleccionada.';
+			}
+				
+		}
+		
+		$conexion->desconectar();
+		echo json_encode($mensaje);
+	} catch (Exception $ex){
+		pg_close($conexion);
+		$mensaje['estado'] = 'error';
+		$mensaje['mensaje'] = "Error al ejecutar sentencia".$ex;
+		echo json_encode($mensaje);
+	}
+} catch (Exception $ex) {
+	$mensaje['estado'] = 'error';
+	$mensaje['mensaje'] = 'Error de conexión a la base de datos';
+	echo json_encode($mensaje);
+}
+?>
+
+

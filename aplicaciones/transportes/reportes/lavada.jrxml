@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="transporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fc16fc83-dead-4934-8abd-b29249b73281">
+	<property name="ireport.zoom" value="0.9330147604194666"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocalidadDesarrollo"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<parameter name="id_mantenimiento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jefeTransporte" class="java.lang.String"/>
+	<parameter name="rutaLogo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+ v.marca,
+ v.tipo,
+ v.modelo,
+ v.placa,
+ v.localizacion,
+ v.numero_motor,
+ v.numero_chasis,
+ m.fecha_solicitud,
+ m.motivo,
+ m.kilometraje,
+ m.id_mantenimiento,
+ t.nombre,
+ e.apellido ||' '||e.nombre as conductor
+
+FROM
+ g_transportes.vehiculos v,
+ g_transportes.mantenimientos m,
+ g_transportes.talleres t,
+ g_uath.ficha_empleado e
+
+WHERE
+ m.id_vehiculo = v. id_vehiculo
+ and m.taller = t.id_taller
+ and e.identificador = m.conductor
+ and id_mantenimiento = $P{id_mantenimiento}]]>
+	</queryString>
+	<field name="marca" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="modelo" class="java.lang.String"/>
+	<field name="placa" class="java.lang.String"/>
+	<field name="localizacion" class="java.lang.String"/>
+	<field name="numero_motor" class="java.lang.String"/>
+	<field name="numero_chasis" class="java.lang.String"/>
+	<field name="fecha_solicitud" class="java.sql.Timestamp"/>
+	<field name="motivo" class="java.lang.String"/>
+	<field name="kilometraje" class="java.lang.Double"/>
+	<field name="id_mantenimiento" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="conductor" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="59" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="-1" width="554" height="60" uuid="ec609a7f-e918-4959-a3a5-318f527cb469"/>
+				<imageExpression><![CDATA[$P{rutaLogo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="15">
+			<staticText>
+				<reportElement x="0" y="1" width="555" height="14" uuid="a47c37b8-e4cd-4e8e-a4d7-474c7c1df012"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AGENCIA DE REGULACIÓN Y CONTROL FITO Y ZOOSANITARIO - AGROCALIDAD]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="316">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="132" width="260" height="13" backcolor="#BFE1FF" uuid="cac42947-b0c0-4829-b238-77c1d97b6955"/>
+			</frame>
+			<rectangle>
+				<reportElement x="0" y="12" width="555" height="16" uuid="8742ce90-03d7-4a41-9b8a-cde29941985e"/>
+			</rectangle>
+			<frame>
+				<reportElement mode="Opaque" x="295" y="103" width="260" height="13" backcolor="#BFE1FF" uuid="f6d19365-0ed0-42a4-b2e0-4e11e8e38048"/>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="296" y="148" width="260" height="13" backcolor="#BFE1FF" uuid="2e8160a4-7d42-4071-811c-f2f5a18a895e"/>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="295" y="88" width="260" height="13" backcolor="#BFE1FF" uuid="c4d18a02-4136-4c7e-a599-e312af537f27"/>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="295" y="73" width="260" height="13" backcolor="#BFE1FF" uuid="31f341fb-94cc-41e3-96a9-8c59a2fa34de"/>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="117" width="260" height="13" backcolor="#BFE1FF" uuid="54e6ca7d-0196-4520-8c60-5047265ecbfd"/>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="102" width="260" height="13" backcolor="#BFE1FF" uuid="e2616372-9e5b-43e9-84ae-a9fd7e2799cb"/>
+			</frame>
+			<staticText>
+				<reportElement mode="Opaque" x="410" y="58" width="145" height="15" forecolor="#FFFFFF" backcolor="#024784" uuid="34405b24-6b0f-4101-9f9f-04c322d1c4f7"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalles de Lavado ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="57" width="119" height="15" forecolor="#FFFFFF" backcolor="#024784" uuid="7eab325b-b7ec-46a7-89bb-0d5a884c0616"/>
+				<textElement>
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Datos de Vehículo]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="72" width="260" height="13" backcolor="#BFE1FF" uuid="eabab3d3-2fa4-4bad-9d35-910427f49752"/>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="87" width="260" height="13" backcolor="#BFE1FF" uuid="577cdacb-5a03-4173-9ace-18e278086d96"/>
+			</frame>
+			<line>
+				<reportElement x="387" y="251" width="168" height="1" uuid="c02fc099-f16e-4a99-a1f1-08ee9c3e968e"/>
+			</line>
+			<textField>
+				<reportElement x="2" y="87" width="75" height="12" uuid="24f7ba28-40f8-4ca4-838d-ea7b42bf7821"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="117" width="75" height="12" uuid="d19f1861-3f18-4da0-8ed2-8852d224fa55"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{placa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="87" width="75" height="12" uuid="5d61281e-f6ed-4e3f-aeb7-b4f38f3a7674"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="176" y="87" width="75" height="12" uuid="25dd7f00-4b71-4b30-adee-02164a561db6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="147" width="260" height="13" backcolor="#BFE1FF" uuid="97b750e9-5cf0-4ff3-b784-d463ba626d37"/>
+			</frame>
+			<textField>
+				<reportElement x="93" y="117" width="82" height="12" uuid="cbd22dbf-82de-46b5-967d-42bf777b336b"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_motor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="176" y="117" width="84" height="12" uuid="192eb07e-0d60-480d-9f5f-485a333cfac4"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_chasis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="148" width="132" height="12" uuid="01da9c83-247d-4554-992e-75ca1f4991ff"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{localizacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="93" y="72" width="75" height="13" uuid="27c7aa8d-e30c-45f1-bf1d-434b43425d4f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Modelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="72" width="75" height="13" uuid="6b1d0a27-4452-4e6d-9eb7-de68133c2ebf"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="176" y="72" width="75" height="13" uuid="a833e0b6-dae1-4d81-8060-19216f1be3be"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="102" width="75" height="13" uuid="29447873-139f-4ab4-ad7a-df8f23f6ed44"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N# de Motor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="102" width="75" height="13" uuid="91d6a0a0-8786-421e-8895-cf726a3daa07"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N# de Placa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="176" y="102" width="75" height="13" uuid="6bb1b312-5d2e-4c58-ad5d-748e94d5049b"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N# de Chasis]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="147" width="117" height="13" uuid="8d251d0b-266e-44f6-87e3-ecef39248323"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_solicitud}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="73" width="152" height="13" uuid="85b40c0f-8314-4880-9fbc-27baeef80cc5"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{motivo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="193" y="251" width="168" height="1" uuid="f7ea296f-78cc-4daa-a3b9-ef089363266e"/>
+			</line>
+			<staticText>
+				<reportElement x="53" y="264" width="69" height="13" uuid="4f84a442-7e22-4b22-82b0-7f084c2a283e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Responsable]]></text>
+			</staticText>
+			<line>
+				<reportElement x="6" y="251" width="162" height="1" uuid="58d198a6-32c3-4435-b608-797f0835bce6"/>
+			</line>
+			<staticText>
+				<reportElement x="425" y="252" width="93" height="13" uuid="ff879ea7-420d-4230-a4b2-0e95cfdef1ef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Taller Mecánico]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="402" y="148" width="152" height="13" uuid="6fe49df9-53d4-4dae-a322-4d0aa39dca63"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{conductor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="252" width="120" height="13" uuid="f901bdb2-7575-4617-9e16-2e0e2d93801d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{conductor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="103" width="153" height="13" uuid="49efa7fc-f9da-4850-aa47-ed185964c109"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kilometraje}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="264" width="140" height="13" uuid="6e85631e-ee0a-4bda-9793-3437186d19f6"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="88" width="152" height="13" uuid="2f3c7327-23e7-4f09-8c4f-a4a43511d555"/>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="132" width="117" height="13" uuid="4a3c71e7-c1b2-4ff9-b35c-6803f840cbd1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Solicitud:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="73" width="85" height="13" uuid="1d504f09-12d9-4bfa-957f-08d460647238"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Motivo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="88" width="85" height="13" uuid="3520f128-22dd-44a3-b54f-b6502de7d8ab"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Taller:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="148" width="85" height="13" uuid="33d8c156-1d56-4902-b6e1-f11933492eda"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Conductor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="103" width="85" height="13" uuid="59bf59f4-0d11-433b-b6cf-5e77463ef83a"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kilometraje:]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="296" width="555" height="20" backcolor="#5C9BD3" uuid="e5f19694-b16b-4554-a6ce-01728c9cd780"/>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="29" y="4" width="100" height="13" forecolor="#FFFFFF" uuid="78b82313-46b2-44a9-9e98-693db7631409"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="244" y="2" width="67" height="16" forecolor="#FFFFFF" uuid="c9092656-80ca-48d3-aad2-6ef3b552eb5b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ORIGINAL]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="400" y="4" width="80" height="13" forecolor="#FFFFFF" uuid="ebcab539-b089-4ea9-9459-3761071a5ed0"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement x="481" y="4" width="40" height="13" forecolor="#FFFFFF" uuid="2dd80328-6c76-4be1-af91-20410e95f6a1"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="531" y="296" width="25" height="20" backcolor="#024784" uuid="47dce450-b2b9-4f4f-977e-b8cca8b66783"/>
+			</frame>
+			<textField>
+				<reportElement x="210" y="252" width="134" height="13" uuid="8c50a460-7482-4bfd-aa45-af6a190e9e57"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jefeTransporte}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="128" y="132" width="131" height="13" uuid="2edea613-52f6-4e3f-99aa-432e5df4788d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ubicación - Oficina]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="411" y="133" width="145" height="15" forecolor="#FFFFFF" backcolor="#024784" uuid="b769191d-27b0-4678-95ae-7fa6d314b1f0"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del Conductor ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="12" width="555" height="16" uuid="6eec1d0b-05fe-4485-97c0-f5a2e4efa266"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Orden de Lavado #  "+$P{id_mantenimiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="216" y="264" width="123" height="13" uuid="a7ccd47e-5ff6-4e7f-ba3c-f108e9601d99"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Jefe de transportes]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="380" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="24" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

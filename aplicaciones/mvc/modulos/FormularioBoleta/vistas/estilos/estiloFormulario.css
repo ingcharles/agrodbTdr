@@ -1,0 +1,93 @@
+@CHARSET "UTF-8";
+
+	pre{
+        white-space: pre-wrap;
+    }
+
+	body {
+	    font-family: "lucida sans", arial, sans-serif;
+		background-image: url(../img/back.png);
+		padding: 0px;
+		margin: 0px;
+		overflow-x: hidden;
+		color: #000000;
+	}
+	   .menup {
+	       margin-top: 40px;
+	       text-align: center;
+	   } 
+	   .menus {
+	       margin-top: 8px;
+	       text-align: center;
+	   } 
+	   .color_text_ingles {
+	       /* color: #B8BD20; */
+	       color: #1702b2;
+	   }
+	   .contenido {
+	       margin-top: 40px;
+	   } 
+	   .preguntas {
+	       margin-top: 4px;
+	   } 
+	   
+		#impresion{
+		border: 1px solid white;
+        width: 200px;
+        position: static;
+        margin: auto;
+        top: -20px;
+		}
+    
+@media (min-width:1200px){
+		.texto_responsive_info{
+	        font-size: 16px;
+	    }
+	    .texto_responsive{
+  			content: attr(data-desktoptext);
+		}
+    
+	}
+
+@media (max-width:1199px) and (min-width:992px){
+		.texto_responsive_info{
+	        font-size: 14px;
+	    }
+	    .texto_responsive{
+  			content: attr(data-desktoptext);
+		}
+	}
+@media (max-width:991px) and (min-width:768px){
+		.texto_responsive{
+	        content: attr(data-tablettext);
+	    }
+	    .container{
+	    content: attr(data-tablettext);
+	    }
+	    .texto_responsive_info{
+	        font-size: 12px;
+	    }
+	}
+@media (max-width:767px){
+		.texto_responsive{
+	        content: attr(data-phonetext);
+	    }
+	    .texto_responsive_info{
+	        font-size: 12px;
+	    }
+	    .contenido{
+	        font-size: 14px;
+	        content: attr(data-phonetext);
+	    }
+	    .textoPreguntas{
+	    font-size: 13px;
+	    }
+	}
+
+
+hr {
+    border: none;
+    height: 1px;
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+}

@@ -1,0 +1,130 @@
+@CHARSET "UTF-8";
+
+@media only screen {
+	
+	
+	#__evaluacion{
+	background-image: url('../img/evaluacion.png');
+	}
+	
+	#__reimpresion{
+		background-image: url('../img/reimpresion.png');
+	}
+	
+	.evaluacion{
+		text-align: justify;
+	}
+	
+	.pregunta p{
+		font-weight: bold;
+	}
+	
+	.pregunta img{
+		width: 300px;
+		height: 200px;
+		padding-left: 25px;
+	}
+	
+	.recuadro{
+		background-color: rgb(6,78,138);
+		color: white;
+		padding: 1px 10px;
+		border-radius: 5px;
+	}
+	
+	.alerta{
+		color:red;
+	}
+	
+	input[type="radio"]{
+		width: auto;
+		position: absolute;
+	}
+	
+	.copcion{
+		font-weight: normal;
+		display: block;
+		padding-left: 30px;
+	}
+	
+	.importante{
+		text-align: center;
+		text-transform: uppercase;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+	
+	
+	
+	
+	#tiempo{
+		position: fixed;
+		top: 85%;
+		left: 25%;
+		min-width: 280px;
+		max-width: 600px;
+		height: 60px;
+		margin-bottom: 50px;
+		z-index:1;
+	}
+	
+	.hora-inicio{
+	    width: 30%px;
+		padding-right: 5px;
+		float: left;
+	}
+	
+	/*#contador .tiempo-restante .hasCountdown {*/
+	.countdown_row{
+	    float: left;
+		width: 40%;
+		text-align: center;
+		font-size: 18px;
+	}
+	
+	.hora-fin{
+		float:left;
+		width: 30%;
+		padding-left: 5px;
+	}
+	
+	#nombreEvaluacion{
+		/*margin-top:50px;*/
+	}
+	
+	.impresion{
+		display: none;
+	}
+	
+	img{
+		 width: 100%;
+		 max-width: inherit;
+	}
+}
+
+@media only print {
+	
+ div{
+ 	text-align: center;
+ 	font-size: 1.3em;
+ }
+ 
+ p{
+ 	text-align: center;
+ }
+ 
+ h2{
+ 	padding-top: 35px;
+ }
+ 
+ #contenedor{
+ 	padding-top: 25px;
+ }
+ 
+ #nota{
+ 	font-size: 1.9em !important;
+ }
+ 
+	
+	
+}

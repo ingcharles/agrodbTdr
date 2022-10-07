@@ -1,0 +1,10 @@
+*.log
+*.txt
+*.docx
+*.rtf
+*.pdf
+*.xml
+*.tmpl
+*.sql
+*.json
+*.svn-base

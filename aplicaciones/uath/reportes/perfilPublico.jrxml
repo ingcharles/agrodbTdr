@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilPublico" pageWidth="411" pageHeight="610" columnWidth="411" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d1b4b236-4aca-4d64-9df3-763db542be60">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="localPrueba"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="identificador" class="java.lang.String"/>
+	<parameter name="logoPerfilPublico" class="java.lang.String"/>
+	<parameter name="logoPiePerfilPublico" class="java.lang.String"/>
+	<parameter name="rutaFotografia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+	dc.identificador
+	, UPPER(fe.apellido || ' ' || fe.nombre) AS nombre
+	, UPPER(dc.nombre_puesto) AS cargo
+	, UPPER(dc.provincia) AS provincia
+	, UPPER(canton) AS canton
+	, UPPER(dc.direccion) AS direccion
+	, COALESCE(fe.mail_institucional, fe.mail_personal) AS mail
+FROM 
+	g_uath.datos_contrato dc 
+INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = dc.identificador
+WHERE
+	dc.identificador =  $P{identificador} 
+	and dc.estado = 1]]>
+	</queryString>
+	<field name="identificador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_contrato"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+	</field>
+	<field name="cargo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cargo"/>
+	</field>
+	<field name="provincia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="provincia"/>
+	</field>
+	<field name="canton" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="canton"/>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
+	</field>
+	<field name="mail" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="mail"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="610" splitType="Stretch">
+			<rectangle radius="20">
+				<reportElement mode="Opaque" x="5" y="5" width="401" height="600" forecolor="#606060" backcolor="#606060" uuid="5d36ebb0-4cdf-4bc8-8c8e-b7eea520fa31"/>
+			</rectangle>
+			<rectangle radius="20">
+				<reportElement x="5" y="175" width="401" height="430" forecolor="#606060" uuid="e3570932-b215-439d-b855-f442c26f3a44"/>
+			</rectangle>
+			<rectangle radius="8">
+				<reportElement mode="Opaque" x="35" y="195" width="169" height="30" forecolor="#606060" backcolor="#606060" uuid="bdf81095-fbc3-40be-ad85-c5d3164dcd56"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="35" y="195" width="168" height="30" forecolor="#FFFFFF" uuid="148bdd4d-b992-4002-b6b1-56db65477eff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERFIL DEL FUNCIONARIO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="177" y="245" width="210" height="30" forecolor="#606060" uuid="6a0927fa-61e4-43d5-af53-e337073167de"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="245" width="142" height="30" forecolor="#606060" uuid="f72e6c55-ae6a-456a-8092-0d461eeb205e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDOS Y NOMBRES:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="47" y="45" width="99" height="99" uuid="1246ad33-f7ac-4cdf-8cd7-69067448a995"/>
+				<imageExpression><![CDATA[$P{logoPerfilPublico}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="5" y="285" width="401" height="1" forecolor="#606060" uuid="8f7f946f-605b-4cd2-a78c-c8b2803b4169"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="35" y="295" width="142" height="30" forecolor="#606060" uuid="2508935e-c3d6-4566-ac60-f2a8f41af7db"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARGO:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="335" width="401" height="1" forecolor="#606060" uuid="ec57dcbb-3e10-4ebd-b769-fa3d9494cdf5"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="177" y="295" width="210" height="30" forecolor="#606060" uuid="f8a920bc-f964-41c2-b415-f424f89bf04d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="5" y="385" width="401" height="1" forecolor="#606060" uuid="a5fd68d1-9d3d-42b5-9f19-730ff5425e66"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="177" y="345" width="210" height="30" forecolor="#606060" uuid="0cd36547-29c1-47ff-84ca-bc58a0a52fb7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="345" width="142" height="30" forecolor="#606060" uuid="134f97f7-56fd-4798-9e93-675e1d01a74e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROVINCIA:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="435" width="401" height="1" forecolor="#606060" uuid="d1e9127a-26fb-4451-9262-8d447ec77e3d"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="177" y="445" width="210" height="30" forecolor="#606060" uuid="0ac1ca90-0f70-4b4e-9056-131f6d87436a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="445" width="142" height="30" forecolor="#606060" uuid="1528b683-857d-4260-aadc-8173212db278"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDAD ORGÁNICA:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="485" width="401" height="1" forecolor="#606060" uuid="3b5aba86-5ee3-44c8-ad83-7c70f1b9455c"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="177" y="395" width="210" height="30" forecolor="#606060" uuid="110b6af9-14ae-4052-bbbf-9243b885fcec"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="395" width="142" height="30" forecolor="#606060" uuid="36c48fee-aa59-4cb1-b3d6-d443a3d54b14"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTÓN:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="535" width="401" height="1" forecolor="#606060" uuid="baae8995-c532-4cb5-b3f1-619c3e7e6354"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="35" y="495" width="142" height="30" forecolor="#606060" uuid="bdc715b3-2ffd-424d-8567-acf27d966434"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CORREO ELECTRÓNICO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="177" y="495" width="210" height="30" forecolor="#606060" uuid="8e1e5365-08e0-47a4-a3cc-de865ba699b8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mail}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="274" y="549" width="100" height="40" uuid="40a26d36-b787-4d7e-b70a-db33907685d2"/>
+				<imageExpression><![CDATA[$P{logoPiePerfilPublico}]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="RelativeToTallestObject" x="273" y="40" width="89" height="109" uuid="6df1cb3d-4b55-43d2-a622-c020736b9a05">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{rutaFotografia}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

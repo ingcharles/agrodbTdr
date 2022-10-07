@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES_vacunacionAftosa" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2ff8e4bb-3724-4cfa-b95d-ed850ee8eece">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_evento_sanitario" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT *  FROM g_seguimiento_eventos_sanitarios.vacunacion_aftosa WHERE
+id_evento_sanitario = $P{id_evento_sanitario}]]>
+	</queryString>
+	<field name="id_vacunacion_aftosa" class="java.lang.Integer"/>
+	<field name="id_evento_sanitario" class="java.lang.Integer"/>
+	<field name="id_tipo_vacunacion_aftosa" class="java.lang.Integer"/>
+	<field name="nombre_tipo_vacunacion_aftosa" class="java.lang.String"/>
+	<field name="fecha_vacunacion_aftosa" class="java.sql.Timestamp"/>
+	<field name="lote_vacunacion_aftosa" class="java.lang.String"/>
+	<field name="numero_certificado_vacunacion_aftosa" class="java.lang.String"/>
+	<field name="nombre_laboratorio_vacunacion_aftosa" class="java.lang.String"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<field name="id_enfermedad" class="java.lang.Integer"/>
+	<field name="enfermedad" class="java.lang.String"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<group name="enfermedad">
+		<groupExpression><![CDATA[$F{enfermedad}]]></groupExpression>
+	</group>
+	<group name="fecha_vacunacion_aftosa">
+		<groupExpression><![CDATA[$F{fecha_vacunacion_aftosa}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="9aa6ae3e-1a46-4f07-b346-7e955b912695"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Vacunación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="62" height="20" uuid="921ee70c-db99-4a33-a07a-b73095a05d89"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lote Vac]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="0" width="100" height="20" uuid="3bef6e8c-f51c-44aa-87ea-6a57488c1cae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Certificado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="262" y="0" width="100" height="20" uuid="1c951b3f-57b7-4a19-a728-bf8ceddd8df8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laboratorio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="362" y="0" width="100" height="20" uuid="b6144a11-b167-4d2f-83ec-02b66e12c49c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[T. Vacuna]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="462" y="0" width="93" height="20" uuid="4e1b5582-76c0-4705-b7b9-a831dd177b06"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enfermedad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="100" height="20" uuid="208c150b-4fba-4422-970e-2f3552fd43ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_vacunacion_aftosa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="62" height="20" uuid="1c407c1c-939c-4f37-babd-cff49093e446"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lote_vacunacion_aftosa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="162" y="0" width="100" height="20" uuid="3e9e518b-3593-4f2f-b758-b44f8c78a608"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numero_certificado_vacunacion_aftosa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="262" y="0" width="100" height="20" uuid="756341d3-2605-4cbb-b4b4-9eb9f462b9b1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_laboratorio_vacunacion_aftosa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="362" y="0" width="100" height="20" uuid="b49a50c3-0128-4344-8b43-48efeee73772"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_tipo_vacunacion_aftosa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="462" y="0" width="93" height="20" uuid="fcb88b49-7582-4721-ae9a-f6d52ec38f8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{enfermedad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

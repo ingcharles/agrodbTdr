@@ -1,0 +1,282 @@
+@CHARSET "UTF-8";
+
+#mesesPresupuesto table td{
+	width: 25% !important;
+}
+
+#tablaReportePresupuesto 
+{
+clear:both;
+font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+    border-collapse:collapse;
+}
+
+#tablaReportePresupuesto td, #tablaReportePresupuesto th 
+{
+font-size:1em;
+border:1px solid #98bf21;
+padding:1px 3px 1px 3px;
+}
+
+#tablaReportePresupuesto th 
+{
+clear:both;
+font-size:1em;
+text-align:left;
+padding-top:3px;
+padding-bottom:2px;
+background-color:#A7C942;
+color:#ffffff;
+}
+
+#logoMagap{
+width: 15%;
+height:70px;
+background-image: url(../img/magap_logo.jpg); background-repeat: no-repeat;
+float: left;
+}
+
+#logotexto{
+width: 10%;
+height:80px;
+float: left;
+}
+
+#logoAgrocalidad{
+width: 20%;
+height:80px;
+background-image: url(../img/agrocalidad.png); background-repeat: no-repeat;
+float:left;
+}
+
+#textoPOA{
+width: 40%;
+height:80px;
+text-align: center;
+float:left;
+}
+
+#direccion{
+width: 8%;
+height:80px;
+background-image: url(../img/direccion.png); background-repeat: no-repeat;
+float: left;
+}
+
+#imprimir{
+width: 5%;
+height:80px;
+float: right;
+}
+
+#bandera{
+width: 2%;
+height:80px;
+background-image: url(../img/bandera.png); background-repeat: no-repeat;
+float: right;
+}
+
+@page{
+   margin: 5px;
+}
+
+
+#__objetivos {
+	background-image: url('../img/adminObjetivos.png');
+}
+
+#__procesos {
+	background-image: url('../img/adminProcesos.png');
+}
+
+#__subproceso {
+	background-image: url('../img/adminSubprocesos.png');
+}
+
+#__indicadores {
+	background-image: url('../img/adminIndicadores.png');
+}
+
+#__aprobarPAPP {
+	background-image: url('../img/aprobarPAPP.png');
+}
+
+#__aprobarPresupuesto {
+	background-image: url('../img/aprobarPresupuesto.png');
+}
+
+#__reporteMatrizPAPP {
+	background-image: url('../img/reporteMatrizPAPP.png');
+}
+
+#__reporteMatrizPresupuesto {
+	background-image: url('../img/reporteMatrizPresupuesto.png');
+}
+
+#__itemsPresupuestarios {
+	background-image: url('../img/itemPresupuesto.png');
+}
+
+#__plantaCentral {
+	background-image: url('../img/plantaCentral.png');
+}
+
+#__remitirPAPP {
+	background-image: url('../img/remitirPAPP.png');
+}
+
+#__verificarPAPP {
+	background-image: url('../img/verificarPAPP.png');
+}
+
+#__presupuesto {
+	background-image: url('../img/matrizPresupuesto.png');
+}
+
+#__remitirPresupuesto {
+	background-image: url('../img/remitirMatrizPresupuesto.png');
+}
+
+#__revisarPresupuesto {
+	background-image: url('../img/verificarMatrizPAPP.png');
+}
+
+#__matrizPAPP {
+	background-image: url('../img/matrizPAPP.png');
+}
+
+#__seguimientoTrimestral {
+	background-image: url('../img/Seguimiento_trimestral.png');
+}
+
+#__remitirSeguimiento {
+	background-image: url('../img/RemitirSeguimiento.png');
+}
+
+#__verificarSeguimientoTrimestral {
+	background-image: url('../img/Verificar_Seguimiento_trimestral.png');
+}
+
+#__reporteSeguimientoTrimestralCoord {
+	background-image: url('../img/Reporte_Seguimiento_trimestral.png');
+}
+
+#__aprobarSeguimientoTrimestral {
+	background-image: url('../img/Aprobar_Seguimiento_trimestral.png');
+}
+
+#__reporteSeguimientoTrimestral {
+	background-image: url('../img/Reporte_Seguimiento_trimestral1.png');
+}
+
+/*---------------------------------------------------------------------*/
+
+#__importarPapPac{
+	background-image: url('../img/importarPAP-PAC.png');
+}
+
+#__papPac{
+	background-image: url('../img/PAP-PAC.png');
+}
+
+#__reformaPresupuestaria{
+	background-image: url('../img/reformaPresupuestaria.png');
+}
+
+#__revisionReformaPresupuestaria{
+	background-image: url('../img/revisionReformaPresupuestaria.png');
+}
+
+#__revisionReformaPresupuestariaInversion{
+	background-image: url('../img/revisionReformaPresupuestariaProyectosDeInversion.png');
+}
+
+#__revisionReformaPresupuestariaGA{
+	background-image: url('../img/revisionReformaPresupuestariaGestionAdministrativa.png');
+}
+
+#__generarMatrizPacTemporal{
+	background-image: url('../img/matrizPACTemporalConReformaPresupuestaria.png');
+}
+
+#__generarMatrizPac{
+	background-image: url('../img/matrizPACReformada.png');
+}
+
+#__revisionReformaPresupuestariaGF{
+	background-image: url('../img/revisionReformaPresupuestariaGestionFinanciera.png');
+}
+
+#__reporteReformaPresupuestariaPartida{
+	background-image: url('../img/reporteReformaPresupuestariaporPartida.png');
+}
+
+#_confirmarImportarPapPac{
+	background-image: url('../img/importarPAP-PAC.png');
+}
+
+#_confirmarCierreEjercicio{
+	background-image: url('../img/cerrarEjercicio.png');
+}
+
+#_enviarRevision{
+	background-image: url('../img/enviar.png');
+}
+
+#_enviarRevisionDGAFDGPGE{
+	background-image: url('../img/enviar.png');
+}
+
+#_enviarRevisionGA{
+	background-image: url('../img/enviar.png');
+}
+
+#_enviarRevisionGF{
+	background-image: url('../img/enviar.png');
+}
+
+#_ejecutarReforma{
+	background-image: url('../img/ejecutarReforma.png');
+}
+
+/*---------------------------------------------------------------------*/
+
+
+table.filtro select{
+	width: 100%  !important;
+}
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+
+.circulo_rojo, .circulo_verde, .circulo_amarillo{
+	width:20px;
+	height:20px;
+	border-radius: 5px;
+	float:right;
+	border-right: 1px solid rgba(255, 255, 255, .75);
+	border-left: 1px solid rgba(0, 0, 0, .5);
+	border-bottom: 1px solid rgba(255, 255, 255, .75);
+	border-top: 1px solid rgba(0, 0, 0, .5);
+}
+
+.circulo_rojo{
+	background: repeating-linear-gradient(45deg, #ffffff, #f23953 2px,  #f23953 5px);
+}
+
+.circulo_verde{
+	background: repeating-linear-gradient(45deg, #005588, #8cc63f 2px,  #8cc63f 5px);
+}
+
+.circulo_amarillo{
+	background: repeating-linear-gradient(45deg, #ffffff, #f8c52b 2px,  #f8c52b 5px);
+}

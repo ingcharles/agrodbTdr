@@ -1,0 +1,3861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="historiaClinica" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="7455f87d-4ded-4ee6-8a78-df558e0c262d">
+	<property name="ireport.zoom" value="3.1384283767210666"/>
+	<property name="ireport.x" value="317"/>
+	<property name="ireport.y" value="2022"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bin/DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="64"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="928"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="706"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="280"/>
+	<subDataset name="dataset1" uuid="1f21f222-01a1-4ae6-bf0f-b3d8fb403880">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT distinct  empresa, cargo, tipo, array_to_string(array_agg(subtipo),', ') as subtipo, tiempo_exposicion
+FROM 
+	g_historias_clinicas.historia_ocupacional ho
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON ho.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+	
+	INNER JOIN g_historias_clinicas.detalle_historial_ocupacional dho ON ho.id_historia_ocupacional = dho.id_historia_ocupacional
+	INNER JOIN g_historias_clinicas.subtipo_procedimiento_medico spm ON dho.id_subtipo_proced_medico = spm.id_subtipo_proced_medico
+WHERE
+	id_historia_clinica =  $P{idHistoriaClinica}
+GROUP BY 
+	empresa, cargo, tipo, tiempo_exposicion]]>
+		</queryString>
+		<field name="empresa" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="empresa"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="historia_ocupacional"/>
+		</field>
+		<field name="cargo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cargo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="historia_ocupacional"/>
+		</field>
+		<field name="tipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="subtipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="subtipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="subtipo_procedimiento_medico"/>
+		</field>
+		<field name="tiempo_exposicion" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="tiempo_exposicion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="historia_ocupacional"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset2" uuid="dc0378fd-5aef-4e32-985e-9956caf6e97a">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT distinct anio||'-'||mes as fecha, empresa, naturaleza_lesion, parte_afectada, dias_incapacidad, secuelas
+FROM 
+	g_historias_clinicas.accidentes_laborales al
+	INNER JOIN g_historias_clinicas.historia_ocupacional ho ON al.id_historia_ocupacional = ho.id_historia_ocupacional
+WHERE
+	al.id_historia_clinica = $P{idHistoriaClinica}]]>
+		</queryString>
+		<field name="fecha" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		</field>
+		<field name="empresa" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="empresa"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="historia_ocupacional"/>
+		</field>
+		<field name="naturaleza_lesion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="naturaleza_lesion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="accidentes_laborales"/>
+		</field>
+		<field name="parte_afectada" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="parte_afectada"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="accidentes_laborales"/>
+		</field>
+		<field name="dias_incapacidad" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="dias_incapacidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="accidentes_laborales"/>
+		</field>
+		<field name="secuelas" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="secuelas"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="accidentes_laborales"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset3" uuid="bb54bc36-cc5f-419d-a3bb-95eba8d7fc88">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT distinct tipo
+FROM 
+	g_historias_clinicas.procedimiento_medico pm
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON pm.id_procedimiento_medico = tpm.id_procedimiento_medico
+	INNER JOIN g_historias_clinicas.elemento_proteccion ep ON pm.id_procedimiento_medico = ep.id_procedimiento_medico and tpm.id_tipo_procedimiento_medico = ep.id_tipo_procedimiento_medico
+WHERE
+	pm.nombre = 'Elementos de protección'
+	and id_historia_clinica =  $P{idHistoriaClinica}
+ORDER BY 1]]>
+		</queryString>
+		<field name="tipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset4" uuid="8a3ef422-0d2b-4a97-944f-1695a779d4e4">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT distinct tipo as parentesco, descripcion as enfermedad, observaciones
+FROM 
+	g_historias_clinicas.antecedentes_salud_familiar asf
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON asf.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+	INNER JOIN g_historias_clinicas.cie cie ON asf.id_cie = cie.id_cie
+WHERE
+	id_historia_clinica = $P{idHistoriaClinica}]]>
+		</queryString>
+		<field name="parentesco" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="parentesco"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="enfermedad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="enfermedad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cie"/>
+		</field>
+		<field name="observaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="antecedentes_salud_familiar"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset5" uuid="1a218d9a-9d75-42ed-9d56-506838ed1fab">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT distinct tipo as tipo_antecedente, diagnostico, observaciones
+FROM 
+	g_historias_clinicas.antecedentes_salud ans
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON ans.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+	INNER JOIN g_historias_clinicas.detalle_antecedentes_salud das ON ans.id_antecedentes_salud = das.id_antecedentes_salud
+WHERE
+	id_historia_clinica = $P{idHistoriaClinica}
+	and tipo != 'Gineco Obstétricos']]>
+		</queryString>
+		<field name="tipo_antecedente" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo_antecedente"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="diagnostico" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="diagnostico"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="observaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset6" uuid="127db345-5a5f-48f1-872a-cdbfc42beaf1">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT ans.fecha_creacion, ciclo_mestrual, fecha_ultima_regla, fecha_ultima_citologia, resultado_citologia, numero_gestaciones,
+numero_partos, numero_cesareas, numero_abortos, numero_hijos_vivos, numero_hijos_muertos, embarazo, semanas_gestacion, numero_ecos,
+numero_controles_embarazo, complicaciones, vida_sexual_activa, planificacion_familiar, metodo_planificacion
+FROM 
+	g_historias_clinicas.antecedentes_salud ans
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON ans.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+	INNER JOIN g_historias_clinicas.detalle_antecedentes_salud das ON ans.id_antecedentes_salud = das.id_antecedentes_salud
+WHERE
+	id_historia_clinica =  $P{idHistoriaClinica}
+	and tipo = 'Gineco Obstétricos']]>
+		</queryString>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="antecedentes_salud"/>
+		</field>
+		<field name="ciclo_mestrual" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ciclo_mestrual"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="fecha_ultima_regla" class="java.sql.Date">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_ultima_regla"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="fecha_ultima_citologia" class="java.sql.Date">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_ultima_citologia"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="resultado_citologia" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="resultado_citologia"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="numero_gestaciones" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_gestaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="numero_partos" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_partos"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="numero_cesareas" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_cesareas"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="numero_abortos" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_abortos"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="numero_hijos_vivos" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_hijos_vivos"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="numero_hijos_muertos" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_hijos_muertos"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="embarazo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="embarazo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="semanas_gestacion" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="semanas_gestacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="numero_ecos" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_ecos"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="numero_controles_embarazo" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_controles_embarazo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="complicaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="complicaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="vida_sexual_activa" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="vida_sexual_activa"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="planificacion_familiar" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="planificacion_familiar"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+		<field name="metodo_planificacion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="metodo_planificacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_antecedentes_salud"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset7" uuid="a829fe87-3f22-42ca-a4b1-f2017bc340b3">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT distinct tipo, array_to_string(array_agg(subtipo),', ') as subtipo, otros
+FROM 
+	g_historias_clinicas.revision_organos_sistemas ros
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON ros.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+	INNER JOIN g_historias_clinicas.detalle_revision_organos_sistemas dros ON ros.id_revision_organos_sistemas = dros.id_revision_organos_sistemas
+	INNER JOIN g_historias_clinicas.subtipo_procedimiento_medico spm ON dros.id_subtipo_proced_medico = spm.id_subtipo_proced_medico
+WHERE
+	id_historia_clinica =  $P{idHistoriaClinica}
+GROUP BY tipo, otros
+ORDER BY 1]]>
+		</queryString>
+		<field name="tipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="subtipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="subtipo"/>
+		</field>
+		<field name="otros" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="otros"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_revision_organos_sistemas"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset8" uuid="98614e6b-2f38-435c-95ba-f94aa29e8b5f">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT tipo as vacuna, fecha_ultima_dosis, numero_dosis
+FROM 
+	g_historias_clinicas.inmunizacion i
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON i.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+WHERE
+	id_historia_clinica =   $P{idHistoriaClinica}
+ORDER BY 1]]>
+		</queryString>
+		<field name="vacuna" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="vacuna"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="fecha_ultima_dosis" class="java.sql.Date">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_ultima_dosis"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="inmunizacion"/>
+		</field>
+		<field name="numero_dosis" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="numero_dosis"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="inmunizacion"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset9" uuid="4b952292-0174-491b-bc42-f0d09ef0edcf">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT tipo, frecuencia_habito, anios_habito, observaciones
+FROM 
+	g_historias_clinicas.habitos ha
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON ha.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+WHERE
+	id_historia_clinica = $P{idHistoriaClinica}
+ORDER BY 1]]>
+		</queryString>
+		<field name="tipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="frecuencia_habito" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="frecuencia_habito"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="habitos"/>
+		</field>
+		<field name="anios_habito" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="anios_habito"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="habitos"/>
+		</field>
+		<field name="observaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="habitos"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset10" uuid="38d15a3d-d65b-470d-89ab-ae6acc7cc005">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT tipo_actividad, frecuencia, observaciones
+FROM 
+	g_historias_clinicas.estilo_vida
+WHERE
+	id_historia_clinica =  $P{idHistoriaClinica}
+ORDER BY 1]]>
+		</queryString>
+		<field name="tipo_actividad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo_actividad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="estilo_vida"/>
+		</field>
+		<field name="frecuencia" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="frecuencia"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="estilo_vida"/>
+		</field>
+		<field name="observaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="estilo_vida"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset11" uuid="ef9ff489-fa37-40eb-893d-f378c3365a3a">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT tipo, subtipo, normal, observaciones
+FROM 
+	g_historias_clinicas.procedimiento_medico pm
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON pm.id_procedimiento_medico = tpm.id_procedimiento_medico
+	INNER JOIN g_historias_clinicas.evaluacion_primaria ep ON tpm.id_tipo_procedimiento_medico = ep.id_tipo_procedimiento_medico
+	INNER JOIN g_historias_clinicas.subtipo_procedimiento_medico spm ON tpm.id_tipo_procedimiento_medico = spm.id_tipo_procedimiento_medico
+	INNER JOIN g_historias_clinicas.detalle_evaluacion_primaria dep ON ep.id_evaluacion_primaria = dep.id_evaluacion_primaria and spm.id_subtipo_proced_medico = dep.id_subtipo_proced_medico
+WHERE
+	nombre ='Examen físico' 
+	and pm.estado ='Activo'
+	and tpm.estado = 'Activo'
+	and spm.estado = 'Activo'
+	and id_historia_clinica =  $P{idHistoriaClinica}
+ORDER BY 1]]>
+		</queryString>
+		<field name="tipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="subtipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="subtipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="subtipo_procedimiento_medico"/>
+		</field>
+		<field name="normal" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="normal"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_evaluacion_primaria"/>
+		</field>
+		<field name="observaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_evaluacion_primaria"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset12" uuid="58b1602e-072d-4234-bb41-d0e19df4758c">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT tipo, subtipo, spm.fecha_creacion, estado_clinico, observaciones
+FROM 
+	g_historias_clinicas.examenes_clinicos ec
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON ec.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+	INNER JOIN g_historias_clinicas.detalle_examenes_clinicos dc ON ec.id_examenes_clinicos = dc.id_examenes_clinicos
+	INNER JOIN g_historias_clinicas.subtipo_procedimiento_medico spm ON dc.id_subtipo_proced_medico = spm.id_subtipo_proced_medico
+WHERE
+	id_historia_clinica =  $P{idHistoriaClinica}
+ORDER BY 1]]>
+		</queryString>
+		<field name="tipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="subtipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="subtipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="subtipo_procedimiento_medico"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="subtipo_procedimiento_medico"/>
+		</field>
+		<field name="estado_clinico" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="estado_clinico"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_examenes_clinicos"/>
+		</field>
+		<field name="observaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="detalle_examenes_clinicos"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset13" uuid="a0d81684-3498-49a2-8796-79721a9bc0a5">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT  tipo, subtipo, observaciones
+FROM 
+	g_historias_clinicas.examen_paraclinicos ep
+	INNER JOIN g_historias_clinicas.tipo_procedimiento_medico tpm ON ep.id_tipo_procedimiento_medico = tpm.id_tipo_procedimiento_medico
+	INNER JOIN g_historias_clinicas.detalle_examen_paraclinicos dep ON ep.id_examen_paraclinicos = dep.id_examen_paraclinicos
+	INNER JOIN g_historias_clinicas.subtipo_procedimiento_medico spm ON dep.id_subtipo_proced_medico = spm.id_subtipo_proced_medico
+WHERE
+	id_historia_clinica =  $P{idHistoriaClinica}
+ORDER BY 1]]>
+		</queryString>
+		<field name="tipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_procedimiento_medico"/>
+		</field>
+		<field name="subtipo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="subtipo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="subtipo_procedimiento_medico"/>
+		</field>
+		<field name="observaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="examen_paraclinicos"/>
+		</field>
+	</subDataset>
+	<subDataset name="dataset14" uuid="8bfd3e29-2cbe-49a9-8ba7-e997cb0d1b33">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT descripcion, estado_diagnostico, observaciones
+FROM 
+	g_historias_clinicas.impresion_diagnostica ip
+	INNER JOIN g_historias_clinicas.cie cie ON ip.id_cie = cie.id_cie
+WHERE
+	id_historia_clinica =   $P{idHistoriaClinica}
+ORDER BY 1]]>
+		</queryString>
+		<field name="descripcion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cie"/>
+		</field>
+		<field name="estado_diagnostico" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="estado_diagnostico"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="impresion_diagnostica"/>
+		</field>
+		<field name="observaciones" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="impresion_diagnostica"/>
+		</field>
+	</subDataset>
+	<parameter name="idHistoriaClinica" class="java.lang.Integer"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+	nombre ||' '||apellido as funcionario, genero, estado_civil, fecha_nacimiento, edad, tipo_sangre,
+	(SELECT nombre FROM g_catalogos.localizacion WHERE id_localizacion=canton_nacimiento) as canton, 
+	convencional,tiene_discapacidad, carnet_conadis_empleado, representante_familiar_discapacidad,  
+    tiene_enfermedad_catastrofica, nombre_enfermedad_catastrofica,carnet_conadis_familiar, mail_personal,
+	mail_institucional,religion,lateralidad,orientacion_sexual, jornada_laboral,
+	(SELECT nivel_instruccion FROM g_uath.datos_academicos WHERE identificador = fe.identificador and estado = 'Aceptado'  ORDER BY id_datos_academicos DESC LIMIT 1) as nivel_instruccion,
+	oficina, direccion, coordinacion,nombre_puesto,
+	(SELECT fecha_inicial FROM g_uath.devolver_fecha_inicial(dc.identificador)) as fecha_inicial,
+	hi.fecha_creacion, ausentismo, causa, tiempo, tiene_enfermedad, fecha_diagnostico, ep.descripcion, tension_arterial,
+	saturacion_oxigeno, frecuencia_cardiaca, frecuencia_respiratoria, talla_mts, temperatura_c, peso_kg, imc,
+	interpretacion_imc, descripcion_concepto, tipo_restriccion_limitacion, r.descripcion as recomendacion, reubicacion_laboral,
+	(SELECT nombre|| ' '||apellido FROM g_uath.ficha_empleado e WHERE e.identificador = hi.identificador_medico AND estado_empleado = 'activo') as medico,
+	hi.identificador_medico,
+	(SELECT nombre_puesto FROM g_uath.datos_contrato WHERE identificador = hi.identificador_medico and estado=1) as medicopuesto,
+	hi.identificador_paciente
+	FROM 
+	g_uath.ficha_empleado fe 
+	INNER JOIN g_uath.datos_contrato dc ON fe.identificador = dc.identificador
+	LEFT JOIN g_historias_clinicas.historia_clinica hi ON fe.identificador = hi.identificador_paciente
+	LEFT JOIN g_historias_clinicas.ausentismo_medico am ON hi.id_historia_clinica = am.id_historia_clinica
+	LEFT JOIN g_historias_clinicas.enfermedad_profesional ep ON hi.id_historia_clinica = ep.id_historia_clinica
+	LEFT JOIN g_historias_clinicas.examen_fisico ef ON hi.id_historia_clinica = ef.id_historia_clinica
+	LEFT JOIN g_historias_clinicas.recomendaciones r ON hi.id_historia_clinica = r.id_historia_clinica
+WHERE
+	hi.id_historia_clinica =  $P{idHistoriaClinica} 
+	and estado_empleado ='activo'
+	and dc.estado = 1]]>
+	</queryString>
+	<field name="funcionario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="funcionario"/>
+	</field>
+	<field name="genero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="genero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="estado_civil" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estado_civil"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="fecha_nacimiento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_nacimiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="edad" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="edad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="tipo_sangre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_sangre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="canton" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="canton"/>
+		<fieldDescription><![CDATA[Cantón]]></fieldDescription>
+	</field>
+	<field name="convencional" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="convencional"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="tiene_discapacidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tiene_discapacidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="carnet_conadis_empleado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="carnet_conadis_empleado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="representante_familiar_discapacidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="representante_familiar_discapacidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="tiene_enfermedad_catastrofica" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tiene_enfermedad_catastrofica"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="nombre_enfermedad_catastrofica" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_enfermedad_catastrofica"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="carnet_conadis_familiar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="carnet_conadis_familiar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="mail_personal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="mail_personal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="mail_institucional" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="mail_institucional"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="religion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="religion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="lateralidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="lateralidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="orientacion_sexual" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="orientacion_sexual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="jornada_laboral" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jornada_laboral"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+	</field>
+	<field name="nivel_instruccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nivel_instruccion"/>
+	</field>
+	<field name="oficina" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="oficina"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_contrato"/>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_contrato"/>
+		<fieldDescription><![CDATA[Dirección]]></fieldDescription>
+	</field>
+	<field name="coordinacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="coordinacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_contrato"/>
+	</field>
+	<field name="nombre_puesto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_puesto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_contrato"/>
+	</field>
+	<field name="fecha_inicial" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_inicial"/>
+	</field>
+	<field name="fecha_creacion" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="ausentismo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ausentismo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ausentismo_medico"/>
+	</field>
+	<field name="causa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="causa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ausentismo_medico"/>
+	</field>
+	<field name="tiempo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="tiempo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ausentismo_medico"/>
+	</field>
+	<field name="tiene_enfermedad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tiene_enfermedad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="enfermedad_profesional"/>
+	</field>
+	<field name="fecha_diagnostico" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_diagnostico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="enfermedad_profesional"/>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="enfermedad_profesional"/>
+	</field>
+	<field name="tension_arterial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tension_arterial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="saturacion_oxigeno" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="saturacion_oxigeno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="frecuencia_cardiaca" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="frecuencia_cardiaca"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="frecuencia_respiratoria" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="frecuencia_respiratoria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="talla_mts" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="talla_mts"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="temperatura_c" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="temperatura_c"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="peso_kg" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="peso_kg"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="imc" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="imc"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="interpretacion_imc" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="interpretacion_imc"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="examen_fisico"/>
+	</field>
+	<field name="descripcion_concepto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descripcion_concepto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="tipo_restriccion_limitacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_restriccion_limitacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="recomendacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="recomendacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="recomendaciones"/>
+	</field>
+	<field name="reubicacion_laboral" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="reubicacion_laboral"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="recomendaciones"/>
+	</field>
+	<field name="medico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="medico"/>
+	</field>
+	<field name="identificador_medico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_medico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<field name="medicopuesto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="medicopuesto"/>
+	</field>
+	<field name="identificador_paciente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_paciente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="historia_clinica"/>
+	</field>
+	<background>
+		<band height="822" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="-19" y="-21" width="595" height="843" uuid="cd901455-eab3-46aa-b83a-cd899a393467">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="55"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="553">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<printWhenExpression><![CDATA[(($V{PAGE_NUMBER} == 1) ? Boolean.TRUE : Boolean.FALSE)]]></printWhenExpression>
+			<staticText>
+				<reportElement x="15" y="3" width="530" height="21" uuid="6312bb9e-da66-4591-bfa2-92d764258cd3"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[HISTORIA CLÍNICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="24" width="73" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="1ba06070-c430-4ca4-becc-a729c0d13754"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código HCL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="54" width="550" height="20" uuid="b0ce2984-2ec1-414e-99c4-7e19cf8bb86f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información del funcionario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="74" width="158" height="15" uuid="5ceef5e6-fa17-41e7-bc4e-4b7e7588a07d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha creación Historia Clínica:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="89" width="128" height="15" uuid="7f1d4624-b803-44cd-9cf3-776ee9b50c81">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombres y Apellidos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="104" width="128" height="15" uuid="0082b2b6-3f8d-4972-ad92-cb44cca81ade">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de nacimiento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="119" width="58" height="15" uuid="d750be36-58c4-4f07-9057-dcb3a0cb5a4f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Género:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="134" width="78" height="15" uuid="72815465-d5c6-44e1-a474-5455bd31da22">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edad (años):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="149" width="118" height="15" uuid="add46bdf-b998-4b06-9080-07080b6f8529">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nivel de instrucción:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="164" width="118" height="15" uuid="0bef2942-e944-41eb-bd26-8ab94f9dc8a4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Orientación sexual:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="264" y="104" width="126" height="15" uuid="d5a645ee-c6bd-436a-ae36-3940c76b4a90">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar de nacimiento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="119" width="59" height="15" uuid="9c448f21-d1c1-41b8-b56a-975e1761fb23">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="119" width="72" height="15" uuid="5faffd15-00f5-44ff-b3e6-76062ab4531e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado civil:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="134" width="59" height="15" uuid="6814dd92-1211-482b-9138-bb345803aa4f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Religión:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="134" width="102" height="15" uuid="2eb6c83a-ff99-427f-82ea-9cef2faef59e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupo sanguíneo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="149" width="72" height="15" uuid="dce34b33-334f-4e1c-9947-f1bc677676e3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lateralidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="164" width="122" height="15" uuid="93459329-ecdf-408c-a438-994368685709">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identidad de género:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="187" width="550" height="20" uuid="b4719732-c68d-468e-b85b-ba5d1eab9529"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información Ocupacional Cargo Actual:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="207" width="38" height="15" uuid="e4d933c9-4aa5-4566-bfcf-272401e1513a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cargo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="222" width="48" height="15" uuid="eec606f0-875d-4bbc-bcf3-99e3d6aa246a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Oficina:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="237" width="78" height="15" uuid="92f2acad-8a49-4c47-8b76-0091fae6ff0c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Coordinación:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="252" width="165" height="15" uuid="cb2e84a0-619c-4317-aa98-dfa1acfd0215">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección - Oficina Técnica:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="267" width="88" height="15" uuid="8723ee3c-1f15-4a51-8118-752871f043c5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jornada laboral:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="264" y="267" width="103" height="15" uuid="0e9b3ea4-c8a9-4566-a281-e24d3f8ad8b0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de ingreso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="364" width="550" height="20" uuid="9d2e8be8-dd17-47bc-a540-6b1fb7e03049"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información de discapacidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="384" width="100" height="15" uuid="5282740f-3c1b-4fdd-9287-73b0a9ba51c5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tiene discapacidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="399" width="58" height="15" uuid="9e03153a-3bf9-4676-929f-eabe48824e2d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Carnet:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="414" width="288" height="15" uuid="4d256a0b-83fe-4f89-8b2d-9ef4b771a05a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Es representante de persona con discapacidad?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="429" width="260" height="15" uuid="54121038-562c-477b-ad42-65b96498c699">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Carnet de la persona con discapacidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="444" width="188" height="15" uuid="14bb4441-fb03-4994-8ec1-c37f8e2e7846">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Tiene enfermedad catastrófica?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="459" width="198" height="15" uuid="cb994695-b100-4c58-97d8-4d7dd9a82d23">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre enfermedad catastrófica:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="89" width="412" height="15" uuid="65b359fc-a1a0-4fd6-a29b-4278596b41e6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{funcionario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="291" width="550" height="20" uuid="5c8daabd-cc26-4122-969e-153867a54f5d"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ausentismo médico en el último trimestre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="326" width="48" height="15" uuid="407bdbfa-0eaa-4683-885c-c7aa383733ac">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Causa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="341" width="87" height="15" uuid="2552b320-dddb-47e7-86eb-fc7d4fe26401">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tiempo (horas):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="311" width="22" height="15" uuid="3f0fd6aa-0c65-4fd7-9a06-76f2692d1bf7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Si]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="311" width="22" height="15" uuid="e41746fb-c3e4-4ba1-9277-66ac1e5a6f1b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="160" y="74" width="392" height="15" uuid="0b821856-ed76-40ad-8166-170d461721e9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_creacion})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="104" width="123" height="15" uuid="a269172a-5100-4323-99c4-c1904aa0a8c3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_nacimiento})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="104" width="152" height="15" uuid="816c3f0b-5afd-46a3-9302-85dbaa0be809">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="60" y="119" width="132" height="15" uuid="666d133e-0e6b-4fc9-b053-a22d61bf506f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{genero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="252" y="119" width="105" height="15" uuid="fd2c5702-f198-4c3a-873a-7f20011c8a13">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{convencional}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="430" y="119" width="122" height="15" uuid="3ccaf510-7be7-4d47-8e2f-bbcd94604546">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{estado_civil}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="134" width="112" height="15" uuid="9b6dd424-f0d0-43d3-97cf-bb041b5cee18">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="252" y="134" width="105" height="15" uuid="91ab9343-4a90-4173-9008-25450531ea99">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{religion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="460" y="134" width="92" height="15" uuid="be326325-e914-4ffb-ac74-82df52986927">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_sangre}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="120" y="149" width="237" height="15" uuid="d2bedaec-fb8c-406a-a5e4-e1a4a0a71c0f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nivel_instruccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="430" y="149" width="122" height="15" uuid="1165d7c0-278a-4dcc-91d4-341dc903d29c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lateralidad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="120" y="164" width="239" height="15" uuid="ced99ea1-7f47-4bc2-b071-6f5673a78c95">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{orientacion_sexual}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="480" y="164" width="72" height="15" uuid="ee04bc54-09ca-4844-b9ac-85774196ec6a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{genero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="207" width="511" height="15" uuid="aee2c2d5-30d5-41e8-9499-7c9c1a75f7e9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_puesto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="222" width="502" height="15" uuid="eaaf99a2-5d44-4260-93cc-37e6ae281195">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{oficina}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="237" width="472" height="15" uuid="fe422085-a90f-4e7b-94a3-fe8082836373">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{coordinacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="252" width="384" height="15" uuid="bb9356d6-d7cf-4fa2-a004-c6af907c55c5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="267" width="172" height="15" uuid="7ba1b6bc-4607-4d0d-90cd-4af6195298ab">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{jornada_laboral}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="373" y="267" width="179" height="15" uuid="ca9ea230-758e-49cf-87b6-51f25cd3698a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_inicial})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="311" width="18" height="15" uuid="ad970b37-d2d5-4243-b832-015c26c800fa">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{ausentismo} == "Si" ? "X":null)]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="252" y="311" width="18" height="15" uuid="eeeee813-67f8-4901-b3ee-84771bd03948">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{ausentismo} == "No" ? "X":null)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="384" width="450" height="15" uuid="4118d2d5-405e-4f26-a43b-719ddb1ec0d8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{tiene_discapacidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="399" width="492" height="15" uuid="793c41f2-7ff6-484f-be61-811c48d47f87">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{carnet_conadis_empleado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="326" width="502" height="15" uuid="13bf5560-c07f-4f78-b48a-64e1f2918244">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{causa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="89" y="341" width="463" height="15" uuid="1b6e1bf4-bf8d-4f6f-9f8f-b02113461fd3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tiempo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="414" width="262" height="15" uuid="31ba55dd-0065-4762-a0bd-1c516f0f4664">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{representante_familiar_discapacidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="252" y="429" width="300" height="15" uuid="9d7981cb-6def-4cbe-87a1-af3b3623f66c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{carnet_conadis_familiar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="191" y="444" width="361" height="15" uuid="a4df201f-853c-4b60-99de-0ba9ff287c39">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tiene_enfermedad_catastrofica}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="459" width="352" height="15" uuid="5e633e6e-8705-48b1-ae34-7e2442c438d7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_enfermedad_catastrofica}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="482" width="550" height="20" uuid="4b2bfb2d-6d4b-4721-ac90-4bc4483240f5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enfermedad profesional en empresa actual o anteriores:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="503" width="188" height="15" uuid="3c3a5038-7f6d-4fbf-a6dd-a26e85865d24">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Tiene enfermedad profesional?:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="518" width="205" height="15" uuid="d17ca5be-1033-4f97-a7f7-1e8b596c1c80">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de diagnóstico o calificación:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="533" width="48" height="15" uuid="0dbb1528-31f4-4fd7-9d1f-a79163a30dd1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuál (es):]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="503" width="360" height="15" uuid="b66c21ba-14d7-4543-b9de-767f046d3b92">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tiene_enfermedad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="207" y="518" width="345" height="15" uuid="da1b15eb-3562-40f6-b32a-6ce314de8637">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_diagnostico})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="533" width="502" height="15" uuid="cc62e561-641f-4cd7-8a7a-586d67d34d09">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="24" width="199" height="20" uuid="434b2bf3-14c5-4db9-9167-3f10c267a5da"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{identificador_paciente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="75">
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="24" width="550" height="45" isRemoveLineWhenBlank="true" uuid="a3a65e45-9621-4e71-a2e4-af20a6fc48f6"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset1" uuid="bb30128c-bd4e-4118-be0f-ec70028f9f4c">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="130" uuid="5acfc9ff-c7b5-4b26-a9f3-781a52e6a1f6">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="30" uuid="ddffb127-45d0-49f4-9e86-15b28406c0ec"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Nombre de la empresa]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="130" height="15" uuid="e98545e3-e568-4642-a2f2-2f5265bf97d1"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{empresa}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="7d762a26-2bee-42f7-957a-a91f00243a1e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="30" uuid="77a6d135-96d3-482d-b95b-66b2526460af"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cargos desempeñados]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="130" height="15" uuid="3c92212e-da3c-47d3-b033-36cb0712a94e"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="91" uuid="a40ce704-2d2c-4068-9540-3ebfedeb7974">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="91" height="30" uuid="df9de83d-ae40-4e3e-8482-2c77891850a7"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo de Exposición]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="91" height="15" uuid="350675c7-1eb5-4a67-9295-b5765e040c1a"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="a678047d-5c89-46fa-932f-e5545fee2b0d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="30" uuid="9971528f-163a-45f8-bca5-faa8f242a252"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Subtipo de Exposición]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="80" height="15" uuid="9832cfb0-8bee-4ad3-9883-b69c0d84b0bc"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{subtipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="08d7ff57-b2b2-4369-8fb8-efb76ba0d2c6">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="30" uuid="fa203da5-1b25-4651-bb6f-4731f2520401"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Años de Exposición]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="80" height="15" uuid="72a7c391-7a30-4777-9e42-19f47948e0e6"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tiempo_exposicion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="2" y="0" width="550" height="20" uuid="1dc15c29-070b-4673-91ec-f5acbce7f195"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Historia Ocupacional Agregada:]]></text>
+			</staticText>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="5736268a-7b92-441d-bf6b-b458881ac6a1"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Accidentes laborables agregados:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="7c224e41-f3c3-4c50-abc3-8f84356e03af"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset2" uuid="25ffe0f2-ea71-4b1a-9ba4-61440366791c">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="92bcf35e-7173-4958-864e-ba7b16aaa832">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="b2fd4511-c7eb-46ea-a2ab-94040c52fbfa"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Fecha]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="90" height="15" uuid="03b3a929-5835-497d-a726-27fb96901d49"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="6f36d141-e22e-4603-961f-d274b36b957f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="30" uuid="c74d3ff6-723b-4be7-9f25-bf3647c191fe"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Nombre de la empresa]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="100" height="15" uuid="dc52eb72-2acb-45ca-ab66-dd006d89b938"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{empresa}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="91" uuid="7f205016-e9c5-437b-a637-65ea99f15f39">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="91" height="30" uuid="d152bb34-1f46-4898-8f63-cb48281e0a88"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Naturaleza de la lesión]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="91" height="15" uuid="16e43743-95e7-4e00-a54b-b852da57342c"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{naturaleza_lesion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="0c07f3ac-1ae6-421c-aabb-6762caebaf67">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="30" uuid="2745aa73-80f6-4fc0-a94e-5452d9f5ec57"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Parte del cuerpo afectada]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="80" height="15" uuid="d3ea2bac-cf1e-4a2f-bf33-e9a08b4bf896"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{parte_afectada}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="7e597555-2e1a-4a23-8bdc-53411c80d9b8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="30" uuid="d827bba1-6953-4c5b-a6eb-7f84f5d7a696"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Días de incapacidad]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="80" height="15" uuid="5bc39d62-e233-4044-818e-0358d4a861ec"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{dias_incapacidad}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="59" uuid="7b8df8f6-fe5b-4a2f-ae79-1d55cdf69cf8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="59" height="30" uuid="49aa7175-1ba8-452c-befb-ba6b7126aea4"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Secuelas]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="59" height="15" uuid="4444a9e4-0d40-4f92-9d02-4889dd9bfdd9"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{secuelas}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="40" splitType="Prevent">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="f12d3fc2-178e-4226-8f1c-3a11bd8905f9"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Elementos de Protección actual o último:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="2" y="21" width="318" height="15" uuid="62caeae7-8614-4388-9772-f8ded4c79f87"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset3" uuid="880a7ffb-d551-49fb-9647-dbd22c88f48a">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="15" width="318">
+						<textField>
+							<reportElement x="20" y="0" width="298" height="15" uuid="63e60bf0-e367-4839-b2ff-4a70e24c205c">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+						</textField>
+						<staticText>
+							<reportElement x="0" y="0" width="20" height="15" uuid="b0f5154c-f2a9-4b8f-bb65-38276fec4c64">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box leftPadding="4"/>
+							<text><![CDATA[•]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+		<band height="76">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="3e004339-ff21-444c-bc1d-fb39da8f684d"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Antecedentes de Salud (Familiares) Agregados:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="95fc5b29-dced-48b5-b056-01d04d816266"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset4" uuid="5249490e-8710-48d0-92dd-292bbe29fa78">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150" uuid="c7d212b1-a765-455a-83cf-5e0b31dff488">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="ae3f1e77-1dd4-4220-a617-c70d24ff9b36"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Parentesco]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="ededf3c8-78b2-4698-a82a-506ff1b9713d"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{parentesco}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="210" uuid="a8a9aad3-982b-4dd4-b2d9-7b3b29f2fb27">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="210" height="30" uuid="671546bf-0f29-4799-8e7e-7e1551c6ba87"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Enfermedad]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="210" height="15" uuid="baded038-7f76-427b-8410-0f79299005e9"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{enfermedad}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="dc22446f-34f6-4e52-a8ff-01c3c732600e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="180" height="30" uuid="7cf5baf3-8d9c-4c79-93ac-c336b32e72c4"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="180" height="15" uuid="23ab78e3-cc2d-43ce-a200-b5e5b956fdea"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="576f3098-d13c-4768-8888-8921dff5d061"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Antecedentes de Salud (Personales) Agregados:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="0ffd9db4-a937-42d0-8a99-f287c2401406"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset5" uuid="01195a55-3629-4f33-a677-eda33e2dbfc5">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150" uuid="a49ced12-0e47-431f-8a74-cca4343ff6b3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="9cf33363-e878-4d5f-9667-1201cbddaf34"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo de
+antecedente]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="a601a61a-8d81-4d63-923e-3538c44d342b"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tipo_antecedente}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="210" uuid="bfeafe30-0811-4a71-9333-32a5ed201615">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="210" height="30" uuid="19fdeaf9-5a32-4889-9b85-6fa285d39edf"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Diagnóstico]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="210" height="15" uuid="9788fbb3-1ea6-4a0b-9fd3-f84153a9d6cd"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{diagnostico}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="81705132-c05f-4582-ab09-3341ded5b77a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="180" height="30" uuid="6e60bc41-16ee-4cd2-9f7b-c81bdebe85d4"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="180" height="15" uuid="554393ed-ebee-4268-9207-b46805be54ca"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="116">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="474a4e2f-0bf0-4494-8a16-e7281c14abd3"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[* Para antecedentes Ginecológicos:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="23" width="550" height="44" isRemoveLineWhenBlank="true" uuid="6a0a4093-17a5-4bbe-afcc-78a6022b360e"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="Blank">
+					<datasetRun subDataset="dataset6" uuid="25901dc8-9481-4e6e-b8d0-4a79813df804">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="60" uuid="3b8596c7-a1a2-4466-8522-5f095a0a3bbd">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="354f3253-3589-4c70-b0ea-d1fcb9bded4e"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Fecha]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="60" height="15" uuid="7c818f1d-a60a-465e-9e07-49beb9495739"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_creacion})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="eeb04663-ed58-4c11-bc41-4b648b5e54b9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="f60bd7b2-a8b7-4407-8c1a-09a4db6b3f76"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Ciclo menstrual]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="60" height="15" uuid="b98b9f91-8ec8-423c-9a44-12959afd9135"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{ciclo_mestrual}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="995e7744-b228-4e7c-afa8-d77a34e0e2b2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="30" uuid="0792e4fb-1a31-43b2-8615-f7385d6359d2"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Fecha de la última
+regla]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="100" height="15" uuid="318558e0-86b7-45ec-9aa3-ff2893e3b671"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_ultima_regla})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="3a7f7009-194e-4999-9337-63a4b3c3c9b8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="30" uuid="f93cdd49-547e-47ff-bd8f-bcf67c46cd6f"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Fecha última
+citología]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="70" height="15" uuid="af0bde42-f49a-4814-a267-21cfa065cdf0"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_ultima_citologia})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="ea94c859-31df-4393-98ed-12f7c3160ce6">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="ec3e677d-bc61-42d6-b803-42a677b1369a"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Resultado
+citología]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="60" height="15" uuid="b12712e3-bddf-4aa3-b58d-42a954f49106"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{resultado_citologia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="5cc799da-e788-4f06-b21d-70e954544511">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="47da678b-ab41-403e-b46b-f96957fda0fa"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° Gestaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="2090df1c-8580-443a-9512-fbc7f572d64f"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_gestaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="8c06fae1-24d2-4f99-b94a-ce4ab62acc57">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="30" uuid="f19758a7-b16c-462b-ae17-b6ea7cb444c7"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° Partos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="40" height="15" uuid="b65db6fd-6d13-40c1-a673-7288160d001b"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_partos}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="364d8b2f-1187-4d24-8660-f260426776cb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="22f09f8f-22ec-401b-9e08-eca4373f08c6"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° Cesáreas]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="50" height="15" uuid="775da18b-b544-4aa9-a189-0f948df006fe"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_cesareas}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="45" uuid="853e1409-1a3c-49cd-9a09-fb781830822b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="45" height="30" uuid="042947a8-eaf5-4148-bef7-b3a9010b5605"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° Abortos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="45" height="15" uuid="220c37b3-220c-4fff-923f-5d560662925e"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_abortos}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table" positionType="Float" stretchType="RelativeToTallestObject" x="2" y="72" width="550" height="44" isRemoveLineWhenBlank="true" uuid="87c64972-8c39-4e02-b792-4a4e737ca741"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="Blank">
+					<datasetRun subDataset="dataset6" uuid="3a56ddbc-aff6-4366-905d-1d47dd64f83f">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="50" uuid="3eedf619-e829-4d1d-89c8-1c4c3f69b43d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="f9e28d6a-670e-4705-bf5d-957873f4ffb9"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° Hijos vivos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="50" height="15" uuid="72da1b94-27fe-4e52-b458-594b8e5115f0"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_hijos_vivos}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="0898df22-81f0-4263-b429-a0206f9a0e95">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="85f5ff0a-4cbd-4226-bccf-542a15c47bf7"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° Hijos muertos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="50" height="15" uuid="1c902634-a0bc-41dc-8b71-6a5632e461ed"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_hijos_muertos}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="0d8c22a8-be7d-42d8-8f77-5147f29c3f52">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="30" uuid="4391b872-d2b8-4f71-8555-91b65d7fca53"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Embarazo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="55" height="15" uuid="eb2c173f-5c49-446c-863e-94723adde861"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{embarazo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="e0f15341-8616-4955-9108-bf4b9f97b54a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="30" uuid="320616f6-5a35-42d3-bc43-5f53eef4c377"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Semanas de
+gestación]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="70" height="15" uuid="e0dd0b94-8ed1-45a5-a4a1-3a2f70b4550d"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{semanas_gestacion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="14ffaf13-14a9-4fbd-9119-22dae4914727">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="30" uuid="ecf31e13-ac37-4322-8898-6cf5dca89715"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° Ecos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="40" height="15" uuid="c945497a-6762-43f4-aeae-651ef1ca01dc"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_ecos}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="0715bd06-6cdd-43f0-b1d2-0eca23988916">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="05320e06-8ba4-4410-91a4-4febaf3266aa"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° controles
+Embarazo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="a87e9fff-1b5f-42fe-82f0-5981ef02e6f5"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_controles_embarazo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="a4ff3f0e-95d4-48da-bbea-720dfd41a6af">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="85" height="30" uuid="8ef1c48a-ebbc-4b66-bf6d-b13bd9d3479d"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Complicaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="85" height="15" uuid="628fcbca-4202-41ff-b545-69cebb6e1bd9"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{complicaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="305b79ce-c524-4cca-89a7-32d59bf83b3b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="13f5062c-391d-4dc9-ae08-0b4d16f35375"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Vida sexual activa]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="0b88642f-a1a3-4651-90ac-cb0939bc2117"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{vida_sexual_activa}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="78ed9f33-b8ff-4e13-b1ee-479b619b3da1">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="30" uuid="c6fbefb0-507e-40ab-8325-50bec873836c"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Planificación
+familiar]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="70" height="15" uuid="b30a9cab-14e9-4f82-b685-5f5a0643d341"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{planificacion_familiar}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="ab613650-d8b6-4c3e-8b64-17a14b6087f0"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Órganos y sistemas revisados:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="c5409b53-bd53-43ad-a54a-57471ea79524"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset7" uuid="022e0233-49a7-44a7-aab9-9c478e7e6764">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150" uuid="4092d48c-04a2-413d-9cec-c8c09b9a7659">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="ae94b9c5-1462-428c-b271-acd7d82df451"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo
+órgano/sistema]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="ca92756b-96dc-4390-b81a-0c766d50e9a2"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="210" uuid="30da252d-c2b2-4f82-aca4-b5bbdc501678">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="210" height="30" uuid="86e0e3a6-179b-4095-8239-cc04c1f393f3"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Subtipo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="210" height="15" uuid="697f7ae0-ff89-4d1e-8265-7f228c289a6c"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{subtipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="bb86fb5b-1cc0-41c1-97cf-a4c9990882e7">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="180" height="30" uuid="c0e7aa6f-0bd9-4882-b12f-d3f929019363"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Otros]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="180" height="15" uuid="bfd3fb53-14b6-4b5d-bea2-2117934d725f"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{otros}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="76">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="b69a114f-b260-46d5-8f10-4ffd4e3a42e2"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inmunizaciones agregadas:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="54de988b-73ee-4729-96c2-eed3e065e0e7"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset8" uuid="0768b57a-7685-4e2b-9e31-a0d68b6b42cc">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150" uuid="a57609c3-62a2-4923-b4de-bd2ba1ef9f89">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="6a0141d9-9641-44af-9309-cade09cc6c79"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Vacuna]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="a23069e1-c0e6-4b4a-9f34-bd9eb54ea07b"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{vacuna}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="210" uuid="0f12adee-4922-4a47-af8c-a895d9e3e1cb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="210" height="30" uuid="398a69ed-cd60-4c77-973f-e36e6af9292f"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[FUD]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="210" height="15" uuid="ab142fac-4390-42c9-b0d4-ee596e332692"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_ultima_dosis})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="75c9634b-c93d-445b-8245-c1c142fb2ec7">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="180" height="30" uuid="68c4e1a0-e67d-4f38-aedc-22beccdcf3c0"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[N° dosis]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="180" height="15" uuid="cbf49c9d-2545-4756-be58-dfdf579546af"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{numero_dosis}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="7fc42baf-2617-4152-9af2-fcc82d640be1"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hábitos agregados:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="bcac5a58-bcba-4766-9344-cc964f360175"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset9" uuid="ea3b1a1a-2114-4bde-bfb9-4fd6fa790158">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150" uuid="c5452ec8-c8a0-479d-963b-a6ec6a76c4f0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="ac257c90-ef39-4350-988a-4be8acd4ec80"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="e78902ef-7330-492b-833a-0bd185071bd8"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="2cfc5682-b814-47f3-8b51-702933b14cfe">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="a84ae722-2674-43c3-a63a-190747434033"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Frecuencia
+consumo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="90" height="15" uuid="59f31fef-4dfd-479b-a36b-f4874882898f"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{frecuencia_habito}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="cd57ab0d-5e6c-49f4-98cf-a80e75801fa0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="30" uuid="38c43198-cae4-4f32-8172-e9290f78836d"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Años consumo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="130" height="15" uuid="ef2fbe0f-5005-42f4-b6ae-f4df2d10777c"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{anios_habito}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="170" uuid="87130f33-bece-41b0-904d-6514d90c3bcd">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="170" height="30" uuid="139a720c-82d3-4590-86cb-35b41a0e3016"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="170" height="15" uuid="8e5acdc8-3ca9-4d22-8c32-c3b208efd8a1"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="aceaaa14-fe52-4e1d-b6ca-d5860f08b8df"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividades agregadas:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="90d8d1fd-6db8-4223-b694-3e017505387a"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset10" uuid="d4d59416-02ae-4993-a8ce-539dbe4e4717">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150" uuid="72bda6d8-7237-48e3-abf8-6a5644706881">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="8f7206df-cc82-44fc-b864-a385d8657ee8"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="21fbd0f7-9605-43d6-a80a-300b17c23565"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tipo_actividad}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="210" uuid="0755ce53-6107-49ba-9f88-202c1903e359">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="210" height="30" uuid="bb8beb3d-e1f1-4d14-beac-541f997e8472"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Frecuencia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="210" height="15" uuid="38307d74-09b9-4684-903b-9c00a8bb4258"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{frecuencia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="865d58eb-45c1-49e9-895d-c6daab894522">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="180" height="30" uuid="6ce12b6a-eb7e-46e6-9e3e-2a9b3c6db9b6"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="180" height="15" uuid="e72acffa-6283-4038-b590-a922311d64d5"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="101" splitType="Prevent">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="6b1290f0-9cbe-49c9-8370-0d1a58618770"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Examen físico:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="21" width="138" height="15" uuid="46184140-2770-4cb4-a917-7a0802e15d2c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tensión Arterial (mm Hg):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="36" width="153" height="15" uuid="3c747314-6737-4470-9cb6-68867bc67277">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Frecuencia cardiaca (x min):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="51" width="73" height="15" uuid="7e5f12dc-57b3-4d4c-a825-ea531ec46745">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Talla (mts):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="66" width="268" height="15" uuid="074d751b-1b88-46e5-b6f4-2781805ca5b3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Índice de masa Corporal IMC: (Peso (Kg) / Talla (m2)):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="81" width="109" height="15" uuid="d62d23e4-3a07-4c4f-a477-34e921bf1acd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Interpretación IMC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="21" width="123" height="15" uuid="460e8218-4f92-4f9f-8e50-fb56897c555e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saturación de Oxígeno:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="36" width="168" height="15" uuid="b2c27a8e-988b-4f44-a0a5-2ac758b5f29a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Frecuencia Respiratoria (x min):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="192" y="51" width="98" height="15" uuid="154abf32-3f84-49b0-a110-fb8d334139ce">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temperatura (°C):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="383" y="51" width="66" height="15" uuid="1caac91b-3b43-4a4a-beef-d3a903af844c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Peso (Kg):]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="140" y="21" width="110" height="15" uuid="f7ef2f2f-c751-4d23-8517-8b95196af0d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6d12d1e5-9fbf-4a9b-9fae-6fb9c2787031"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tension_arterial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="21" width="179" height="15" uuid="25b0e601-411b-4710-b71e-e950a269b6f4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c3b45c5a-7e33-43f7-aafd-a53839c305f1"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{saturacion_oxigeno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="36" width="95" height="15" uuid="9e1adcb7-9ca8-44c1-bd59-23b70eb18af6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fa8aa302-e048-444f-aba9-6a66c74f2f79"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{frecuencia_cardiaca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="36" width="134" height="15" uuid="05c72cf1-d125-49e1-9099-4fb2b32cef9c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ca9cb95c-bef2-4c19-a4ab-aece32ff5c9a"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{frecuencia_respiratoria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="51" width="117" height="15" uuid="839018f8-3213-4a76-811c-557e648bdc5a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b656fbfd-b864-400c-9418-e2133136d667"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{talla_mts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="51" width="93" height="15" uuid="47cadfa3-e41d-4163-8103-854fac669bdf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f5549de-3c82-4317-9dbe-16d3554f2aa4"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{temperatura_c}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="449" y="51" width="103" height="15" uuid="3a2a7c98-f9c4-4625-bd2f-25867e4ce030">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a23f28ac-5c9c-4184-b3d5-5535583ad280"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{peso_kg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="66" width="282" height="15" uuid="2e0c6a24-84dc-4e11-ad80-05599bf195c4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fc62ba59-0d2c-4e4f-8d5b-f0639bb9cd40"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{imc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="81" width="441" height="15" uuid="af15d61d-afe6-496f-be0c-f22a9c93815e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cc3e0c25-a108-44da-921a-e3af8dad9f94"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{interpretacion_imc}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="72">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="c6a9336f-5967-423d-88d2-0d10de8648f5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Evaluación Primaria:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="13be578b-ffb6-4f2b-b34d-e512df4176a9"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset11" uuid="e4c68ee3-815e-40de-a3a5-1b324a632ca7">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150" uuid="ffa9278a-c5b7-45c8-a69f-ed2fd1cd2563">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="e6ff8e33-484d-41c4-96fd-839eea4d4315"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="b74bcc7d-a56e-4ff3-b8f1-c734b59dda4b"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150" uuid="26092596-0d17-4898-a5f5-5996e58e62b6">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="6b270dfe-9b87-4aa2-aec0-dc539691b81f"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Subtipo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="42f79252-280f-4c68-97d6-55c9094b9ec6"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{subtipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="3fc0cb63-741d-4511-9b59-44c946add559">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="d9888517-7da4-48bf-b8db-2444193a2710"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Normal]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="60" height="15" uuid="bb33fcb2-f67c-41cd-805a-fb47c1da157b"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{normal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="f52e02f8-2390-4fba-a0d4-70a35d4874bf">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="180" height="30" uuid="30607a14-e612-4fd2-8f85-93eb72295558"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="180" height="15" uuid="6d90e035-6b9d-4913-9dfb-fcc1f667d2e2"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="442adc1b-107b-4e84-a363-3939a5c730b7"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Exámenes Clínicos (Agregados):]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="ba0443c0-e18f-4be7-9a4b-9eeebf8b86cd"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset12" uuid="c3803953-4cca-4992-b6b7-ee113839de5f">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="120" uuid="380c24d9-66f6-400e-a37d-114f6c89c2ff">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="28c3285f-1491-4b9e-9c99-8068dec9c877"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="120" height="15" uuid="449d4ff8-35c0-4616-95e3-a0b36a982ce7"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="120" uuid="c56cfe03-79e5-4a61-a99e-c033058ad187">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="3ee7b64b-9c69-4043-8a23-1be4b02ef001"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Examen]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="120" height="15" uuid="787c3254-4a43-4879-8ecd-5949a72d95f9"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{subtipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="d0f8c1a6-081e-4d56-a728-69bb0a0303ef">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="30" uuid="a19fbd7e-6f7d-43f1-b91c-ce5f704e3e69"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Fecha]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="70" height="15" uuid="9e6080f2-0274-4ca0-b343-d78f22a5caa5"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_creacion})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="6c00bf94-2803-45bf-befc-3059fbd5ec04">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="30" uuid="6e1d99c0-3116-4378-a7da-62e7236b3e3c"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Estado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="60" height="15" uuid="4cde6c69-e470-4842-a61f-f7c10f12939d"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{estado_clinico}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="170" uuid="98391394-2b65-472e-be73-290f44bfcd6f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="170" height="30" uuid="8eeda150-b8f8-46f3-b8dc-87a421d0fcf5"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="170" height="15" uuid="754d937f-3087-4784-b20b-162cce125263"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="e8f9f9cb-6585-4964-b64a-66145b3a2605"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Exámenes paraclínicos agregados:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="27c1c306-c992-4bc6-acdd-2a71209aeefd"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset13" uuid="ecdd69a1-8e46-4051-beb2-36a30ed78ee9">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="190" uuid="ecbeb29a-a1fc-47aa-94c8-a07cfed3858e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="190" height="30" uuid="40635ca4-8126-4931-aa03-6b8408f80bc7"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="190" height="15" uuid="c3e7fb2e-aef6-4261-ae72-4f117f452e84"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150" uuid="2b7fe62a-699b-4160-a362-cb4b6810c9f1">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="1b662677-44a5-4526-9619-be12e2e1b36a"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Resultado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="93aafb87-acfb-42ac-883b-5b7e1c4c8678"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{subtipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="200" uuid="48c7fd7b-ed05-40d8-8cf4-5c4b33bd0624">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="200" height="30" uuid="14209f1b-80a1-43a6-9390-857bbbc14b81"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="200" height="15" uuid="54b7f8e0-fb5b-4ec0-a61b-fa5f33eb7947"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="76">
+			<staticText>
+				<reportElement x="2" y="1" width="550" height="20" uuid="8149836e-105f-4a42-bbb1-9bac50bfadfb"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Diagnósticos agregados:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" positionType="Float" x="2" y="25" width="550" height="44" isRemoveLineWhenBlank="true" uuid="7db494a2-aeb0-443d-95ad-2a08658b07bb"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="dataset14" uuid="cad3c423-51f0-435c-a76e-7a9017a3fbeb">
+						<datasetParameter name="idHistoriaClinica">
+							<datasetParameterExpression><![CDATA[$P{idHistoriaClinica}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="190" uuid="3455ec7a-fec4-4de5-88de-d896a3fc76b7">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="190" height="30" uuid="07ceacce-f7fe-4564-9c43-5128929634d3"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Enfermedad
+general]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="190" height="15" uuid="845eb049-ac58-4afe-95f1-13b596ab66c1"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150" uuid="3d23c240-ac82-4203-ae0b-59c9a62ec2e8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="32ad3cb5-8034-4fb1-b85f-6242a7a04438"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Estado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="150" height="15" uuid="9ac0da0d-7009-4b83-898e-d56b7f7f731b"/>
+								<box padding="3">
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{estado_diagnostico}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="200" uuid="7ebc36a1-48a6-44f1-b623-a1e9672a6e63">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="200" height="30" uuid="9541cc19-ec57-405a-9d7b-a268e85c61ce"/>
+								<box leftPadding="5">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Observaciones]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="200" height="15" uuid="a2171c70-61fc-4407-a3e7-9c505fee5e7d"/>
+								<box padding="3">
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="69" splitType="Prevent">
+			<staticText>
+				<reportElement x="2" y="0" width="68" height="15" uuid="34ce2d55-d3e7-4092-927d-7262f63d569c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Concepto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="15" width="214" height="15" uuid="a25328f4-c11d-4097-b5b5-685cbdfabb77">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de restricciones o limitaciones:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="0" width="482" height="15" uuid="3bb095a3-010a-45ca-a007-46afe854d16f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="723b7c11-8272-4294-b859-f1ef06d49b23"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descripcion_concepto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="216" y="15" width="336" height="15" uuid="7a7f0f99-8575-4563-8d28-38123fcf805e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e37d7491-a13e-4903-b966-a4a1d10a15a2"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_restriccion_limitacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="39" width="110" height="15" uuid="e6f0f57a-43df-4424-a74a-6b3e5410867b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recomendaciones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="54" width="118" height="15" uuid="23af6f16-69f7-49d8-8e15-eab5a60b1c19">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reubicación laboral:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="112" y="39" width="440" height="15" uuid="2da19d63-a972-41a3-a75c-decd0d9923ce">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9569f1ff-381c-4d51-8eec-b60a527069f1"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{recomendacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="54" width="432" height="15" uuid="e33cb82c-9abf-415e-951c-153fd0878608">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb6175c5-dadb-40a2-aba0-036d5c93839a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{reubicacion_laboral}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="159" splitType="Prevent">
+			<componentElement>
+				<reportElement x="206" y="0" width="124" height="95" uuid="c7f16901-c084-4247-9e7a-6e7e9883ad52">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Dr/Dra."+ $F{medico}+
+"Cargo:"+$F{medicopuesto}+
+"CPM:" + $F{identificador_medico}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<staticText>
+				<reportElement positionType="Float" x="170" y="94" width="191" height="13" uuid="2a31767d-f0e0-4d88-962e-f4eebda6fb56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Autorizado mediante Sistema GUIA]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="165" y="110" width="199" height="1" uuid="3dcf305b-94a5-43a9-8dee-2222c4ce12b6"/>
+			</line>
+			<staticText>
+				<reportElement x="163" y="111" width="41" height="15" uuid="7e596a87-80f7-46f6-9599-8cc3f2991f6e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dr/Dra.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="126" width="41" height="15" uuid="471f66bb-e7c1-44cf-b0b8-34157b28b220">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cargo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="143" width="76" height="15" uuid="c4c841d2-a674-4d9c-bb2e-8af1b6e0c2b5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código CPM:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="238" y="143" width="142" height="15" uuid="466e91cd-353b-431a-b601-5c7782cb2a87">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="69de6566-f7e4-44b8-b651-f0a0b3612840"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{identificador_medico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="112" width="195" height="15" uuid="12b6f7f1-4bff-49c1-8e49-40565f583b7c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09e8f6ab-88fe-4d40-a391-4d46945328fc"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{medico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="126" width="346" height="15" uuid="b0284dce-e7f5-4c51-86d8-8e90b6808ea2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5832df3a-1e80-4e88-a606-1b50586953fd"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{medicopuesto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageFooter>
+</jasperReport>

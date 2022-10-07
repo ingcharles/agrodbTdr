@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES_POBLACION" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="78cc9326-eab4-4986-afdb-bc996d8958b1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_evento_sanitario_p" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+pa.id_poblacion_animales,
+pa.id_evento_sanitario,
+pa.numero_visita,
+pa.id_especie_poblacion,
+pa.nombre_especie_poblacion,
+pa.id_tipo_especie_poblacion,
+--pa.tipo_especie_poblacion,
+(SELECT nombre FROM g_seguimiento_eventos_sanitarios.catalogo
+WHERE codigo = id_tipo_especie_poblacion AND id_codigo_padre = id_especie_poblacion AND tipo_catalogo = 'CATEGORIA') AS tipo_especie_poblacion,
+pa.existentes,
+pa.enfermos,
+pa.muertos,
+pa.sacrificados,
+pa.matados_eliminados,
+pa.total_sin_vacunar,
+pa.enfermos_sin_vacunas,
+pa.ingresos_con_certificado_movilizacion,
+pa.egresos_con_certificado_movilizacion,
+pa.ingresos_con_certificado_vacunacion,
+pa.egresos_con_certificado_vacunacion,
+pa.numero_certificado,
+pa.total_ingresados,
+pa.total_egresados,
+pa.identificador,
+pa.fecha_creacion
+FROM
+g_seguimiento_eventos_sanitarios.poblacion_animal AS pa
+WHERE
+pa.id_evento_sanitario =$P{id_evento_sanitario_p}]]>
+	</queryString>
+	<field name="id_poblacion_animales" class="java.lang.Integer"/>
+	<field name="id_evento_sanitario" class="java.lang.Integer"/>
+	<field name="numero_visita" class="java.lang.String"/>
+	<field name="id_especie_poblacion" class="java.lang.Integer"/>
+	<field name="nombre_especie_poblacion" class="java.lang.String"/>
+	<field name="id_tipo_especie_poblacion" class="java.lang.Integer"/>
+	<field name="tipo_especie_poblacion" class="java.lang.String"/>
+	<field name="existentes" class="java.lang.Integer"/>
+	<field name="enfermos" class="java.lang.Integer"/>
+	<field name="muertos" class="java.lang.Integer"/>
+	<field name="sacrificados" class="java.lang.Integer"/>
+	<field name="matados_eliminados" class="java.lang.Integer"/>
+	<field name="total_sin_vacunar" class="java.lang.Integer"/>
+	<field name="enfermos_sin_vacunas" class="java.lang.Integer"/>
+	<field name="ingresos_con_certificado_movilizacion" class="java.lang.Integer"/>
+	<field name="egresos_con_certificado_movilizacion" class="java.lang.Integer"/>
+	<field name="ingresos_con_certificado_vacunacion" class="java.lang.Integer"/>
+	<field name="egresos_con_certificado_vacunacion" class="java.lang.Integer"/>
+	<field name="numero_certificado" class="java.lang.String"/>
+	<field name="total_ingresados" class="java.lang.Integer"/>
+	<field name="total_egresados" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<group name="id_evento_sanitario">
+		<groupExpression><![CDATA[$F{id_evento_sanitario}]]></groupExpression>
+	</group>
+	<group name="numero_visita">
+		<groupExpression><![CDATA[$F{numero_visita}]]></groupExpression>
+	</group>
+	<group name="id_especie_poblacion">
+		<groupExpression><![CDATA[$F{id_especie_poblacion}]]></groupExpression>
+	</group>
+	<group name="id_tipo_especie_poblacion">
+		<groupExpression><![CDATA[$F{id_tipo_especie_poblacion}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="70" height="20" uuid="512b8c7c-341e-43ce-8d00-390b8fa04ab0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Visita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="0" width="99" height="20" uuid="52bb3ca9-dde8-4d00-af08-eefea22d89dd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="169" y="0" width="99" height="20" uuid="1583d684-9cba-471a-b16a-923fa70e8457"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[T.Animal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="0" width="43" height="20" uuid="32a8110b-6dd4-40e4-8072-1155f2c95666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Exist]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="0" width="42" height="20" uuid="bc1e6e63-7988-4306-b367-55288b35d6ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enfer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="0" width="36" height="20" uuid="163f8cac-7f87-4d16-b46f-a318c61b8da8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Muer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="0" width="43" height="20" uuid="f46e75e7-a5ea-4710-8da7-776a56a3205e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sacrif]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="0" width="56" height="20" uuid="e3ef671b-ef10-47cf-bd21-0112981030c9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[T. Sin Vac]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="488" y="0" width="67" height="20" uuid="09fb1f5e-a40a-41de-83b5-7aa101534a3c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sin. Vac. Enf]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="70" height="20" uuid="fa02617e-5ac0-4ea7-ae40-55796b854ab8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numero_visita}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="70" y="0" width="99" height="20" uuid="7e365f7f-948e-4445-88e9-d99bdef71299"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_especie_poblacion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="169" y="0" width="99" height="20" uuid="0604835e-a88b-4663-8546-fb0d7e5453c1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_especie_poblacion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="268" y="0" width="43" height="20" uuid="85e00c75-f412-4163-b230-34c764207be1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{existentes}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="311" y="0" width="42" height="20" uuid="0139b657-0592-4ec0-b4c4-cd8dd752caab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{enfermos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="353" y="0" width="36" height="20" uuid="a16d0678-4042-444d-a2e3-412fb7af43b4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{muertos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="389" y="0" width="43" height="20" uuid="b9b4be4a-e5de-41f3-9ca4-c9e6cd444658"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sacrificados}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="432" y="0" width="56" height="20" uuid="78a14b1a-d3dd-4667-aa66-bd50e18c8d90"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_sin_vacunar}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="488" y="0" width="67" height="20" uuid="8454127b-67fb-4ee5-89ce-0d152f228c77"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{enfermos_sin_vacunas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

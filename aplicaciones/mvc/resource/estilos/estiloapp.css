@@ -1,0 +1,66 @@
+.lblEstado {
+    margin-right: 25px;
+}
+
+#loadingImage {
+    position: absolute;
+    width: 48px; /*image width */
+    height: 48px; /*image height */
+    left: 50%;
+    top: 75px;
+    margin-left: -24px; /*image width/2 */
+    margin-top: -24px; /*image height/2 */
+}
+
+textarea {
+    overflow: auto
+}
+
+a:after {
+    content: "";
+}
+
+.legendBusqueda{
+    background-color: rgba(0, 0, 0, .2);
+}
+
+#_labfinalenvio
+{
+    background-image: url('../img/finalizar.png');
+}
+
+#_solusuario
+{
+    background-image: url('../img/agregar_usuarios.png');
+}
+#_labordentrabajo
+{
+    background-image: url('../img/ordentrabajo.png');
+}
+#_labetiquetas
+{
+    background-image: url('../img/etiquetas.png');
+}
+#_labrmuestras
+{
+    background-image: url('../img/muestras.png');
+}
+
+#_labnotificar
+{
+    background-image: url('../img/notificacion.png');
+}
+#_labinformes
+{
+    background-image: url('../img/informes.png');
+}
+#_labmuestras
+{
+    background-image: url('../img/almacenar.png');
+}
+#_cronogramaPostregistro
+{
+    background-image: url('../img/cronograma.png');
+    
+}
+

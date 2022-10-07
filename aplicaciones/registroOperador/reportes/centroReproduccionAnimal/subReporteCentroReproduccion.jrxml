@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subReporteCentroReproduccion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3cdb13d7-c102-45a6-bec8-8c50070ce0cc">
+	<property name="ireport.zoom" value="2.143588810000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="rutaFirma" class="java.lang.String"/>
+	<parameter name="idOperadorTipoOperacion" class="java.lang.Integer"/>
+	<parameter name="nombreSitio" class="java.lang.String"/>
+	<parameter name="numeroCertificado" class="java.lang.String"/>
+	<parameter name="fechaInicial" class="java.util.Date"/>
+	<parameter name="fechaFinal" class="java.util.Date"/>
+	<parameter name="nombreAutoridad" class="java.lang.String"/>
+	<parameter name="cargoAutoridad" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+
+	pro.nombre_comun as nombre_producto,
+	stp.nombre as nombre_subtipo,
+	tp.nombre as nombre_tipo
+FROM
+	g_operadores.operaciones op
+	INNER JOIN g_catalogos.productos pro ON pro.id_producto = op.id_producto
+	INNER JOIN g_catalogos.subtipo_productos stp ON pro.id_subtipo_producto = stp.id_subtipo_producto
+	INNER JOIN g_catalogos.tipo_productos tp ON stp.id_tipo_producto = tp.id_tipo_producto
+WHERE
+	op.id_operador_tipo_operacion = $P{idOperadorTipoOperacion}]]>
+	</queryString>
+	<field name="nombre_producto" class="java.lang.String">
+		<fieldDescription><![CDATA[Producto para]]></fieldDescription>
+	</field>
+	<field name="nombre_subtipo" class="java.lang.String"/>
+	<field name="nombre_tipo" class="java.lang.String"/>
+	<columnHeader>
+		<band height="13">
+			<staticText>
+				<reportElement x="177" y="0" width="175" height="13" uuid="4d079a37-62e1-4d56-bea9-938f1d3c1b1e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subtipo de producto ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="352" y="0" width="175" height="13" uuid="437d0ba9-e350-4953-9875-122a8b87997f"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="0" width="175" height="13" uuid="209fc6f2-9673-4952-b94f-d988a860b366"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Tipo de producto ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12">
+			<textField>
+				<reportElement x="2" y="0" width="175" height="12" uuid="283144d0-f483-4db1-9929-a17f891e604a"/>
+				<box leftPadding="2" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="177" y="-1" width="175" height="13" uuid="04dc6b13-58bb-4206-8303-c7e08c82b517"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_subtipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="-1" width="175" height="13" uuid="80c8778b-1d8c-4004-b1b9-8f841a57b6de"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="167">
+			<textField>
+				<reportElement x="130" y="86" width="246" height="18" uuid="0ee61860-c9a5-4512-ab20-c0a576c80a70"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreAutoridad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="103" width="298" height="18" uuid="aaf8cd2e-f4fd-461a-a768-405b8322f5dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cargoAutoridad}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="177" y="11" width="153" height="64" uuid="18ab93f8-b434-49ac-acd3-2038279b20b0"/>
+				<imageExpression><![CDATA[$P{rutaFirma}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="156" y="84" width="193" height="1" uuid="83535a4e-d73b-4678-b013-5e74ac42db83"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="125" width="526" height="42" uuid="74d8bee1-999a-4261-b725-df03a55841bb"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["La Agencia de Regulación y Control Fito y Zoosanitario – AGROCALIDAD, en base a la Ley Orgánica de Sanidad Agropecuaria; emite el permiso sanitario para el funcionamiento a este Centro de Material Reproductivo, por haber cumplido con los requerimientos solicitados para mantener las medidas de bioseguridad que garanticen su condición zoosanitaria, de acuerdo a la normativa vigente."]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="401" y="8" width="126" height="97" uuid="1e07f394-623b-41d6-8a6c-8b8f223a493c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["PERMISO SANITARIO PARA FUNCIONAMIENTO DE CENTROS DE REPRODUCCIÓN ANIMAL"
++"\nNombre del sitio registrado: "  + $P{nombreSitio}
++"Número de permiso: "+ $P{numeroCertificado} 
++"\nFecha de emisión: "  + new SimpleDateFormat("dd/MM/yyyy").format($P{fechaInicial}) 
++"\nFecha de caducidad: "  +  new SimpleDateFormat("dd/MM/yyyy").format($P{fechaFinal})]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

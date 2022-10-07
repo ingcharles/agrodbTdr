@@ -1,0 +1,133 @@
+<?php
+session_start();
+
+require_once '../../clases/Conexion.php';
+require_once '../../clases/ControladorReportesCSV.php';
+
+header("Content-type: application/octet-stream");
+//indicamos al navegador que se está devolviendo un archivo
+header("Content-Disposition: attachment; filename=REPORTE_CANTIDAD_PRODUCTOS_IMPORTADOS.xls");
+//con esto evitamos que el navegador lo grabe en su caché
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$conexion = new Conexion();
+$cc = new ControladorReportesCSV();
+
+$fechaInicio = $_POST['fechaInicio'];
+$fechaFin = $_POST['fechaFin'];
+$pais = $_POST['pais'];
+$producto = $_POST['producto'];
+$subtipo = $_POST['subtipo'];
+
+$campos = array(
+        'pais_exportacion',
+        'nombre',
+        'cantidad_declarada',
+        'cantidad_ingresada'
+    );
+
+$res = $cc->generarReporteCantidadProductosImportadosPorPais($conexion, $fechaInicio, $fechaFin, $pais, $producto, $subtipo);
+?>
+
+
+<html LANG="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+    <style type="text/css">
+        h1, h2 {
+            margin: 0;
+            padding: 0;
+        }
+
+        #tablaReporte {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            display: inline-block;
+            width: auto;
+            margin: 1em 0;
+            padding: 0;
+            border-collapse: collapse;
+        }
+
+        #tablaReporte td, #tablaReporte th {
+            font-size: 1.2em;
+            border: 1px solid #98bf21;
+            padding: 3px 7px 2px 7px;
+        }
+
+        #tablaReporte th {
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: #A7C942;
+            color: #ffffff;
+        }
+
+        @page {
+            margin: 5px;
+        }
+
+        .formato {
+            mso-style-parent: style0;
+            mso-number-format: "\@";
+        }
+
+        .formatoNumero {
+            mso-style-parent: style0;
+            mso-number-format: "0.000000";
+        }
+
+        .colorCelda {
+            background-color: #FFE699;
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+<h1>Reporte de Cantidad de Productos Importados por País</h1>
+<h2>Período <?= $fechaInicio ?> - <?= $fechaFin ?></h2>
+<div id="tabla">
+    <table id="tablaReporte" class="soloImpresion">
+        <thead>
+        <tr>
+        <?php
+        echo '<th>País</th>';
+        echo $cc->construirEncabezadoReporte($conexion, 'controlf01_detalle_productos_ingresados', $campos);
+        ?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+
+        $var = 0;
+        $auxPago = 0;
+        $aux1Pago = 0;
+        $auxColor = 'pintado';
+        $auxImpresion = 0;
+
+        While ($fila = pg_fetch_assoc($res)) {
+            echo '<tr>';
+            foreach ($campos as $campo) {
+                if(substr($campo,0,3) == 'ruc'){
+                    echo "<td>&nbsp;" . $fila[$campo] . "</td>";
+                } else {
+                    echo "<td>" . $fila[$campo] . "</td>";
+                }
+            }
+            echo '</tr>';
+        }
+        ?>
+
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
+
+
+

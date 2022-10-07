@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+
+/*Opciones del menu*/
+
+#__movilizacion{
+	background-image: url('../img/movilizacion.png');
+}
+
+#__anularMovilizacion{
+	background-image: url('../img/anularMovilizacion.png');
+}
+
+#__emisorMovilizacion{
+	background-image: url('../img/emisorMovilizacion.png');
+}
+
+#__autorizarMovilizacion{
+	background-image: url('../img/autorizarMovilizacion.png');
+}
+
+#__eventoMovilizacion{
+	background-image: url('../img/eventoMovilizacion.png');
+}
+
+#__reportes{
+	background-image: url('../img/reportes.png');
+}
+
+#__activarCertificadosMovilizacion{
+	background-image: url('../img/activarCertificados.png');
+}
+
+#__movilizacionAnimalNormal{
+	background-image: url('../img/movilizacion.png');
+}
+
+#__fiscalizadorMovilizacionAnimal{
+	background-image: url('../img/fiscalizador.png');
+}
+

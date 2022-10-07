@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteCSMA" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="324f7b74-125a-4f16-8860-10518553fae1">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="452"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="Table Dataset 1" uuid="5366a995-1a16-4fe6-9d78-bb88e166d082"/>
+	<subDataset name="New Dataset 1" uuid="a0ca96bc-b890-44d5-829e-3ed2597a408a"/>
+	<subDataset name="Table Dataset 2" uuid="c7314802-2f10-4519-8c39-b839ec9a0cad"/>
+	<subDataset name="dataset1" uuid="f21cedfd-2126-47cc-9850-b7b9466505a4"/>
+	<parameter name="id_movilizacion_animal" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logoMovilizacionEncabezado" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="logoEcuadorAmaLaVida" class="java.lang.String"/>
+	<parameter name="logoMarcaAguaEcuadorAmaLaVida" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     unaccent (au.nombre_representante||' '||au.apellido_representante) nombre_autorizado,
+     m.identificador_autorizado  as identificador_autorizado,
+     (CASE id_tipo_autorizado WHEN  1 THEN 'Propietario' WHEN   2 THEN 'Autorizado' END ) as tipo_autorizado,
+     m."usuario_responsable" AS usuario_responsable,
+     unaccent(rm.nombre_emisor_movilizacion) nombre_emisor_movilizacion,
+     m.fecha_registro fecha,
+     m.fecha_movilizacion_desde fecha_movilizacion_desde,
+     m.fecha_movilizacion_hasta fecha_movilizacion_hasta,
+     case when dm.fecha_certificado is not null then to_char(dm.fecha_certificado,'DD/MM/YYYY') else '' end fecha_certificado,
+     m."id_movilizacion_animal" AS id_movilizacion_animal,
+     m."numero_certificado" AS numero_certificado,
+     m."lugar_emision" AS lugar_emision,
+     m."id_sitio_origen" AS id_sitio_origen,
+     m."id_area_origen" AS id_area_origen,
+     so.identificador_operador || '.' || so.codigo_provincia || so.codigo || ao.codigo ||ao.secuencial AS codigo_area_origen,
+     m."id_sitio_destino" AS id_sitio_destino,
+     m."id_area_destino" AS id_area_destino,
+     sd.identificador_operador || '.' || sd.codigo_provincia || sd.codigo || ad.codigo ||ad.secuencial AS codigo_area_destino,
+     so."nombre_lugar" AS nombre_sitio_origen,
+     so.provincia provincia_sitio_origen,
+     so.canton canton_sitio_origen,
+     so.parroquia parroquia_sitio_origen,
+     sd."nombre_lugar" AS nombre_sitio_destino,
+     sd.provincia provincia_sitio_destino,
+     sd.canton canton_sitio_destino,
+     sd.parroquia parroquia_sitio_destino,
+     unaccent (ao."nombre_area") AS nombre_area_origen,
+     unaccent (ad."nombre_area") AS nombre_area_destino,
+     m."medio_transporte" AS medio_transporte,
+     m."placa" AS placa,
+     m."identificacion_conductor" AS identificacion_conductor,
+     m."descripcion_transporte" AS descripcion_transporte,
+     m."cantidad" AS cantidad,
+     m."total" AS total,
+     m."estado" AS estado,
+     m."observacion" AS observacion,
+     dm."nombre_especie" AS nombre_especie,
+     p."nombre_comun" AS producto,
+     dm."cantidad" AS cantidad_producto,
+    (select convertir_numero_letras(dm.cantidad)) as letras,
+     dm."total" AS total_producto,
+     dm."observacion" AS observacion_producto,
+     dm."numero_certificado" AS numero_certificado_vacunacion
+FROM
+     "g_movilizacion_animal"."movilizacion_animales" m
+     INNER JOIN "g_movilizacion_animal"."movilizacion_animal_detalles" dm
+     ON m."id_movilizacion_animal" = dm."id_movilizacion_animal"
+     INNER JOIN "g_catalogos"."productos" p ON dm."id_producto" = p."id_producto"
+     INNER JOIN "g_operadores"."sitios" so ON m."id_sitio_origen" = so."id_sitio"
+     INNER JOIN "g_operadores"."sitios" sd ON m."id_sitio_destino" = sd."id_sitio"
+     INNER JOIN "g_operadores"."areas" ao ON m."id_area_origen" = ao."id_area"
+     INNER JOIN "g_operadores"."areas" ad ON m."id_area_destino" = ad."id_area"
+     INNER JOIN "g_operadores"."operadores" au ON m."identificador_autorizado" = au."identificador"
+    INNER JOIN "g_movilizacion_animal"."responsable_movilizaciones" rm ON m."usuario_responsable" = rm."identificador_emisor"
+WHERE
+     m.estado = 'activo'
+    and  rm.estado = 'activo'
+     and m.id_movilizacion_animal = $P{id_movilizacion_animal}]]>
+	</queryString>
+	<field name="nombre_autorizado" class="java.lang.String"/>
+	<field name="identificador_autorizado" class="java.lang.String"/>
+	<field name="tipo_autorizado" class="java.lang.String"/>
+	<field name="usuario_responsable" class="java.lang.String"/>
+	<field name="nombre_emisor_movilizacion" class="java.lang.String"/>
+	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="fecha_movilizacion_desde" class="java.sql.Timestamp"/>
+	<field name="fecha_movilizacion_hasta" class="java.sql.Timestamp"/>
+	<field name="fecha_certificado" class="java.lang.String"/>
+	<field name="id_movilizacion_animal" class="java.lang.Integer"/>
+	<field name="numero_certificado" class="java.lang.String"/>
+	<field name="lugar_emision" class="java.lang.String"/>
+	<field name="id_sitio_origen" class="java.lang.Integer"/>
+	<field name="id_area_origen" class="java.lang.Integer"/>
+	<field name="codigo_area_origen" class="java.lang.String"/>
+	<field name="id_sitio_destino" class="java.lang.Integer"/>
+	<field name="id_area_destino" class="java.lang.Integer"/>
+	<field name="codigo_area_destino" class="java.lang.String"/>
+	<field name="nombre_sitio_origen" class="java.lang.String"/>
+	<field name="provincia_sitio_origen" class="java.lang.String"/>
+	<field name="canton_sitio_origen" class="java.lang.String"/>
+	<field name="parroquia_sitio_origen" class="java.lang.String"/>
+	<field name="nombre_sitio_destino" class="java.lang.String"/>
+	<field name="provincia_sitio_destino" class="java.lang.String"/>
+	<field name="canton_sitio_destino" class="java.lang.String"/>
+	<field name="parroquia_sitio_destino" class="java.lang.String"/>
+	<field name="nombre_area_origen" class="java.lang.String"/>
+	<field name="nombre_area_destino" class="java.lang.String"/>
+	<field name="medio_transporte" class="java.lang.String"/>
+	<field name="placa" class="java.lang.String"/>
+	<field name="identificacion_conductor" class="java.lang.String"/>
+	<field name="descripcion_transporte" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="nombre_especie" class="java.lang.String"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="cantidad_producto" class="java.lang.Integer"/>
+	<field name="letras" class="java.lang.String"/>
+	<field name="total_producto" class="java.math.BigDecimal"/>
+	<field name="observacion_producto" class="java.lang.String"/>
+	<field name="numero_certificado_vacunacion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="435" splitType="Stretch">
+			<image isUsingCache="true">
+				<reportElement mode="Transparent" x="317" y="135" width="220" height="284" uuid="432cea82-3917-47f1-93a8-2eeee3ec9587"/>
+				<imageExpression><![CDATA[$P{logoMarcaAguaEcuadorAmaLaVida}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="111" y="148" width="423" height="15" uuid="6af92e4e-2047-48f9-b1af-597dd757bbc2"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lugar_emision}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="251" width="105" height="15" uuid="555b6fd7-ad9b-4111-afba-760e9b1b435c"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sitio origen :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="203" width="80" height="15" uuid="69b7939a-2f61-40e0-96c4-6138adbf9956"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia origen :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="148" width="80" height="15" uuid="97bea789-8942-4451-9420-6feb303c140e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar de emisión :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="251" width="165" height="15" uuid="5aa457ab-d8f9-4266-820c-e4ed8094e595"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_sitio_origen}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="293" y="307" width="78" height="15" uuid="8e945aec-23f2-45af-9bf8-345387fdbf2d"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medio Transporte :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="435" y="307" width="33" height="15" uuid="da1e4a4a-dcda-4cbb-a6b8-227c62e08d2c"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Placa :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="369" y="307" width="66" height="15" uuid="6717c7f0-17db-4cc8-a94f-d901f964725c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{medio_transporte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="468" y="307" width="50" height="15" uuid="9ff90ff0-81aa-4a77-a4ed-3faf285fee61"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{placa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="31" y="321" width="80" height="15" uuid="e5543913-a3c5-4e69-ab72-7294bc1fe383"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="321" width="423" height="15" uuid="6e23ed5c-2793-4d44-a526-8c8b5b66253f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion_transporte}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="31" y="307" width="80" height="15" uuid="a8427918-6b1f-4c9c-bcec-bc4854481167"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Conductor :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="307" width="84" height="15" uuid="402c7406-1dea-4efb-bf0d-c1805b139901"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificacion_conductor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="31" y="163" width="80" height="15" uuid="d1289994-9ac1-481d-854b-21c24ac235d4"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autorizado :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="163" width="178" height="15" uuid="96cc76a4-372f-4584-b0ce-0d9bdea3121e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_autorizado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="203" width="165" height="15" uuid="9da0c313-49ab-4650-bfd5-76dba198045f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{provincia_sitio_origen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="219" width="165" height="15" uuid="258ad94f-d2c3-454d-a0a1-569b2877042c"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{canton_sitio_origen}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="219" width="80" height="15" uuid="c06552f5-2247-4a38-a132-a13a57dcc13d"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Canton origen :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="235" width="80" height="15" uuid="e8ff0bd7-e029-45eb-9f38-31f47412d2c0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia origen :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="235" width="165" height="15" uuid="cd07c841-7717-40fd-9b74-e20a4a189daf"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parroquia_sitio_origen}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="203" width="80" height="15" uuid="61e5a1a4-1f52-422b-86f0-0481c20322d5"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia destino :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="203" width="165" height="15" uuid="02c49599-71a2-4361-95c8-7ad316877239"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{provincia_sitio_destino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="235" width="80" height="15" uuid="ea9f8386-ab78-4f2a-acfc-ea8caa552df8"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia destino :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="235" width="165" height="15" uuid="1259a19b-8882-48c5-bd4d-05505dd6ffc1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parroquia_sitio_destino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="251" width="80" height="15" uuid="cfee25ed-2a3e-421f-90d0-7db04411c75f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sitio destino :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="251" width="165" height="15" uuid="87befee0-84ca-4bfa-a7ad-afbabcf0784d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_sitio_destino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="219" width="80" height="15" uuid="50555144-4a73-4d61-8043-5b1370182989"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Canton destino :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="219" width="165" height="15" uuid="05ebbd5e-178c-4c0a-a8fd-9d4b12e2c943"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{canton_sitio_destino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="267" width="82" height="15" uuid="5f056747-7587-48f0-8ddf-149994ae8a44"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código área origen:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="267" width="88" height="15" uuid="4835e3da-7f4d-47b9-a628-4dcfb74b840a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código área destino:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="267" width="165" height="15" uuid="b881be86-1c48-414d-b47b-7f01c0a7beac"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_area_origen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="371" y="267" width="165" height="15" uuid="ebe18f04-549b-47ec-8edb-8f7bf345db9f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_area_destino}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="2">
+				<reportElement mode="Opaque" x="28" y="187" width="248" height="13" backcolor="#CCCCCC" uuid="1223878f-77fa-4a7d-a39a-3bf6614100f6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="136" y="189" width="45" height="15" uuid="e92624b5-ea37-40f9-9b05-9af201da63a8"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[II. ORIGEN]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="28" y="187" width="248" height="96" uuid="78d65487-4c8c-4a66-b0f8-661f6ae97ac5"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="288" y="187" width="249" height="96" uuid="eec86794-13c0-47f2-8c4c-34ba6292f99c"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement mode="Opaque" x="288" y="187" width="249" height="13" backcolor="#CCCCCC" uuid="bf1d03f4-6915-443b-9dd5-942e1338ebea"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="395" y="189" width="50" height="15" uuid="0877a012-c8db-41b7-90e6-5188d7919ed9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[III. DESTINO]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="29" y="291" width="507" height="44" uuid="e72d0b3f-4b34-4e20-b3f2-7a0795c71eb9"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement mode="Opaque" x="29" y="291" width="507" height="13" backcolor="#CCCCCC" uuid="8785b70e-1e0d-4b89-8663-699ee92ac4e4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="241" y="293" width="110" height="15" uuid="fc6d545d-9505-4de1-a323-b34169eba7f9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IV. DATOS MOVILIZACIÓN]]></text>
+			</staticText>
+			<image isLazy="true">
+				<reportElement x="56" y="0" width="463" height="98" uuid="e3396637-7a5b-468e-8966-08e4c52a4d62"/>
+				<imageExpression><![CDATA[$P{logoMovilizacionEncabezado}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="39" y="63" width="395" height="38" uuid="5a5f997e-549d-4763-873f-e31064c92c86"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CERTIFICACIÓN SANITARIA PARA LA MOVILIZACIÓN TERRESTRE DE ANIMALES (C S M I)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="105" width="91" height="20" uuid="e6e815a7-ad07-491b-afaf-92271144f5a6"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO No.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="283" y="105" width="120" height="20" uuid="b44d02cb-40ad-435a-bf5f-130481a4f4af"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_certificado}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="2">
+				<reportElement mode="Opaque" x="28" y="406" width="508" height="13" backcolor="#CCCCCC" uuid="590fef20-db3b-45bd-a43d-eb76cbf2f2bf"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="229" y="408" width="140" height="13" uuid="3ba5ba22-8a3c-4322-9a1a-d4c4491dea90"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VI. TIPO PRODUCTO A MOVILIZAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="163" width="32" height="15" uuid="a959a063-46e0-4417-8fc9-0568df47e825"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC/CI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="163" width="23" height="15" uuid="fa3e1a50-f0eb-4d61-9fd8-b1b26f9795ed"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="325" y="163" width="80" height="15" uuid="56ca0e9d-a9bf-4d77-9af4-1669730b8b6f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificador_autorizado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="163" width="83" height="15" uuid="d366d3cf-510d-4eee-846a-c80171c99568"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_autorizado}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="29" y="134" width="507" height="45" uuid="8f6ff219-439f-45f5-9c94-547522cafef4"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement mode="Opaque" x="29" y="134" width="507" height="13" backcolor="#CCCCCC" uuid="1093c4cb-7568-417c-b386-6d8ef18502a8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="217" y="136" width="140" height="15" uuid="831e3c78-ed81-473a-bff3-46fc00a38674"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+					<paragraph tabStopWidth="30"/>
+				</textElement>
+				<text><![CDATA[I. AUTORIZADO PARA MOVILIZAR]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="29" y="343" width="507" height="55" uuid="1c198961-7403-45df-953c-e260edd6d520"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement mode="Opaque" x="29" y="343" width="507" height="13" backcolor="#CCCCCC" uuid="d90146e8-4c98-432a-873e-a72195aee2cd"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="219" y="345" width="152" height="15" uuid="8ba2bb8d-e3dd-4dc4-a0d8-53cec2a8eeae"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[V. VALIDEZ DEL CERTIFICADO (CSMI)]]></text>
+			</staticText>
+			<textField pattern="EEEEE, d &apos;de&apos; MMMMM &apos;de&apos; yyyy hh:mm aaa">
+				<reportElement x="170" y="373" width="365" height="25" uuid="dc616d08-f847-46d9-9688-ff56b015086a"/>
+				<textElement>
+					<font size="16" isBold="true" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEEE, d 'de' MMMMM 'de' yyyy hh:mm aaa").format($F{fecha_movilizacion_hasta})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="358" width="79" height="15" uuid="d6718830-7030-457c-9b08-b0f23c96c38c"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha emisión:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="108" y="358" width="172" height="15" uuid="0f9a6968-a5b0-44ec-954c-a2ed58323b7e"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEEE, d 'de' MMMMM 'de' yyyy hh:mm aaa").format($F{fecha})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="358" width="89" height="15" isPrintInFirstWholeBand="true" uuid="02eb0a8b-cca4-480c-ae64-05192d773910"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha inicio vigencia:]]></text>
+			</staticText>
+			<textField pattern="EEEEE, d &apos;de&apos; MMMMM &apos;de&apos; yyyy hh:mm aaa">
+				<reportElement x="364" y="358" width="172" height="15" uuid="017979ef-e50d-48a5-988a-0db8fc66350b"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEEE, d 'de' MMMMM 'de' yyyy hh:mm aaa").format($F{fecha_movilizacion_desde})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="373" width="143" height="25" uuid="6404b4f5-eb06-4784-9127-98a2d026b368"/>
+				<textElement>
+					<font size="15" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Fecha fin vigencia:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="3" splitType="Stretch">
+			<staticText>
+				<reportElement x="166" y="-13" width="50" height="15" uuid="b1c2c40e-a8c2-4eaf-8d67-ef307943d985"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="-13" width="75" height="15" uuid="900def19-114a-49b3-8dd7-5903e832ee89"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha vigencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="-13" width="105" height="15" uuid="ca4dab6a-1b1c-4d84-aaab-657c491763b1"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No.Certificado Vacunación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="-13" width="47" height="15" uuid="58909427-66a7-4e12-8fed-c55a2a2b9211"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="403" y="-13" width="133" height="15" uuid="30388ecc-178c-4ba5-870b-47a35138a6f7"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aretes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="-13" width="45" height="15" uuid="3ae87709-0e00-482a-aae4-c3bd91d4aa02"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Letras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="-13" width="37" height="15" uuid="d328bea0-86c0-43b0-ae09-98d9c86beb37"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="218" y="1" width="106" height="20" uuid="0dbc5981-d00a-43d8-b9de-2b640ab97e7b"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_certificado_vacunacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="1" width="35" height="20" uuid="ffe79fe8-74ab-484f-a31a-38d78e554d7d"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="167" y="1" width="50" height="20" uuid="d413ecee-a8b1-4a3e-be3a-6b2948fa8200"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="402" y="1" width="140" height="20" uuid="17a2876f-00ff-4ed2-9ae5-a43563739c12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Autorizado sin arete"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="1" width="71" height="20" uuid="6fc6d586-8991-4ee6-beb7-25ae4ed197b3"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_certificado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="1" width="41" height="20" uuid="0c8d2dea-b481-493e-ae3b-9a9024484124"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+					<paragraph tabStopWidth="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{letras}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="1" width="47" height="20" uuid="26ee2156-60e1-4ab4-9b9d-7661260079b9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_especie}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="165" splitType="Stretch">
+			<line>
+				<reportElement x="279" y="59" width="155" height="1" uuid="2a7dbc64-e144-4bfa-a2b7-7472ff09684d"/>
+			</line>
+			<textField>
+				<reportElement x="275" y="70" width="160" height="12" uuid="8b875ba6-2775-424e-bb84-ee78c420155c"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_autorizado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="159" y="81" width="32" height="12" uuid="d196f0c7-8f70-49b2-a6c9-ea1ba7b31f10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUC/CI:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="190" y="81" width="81" height="12" uuid="d77100e9-53e0-460e-a58b-f38e47127474"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario_responsable}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="316" y="81" width="32" height="12" uuid="2719a443-891b-4195-918b-2f0a1f45340b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUC/CI:]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="29" y="1" width="508" height="92" uuid="295956a4-c31b-4689-8cb8-be4e0804250a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="439" y="80" width="93" height="12" uuid="e36028a9-4e24-4c89-92ab-21f866f9c474"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sello Aut. Agrocalidad]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="118" y="70" width="160" height="12" uuid="3254a086-3d0d-4b00-be07-004804e61279"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_emisor_movilizacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="129" y="59" width="140" height="12" uuid="88b5e5a5-d05c-493f-99ce-788378e68c47"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Firma o sello responsable de emisión]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="59" width="140" height="12" uuid="c9c1ad57-e871-4f5a-a17b-214722dedc4f"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Firma o sello del solicitante]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="347" y="81" width="80" height="12" uuid="98536e16-7ce4-42e4-aa3e-ae88ad6f9a31"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificador_autorizado}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="277" y="14" width="160" height="79" uuid="941af34f-488e-45f1-8364-db8738c00996"/>
+			</rectangle>
+			<line>
+				<reportElement x="119" y="59" width="155" height="1" uuid="336be570-9d70-49b8-af14-aefad565ec8a"/>
+			</line>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="117" y="14" width="160" height="79" uuid="280eefae-829e-48e8-aca3-f572d0abe78b"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement mode="Opaque" x="29" y="1" width="508" height="13" backcolor="#CCCCCC" uuid="785cd0d9-3dfe-488e-9099-04deda6ae1c9"/>
+			</rectangle>
+			<rectangle radius="2">
+				<reportElement mode="Transparent" x="437" y="14" width="100" height="79" uuid="c8247ae0-2965-44dc-9968-031edd5524c8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="216" y="3" width="177" height="15" uuid="7e14721a-5c8a-48c4-a59a-1830782bcf41"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VII. FIRMAS Y SELLO DE RESPONSABILIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="102" width="205" height="15" uuid="9d3be36c-a428-48ce-8b59-ff77c6240122"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOCUMENTO SIN COSTO. RESOLUCIÓN N° 406]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement mode="Opaque" x="32" y="99" width="83" height="21" uuid="7913de7f-3f77-4943-b33c-74f1120fbc6a"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128" drawText="false" checksumRequired="false" barHeight="60">
+					<jr:codeExpression><![CDATA[$F{numero_certificado}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<image scaleImage="RetainShape" hAlign="Center" isUsingCache="true">
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="31" y="14" width="84" height="80" backcolor="#FFFFFF" uuid="d7310bc6-4f62-44cf-b12e-0dd2faaaca56"/>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+    new com.google.zxing.qrcode.QRCodeWriter().encode(
+          "# Certificado: "  + $F{numero_certificado} +  "\n Operador autorizado: "  + $F{nombre_autorizado} +    "\n Emisor certificado: "  + $F{nombre_emisor_movilizacion} +  "\n Area origen: "  + $F{nombre_area_origen} + "\n Codigo area origen: " + $F{codigo_area_origen} + "\n Area destino: "  + $F{nombre_area_destino} + "\n Codigo area destino: "  + $F{codigo_area_destino} +  "\n Total productos: "  + $F{total} +  "\n Inicio vigencia: "  + $F{fecha_movilizacion_desde} +  "\n Fin vigencia: " + $F{fecha_movilizacion_hasta}       , com.google.zxing.BarcodeFormat.QR_CODE, 800, 800))]]></imageExpression>
+			</image>
+			<rectangle radius="2">
+				<reportElement positionType="FixRelativeToBottom" mode="Transparent" x="29" y="14" width="88" height="79" uuid="f1c14319-4080-4559-b81e-72235780ed52"/>
+			</rectangle>
+			<image>
+				<reportElement mode="Transparent" x="509" y="95" width="24" height="24" uuid="fc52a785-cd04-43e6-9e19-6927661d4027"/>
+				<imageExpression><![CDATA[$P{logoEcuadorAmaLaVida}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="3" splitType="Stretch"/>
+	</summary>
+</jasperReport>

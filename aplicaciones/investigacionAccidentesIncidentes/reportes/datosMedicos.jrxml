@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="datosMedicos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="580" leftMargin="5" rightMargin="10" topMargin="10" bottomMargin="10" uuid="c4ddaf5b-bc09-4ebd-ba11-d0fe4805cc71">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codSolicitud" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rutaDatosMedicos" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+lugar_atencion,
+fecha_atencion,
+hora_atencion,
+sintomas,
+otros_datos,
+descripcion_lesiones,
+traslado_centro_salud,
+nombre_medico, reposo_desde, reposo_hasta
+  FROM
+g_investigacion_accidente_incidente.ficha_medica
+where
+codigo_datos_accidente = $P{codSolicitud};]]>
+	</queryString>
+	<field name="lugar_atencion" class="java.lang.String"/>
+	<field name="fecha_atencion" class="java.sql.Date"/>
+	<field name="hora_atencion" class="java.sql.Time"/>
+	<field name="sintomas" class="java.lang.String"/>
+	<field name="otros_datos" class="java.lang.String"/>
+	<field name="descripcion_lesiones" class="java.lang.String"/>
+	<field name="traslado_centro_salud" class="java.lang.String"/>
+	<field name="nombre_medico" class="java.lang.String"/>
+	<field name="reposo_desde" class="java.sql.Date"/>
+	<field name="reposo_hasta" class="java.sql.Date"/>
+	<detail>
+		<band height="305" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement mode="Transparent" x="0" y="0" width="557" height="32" uuid="3fdadb68-3286-4608-9d3f-087535baf7e1"/>
+				<imageExpression><![CDATA[$P{rutaDatosMedicos}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="60" y="10" width="100" height="20" forecolor="#FFFFFF" uuid="9721b6ec-c3ae-4e60-bdae-c4314b323063"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS MÉDICOS:]]></text>
+			</staticText>
+			<rectangle radius="4">
+				<reportElement x="0" y="154" width="192" height="60" forecolor="#4FB580" backcolor="#4FB580" uuid="e46ee016-6c74-4826-baf8-ac04303a1494"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="97" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="1f37dc17-40d7-43b9-be55-51f9cb0296c8"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="69" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="3f0b1f0e-c49f-4ab7-bffa-4d712ac2a0b5"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="126" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="2515a571-34a0-43e5-8239-7836edc72176"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="69" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="4ff139f7-0319-40bb-922b-9a2ddc8645eb"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="154" width="365" height="60" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="da0df9a3-b426-4e70-84dc-7292bdd08616"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="97" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="cdb22886-e534-413b-9924-c0b8b6d88f6a"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="40" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="0301dcea-a720-4ebb-8495-835e90cc919b"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="40" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="671f60e0-05e8-4ac7-b180-a4a0cf9f91b2"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="126" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="27cf3bbc-d3eb-4563-9659-6575b12984b3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="42" width="182" height="20" uuid="774256d5-43fc-4188-851a-7818d5fcbbab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar de atención:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="71" width="182" height="20" uuid="6a074e05-dacd-410e-8870-cef9a06fb553"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="98" width="132" height="20" uuid="2ddf6d67-1b32-4733-a8bf-32afd8d43abb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="127" width="182" height="20" uuid="768e40b1-efc1-4fd8-8bcb-160568c21ff8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Presenta sintomas de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="180" width="182" height="20" uuid="d76faa4d-464e-47fd-b049-d698ae845622"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción de lesiones:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="204" y="42" width="353" height="20" forecolor="#000000" uuid="c1343f60-b3f1-45d6-92cc-fe936b513669"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lugar_atencion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="204" y="71" width="145" height="20" forecolor="#000000" uuid="b1c0799c-be81-41e9-bbe8-cba3a40cea28"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_atencion}
+]]></textFieldExpression>
+			</textField>
+			<textField pattern="h:mm a" isBlankWhenNull="true">
+				<reportElement x="204" y="97" width="100" height="20" forecolor="#000000" uuid="d2e4d4a2-addb-45c2-b20e-f6e7b10385a1"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{hora_atencion}.equals(null) ? "":$F{hora_atencion})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="204" y="126" width="353" height="20" forecolor="#000000" uuid="4440c2ec-205d-4f21-a57b-22f58a872476"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sintomas}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="204" y="164" width="314" height="40" forecolor="#000000" uuid="95a33ec0-24d6-408c-b69b-573f305d315f"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$F{descripcion_lesiones}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="4">
+				<reportElement x="0" y="277" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="504ebec0-f73d-4060-85d8-16db6815919b"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="277" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="4338e102-66a1-417b-ae88-19a8dd04dea1"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="248" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="fb0d539a-d4d1-42d9-887d-24ad17f4ffe5"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="248" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="bb21b0bc-7841-45ab-aa70-1031cba902f3"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="220" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="c4653f61-e531-4537-840a-79ee5a6ebdf3"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="220" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="4c67ad48-21e8-4c7f-85e3-92e4737ffdea"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="204" y="221" width="171" height="20" forecolor="#000000" uuid="f37759fc-08de-4472-a38f-228f272ef8c4"/>
+				<textElement verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{traslado_centro_salud}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="204" y="250" width="305" height="20" forecolor="#000000" uuid="365e139e-2457-4384-8a68-575b45a6d34b"/>
+				<textElement verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_medico}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="244" y="281" width="124" height="17" forecolor="#000000" uuid="9562f4a5-4a62-4569-a43e-d722cdc94cf5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{reposo_desde}.equals(null) ? "":$F{reposo_desde})
+]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="408" y="281" width="124" height="17" forecolor="#000000" uuid="1a361aef-05d6-45ed-9e77-94e2bd29abc3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{reposo_hasta}.equals(null) ? "":$F{reposo_hasta})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="281" width="40" height="17" uuid="0e909476-a285-451d-b209-dc795b99018d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Desde:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="281" width="40" height="17" uuid="e6096b17-6c82-4674-9345-845f718a7cff"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Hasta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="222" width="194" height="20" uuid="9ee127c5-1eaa-4107-ae89-98f79cf42033"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Se trasladó al centro de salud?:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="249" width="194" height="20" uuid="c10d3f8a-e9bf-451c-8a50-a20d9ebe4d04"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del médico que atiende:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="278" width="182" height="20" uuid="63d75387-70a5-469c-b76f-a3b592779935"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tiempo de reposo:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:certificado_fitosanitario_exportacion" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:certificado_fitosanitario_exportacion">
+<types>
+<xsd:schema targetNamespace="urn:certificado_fitosanitario_exportacion"
+>
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+ <xsd:complexType name="datoSalidaFitosanitario">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:array_php[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="datosEntradaConfirmacionFitosanitario">
+  <xsd:all>
+   <xsd:element name="numero_certificado" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="Certificado_actualizacion_fecha_estadoRequest">
+  <part name="fecha_desde" type="xsd:string" />
+  <part name="fecha_hasta" type="xsd:string" />
+  <part name="estado" type="xsd:string" /></message>
+<message name="Certificado_actualizacion_fecha_estadoResponse">
+  <part name="return" type="tns:datoSalidaFitosanitario" /></message>
+<message name="Recupera_certificado_oficialRequest">
+  <part name="numero_certificado" type="xsd:string" /></message>
+<message name="Recupera_certificado_oficialResponse">
+  <part name="return" type="xsd:string" /></message>
+<message name="Recupera_certificados_firmadosRequest">
+  <part name="numero_certificado" type="xsd:string" /></message>
+<message name="Recupera_certificados_firmadosResponse">
+  <part name="return" type="xsd:string" /></message>
+<message name="Confirmacion_certificadoRequest">
+  <part name="numero_certificado" type="xsd:string" /></message>
+<message name="Confirmacion_certificadoResponse">
+  <part name="return" type="xsd:string" /></message>
+<portType name="Consulta certificados fitosanitarios de exportaciónPortType">
+  <operation name="Certificado_actualizacion_fecha_estado">
+    <documentation>La siguiente funcion recibe los parametros de fecha inicio, fecha fin y estado del registros. Retorna los datos relaciones con los fitosanitarios de exportación.</documentation>
+    <input message="tns:Certificado_actualizacion_fecha_estadoRequest"/>
+    <output message="tns:Certificado_actualizacion_fecha_estadoResponse"/>
+  </operation>
+  <operation name="Recupera_certificado_oficial">
+    <documentation>La siguiente funcion recibe el parametro de identificador. Retorna el XML relacionado al fitosanitario de exportación no firmado.</documentation>
+    <input message="tns:Recupera_certificado_oficialRequest"/>
+    <output message="tns:Recupera_certificado_oficialResponse"/>
+  </operation>
+  <operation name="Recupera_certificados_firmados">
+    <documentation>La siguiente funcion recibe el parametro de identificador. Retorna el XML relacionado al fitosanitario de exportación firmado.</documentation>
+    <input message="tns:Recupera_certificados_firmadosRequest"/>
+    <output message="tns:Recupera_certificados_firmadosResponse"/>
+  </operation>
+  <operation name="Confirmacion_certificado">
+    <documentation>La siguiente funcion recibe el parametro de identificador. Retorna el mensaje de recepción del consumo del certificado fitosanitario de exportación.</documentation>
+    <input message="tns:Confirmacion_certificadoRequest"/>
+    <output message="tns:Confirmacion_certificadoResponse"/>
+  </operation>
+</portType>
+<binding name="Consulta certificados fitosanitarios de exportaciónBinding" type="tns:Consulta certificados fitosanitarios de exportaciónPortType">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="Certificado_actualizacion_fecha_estado">
+    <soap:operation soapAction="urn:fitosanitario#Certificado_actualizacion_fecha_estado" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:certificado_fitosanitario_exportacion" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:certificado_fitosanitario_exportacion" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="Recupera_certificado_oficial">
+    <soap:operation soapAction="urn:fitosanitarioXml#Recupera_certificado_oficial" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:certificado_fitosanitario_exportacion" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:certificado_fitosanitario_exportacion" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="Recupera_certificados_firmados">
+    <soap:operation soapAction="urn:fitosanitarioXml#Recupera_certificados_firmados" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:certificado_fitosanitario_exportacion" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:certificado_fitosanitario_exportacion" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="Confirmacion_certificado">
+    <soap:operation soapAction="urn:fitosanitarioXml#Confirmacion_certificado" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:certificado_fitosanitario_exportacion" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:certificado_fitosanitario_exportacion" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+</binding>
+<service name="Consulta certificados fitosanitarios de exportación">
+  <port name="Consulta certificados fitosanitarios de exportaciónPort" binding="tns:Consulta certificados fitosanitarios de exportaciónBinding">
+    <soap:address location="http://localhost/agrodb/aplicaciones/webServices/fitosanitario/fitosanitarioExportacion.php"/>
+  </port>
+</service>
+</definitions>

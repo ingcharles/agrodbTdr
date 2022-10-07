@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certificadosPrueba" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9381cb45-03e0-43eb-86f8-c1b08b9ea786">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="17cc339b-76f8-4810-965f-8c4a0b63ba1b"/>
+	<subDataset name="dataset2" uuid="5e260611-f7b8-4aa3-85f1-dcc01c1d2367"/>
+	<parameter name="valor" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select cf.*,df.* from g_certificados.fitosanitarios cf,g_certificados.detalle_fitosanitarios df
+where cf.id_fitosanitario in ($P!{valor})
+and cf.id_fitosanitario = df.id_fitosanitario
+and cf.estado = '1']]>
+	</queryString>
+	<field name="id_fitosanitario" class="java.lang.Integer"/>
+	<field name="id_certificado" class="java.lang.Integer"/>
+	<field name="identificador_emisor" class="java.lang.String"/>
+	<field name="numero_certificado" class="java.lang.String"/>
+	<field name="fecha_emision" class="java.sql.Timestamp"/>
+	<field name="id_lugar_emision" class="java.lang.Integer"/>
+	<field name="nombre_lugar_emision" class="java.lang.String"/>
+	<field name="nombre_exportador" class="java.lang.String"/>
+	<field name="id_pais_destino" class="java.lang.Integer"/>
+	<field name="nombre_pais_destino" class="java.lang.String"/>
+	<field name="id_puerto_entrada" class="java.lang.Integer"/>
+	<field name="nombre_puerto_entrada" class="java.lang.String"/>
+	<field name="nombre_destinatario" class="java.lang.String"/>
+	<field name="direccion_destinatario" class="java.lang.String"/>
+	<field name="id_pais_origen" class="java.lang.Integer"/>
+	<field name="nombre_pais_origen" class="java.lang.String"/>
+	<field name="id_medio_transporte" class="java.lang.Integer"/>
+	<field name="nombre_medio_transporte" class="java.lang.String"/>
+	<field name="numero_bulto" class="java.lang.Double"/>
+	<field name="descripcion_bulto" class="java.lang.String"/>
+	<field name="declaracion_adicional" class="java.lang.String"/>
+	<field name="identificador_agencia" class="java.lang.String"/>
+	<field name="nombre_agencia" class="java.lang.String"/>
+	<field name="fecha_tratamiento" class="java.sql.Timestamp"/>
+	<field name="tratamiento" class="java.lang.String"/>
+	<field name="producto_quimico" class="java.lang.String"/>
+	<field name="duracion" class="java.lang.String"/>
+	<field name="descripcion_duracion" class="java.lang.String"/>
+	<field name="temperatura" class="java.lang.String"/>
+	<field name="descripcion_temperatura" class="java.lang.String"/>
+	<field name="concentracion" class="java.lang.String"/>
+	<field name="descripcion_concentracion" class="java.lang.String"/>
+	<field name="motivo_anulacion" class="java.lang.String"/>
+	<field name="estado" class="java.lang.Integer"/>
+	<field name="identificador_exportador" class="java.lang.String"/>
+	<field name="id_detalle_fitosanitario" class="java.lang.Integer"/>
+	<field name="id_producto" class="java.lang.Integer"/>
+	<field name="partida_arancelaria" class="java.lang.String"/>
+	<field name="nombre_producto" class="java.lang.String"/>
+	<field name="marca_producto" class="java.lang.String"/>
+	<field name="cantidad_producto" class="java.lang.Double"/>
+	<field name="unidad_producto" class="java.lang.String"/>
+	<variable name="pato" class="java.util.Collection"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="84" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="69" width="224" height="15" uuid="47caf9f3-4ac4-4374-9c9a-0ea1a7dc4599"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_certificado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="173" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="571" height="172" uuid="afb6d97e-8316-485c-ba12-ecc1f78aca4c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="14" width="225" height="15" uuid="4030fb49-2b2f-4c83-9fe2-68e5a57311bd"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Organización de Protección Fitosanitaria del Ecuador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="181" height="10" uuid="25aa8f3d-443f-4d29-9131-8532f32cf3b5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[A:Organización de Protección Fitosanitaria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="11" width="181" height="10" uuid="2472c517-427e-416c-9408-86d5c86694cf"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TO:Plant Proteccion Organization of]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="391" y="20" width="180" height="14" uuid="154ca518-4978-40f0-a035-241471fa1fc8"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_pais_destino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="174" y="34" width="225" height="15" uuid="9c05ca10-e319-4960-8108-ceb5ca409453"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[I. Descripción del Envío / Description of Consigment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="49" width="181" height="10" uuid="b9d3df3a-96f8-4108-a677-74ded391d5dc"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1. Nombre y Dirección del Exportador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="59" width="171" height="10" uuid="e061bc89-7329-4ad3-8283-05d2be1e42e2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name and address of exporter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="51" width="225" height="10" uuid="88283692-9528-4cf4-a7aa-161e4a11dd56"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2. Nombre y Dirección declarados del destinatario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="313" y="61" width="215" height="10" uuid="2d93d84d-02cd-40ef-9fcb-2a026a6b0a15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Declared name nad address of consignee]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="314" y="73" width="256" height="15" uuid="921d7146-df66-4810-88f9-faf9e8299a6a"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_destinatario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="315" y="87" width="254" height="15" uuid="36f794a1-1a0b-4b66-a926-77fb2709eb4d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_destinatario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="103" width="181" height="10" uuid="8ee55c63-31c3-4b2a-b398-b27fbdf6e4e9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[3. Lugar de origen / Place of origin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="134" width="181" height="10" uuid="2c3ce9f5-d0a3-46b7-a604-a67709f49f4a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[5. Punto de entrada declarado ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="102" width="225" height="10" uuid="4d759fd2-a13a-4dd9-b144-d4458d2bf242"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[4. Medios de transporte declarados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="136" width="226" height="10" uuid="748d1dc1-7da7-4160-8156-ac7a552042e0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[6. Marcas distintivas / Distinguishing marks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="313" y="112" width="217" height="10" uuid="1c20fe55-3be1-4448-a4e0-6919e7d73c4a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Declared means of conveyance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="144" width="171" height="10" uuid="eaba74e0-8993-46b0-9e51-fe9298052dae"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Declared point of entry origin]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="30" width="568" height="1" uuid="e9bd2ea5-1dd7-4c0f-969a-934984d3a1ee"/>
+			</line>
+			<line>
+				<reportElement x="1" y="47" width="568" height="1" uuid="5bfc1978-ff3a-40e3-a53f-e3b94c1ca31c"/>
+			</line>
+			<line>
+				<reportElement x="1" y="100" width="568" height="1" uuid="0af37071-bce5-406e-b570-70defd3c5dc2"/>
+			</line>
+			<line>
+				<reportElement x="2" y="133" width="568" height="1" uuid="463219c2-9db4-4a46-a9ad-5bfd2808eb08"/>
+			</line>
+			<line>
+				<reportElement x="253" y="49" width="1" height="122" uuid="74a59682-1769-4265-b132-a3a006ad4f5d"/>
+			</line>
+			<line>
+				<reportElement x="253" y="1" width="1" height="27" uuid="b1246769-cc16-4373-9078-3c64914b56c7"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="44" splitType="Stretch">
+			<break>
+				<reportElement x="0" y="3" width="100" height="1" uuid="fff82550-1e77-41b6-bef9-952ee52695a3"/>
+			</break>
+			<staticText>
+				<reportElement x="2" y="5" width="181" height="10" uuid="5e6a4b25-ee1a-42ce-aa12-0c81f3de76c0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[7. Número y descripción de los bultos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="16" width="171" height="10" uuid="21006058-ee69-409e-9fa0-6a046e560ccb"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Number and description of packages]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="4" width="202" height="10" uuid="d0ebbe80-2cba-4ee1-9610-7f463aef2ea3"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[8. Cantidad declarada y nombre del producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="14" width="202" height="10" uuid="32e9bc73-0468-4871-a38a-84a1510524a9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name of produce and quantity declared]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="347" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="108" width="571" height="230" uuid="09642ae6-7809-41c0-b85e-421a6bc5875a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="571" height="113" uuid="8849a98b-f4cb-40c6-8e54-65dd1bc17036"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="3" width="181" height="10" uuid="480e388b-52f6-4496-9f73-38b9372199a1"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[9. Nombre botánico de las plantas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="13" width="171" height="10" uuid="31e07f23-c60b-48cd-866f-073d7c18d2d6"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Botanical name of plants]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="34" width="567" height="79" uuid="ec27a444-f6b0-48ac-9899-396cbb817c8a"/>
+				<textElement textAlignment="Justified">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Por la presente se certifica que las plantas, productos vegetales u otros artículos reglamentados descritos aquí se han inspeccionado y/o sometido a ensayo de acuerdo con los procedimientos oficiales adecuados y se considera que están libres de las plagas cuarentenarias especificadas por la parte
+contratne importadora y que cumplen los requisitos fitosanitarios vigentes de la parte contratante importadora, incluidos los relativos a las plagas no cuarentenarias reglamentadas.
+This is to certify that the plants, plant products or other regulated articles described herein have been inspected and/or tested according to appropiateofficial procedures and are considered to be free from the quarantine pests specified by the importing contracting party and to conform with the currentphytosanitary requirements of the importing contracting party, including those for regulated non-quarantine pests]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="116" width="225" height="15" uuid="783869cb-95da-4ec2-b709-0f156d6c9f5f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[II. Declaración Adicional / Aditional Declaration]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="146" width="432" height="15" uuid="96dca132-f61a-41fd-8306-27e04fd529ee"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[III. Tratamiento de Desinfestación y/o Desinfección / Desinfestation and/or Desinfection Treatment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="167" width="181" height="10" uuid="bd888df2-104f-4b0f-934e-f20b5934dc68"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[10. Fecha / Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="190" width="181" height="10" uuid="0c7fbdbb-3d5b-4a77-b59d-d6e0ab0a29cc"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[12. Producto químico (ingredientes)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="200" width="167" height="10" uuid="fbd8e487-7eed-4d1c-ba41-a4f85cfa4e92"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Chemical (active ingredient)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="226" width="224" height="10" uuid="fff657bf-d53e-4859-81a3-857ed4c3e4c8"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[15. Informacion adicional /Informational Additional  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="254" width="182" height="10" uuid="ca01527f-ebb8-4883-91e4-6ee1d9192b02"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar de expedición]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="290" width="182" height="10" uuid="2303cff1-f2fc-4f7b-9fd9-759ed8a49006"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha / Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="264" width="182" height="10" uuid="23c37c5d-e690-4783-9d5f-7a5ad5d3c622"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Place of issue]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="167" width="181" height="10" uuid="c5d370c5-ec76-4c39-8eda-7cb1af4e5257"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[11. Tratamiento / Treatment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="193" width="181" height="10" uuid="3f4dfd6f-2584-4d70-9da1-0e2aa1f23f82"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[13. Duración y temperatura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="203" width="181" height="10" uuid="07d44832-1914-4ee5-90e0-4713c9087198"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Duration and temperature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="253" width="226" height="10" uuid="11ca85ac-fa49-4001-91e8-9590d2a2c4da"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[16. Nombre del funcionario autorizado ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="225" width="181" height="10" uuid="87306948-e2f0-4eec-af8d-9770af09ac16"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[14. Concentración / Concentration]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="263" width="213" height="10" uuid="beaf82ac-725b-4e21-b868-66686c604a45"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Name of authorized office]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="290" width="94" height="10" uuid="3d4e3020-7614-4ff1-9dd5-16958ef668dd"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma / Signature]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="34" width="568" height="1" uuid="dfc9b8e2-cef2-419d-8517-c17d249e7fb1"/>
+			</line>
+			<line>
+				<reportElement x="2" y="142" width="570" height="1" uuid="bbce3283-2bbf-43aa-9a7b-c780acb14db9"/>
+			</line>
+			<line>
+				<reportElement x="1" y="163" width="571" height="1" uuid="98861967-f6ff-4b72-93da-170547bc4b3d"/>
+			</line>
+			<line>
+				<reportElement x="1" y="188" width="571" height="1" uuid="3e52e938-e901-45da-a188-bdd6d1d65dbc"/>
+			</line>
+			<line>
+				<reportElement x="0" y="222" width="571" height="1" uuid="b2e4797d-ee61-48e8-9e12-95e407030ae0"/>
+			</line>
+			<line>
+				<reportElement x="1" y="252" width="571" height="1" uuid="9a041668-4acd-4165-96db-20554bb4d173"/>
+			</line>
+			<line>
+				<reportElement x="1" y="287" width="571" height="1" uuid="7c356f7f-19d5-41af-8e6e-0f2ad13052e7"/>
+			</line>
+			<line>
+				<reportElement x="253" y="165" width="1" height="172" uuid="aad56c9c-f242-4ab4-a16c-e8fed1a4227b"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="9" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="9" splitType="Stretch"/>
+	</summary>
+</jasperReport>

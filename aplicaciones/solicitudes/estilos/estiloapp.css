@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+#__revisar {
+	background-image: url('../img/revisar.png');
+}
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+
+li {
+	list-style: decimal;
+	position: relative;
+	left: 25px;
+}
+
+ol{
+	padding: 0;
+}

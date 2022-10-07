@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CV_capacitaciones" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d267211d-ff35-4c03-b33a-45223e27708b">
+	<property name="ireport.zoom" value="1.8181818181818195"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="identificadorCapacitaciones" class="java.lang.String"/>
+	<parameter name="rutaImagen" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+	*
+from
+	g_uath.datos_capacitacion da
+where
+	da.identificador=$P{identificadorCapacitaciones} and
+	da.estado = 'Aceptado'
+	--limit 4]]>
+	</queryString>
+	<field name="id_datos_capacitacion" class="java.lang.Integer"/>
+	<field name="titulo_capacitacion" class="java.lang.String"/>
+	<field name="pais" class="java.lang.String"/>
+	<field name="institucion" class="java.lang.String"/>
+	<field name="horas" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="archivo_capacitacion" class="java.lang.String"/>
+	<field name="fecha_inicio" class="java.sql.Timestamp"/>
+	<field name="fecha_fin" class="java.sql.Timestamp"/>
+	<field name="fecha_modificacion" class="java.sql.Timestamp"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="70">
+			<image>
+				<reportElement x="20" y="5" width="405" height="64" uuid="15e7e7a2-5db1-401b-9522-72388db1e3f7"/>
+				<imageExpression><![CDATA[$P{rutaImagen}+"principales/Capacitaciones.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="93" y="26" width="124" height="21" forecolor="#FFFFFF" backcolor="#F7E0CD" uuid="36083c67-73cf-4011-814f-1019fe2e9359"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Capacitaciones]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="35" y="3" width="501" height="13" forecolor="#FFFFFF" uuid="73cb387e-e6e5-49d3-8b30-28cfa71e0a4e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Duración: " + $F{horas} + " Horas " + " Institución: " + $F{institucion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="35" y="15" width="501" height="13" isPrintWhenDetailOverflows="true" forecolor="#FFFFFF" uuid="a3e7185e-220f-4b7b-872a-5f4e0512d5e6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Título: " + $F{titulo_capacitacion}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="35" y="31" width="501" height="1" uuid="f3680897-cbd8-4500-afc4-ba6f783b381c"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#CCCCFF"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

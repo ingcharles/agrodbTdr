@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laboratorioLeche" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="c61f3ff3-966e-4426-ade2-c1114879a8ea">
+	<property name="ireport.zoom" value="2.8531167061100033"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="720"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocaldiadPrueba"/>
+	<parameter name="idOperadorTipoOperacion" class="java.lang.Integer"/>
+	<parameter name="codigo" class="java.lang.String"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	op.identificador_operador,
+	case when o.razon_social = '' then o.nombre_representante ||' '|| o.apellido_representante else o.razon_social end nombre_operador,
+	s.provincia, s.canton, s.parroquia, s.direccion, s.telefono, o.correo, tp.nombre as tipo_producto, stp.nombre as subtipo_producto, p.nombre_comun,
+	op.fecha_aprobacion, op.fecha_finalizacion, s.nombre_lugar as nombre_sitio
+FROM
+	g_operadores.operaciones op
+	INNER JOIN g_operadores.productos_areas_operacion pao ON op.id_operacion = pao.id_operacion
+	INNER JOIN g_operadores.areas a ON a.id_area = pao.id_area
+	INNER JOIN g_operadores.sitios s ON s.id_sitio = a.id_sitio
+	INNER JOIN g_operadores.operadores o ON o.identificador = s.identificador_operador
+	INNER JOIN g_catalogos.productos p ON p.id_producto = op.id_producto
+	INNER JOIN g_catalogos.subtipo_productos stp ON stp.id_subtipo_producto = p.id_subtipo_producto
+	INNER JOIN g_catalogos.tipo_productos tp ON tp.id_tipo_producto = stp.id_tipo_producto
+WHERE
+	id_operador_tipo_operacion = $P{idOperadorTipoOperacion}
+	and op.estado = 'registrado']]>
+	</queryString>
+	<field name="identificador_operador" class="java.lang.String"/>
+	<field name="nombre_operador" class="java.lang.String">
+		<fieldDescription><![CDATA[Operador]]></fieldDescription>
+	</field>
+	<field name="provincia" class="java.lang.String">
+		<fieldDescription><![CDATA[Provincia]]></fieldDescription>
+	</field>
+	<field name="canton" class="java.lang.String">
+		<fieldDescription><![CDATA[Cantón]]></fieldDescription>
+	</field>
+	<field name="parroquia" class="java.lang.String">
+		<fieldDescription><![CDATA[Parroquia]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[Dirección]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[Teléfono]]></fieldDescription>
+	</field>
+	<field name="correo" class="java.lang.String"/>
+	<field name="tipo_producto" class="java.lang.String">
+		<fieldDescription><![CDATA[Tipo de producto]]></fieldDescription>
+	</field>
+	<field name="subtipo_producto" class="java.lang.String">
+		<fieldDescription><![CDATA[Subtipo de producto]]></fieldDescription>
+	</field>
+	<field name="nombre_comun" class="java.lang.String"/>
+	<field name="fecha_aprobacion" class="java.sql.Timestamp"/>
+	<field name="fecha_finalizacion" class="java.sql.Timestamp"/>
+	<field name="nombre_sitio" class="java.lang.String"/>
+	<background>
+		<band height="822" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image scaleImage="FillFrame">
+				<reportElement x="-20" y="-28" width="595" height="850" uuid="fd3cf454-0cb9-4fdd-a1f7-ee1fa7c4bd8c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="60" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="252" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<printWhenExpression><![CDATA[(($V{PAGE_NUMBER} == 1) ? Boolean.TRUE : Boolean.FALSE)]]></printWhenExpression>
+			<staticText>
+				<reportElement x="383" y="91" width="63" height="20" uuid="2b061cce-2134-4ac7-9676-028c4fa4a345"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Registro: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="447" y="91" width="99" height="20" uuid="6aaf669a-138c-4f6a-8f2c-01db777eaca5"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="111" width="344" height="20" uuid="0a40ab2f-83cd-4967-960d-bac4b5ad8c8d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{identificador_operador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="111" width="115" height="20" uuid="fdc77901-84f8-464e-9e0b-7f5395a62479"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identificador operador:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="131" width="115" height="20" uuid="c42f5517-572e-457d-9499-f288fc9de91c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón social:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="122" y="131" width="344" height="20" uuid="4e25f0a1-037c-4f2d-b0a0-49a7cbd8d663"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="151" width="123" height="20" uuid="937c54ae-2534-4db0-a0d0-0c7266da596b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="151" width="50" height="20" uuid="3dbb20b9-f083-4f39-a464-03829c8e8d68"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="182" y="151" width="42" height="20" uuid="57af78b3-8f5e-4ccd-af7e-8146843681af"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="224" y="151" width="123" height="20" uuid="ca2c13d3-56d7-4297-925a-7b2f6355f483"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="151" width="130" height="20" uuid="33dc0e19-88fb-4379-b634-1303907aa905"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{parroquia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="348" y="151" width="51" height="20" uuid="16a9a27e-e0c4-4556-8ea8-a1227ce8e011"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="171" width="124" height="20" uuid="533aee76-6e61-43c5-b4a0-72cd1252ae09"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección del sitio:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="133" y="171" width="396" height="20" uuid="227b300a-33db-44aa-8e61-02af0b9524d9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="191" width="50" height="20" uuid="e8e4bafb-829b-45f4-8d21-020ceea53fcf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="57" y="191" width="122" height="20" uuid="7613e62f-0246-4727-9e07-a8e2a80f7bd9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="181" y="191" width="95" height="20" uuid="8ad3c6a6-f920-42a5-b212-46406feed070"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Correo electrónico:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="276" y="191" width="253" height="20" uuid="4fe902d1-d4cf-4dab-b4fb-582695979bad"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="211" width="124" height="20" uuid="233814be-57d5-487a-98aa-92db780b26a9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parámetros registrados:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="231" width="124" height="20" uuid="133c741d-9872-443f-84b3-f6dcc7dd8a5b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="231" width="124" height="20" uuid="e73a94bf-cade-442e-b6a2-623b1404bcd7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subtipo de producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="231" width="124" height="20" uuid="c625c4f8-20af-4725-b7b1-b37397d78f5f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="5" y="37" width="545" height="46" backcolor="#DAE8F9" uuid="0d1a6d0e-7e74-4f22-88a3-3c9c642a3837">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="38" width="534" height="27" uuid="e5de09b9-f407-44e7-8b68-7c6a57d695da"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[En cumplimiento a lo establecido en la Resolución DAJ-201619F-0201.0071 del 15 de abril del 2016, La Agencia de Regulación y Control Fito y Zoosanitario - AGROCALIDAD, otorga el presente certificado de registro al laboratorio:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="7" y="65" width="534" height="18" uuid="b2666d21-58cb-4456-8677-1ebee0bf8864"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_sitio}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="7" width="545" height="20" forecolor="#333333" uuid="2841f030-5834-40e5-82e6-ebefbf007fbc">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Certificado de Registro de Laboratorios de Análisis de Leche Cruda]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="7" y="0" width="124" height="20" uuid="2b812ff5-181a-4c03-bac7-d4865d9bc16e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="0" width="124" height="20" uuid="061e147d-7583-43c5-8546-ea1abf176fb7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{subtipo_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="255" y="0" width="124" height="20" uuid="318fbcab-6532-41c7-ab0f-3d5ed1f39533"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_comun}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="60">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="40" width="290" height="20" uuid="6a708d66-65f4-4eba-8c24-3ffddb7788bf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="290" y="40" width="265" height="20" uuid="ac419733-4f2d-421a-b02d-62fc56f7bb53">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="120">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="102" y="2" width="165" height="20" uuid="8cd92c37-284f-463c-8005-a1e48923fcdf"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_aprobacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false">
+				<reportElement x="383" y="2" width="165" height="20" uuid="897ebe5c-5ab9-43d9-b593-8bb4db8139de"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_finalizacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="2" width="95" height="20" uuid="dba8bd6b-e90e-4a87-bdf3-d8170cbc67ba"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de emisión:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="2" width="108" height="20" uuid="39bc1dbb-9a79-49ba-9367-822d8e5c47aa"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de caducidad:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="415" y="24" width="95" height="95" uuid="05427cb0-0832-4612-835f-3e8073c7ce89">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Ruc: "+ $F{identificador_operador} +
+"\nRazon social: "  + $F{nombre_operador} +
+"\nNombre del sitio: "  + $F{nombre_sitio} +
+"\nN.- de registro: "  + $P{codigo} +
+"\nFecha de emision del certificado: " + $F{fecha_aprobacion} +
+"\nFecha de caducidad del certificado: " + $F{fecha_finalizacion}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

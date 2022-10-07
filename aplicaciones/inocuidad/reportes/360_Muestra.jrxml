@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="360_Muestra" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a082ceb9-251e-4149-8a6f-8a0c621ec349">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="141"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="ic_requerimiento_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from G_INOCUIDAD.IC_V_MUESTRA WHERE ic_requerimiento_id = $P{ic_requerimiento_id}]]>
+	</queryString>
+	<field name="provincia" class="java.lang.String"/>
+	<field name="canton" class="java.lang.String"/>
+	<field name="parroquia" class="java.lang.String"/>
+	<field name="origen_muestra" class="java.lang.String"/>
+	<field name="empresa" class="java.lang.String"/>
+	<field name="finca" class="java.lang.String"/>
+	<field name="pais_procedencia" class="java.lang.String"/>
+	<field name="tecnico_responsable" class="java.lang.String"/>
+	<field name="tipo_muestra" class="java.lang.String"/>
+	<field name="fecha_muestreo" class="java.sql.Timestamp"/>
+	<field name="codigo_muestras" class="java.lang.String"/>
+	<field name="canton_id" class="java.math.BigDecimal"/>
+	<field name="parroquia_id" class="java.math.BigDecimal"/>
+	<field name="tipo_empresa" class="java.lang.String"/>
+	<field name="finca_id" class="java.math.BigDecimal"/>
+	<field name="utm_x" class="java.math.BigDecimal"/>
+	<field name="utm_y" class="java.math.BigDecimal"/>
+	<field name="registro_importador" class="java.lang.String"/>
+	<field name="permiso_fitosanitario" class="java.lang.String"/>
+	<field name="tecnico_id" class="java.lang.String"/>
+	<field name="ic_resultado_decision_id" class="java.math.BigDecimal"/>
+	<field name="activo" class="java.lang.Boolean"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="provincia_id" class="java.math.BigDecimal"/>
+	<field name="origen_muestra_id" class="java.math.BigDecimal"/>
+	<field name="nombre_rep_legal" class="java.lang.String"/>
+	<field name="pais_procedencia_id" class="java.math.BigDecimal"/>
+	<field name="tipo_muestra_id" class="java.math.BigDecimal"/>
+	<field name="ic_requerimiento_id" class="java.math.BigDecimal"/>
+	<field name="ic_muestra_id" class="java.lang.Integer"/>
+	<field name="ultimo_insumo" class="java.lang.String"/>
+	<field name="tecnica" class="java.lang.String"/>
+	<field name="medio" class="java.lang.String"/>
+	<field name="fecha_envio_lab" class="java.sql.Timestamp"/>
+	<field name="cantidad_muestras_lab" class="java.math.BigDecimal"/>
+	<field name="cantidad_contra_muestra" class="java.math.BigDecimal"/>
+	<field name="ultimo_insumo_aplicado_id" class="java.math.BigDecimal"/>
+	<field name="produccion_estimada" class="java.math.BigDecimal"/>
+	<field name="fecha_ultima_aplicacion" class="java.sql.Timestamp"/>
+	<field name="tecnica_muestreo" class="java.lang.String"/>
+	<field name="medio_refrigeracion" class="java.lang.String"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#395A9C" uuid="21aad21f-a39a-4602-aa6f-4861f58d916d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Muestra]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="140" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="136" height="20" uuid="f3a9b395-5286-4793-86be-0d655622ca1d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Muestra]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="0" width="267" height="20" uuid="d30862f3-9f04-4793-bb0f-ee5de65fb845"/>
+				<textFieldExpression><![CDATA[$F{fecha_muestreo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="136" height="20" uuid="e29c8802-1d23-4788-bde6-2c131416bd1e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código Muestras]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="20" width="267" height="20" uuid="3db0cb2c-61ea-45a6-83a4-c3533223f98b"/>
+				<textFieldExpression><![CDATA[$F{codigo_muestras}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="136" height="20" uuid="57d18c2d-c434-4454-965a-adb5a167d07f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="40" width="419" height="20" uuid="5aaf272f-c7f0-4a8c-8a7b-ccbbb86137f5"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="136" height="20" uuid="2ffef3bf-399d-4374-9fd2-e6cf8d440f39"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="60" width="267" height="20" uuid="eb10365e-78d7-4c90-aee3-e4bca8764573"/>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="136" height="20" uuid="c77b9c16-95ea-4b30-8e9f-81bbfedc552a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="80" width="267" height="20" uuid="047a9d5b-10a4-4000-8de9-94711be9deff"/>
+				<textFieldExpression><![CDATA[$F{parroquia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="100" width="136" height="20" uuid="00bd4140-769d-4070-907c-b3af8a4789eb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Empresa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="100" width="267" height="20" uuid="72c5677b-f261-44e7-ad53-04d5000141a3"/>
+				<textFieldExpression><![CDATA[$F{empresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="120" width="136" height="20" uuid="58e6709a-8c43-4707-9480-585f7a8049e0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Técnico Responsable]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="120" width="419" height="20" uuid="66eaa696-14fb-41ca-b6a5-ab593716a792"/>
+				<textFieldExpression><![CDATA[$F{tecnico_responsable}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="100">
+			<printWhenExpression><![CDATA[$F{tipo_empresa}.equals("IM")]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="20" width="136" height="20" uuid="eaa8af9e-f088-467b-9e2a-aa7cb5b6fd19"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Representante Legal]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="20" width="419" height="20" uuid="125d893d-5f02-4a1b-b147-3ed11b59aa31"/>
+				<textFieldExpression><![CDATA[$F{nombre_rep_legal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#ADAFB3" uuid="5fece9df-9aff-4258-a070-af723a3f68bc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="136" height="20" uuid="99f9107d-6984-4a12-875b-388f48813153"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Registro Importador]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="40" width="419" height="20" uuid="bd47a5b1-ca46-4143-a1b5-28c4d7b83d61"/>
+				<textFieldExpression><![CDATA[$F{registro_importador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="136" height="20" uuid="98b50fa3-f749-4cb0-95a2-ca1b55bd71ce"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[País de Procedencia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="60" width="419" height="20" uuid="7e0cbbe3-9e87-44b7-a504-903213e89a67"/>
+				<textFieldExpression><![CDATA[$F{pais_procedencia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="136" height="20" uuid="4b7a5bbe-6a75-47cc-a4d7-041fff1ed0ff"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Muestra]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="80" width="419" height="20" uuid="f97bd2f6-15b3-4a98-b381-6b923f20c63b"/>
+				<textFieldExpression><![CDATA[$F{tipo_muestra}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="60">
+			<printWhenExpression><![CDATA[!$F{tipo_empresa}.equals("IM")]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="40" width="136" height="20" uuid="ffb55362-d3ad-4074-853d-f0c2ed9e0a04"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Finca]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="40" width="419" height="20" uuid="e8ad41f5-5f8b-4b1b-9e26-00b4ae64a581"/>
+				<textFieldExpression><![CDATA[$F{finca}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#ADAFB3" uuid="83261f29-d9ff-4fe8-ad03-fdc290a8a69a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nacional]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="136" height="20" uuid="e1365f0b-d0e0-466e-bc33-c0dafa9afec6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Origen Muestra]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="136" y="20" width="419" height="20" uuid="a34b592a-77b3-43fb-b8dc-90e7c37c059f"/>
+				<textFieldExpression><![CDATA[$F{origen_muestra}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="180">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#ADAFB3" uuid="634f88cc-4130-43fe-9275-c01eea0d77c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Análisis Muestra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="160" width="154" height="20" uuid="fecb8150-1a35-4d03-a75d-b0cb942a53e9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medio Refrigeración]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="140" width="401" height="20" uuid="df3050c1-82e0-4e0b-8576-50ce7f6b9eac"/>
+				<textFieldExpression><![CDATA[$F{tecnica}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="60" width="192" height="20" uuid="2d4908f4-dbac-4ca8-aa30-b6738cf07ee1"/>
+				<textFieldExpression><![CDATA[$F{cantidad_contra_muestra}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="154" height="20" uuid="7bc0b686-8353-486e-8350-08420c7c9146"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Último Insumo Aplicado]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="40" width="192" height="20" uuid="ee7e5cfd-de57-4229-81e3-ed238a8479f8"/>
+				<textFieldExpression><![CDATA[$F{cantidad_muestras_lab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="120" width="192" height="20" uuid="cb672db4-119b-4f5c-aa4d-5b8efa364a46"/>
+				<textFieldExpression><![CDATA[$F{fecha_ultima_aplicacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="140" width="154" height="20" uuid="72a2a715-bf94-4c7d-9d6f-4c9507447cb4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Técnica Muestreo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="154" height="20" uuid="a50848d8-e7d6-46e6-b307-c1724bd4d5dd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contra Muestras]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="154" height="20" uuid="affbafaf-cbf9-4578-802a-7f1516cf96b4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Muestra]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="100" width="192" height="20" uuid="d21865cf-e173-49a2-ae4c-1ba973cd4c46"/>
+				<textFieldExpression><![CDATA[$F{produccion_estimada}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="120" width="154" height="20" uuid="e92ff03f-6714-4f80-beee-f207dd40e0a8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Última Aplicación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="154" height="20" uuid="3d4d5d9a-d3a2-4d77-96b5-5976f57fd168"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Muestras]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="160" width="401" height="20" uuid="664c8d3b-6cd4-47f3-9fe5-dd4526e7fc19"/>
+				<textFieldExpression><![CDATA[$F{medio_refrigeracion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="100" width="154" height="20" uuid="800f54ba-51b7-4f88-a7fa-94ffa7b4ebf7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producción Estimada]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="154" y="80" width="345" height="20" uuid="6f35c72f-93f3-480b-8fbb-0a0f5c9c41d3"/>
+				<textFieldExpression><![CDATA[$F{ultimo_insumo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="20" width="192" height="20" uuid="a3a29b6c-d123-485e-8416-b2a45e651f26"/>
+				<textFieldExpression><![CDATA[$F{fecha_envio_lab}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="18" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="18" uuid="8ae24728-abaa-41a3-b14a-9ed7aaeb9bae"/>
+				<subreportParameter name="ic_muestra_id">
+					<subreportParameterExpression><![CDATA[$F{ic_muestra_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "360_MuestraRapida.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="18">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="18" uuid="cf2d7678-1185-4a35-a56e-8ca77570f28b"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ic_muestra_id">
+					<subreportParameterExpression><![CDATA[$F{ic_muestra_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "360_Laboratorio.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

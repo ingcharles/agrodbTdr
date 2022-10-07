@@ -1,0 +1,90 @@
+<?php
+session_start();
+require_once '../../clases/Conexion.php';
+require_once '../../clases/ControladorCatalogos.php';
+require_once '../../clases/ControladorRegistroOperador.php';
+require_once '../../clases/ControladorRevisionSolicitudesVUE.php';
+
+$mensaje = array();
+
+
+$tmpAreas =array();
+
+try{
+
+	$idOperacion = htmlspecialchars ($_POST['idOperacionIA'],ENT_NOQUOTES,'UTF-8');
+	$tipoOperacion = htmlspecialchars ($_POST['idTipoOperacionIA'],ENT_NOQUOTES,'UTF-8');
+	$areaProducto = htmlspecialchars ($_POST['areaProducto'],ENT_NOQUOTES,'UTF-8');
+	$idFlujoOperacion = htmlspecialchars ($_POST['idFlujo'],ENT_NOQUOTES,'UTF-8');
+	$identificadorOperador = $_SESSION['usuario'];
+
+	$conexion = new Conexion();
+	$cc = new ControladorCatalogos();
+	$cr = new ControladorRegistroOperador();
+	$crs = new ControladorRevisionSolicitudesVUE();
+
+	$estadoFlujo = pg_fetch_assoc($cr->obtenerEstadoFlujoOperacion($conexion, $idFlujoOperacion, '1'));
+	$estadoFlujo['estado'];
+	switch ($estadoFlujo['estado']){
+
+		case 'pago':
+			$res = $cr -> enviarOperacion($conexion, $idOperacion,$estadoFlujo['estado']);
+			break;
+		case 'cargarAdjunto':
+			$res = $cr -> enviarOperacion($conexion, $idOperacion,$estadoFlujo['estado']);
+			break;
+		case 'inspeccion':
+			$res = $cr -> enviarOperacion($conexion, $idOperacion,$estadoFlujo['estado']);
+			break;
+		case'registrado':
+			$fechaActual = date('Y-m-d H-i-s');
+			$cr -> enviarOperacion($conexion, $idOperacion,'registrado', 'No se realizó proceso de inspección, ni cobro de tasas. Proceso ejecutado por sistema GUIA '.$fechaActual.' en base a memorando MAGAP-DSV/AGROCALIDAD-2014-001427-M');
+			$cr -> cambiarEstadoAreaXidSolicitud($conexion, $idOperacion, 'registrado', 'No se realizó proceso de inspección, ni cobro de tasas. Proceso ejecutado por sistema GUIA '.$fechaActual.' en base a memorando MAGAP-DSV/AGROCALIDAD-2014-001427-M');
+			break;
+	}
+		
+	$cr->obtenerAreaXIdOperacion($conexion, $idOperacion);
+
+	$qAreasOperacion=$cr->obtenerAreaXIdOperacion($conexion, $idOperacion);
+
+	while ($fila =pg_fetch_assoc($qAreasOperacion)){
+		$tmpAreas[]= $fila['id_area'];
+	}
+
+	$areasOperacion = implode(',', $tmpAreas);
+
+	$estadoOperacion = $cr->buscarEstadoOperacionArea($conexion, $tipoOperacion, $identificadorOperador, $areasOperacion);
+	$estado = pg_fetch_assoc($estadoOperacion);
+
+
+	if($estado['estado'] == 'registrado' && ($areaProducto == 'IAV' || $areaProducto == 'IAP' || $areaProducto == 'IAF')){
+
+		$res = $cr -> enviarOperacion($conexion, $idOperacion,'registrado', 'Solicitud aprobada por sistema GUIA, operación y área se encuentran en estado registrado');
+		$res = $cr -> cambiarEstadoAreaXidSolicitud($conexion, $idOperacion, 'registrado', 'Solicitud aprobada por sistema GUIA, operación y área se encuentran en estado registrado');
+
+		$idGrupoAsignado= $crs->guardarNuevoInspector($conexion, 'G.U.I.A', 'G.U.I.A', 'Operadores', 'Financiero');
+		$crs->guardarGrupo($conexion, $idOperacion,pg_fetch_result($idGrupoAsignado, 0, 'id_grupo'), 'Financiero');
+
+		$idFinanciero = $crs->asignarMontoSolicitud($conexion, pg_fetch_result($idGrupoAsignado, 0, 'id_grupo'), 'G.U.I.A', 0, 1);
+
+		$fechaActual = date('Y-m-d');
+
+		$crs->guardarInspeccionFinanciero($conexion, pg_fetch_result($idFinanciero, 0, 'id_financiero'), 'G.U.I.A', 'aprobado', 'Solicitud aprobada por sistema GUIA, operación y área se encuentran en estado registrado', '0', 0, $fechaActual, '0',$numeroFactura);
+
+	}
+
+	$mensaje['estado'] = 'exito';
+	$mensaje['mensaje'] = 'La información adicional ha sido cargada con éxito.';
+
+	$conexion->desconectar();
+
+	echo json_encode($mensaje);
+
+} catch (Exception $ex){
+	pg_close($conexion);
+	$mensaje['estado'] = 'error';
+	$mensaje['mensaje'] = "Error al ejecutar sentencia";
+	echo json_encode($mensaje);
+}
+
+?>

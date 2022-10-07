@@ -1,0 +1,55 @@
+ @CHARSET "UTF-8";
+
+.bEliminar{
+	background-image: url('../../../../../general/img/eliminar2.png');
+	margin-left:5px;
+	border-radius: 5px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 0;
+	background-color: transparent !important;
+	width: 27px;
+	height: 27px;
+	border: none;
+}
+
+.bEliminar:hover{
+	background-image: url('../../../../../general/img/eliminar2.png');
+}
+ #listadoItems .filtro input[type="radio"]{
+	
+	vertical-align:top;
+    margin-top: 1.3px;
+    padding: 5px;
+} 
+
+ #detalleItem fieldset input[type="radio"]{
+	
+	vertical-align:top;
+	margin-top: 0.5px;
+    margin-left: -1px;
+} 
+#detalleItem fieldset #subtipos input[type="checkbox"] {
+	
+	vertical-align:top;
+	margin-top: 0px;
+    margin-left: -1px;
+} 
+
+.bPrevisualizar{
+	background-image: url('../../../../../general/img/previsualizar.png');
+	margin-left:5px;
+	border-radius: 5px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 0;
+	background-color: transparent !important;
+	width: 27px;
+	height: 27px;
+	border: none;
+}
+.bPrevisualizar:hover{
+	background-image: url('../../../../../general/img/previsualizar.png');
+}
+
+

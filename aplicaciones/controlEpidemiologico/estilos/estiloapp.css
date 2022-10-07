@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+
+
+
+#__registroOperador {
+	background-image: url('../img/msitios.png');
+}
+
+#__solicitudes {
+	background-image: url('../img/msolicitudes.png');
+}
+
+#__revisionSitioOperador {
+	background-image: url('../img/mrevision.png');
+}
+
+#__declararProveedores {
+	background-image: url('../img/proveedores.png');
+}
+
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+

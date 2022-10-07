@@ -1,0 +1,131 @@
+@CHARSET "UTF-8";
+
+#__categoriaProductos {
+    background-image: url('../img/catProductos.png');
+}
+
+
+#__requisitos {
+    background-image: url('../img/reqGenerales.png');
+}
+
+#__requisitoComercio{
+    background-image: url('../img/reqComercio.png');
+}
+
+div h2 {
+    text-align: right;
+    font-size: 1.7em;
+    font-weight: lighter;
+    border-bottom: 1px solid #DEDEDE;
+    color: #656569;
+}
+
+#detalleItem fieldset#fs_productos > table {
+    text-align: center;
+    width: 100% !important;
+}
+
+#detalleItem fieldset#fs_productos > table td:nth-child(3) {
+    font-style: italic;
+}
+
+#detalleItem fieldset#fs_productos a {
+    text-decoration: none;
+}
+
+#detalleItem fieldset#fs_productos a:after{
+    content: " \27A6";
+}
+
+.Inactivo {
+    color: red;
+}
+
+body.ventanaExterna{
+    margin:90px 10px 10px 10px;
+    overflow: auto;
+}
+
+.ventanaExterna div{
+    display: block !important;
+}
+
+#resultadosEmpresa div > label, #resultadosComposicion div > label{
+    font-weight: normal;
+}
+
+#barra{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: #000000;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+#estado{
+
+}
+
+#codigoGenerado{
+    float: left;
+    font-size: large;
+    color: white;
+    font-weight: bold;
+}
+
+.uso_como, .uso_contra, .uso_para, .uso_dosis, .uso_producto_consumo, .uso_periodo  {
+    border: 1px solid rgba(0,0,0,0.25);
+    margin: 2px;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.uso_como{
+    background-color: rgba(0,184,245,.2);
+}
+
+.uso_contra{
+    background-color: rgba(255,61,255,.2);
+}
+
+.uso_para{
+    background-color: rgba(184,245,0,.5);
+}
+
+.uso_dosis{
+    background-color: rgba(255,255,61,.5);
+}
+
+.uso_producto_consumo{
+    background-color: rgba(194,97,0,.5);
+}
+
+
+.uso_periodo{
+    background-color: rgba(245,61,0,.5);
+}
+
+.resaltar_nuevo{
+    border-top: 1px dashed rgba(0,0,0,0.25);
+    border-bottom: 1px dashed rgba(0,0,0,0.25);
+    padding: 2px 0;
+    margin: 2px 0;
+    background-color: rgba(184,245,0,.5);
+}
+
+.resaltar_nuevo label{
+    font-weight: bold;
+}
+
+div input + label{
+    font-weight: normal;
+}
+
+#finalizacion button{
+    display: block;
+    padding: 20px;
+}

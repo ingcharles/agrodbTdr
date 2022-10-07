@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:partidasArancelariasPorRoce" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:partidasArancelariasPorRoce">
+<types>
+<xsd:schema targetNamespace="urn:partidasArancelariasPorRoce"
+>
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+ <xsd:complexType name="datoSalida">
+  <xsd:all>
+   <xsd:element name="mensaje" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="buscarPartidasArancelariasPorOperadorComercioExteriorRequest">
+  <part name="identificadorOperador" type="xsd:string" /></message>
+<message name="buscarPartidasArancelariasPorOperadorComercioExteriorResponse">
+  <part name="return" type="tns:datoSalida" /></message>
+<portType name="Consulta partidas arancelarias de operadores de comercio exterior.PortType">
+  <operation name="buscarPartidasArancelariasPorOperadorComercioExterior">
+    <documentation>La siguiente funcion recibe el parametro de identificación del ROCE y retorna los datos relaciones con las partidas arancelarias de los productos de importación.</documentation>
+    <input message="tns:buscarPartidasArancelariasPorOperadorComercioExteriorRequest"/>
+    <output message="tns:buscarPartidasArancelariasPorOperadorComercioExteriorResponse"/>
+  </operation>
+</portType>
+<binding name="Consulta partidas arancelarias de operadores de comercio exterior.Binding" type="tns:Consulta partidas arancelarias de operadores de comercio exterior.PortType">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="buscarPartidasArancelariasPorOperadorComercioExterior">
+    <soap:operation soapAction="urn:partidas#buscarPartidasArancelariasPorOperadorComercioExterior" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:partidasArancelariasPorRoce" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:partidasArancelariasPorRoce" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+</binding>
+<service name="Consulta partidas arancelarias de operadores de comercio exterior.">
+  <port name="Consulta partidas arancelarias de operadores de comercio exterior.Port" binding="tns:Consulta partidas arancelarias de operadores de comercio exterior.Binding">
+    <soap:address location="http://localhost/agrodb/aplicaciones/webServices/operadores/partidasArancelariasPorOperador.php"/>
+  </port>
+</service>
+</definitions>

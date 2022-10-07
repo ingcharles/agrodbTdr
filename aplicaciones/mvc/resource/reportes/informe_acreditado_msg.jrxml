@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InfomeBasico" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="545" leftMargin="30" rightMargin="20" topMargin="20" bottomMargin="20" uuid="35460e3e-b788-472c-b63d-845bb740ca1e">
+	<property name="ireport.zoom" value="0.8264462809917354"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nombreInforme" class="java.lang.String"/>
+	<parameter name="codigo" class="java.lang.String"/>
+	<parameter name="revision" class="java.lang.String"/>
+	<parameter name="nombreLaboratorio" class="java.lang.String"/>
+	<parameter name="ubicacion" class="java.lang.String"/>
+	<parameter name="observacion" class="java.lang.String"/>
+	<parameter name="msgsuperior" class="java.lang.String"/>
+	<parameter name="rutaLogo" class="java.lang.String"/>
+	<parameter name="archivosAdjuntos" class="java.lang.String"/>
+	<parameter name="tablasReferencias" class="java.lang.String"/>
+	<parameter name="tablasReferenciasHTML" class="java.lang.String"/>
+	<parameter name="autores" class="java.lang.String"/>
+	<parameter name="fechaEmision" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="piePagina" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="nacreditacion" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="logoAcreditacion" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="msgpieacreditacion" class="java.lang.String" isForPrompting="false"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="124" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="300" y="82" width="255" height="18" uuid="daeb2aaa-a5e5-40c7-beaa-c5f7499a128a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{msgsuperior}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="0" width="162" height="80" uuid="4edd8bbc-51d1-4325-9777-64e09214b086"/>
+			</rectangle>
+			<image>
+				<reportElement x="9" y="9" width="146" height="50" uuid="665c7296-0111-4f19-9e61-2aeadfc6649a"/>
+				<imageExpression><![CDATA[$P{rutaLogo}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="400" y="0" width="155" height="80" uuid="b6cb76d4-392c-4d7c-b910-646e66f0dd52"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="162" y="0" width="238" height="80" uuid="67262626-230c-43a9-a10f-c6860871c6bf"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="163" y="58" width="231" height="20" uuid="5b10046e-e20b-4ab5-8213-cf957e0ce60f"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreInforme}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="162" y="50" width="392" height="1" uuid="f2c60be2-25b8-41c8-a28e-ea446c9f84a6"/>
+			</line>
+			<line>
+				<reportElement x="400" y="29" width="155" height="1" uuid="00322c67-3551-4e5c-b8f8-fa70735ff8a0"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="403" y="6" width="150" height="20" uuid="b71c94f4-0889-4e22-a06b-02590d368fae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="452" y="56" width="27" height="20" uuid="20c95c8f-e0a2-4a37-aa15-2256568773cb"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="411" y="56" width="30" height="20" uuid="7a5ca5c5-65f1-4c4b-b937-0e0fbb219d51"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Hoja ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="487" y="56" width="18" height="20" uuid="2dece213-d053-42a0-91bf-1f313f01955f"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="162" y="0" width="231" height="20" uuid="a005eb42-3928-4560-8dad-db7976199b29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreLaboratorio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="162" y="22" width="232" height="20" uuid="f89c46d5-857c-48de-a321-e277f765c81c"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ubicacion}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="517" y="56" width="32" height="20" uuid="fda15398-839e-4910-818d-e951570d4dcc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="102" width="253" height="20" uuid="3dc78386-0f69-4274-963e-54cfb7f85d74"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaEmision}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="403" y="28" width="148" height="20" uuid="0fc8658c-38fc-4b29-a4b9-6e2dd1894da0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{revision}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="82" width="285" height="30" forecolor="#003366" uuid="1c25318a-8f94-4d88-a0ba-8fc5ce2c609b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nacreditacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="0" width="544" height="54" uuid="ca9c2f62-2822-4f3b-bc69-3d14b82aed5d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{piePagina}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="221" splitType="Stretch">
+			<componentElement>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="1" y="150" width="545" height="66" uuid="4dc8576a-ed29-4299-a333-e7d000921cfe"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RealHeight" horizontalAlign="Left" verticalAlign="Top">
+					<hc:htmlContentExpression><![CDATA[$P{tablasReferenciasHTML}]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="0" y="52" width="546" height="25" uuid="6ef70b00-9752-41bc-adaf-817a1cfe16cd"/>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{observacion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="1" y="85" width="544" height="26" uuid="7c31047e-1282-48c0-98ea-a10487293cb9"/>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{archivosAdjuntos}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="1" y="119" width="544" height="26" uuid="8275310d-8509-472e-bf10-d839803e2eee"/>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tablasReferencias}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="4" width="544" height="20" uuid="b8333ec3-7259-443d-b5ed-42b02e043a4a"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{autores}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="2" y="28" width="543" height="20" uuid="b228cf54-a5b9-4b67-b76a-efdb01fdac5a"/>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{msgpieacreditacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

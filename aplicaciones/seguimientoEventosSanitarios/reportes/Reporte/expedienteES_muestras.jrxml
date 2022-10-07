@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES_muestras" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="92a7f035-4b92-4c32-9761-91c9b7befea4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_evento_sanitario_m" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT * FROM G_SEGUIMIENTO_EVENTOS_SANITARIOS.MUESTRAS M, G_SEGUIMIENTO_EVENTOS_SANITARIOS.DETALLE_MUESTRAS DM WHERE
+M.ID_MUESTRAS=DM.ID_MUESTRA and
+m.id_evento_sanitario=$P{id_evento_sanitario_m}]]>
+	</queryString>
+	<field name="id_muestras" class="java.lang.Integer"/>
+	<field name="id_evento_sanitario" class="java.lang.Integer"/>
+	<field name="numero_visita" class="java.lang.String"/>
+	<field name="colecta_material" class="java.lang.String"/>
+	<field name="razones_muestra" class="java.lang.String"/>
+	<field name="pruebas_muestra" class="java.lang.String"/>
+	<field name="laboratorio_muestra" class="java.lang.Integer"/>
+	<field name="nombre_laboratorio_muestra" class="java.lang.String"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<field name="anexo" class="java.lang.String"/>
+	<field name="id_detalle_muestra" class="java.lang.Integer"/>
+	<field name="id_muestra" class="java.lang.Integer"/>
+	<field name="id_especie_muestra" class="java.lang.Integer"/>
+	<field name="especie_muestra" class="java.lang.String"/>
+	<field name="id_tipo_muestra" class="java.lang.Integer"/>
+	<field name="tipo_muestra" class="java.lang.String"/>
+	<field name="numero_muestras" class="java.lang.Integer"/>
+	<field name="fecha_colecta_muestra" class="java.sql.Timestamp"/>
+	<field name="hora_colecta_muestra" class="java.lang.String"/>
+	<field name="fecha_envio_muestra" class="java.sql.Timestamp"/>
+	<field name="hora_envio_muestra" class="java.lang.String"/>
+	<field name="id_prueba_muestra" class="java.lang.Integer"/>
+	<field name="prueba_muestra" class="java.lang.String"/>
+	<group name="id_evento_sanitario">
+		<groupExpression><![CDATA[$F{id_evento_sanitario}]]></groupExpression>
+	</group>
+	<group name="id_muestras">
+		<groupExpression><![CDATA[$F{id_muestras}]]></groupExpression>
+	</group>
+	<group name="id_muestra">
+		<groupExpression><![CDATA[$F{id_muestra}]]></groupExpression>
+	</group>
+	<group name="id_especie_muestra">
+		<groupExpression><![CDATA[$F{id_especie_muestra}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="61" height="20" uuid="5c83c451-10f3-4abf-8009-7e0fc59eab6b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Visita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="0" width="41" height="20" uuid="c7429720-d783-4728-b7b6-0705e454d199"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Colecta?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="102" y="0" width="86" height="20" uuid="0f332bad-583a-46c4-bbe3-a0b42dc1b624"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[T. Muestra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="0" width="24" height="20" uuid="30c73188-76e9-45de-acc9-c34b34d06387"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cant.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="0" width="83" height="20" uuid="6f153f2d-3524-438c-b41b-9659ff606b1b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="0" width="76" height="20" uuid="b9e8b7ad-8b77-4174-9058-461c08bda2d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prueba Solicitada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="0" width="68" height="20" uuid="f2327323-6199-4807-a180-1e5eb8f22358"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laboratorio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="0" width="60" height="20" uuid="036042c8-fc19-4d97-b8a3-d6133baff1ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[F. Colecta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="499" y="0" width="56" height="20" uuid="76475e30-492f-40c1-80fe-593250e94a4a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[F. Envío]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="61" height="20" uuid="d9da18fb-3741-4222-8753-1a70bc7bae9e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_visita}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="61" y="0" width="41" height="20" uuid="f6c74869-8c3c-4ca6-a7d9-264874982e2c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{colecta_material}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="0" width="86" height="20" uuid="1cde77d5-8ecb-413f-b9df-e1319e6e763e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_muestra}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="188" y="0" width="24" height="20" uuid="d43eace7-69fa-456d-beda-ffcd466e39da"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_muestras}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="0" width="83" height="20" uuid="4ed86407-afbd-490a-aa57-08d24e01de69"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{especie_muestra}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="295" y="0" width="76" height="20" uuid="2e971aed-cc9f-4698-88b8-23e6e5c718fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prueba_muestra}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="371" y="0" width="68" height="20" uuid="8f466030-c7c5-4950-9f6d-d23e2b6ba6d9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_laboratorio_muestra}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="439" y="0" width="60" height="20" uuid="a01d830d-d1ee-41b7-8ae1-0a34bc51ccee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_colecta_muestra}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="499" y="0" width="56" height="20" uuid="610af1da-ef67-46ba-af24-5c39fbd8fa42"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_envio_muestra}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="requisitos_importacion" language="groovy" pageWidth="585" pageHeight="842" columnWidth="585" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d8d4385a-d312-48e5-928d-e8063548bc5b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocalidadDesarrollo"/>
+	<parameter name="idSolicitud" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idLocalizacion" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT distinct
+       id_tipo_producto, nombre_tipo, id_subtipo_producto,
+       nombre_subtipo, id_producto, nombre_producto,
+       (SELECT
+		distinct
+			array_to_string(ARRAY(
+			    SELECT
+			       'R) ' || r1.detalle_impreso
+			    FROM
+				g_requisitos.requisitos_asignados ra1,
+				g_requisitos.requisitos r1
+			    WHERE
+				ra1.requisito = r1.id_requisito and
+						r1.tipo =  'Exportación' and
+				ra1.id_requisito_comercio = rc.id_requisito_comercio),' ') as detalle_impreso
+FROM
+	g_requisitos.requisitos_comercializacion rc,
+	g_requisitos.requisitos_asignados ra
+WHERE
+	rc.id_requisito_comercio = ra.id_requisito_comercio and
+	rc.id_localizacion = $P{idLocalizacion}
+ and
+	rc.id_producto = producto_solicitudes.id_producto and
+	ra.tipo = 'Exportación')
+FROM
+       g_mercancias_valor_comercial.producto_solicitudes
+WHERE
+       producto_solicitudes.id_solicitud= $P{idSolicitud}
+order by 1]]>
+	</queryString>
+	<field name="id_tipo_producto" class="java.lang.Integer"/>
+	<field name="nombre_tipo" class="java.lang.String"/>
+	<field name="id_subtipo_producto" class="java.lang.Integer"/>
+	<field name="nombre_subtipo" class="java.lang.String"/>
+	<field name="id_producto" class="java.lang.Integer"/>
+	<field name="nombre_producto" class="java.lang.String"/>
+	<field name="detalle_impreso" class="java.lang.String"/>
+	<detail>
+		<band height="58">
+			<textField>
+				<reportElement x="1" y="5" width="100" height="20" uuid="e24492d9-8dae-4d47-a74e-bb056fe1cdf3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Producto: " +$F{nombre_producto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement x="1" y="29" width="539" height="26" uuid="140c404e-b589-42da-b542-a22979c1eee3"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_impreso} == null ? "No existen requisistos para este producto." : $F{detalle_impreso}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

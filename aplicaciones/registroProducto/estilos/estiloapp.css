@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+
+#__categoriaProductos {
+	background-image: url('../img/catProductos.png');
+}
+
+
+#__requisitos {
+	background-image: url('../img/reqGenerales.png');
+}
+
+#__requisitoComercio{
+	background-image: url('../img/reqComercio.png');
+}
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+#mensajeCargando{
+	position: relative;
+}
+

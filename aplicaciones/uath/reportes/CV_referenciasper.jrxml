@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CV_referenciasper" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="827de157-4b72-4541-a8d2-77b1d246c67c">
+	<property name="ireport.zoom" value="1.6963904734899393"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="identificador_referenciaper" class="java.lang.String"/>
+	<parameter name="rutaImagen" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	apellido ||' '|| nombre as nombres,
+	telefono,
+	celular
+FROM
+	g_uath.familiares_empleado
+WHERE
+	identificador=$P{identificador_referenciaper}
+ORDER BY
+	posee_discapacidad desc
+	--limit 2]]>
+	</queryString>
+	<field name="nombres" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="celular" class="java.lang.String"/>
+	<pageHeader>
+		<band height="71">
+			<image>
+				<reportElement x="20" y="5" width="405" height="64" uuid="179750c7-02f7-405b-9f8e-d36e9e297d42"/>
+				<imageExpression><![CDATA[$P{rutaImagen}+"principales/referenciasPersonales.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="93" y="26" width="201" height="21" forecolor="#FFFFFF" backcolor="#F7E0CD" uuid="6c554b1a-0d91-4b86-ab3e-d8b4a1f75905"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Referencias Personales]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="65" y="4" width="387" height="13" forecolor="#FFFFFF" uuid="d8cbf0fb-5f7e-46ce-887d-22ef0b59adeb"/>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="17" width="387" height="13" forecolor="#FFFFFF" uuid="e5247d54-cc80-4227-908f-9326fac927e9"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono} + ($F{celular}==null || $F{celular} == '' ? " " : " - " + $F{celular})]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="38" y="4" width="24" height="24" uuid="74554245-400a-45d3-a25f-9dbfd5fb6134"/>
+				<imageExpression><![CDATA[$P{rutaImagen}+"secundarios/referencias.gif"]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

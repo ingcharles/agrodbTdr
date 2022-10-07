@@ -1,0 +1,84 @@
+@CHARSET "UTF-8";
+@import "../../../estilos/fonts/material/material-icons.css";
+
+#file-dialog{
+    background-color: transparent;
+}
+.ui-widget-content{
+    background-color: rgba(255, 255, 255, 0.90);
+}
+
+#dataTable{
+    height:288px;
+    overflow:auto;
+}
+
+.adjuntos_header_title{
+    text-align: center;
+    color: #ffac00;
+}
+
+.adjuntos_detalle{
+    border: 1px;
+    width:100%;
+    border-color: #afafaf;
+}
+
+.adjuntos_header{
+    color: #afafaf;
+}
+.adjuntos_fila{
+    height: 100%;
+}
+
+#adjuntos_file_download{
+    width: 100%;
+    text-align: center;
+    color: #157e88;
+}
+
+.material_link::after{
+    content: "" !important;
+}
+
+.adjuntos_form_tabla{
+    width: 100%;
+    border-collapse: unset !important;
+    border-color: #3ea851;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    /*padding: 5px;*/
+}
+
+.adjuntos_form_tabla div{
+    padding: 2px;
+}
+
+.adjuntos_form_tabla h4{
+    color: #157e88;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.adjuntos_form_tabla a{
+    width: 100%;
+    text-align: center;
+    color: #157e88;
+}
+
+#file_msg_box{
+    position: absolute;
+    bottom: 0px;
+    padding: 5px 30px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    background-color: #4F4F4F;
+    color: white;
+    font-size: small;
+    font-family: 'Open Sans', "Segoe UI", sans-serif;
+    left: 0;
+}

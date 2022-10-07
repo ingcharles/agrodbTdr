@@ -1,0 +1,46 @@
+.contenido{
+    width: 80%;
+    display: grid;
+    background-color: white;
+    margin-left: 10%;
+    padding-left: 50px;
+}
+
+.items{
+    font-size: 22px;
+}
+
+.title{
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.date{
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.separator{
+    position: relative;
+    left: 10%;
+    width: 80%;
+    height: 5px;
+    background-color: #a2aec7;
+}
+
+.titulo-grafico{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+div[class*="graphLabel"]{
+    font-size: 16px;
+}
+div[class*="subBars"] {
+    font-size: 16px !important;
+    font-weight: bold;
+}

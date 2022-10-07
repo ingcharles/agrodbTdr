@@ -1,0 +1,1868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ExpedienteAlimentos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d1a6d0a5-acd3-4f5d-9db6-7da6065bf630">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 8_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 9_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 9_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 10_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 10_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 11_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 11_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 11_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 12_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 12_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 12_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatasetOrigenProducto" uuid="4fdc7e6e-1ac7-45e0-9d9b-94841b9777ea">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT
+	op.*
+ FROM 
+ 	g_dossier_pecuario_mvc.origen_producto op
+ WHERE
+ 	op.id_solicitud =  $P{idSolicitud}   ;]]>
+		</queryString>
+		<field name="id_origen_producto" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_origen_producto"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="origen_fabricacion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="origen_fabricacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="identificador_fabricante" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="identificador_fabricante"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="nombre_fabricante" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_fabricante"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="direccion_fabricante" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="direccion_fabricante"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="id_provincia_fabricante" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_provincia_fabricante"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="provincia_fabricante" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="provincia_fabricante"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="id_fabricante_extranjero" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_fabricante_extranjero"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="id_pais" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_pais"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="pais" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="pais"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+		<field name="tipo_producto_fabricante" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo_producto_fabricante"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="origen_producto"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetPartidaCodigo" uuid="e9c2ef2d-9b7b-4d7a-99cf-ec7c29771a65">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT
+	pc.*
+FROM 
+	g_dossier_pecuario_mvc.partida_codigos pc
+WHERE
+	pc.id_solicitud =  $P{idSolicitud} ;]]>
+		</queryString>
+		<field name="id_partida_codigo" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_partida_codigo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="partida_codigos"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="partida_codigos"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="partida_codigos"/>
+		</field>
+		<field name="partida_arancelaria" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="partida_arancelaria"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="partida_codigos"/>
+		</field>
+		<field name="id_codigo_complementario" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_codigo_complementario"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="partida_codigos"/>
+		</field>
+		<field name="codigo_complementario" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="codigo_complementario"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="partida_codigos"/>
+		</field>
+		<field name="id_codigo_suplementario" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_codigo_suplementario"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="partida_codigos"/>
+		</field>
+		<field name="codigo_suplementario" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="codigo_suplementario"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="partida_codigos"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetPresentacionComercial" uuid="211474f3-1593-4bfa-a10c-dd1454c20d4d">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	*
+ FROM 
+ 	g_dossier_pecuario_mvc.cantidad_dosis
+ WHERE
+ 	id_solicitud = $P{idSolicitud} ;]]>
+		</queryString>
+		<field name="id_cantidad_dosis" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_cantidad_dosis"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cantidad_dosis"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cantidad_dosis"/>
+		</field>
+		<field name="fecha_solicitud" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cantidad_dosis"/>
+		</field>
+		<field name="dosis" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="dosis"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cantidad_dosis"/>
+		</field>
+		<field name="id_unidad" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_unidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cantidad_dosis"/>
+		</field>
+		<field name="nombre_unidad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_unidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cantidad_dosis"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetComposicion" uuid="f9915c68-0789-47a9-a657-c67034f7a4c5">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT 
+	c.*,
+	tc.tipo_componente,
+	iai.ingrediente_activo
+FROM 
+ 	g_dossier_pecuario_mvc.composicion c
+ 	INNER JOIN g_catalogos.tipo_componente tc ON c.id_tipo_componente = tc.id_tipo_componente
+ 	INNER JOIN g_catalogos.ingrediente_activo_inocuidad iai ON c.id_nombre_componente = iai.id_ingrediente_activo
+ WHERE
+ 	c.id_solicitud = $P{idSolicitud} ;]]>
+		</queryString>
+		<field name="id_composicion" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_composicion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="cada" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cada"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="id_unidad" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_unidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="nombre_unidad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_unidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="id_tipo_componente" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_tipo_componente"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="id_nombre_componente" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_nombre_componente"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="cantidad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="id_unidad_componente" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_unidad_componente"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="nombre_unidad_componente" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_componente"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="composicion"/>
+		</field>
+		<field name="tipo_componente" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="tipo_componente"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_componente"/>
+		</field>
+		<field name="ingrediente_activo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ingrediente_activo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="ingrediente_activo_inocuidad"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetFormaFisFarCos" uuid="c1376020-da7f-4f01-a908-748397d01780">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT 
+	f.*,
+	ff.forma_fis_far_cos
+FROM 
+	g_dossier_pecuario_mvc.forma_fis_far_cos_producto f
+	INNER JOIN g_catalogos.forma_fis_farm_cos ff ON f.id_forma = ff.id_forma_fis_far_cos
+WHERE
+	f.id_solicitud = $P{idSolicitud}  ;]]>
+		</queryString>
+		<field name="id_forma_fis_far_cos_producto" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_forma_fis_far_cos_producto"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_fis_far_cos_producto"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_fis_far_cos_producto"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_fis_far_cos_producto"/>
+		</field>
+		<field name="id_forma" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_forma"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_fis_far_cos_producto"/>
+		</field>
+		<field name="forma_fis_far_cos" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="forma_fis_far_cos"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_fis_farm_cos"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetUsoEspecie" uuid="74c55fc8-8dbc-4e42-85e8-79d8a6ed3c7e">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+                        ue.*, u.nombre_uso as uso, e.nombre as especie
+                    FROM
+                        g_dossier_pecuario_mvc.uso_especie ue
+                        INNER JOIN g_catalogos.usos u ON ue.id_uso = u.id_uso
+                        INNER JOIN g_catalogos.especies e ON ue.id_especie = e.id_especies
+                    WHERE
+                    	ue.id_solicitud =  $P{idSolicitud} 
+                    ORDER BY
+                        uso, especie;]]>
+		</queryString>
+		<field name="id_uso_especie" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_uso_especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="uso_especie"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="uso_especie"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="uso_especie"/>
+		</field>
+		<field name="id_uso" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_uso"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="uso_especie"/>
+		</field>
+		<field name="id_especie" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="uso_especie"/>
+		</field>
+		<field name="nombre_especie" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="uso_especie"/>
+		</field>
+		<field name="uso" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="uso"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="usos"/>
+		</field>
+		<field name="especie" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="especies"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetFormaAdministracion" uuid="b8b349c2-e2fc-4856-96bc-924420925bc5">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+                        dva.*, e.nombre as especie, va.via_administracion
+                    FROM
+                        g_dossier_pecuario_mvc.dosis_via_administracion dva
+			            INNER JOIN g_catalogos.especies e ON e.id_especies = dva.id_especie
+                        INNER JOIN g_catalogos.via_administracion va ON va.id_via_administracion = dva.id_via_administracion
+                    WHERE
+                    	dva.id_solicitud =  $P{idSolicitud} 
+                    ORDER BY
+                        e.nombre;]]>
+		</queryString>
+		<field name="id_dosis_via_administracion" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_dosis_via_administracion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="id_especie" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="nombre_especie" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="caracteristicas_animal" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="caracteristicas_animal"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="id_via_administracion" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_via_administracion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="cantidad_dosis" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cantidad_dosis"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="id_unidad_dosis" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_unidad_dosis"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="nombre_unidad_dosis" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_dosis"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="cantidad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="id_unidad" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_unidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="nombre_unidad" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_unidad"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="duracion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="duracion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="id_unidad_tiempo" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_unidad_tiempo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="nombre_unidad_tiempo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_tiempo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="dosis_via_administracion"/>
+		</field>
+		<field name="especie" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="especies"/>
+		</field>
+		<field name="via_administracion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="via_administracion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="via_administracion"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetFormaAdministracionAlimento" uuid="eab5ee79-8aa2-4bd4-98c8-658280ca9e67">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	faa.*
+ FROM 
+ 	g_dossier_pecuario_mvc.forma_administracion_alimento faa
+ WHERE
+ 	faa.id_solicitud = $P{idSolicitud} ;]]>
+		</queryString>
+		<field name="id_forma_administracion_alimento" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_forma_administracion_alimento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_administracion_alimento"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_administracion_alimento"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_administracion_alimento"/>
+		</field>
+		<field name="dosis_alimento" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="dosis_alimento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_administracion_alimento"/>
+		</field>
+		<field name="forma_administracion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="forma_administracion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="forma_administracion_alimento"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetEfectoBiologico" uuid="3ff0707b-01ea-4db8-b99d-d4f0788ce873">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+    eb.*, ebs.efecto_biologico
+FROM
+    g_dossier_pecuario_mvc.efecto_biologico eb
+    INNER JOIN g_catalogos.efectos_biologicos ebs ON eb.id_efecto = ebs.id_efecto_biologico
+WHERE 
+	eb.id_solicitud = $P{idSolicitud} 
+ORDER BY
+    efecto_biologico;]]>
+		</queryString>
+		<field name="id_efecto_biologico" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_efecto_biologico"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="efecto_biologico"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="efecto_biologico"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="efecto_biologico"/>
+		</field>
+		<field name="id_efecto" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_efecto"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="efecto_biologico"/>
+		</field>
+		<field name="descripcion_efecto_biologico" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="descripcion_efecto_biologico"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="efecto_biologico"/>
+		</field>
+		<field name="efecto_biologico" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="efecto_biologico"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="efectos_biologicos"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetPeriodoVidaUtil" uuid="02184f63-9823-4850-aacc-c733d7108815">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	pvu.*
+ FROM 
+ 	g_dossier_pecuario_mvc.periodo_vida_util pvu
+ WHERE
+ 	pvu.id_solicitud = $P{idSolicitud}  ;]]>
+		</queryString>
+		<field name="id_periodo_vida_util" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_periodo_vida_util"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_vida_util"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_vida_util"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_vida_util"/>
+		</field>
+		<field name="descripcion_envase" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="descripcion_envase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_vida_util"/>
+		</field>
+		<field name="periodo_vida_util" class="java.lang.Double">
+			<property name="com.jaspersoft.studio.field.label" value="periodo_vida_util"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_vida_util"/>
+		</field>
+		<field name="id_unidad_tiempo" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_unidad_tiempo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_vida_util"/>
+		</field>
+		<field name="nombre_unidad_periodo_vida" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_periodo_vida"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_vida_util"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetPeriodoRetiro" uuid="e09d56ea-ae54-42c6-b58f-e46ad02d00e2">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     pr.*, e.nombre as especie, pc.producto_consumible as producto_consumo
+FROM
+     g_dossier_pecuario_mvc.periodo_retiro pr
+     INNER JOIN g_catalogos.especies e ON pr.id_especie = e.id_especies
+     INNER JOIN g_catalogos.productos_consumibles pc ON pr.id_producto_consumo = pc.id_producto_consumible
+WHERE
+	pr.id_solicitud =  $P{idSolicitud} 
+ORDER BY
+    especie, producto_consumo;]]>
+		</queryString>
+		<field name="id_periodo_retiro" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_periodo_retiro"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="fecha_solicitud" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="id_especie" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="nombre_especie" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="id_producto_consumo" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_producto_consumo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="tiempo_retiro" class="java.lang.Double">
+			<property name="com.jaspersoft.studio.field.label" value="tiempo_retiro"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="id_unidad_tiempo" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_unidad_tiempo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="nombre_unidad_tiempo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_tiempo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="periodo_retiro"/>
+		</field>
+		<field name="especie" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="especie"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="especies"/>
+		</field>
+		<field name="producto_consumo" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="producto_consumo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="productos_consumibles"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetDocumentoAnexo" uuid="baf22b12-51af-4a1e-a32b-4a890786bc00">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+    da.*, ap.anexo_pecuario as documento
+FROM
+    g_dossier_pecuario_mvc.documento_anexo da
+    INNER JOIN g_catalogos.anexos_pecuarios ap ON da.id_tipo_documento = ap.id_anexo_pecuario
+WHERE
+	da.id_solicitud = $P{idSolicitud} 
+	and da.id_tipo_documento not in (0);]]>
+		</queryString>
+		<field name="id_documento_anexo" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_documento_anexo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="id_tipo_documento" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_tipo_documento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="descripcion_documento" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="descripcion_documento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="ruta_documento" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ruta_documento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="documento" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="documento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="anexos_pecuarios"/>
+		</field>
+	</subDataset>
+	<subDataset name="DatasetDocumentoExterno" uuid="d9b4ce17-74b2-4dd1-863b-eeb0f3a55957">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad local"/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+    da.*
+FROM
+    g_dossier_pecuario_mvc.documento_anexo da
+WHERE
+	da.id_solicitud =   $P{idSolicitud} 
+	and da.id_tipo_documento in (0);]]>
+		</queryString>
+		<field name="id_documento_anexo" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_documento_anexo"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="id_solicitud" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="fecha_creacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="id_tipo_documento" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id_tipo_documento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="descripcion_documento" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="descripcion_documento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+		<field name="ruta_documento" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="ruta_documento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="documento_anexo"/>
+		</field>
+	</subDataset>
+	<parameter name="idSolicitud" class="java.lang.Integer"/>
+	<parameter name="rutaFondo" class="java.lang.String"/>
+	<parameter name="idArea" class="java.lang.String"/>
+	<parameter name="ruta" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+	s.nombre_producto, 
+	s.codigo_producto_final,
+	s.efectos_colaterales,
+	s.precauciones_generales,
+	s.temperatura_almacenamiento,
+	s.humedad_almacenamiento,
+	o.razon_social,
+	o.direccion,
+	o.provincia,
+	o.canton,
+	o.parroquia,
+	o.telefono_uno,
+	o.celular_uno,
+	o.correo,
+	(o.nombre_representante || ' ' || o.apellido_representante) as representate_legal,
+	sp.nombre as subtipo_producto,
+	c.clasificacion,
+	dv.declaracion_venta,
+	(SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.origen_producto
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_origen_producto,
+        (SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.presentacion_comercial
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_presentacion_comercial,
+        (SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.composicion
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_composicion,
+        (SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.uso_especie
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_uso_especie,
+        (SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.forma_administracion
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_forma_administracion,
+        (SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.forma_administracion_alimento
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_forma_administracion_alimento,
+        (SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.periodo_retiro
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_periodo_retiro,
+       (SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.dosis_via_administracion
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_dosis_via_administracion,
+     (SELECT
+                        count(id_solicitud) as numero
+                    FROM
+                        g_dossier_pecuario_mvc.cantidad_dosis
+                    WHERE
+                    	id_solicitud = s.id_solicitud) as num_cantidad_dosis,
+     (SELECT
+				fe.nombre ||' '|| fe.apellido as nombre_director
+			FROM
+				g_estructura.responsables f,
+				g_uath.ficha_empleado fe
+			WHERE
+				f.identificador = fe.identificador and
+				f.id_area = '$P!{idArea}' and f.estado=1) as nombre_director
+FROM
+	g_dossier_pecuario_mvc.solicitud s
+	INNER JOIN g_operadores.operadores o ON s.identificador = o.identificador
+	INNER JOIN g_catalogos.subtipo_productos sp ON s.id_subtipo_producto = sp.id_subtipo_producto
+	INNER JOIN g_catalogos.clasificacion c ON s.id_clasificacion = c.id_clasificacion
+	INNER JOIN g_catalogos.declaracion_venta dv ON s.id_declaracion_venta = dv.id_declaracion_venta
+WHERE 
+	s.id_solicitud = $P{idSolicitud} ;]]>
+	</queryString>
+	<field name="nombre_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="solicitud"/>
+	</field>
+	<field name="codigo_producto_final" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo_producto_final"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="solicitud"/>
+	</field>
+	<field name="efectos_colaterales" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="efectos_colaterales"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="solicitud"/>
+	</field>
+	<field name="precauciones_generales" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="precauciones_generales"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="solicitud"/>
+	</field>
+	<field name="temperatura_almacenamiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="temperatura_almacenamiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="solicitud"/>
+	</field>
+	<field name="humedad_almacenamiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="humedad_almacenamiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="solicitud"/>
+	</field>
+	<field name="razon_social" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="razon_social"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="provincia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="provincia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="canton" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="canton"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="parroquia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="parroquia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="telefono_uno" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefono_uno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="celular_uno" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="celular_uno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="correo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="correo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="representate_legal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="representate_legal"/>
+	</field>
+	<field name="subtipo_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="subtipo_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="subtipo_productos"/>
+	</field>
+	<field name="clasificacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="clasificacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clasificacion"/>
+	</field>
+	<field name="declaracion_venta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="declaracion_venta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="declaracion_venta"/>
+	</field>
+	<field name="num_origen_producto" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_origen_producto"/>
+	</field>
+	<field name="num_presentacion_comercial" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_presentacion_comercial"/>
+	</field>
+	<field name="num_composicion" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_composicion"/>
+	</field>
+	<field name="num_uso_especie" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_uso_especie"/>
+	</field>
+	<field name="num_forma_administracion" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_forma_administracion"/>
+	</field>
+	<field name="num_forma_administracion_alimento" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_forma_administracion_alimento"/>
+	</field>
+	<field name="num_periodo_retiro" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_periodo_retiro"/>
+	</field>
+	<field name="num_dosis_via_administracion" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_dosis_via_administracion"/>
+	</field>
+	<field name="num_cantidad_dosis" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="num_cantidad_dosis"/>
+	</field>
+	<field name="nombre_director" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_director"/>
+	</field>
+	<background>
+		<band height="802" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="-20" y="0" width="595" height="802" uuid="358df532-fc2e-4e0c-982f-9b9a4cae2558"/>
+				<imageExpression><![CDATA[$P{rutaFondo}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="91"/>
+	</pageHeader>
+	<detail>
+		<band height="24">
+			<staticText>
+				<reportElement x="0" y="3" width="549" height="20" uuid="d649bbf5-4fb9-47d2-9d95-83e723dcaada"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PUNTOS MÍNIMOS DE LA ETIQUETA]]></text>
+			</staticText>
+		</band>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="140" height="15" uuid="d391ffb4-cbe5-48f8-b37b-dc005a886b48">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="140" y="20" width="300" height="15" uuid="730be311-227f-46f4-8ed8-3fec7bfaa256"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_producto}  != null ? $F{nombre_producto}  : "(Información no declarada por el solicitante)"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="140" height="15" uuid="b66b119b-51fb-4cec-80ef-9cec2e523d0a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de registro:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="140" y="0" width="300" height="15" uuid="7fdde77e-d3c8-4ced-b898-59f5f1e7b412"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{codigo_producto_final}  != null ? $F{codigo_producto_final}   : "NA"]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="451" y="0" width="99" height="80" uuid="bd90d8ae-2314-42e8-9cd9-7f6a6a50cfa0"/>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Ruta documento: " + $P{ruta}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+		</band>
+		<band height="87">
+			<printWhenExpression><![CDATA[$F{num_composicion}.intValue() > 0 ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="469aa104-e5ad-4bb1-8d2c-ac6459cf5d3b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FÓRMULA O COMPOSICIÓN]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="15" width="550" height="60" uuid="d445757f-1d0f-453e-bb09-7e587368f2ec">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 3_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 3_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 3_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatasetComposicion" uuid="064c5b00-7349-41ef-809f-d926a61d9a1c">
+						<datasetParameter name="idSolicitud">
+							<datasetParameterExpression><![CDATA[$P{idSolicitud}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="150" uuid="4b3e714b-0454-4691-8f71-31bfb9d11f4c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="f3248bcd-3bd8-4da3-b133-cb5c185a9495"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Composición]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 3_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="150" height="30" uuid="25110c38-5e34-4a7f-a0ae-a168f0d86f82"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA["Cada " + $F{cada} + " " + $F{nombre_unidad} + " contiene:"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="250" uuid="c45cfe49-3c42-4497-8e80-95dc5a692398">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="250" height="30" uuid="df9a8ae1-9efa-4637-9f47-7cf80908be04"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Componente]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 3_TD" height="30">
+							<textField isStretchWithOverflow="true" hyperlinkTarget="Top">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="250" height="30" uuid="9ca570fe-847c-4962-96f3-34cb22349d82"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled"/>
+								<textFieldExpression><![CDATA["<style isBold='true'>"+"Tipo de componente: "+"</style>" + $F{tipo_componente} + "\n" + 
+"<style isBold='true'>"+"Nombre de componente: " +"</style>" + $F{ingrediente_activo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150" uuid="456c76cd-b155-48f4-9a25-9d24298abdb3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="1971d31c-b35b-4738-a51e-8c6bd3c6bd28"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cantidad]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 3_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="150" height="30" uuid="321b2d26-1693-4767-a6ee-a7ddea8a7f99"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{cantidad} + " " + $F{nombre_unidad_componente}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="92">
+			<printWhenExpression><![CDATA[$F{num_uso_especie}.intValue() > 0 ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="f5bb1717-34db-40d8-ac10-7ce53d83f6e3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INDICACIONES DE USO Y ESPECIES DE DESTINO]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="15" width="550" height="65" uuid="08e3ab38-1fe5-46bd-8e04-dbdc548bc0f1">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 5_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 5_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 5_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatasetUsoEspecie" uuid="c8dab535-1884-4f85-8468-91c6dfd4f87d">
+						<datasetParameter name="idSolicitud">
+							<datasetParameterExpression><![CDATA[$P{idSolicitud}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="180" uuid="5dafcb58-a726-4b2b-86b8-ba5ffe70110b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="180" height="30" uuid="7f1a377a-9763-494d-b942-97397cf8bad0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Uso]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="180" height="30" uuid="bea5fc91-172d-4c13-8e00-a0353ed0c2e0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{uso}  != null ? $F{uso}   : "NA"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="210" uuid="192ff495-ea90-49f4-8e10-9e0a4817a768">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="210" height="30" uuid="d38a2c11-a9aa-4748-9186-9796b7b07cd2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Especie]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="210" height="30" uuid="87f0c3bb-9b07-4626-9acd-3aec8ca4facc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{especie}  != null ? $F{especie}   : "NA"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="160" uuid="80b073ca-f7b4-458b-8ab4-17bd195e100b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="160" height="30" uuid="b177b8d0-eff2-4f68-8eca-4f9f2c4f4878"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Nombre especie]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="160" height="30" uuid="214c8a2f-7ec1-48ba-b761-95fdd3d1e84c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{nombre_especie}  != "" ? $F{nombre_especie}   : "NA"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="88">
+			<printWhenExpression><![CDATA[$F{num_cantidad_dosis}.intValue() > 0 ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="94a99362-8d7b-4c2f-9d91-c37a42a1de45">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD POR DOSIS (1 Dosis = 1 ml)]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="15" width="550" height="65" uuid="7f3daf42-caae-4a06-933d-9571506a2504">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 2_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 2_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 2_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatasetPresentacionComercial" uuid="8cd73c2b-f92c-45cd-afb3-f8e2dd725566">
+						<datasetParameter name="idSolicitud">
+							<datasetParameterExpression><![CDATA[$P{idSolicitud}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="550" uuid="e6f27b19-8571-4bc0-b5b5-eeae148f507e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="550" height="30" uuid="178c7516-579a-48e3-ad56-97c7730a5bc9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Dosis (U)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="550" height="30" uuid="b72ea443-f16a-476e-90e4-44f3bcbeee0b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{dosis}  != null ? $F{dosis} +" " + $F{nombre_unidad}  : "NA"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="93">
+			<printWhenExpression><![CDATA[$F{num_dosis_via_administracion}.intValue() > 0 ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="0be3bea1-075d-4f6f-8680-f9163819932b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOSIS Y VÍA DE ADMINISTRACIÓN]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="15" width="550" height="66" uuid="4289acb4-d2ae-4d55-a1ad-82f5d21a03c7">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 6_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 6_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 6_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatasetFormaAdministracion" uuid="fec129ab-3d88-46b1-8ea3-dae7884da818">
+						<datasetParameter name="idSolicitud">
+							<datasetParameterExpression><![CDATA[$P{idSolicitud}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="140" uuid="a58f62ed-5b7d-4318-b66a-79f8b57ed556">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="30" uuid="55b7b740-e51f-4014-9011-8c31707c84c5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Especie]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 6_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="140" height="30" uuid="a27e7434-3c7a-4d15-abe4-0af234db92e9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled"/>
+								<textFieldExpression><![CDATA["<style isBold='true'>"+"Especie: "+"</style>" + $F{especie} + "\n" + 
+"<style isBold='true'>"+"Nombre Especie: " +"</style>" + $F{nombre_especie}+ "\n" + 
+"<style isBold='true'>"+"Características Animal: " +"</style>" + $F{caracteristicas_animal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="160" uuid="464108a2-7a86-4955-b4f3-2428b1235558">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="160" height="30" uuid="7534d708-26f1-4727-b1bd-7bf0cffebc56"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Dosis y Vía de Administración]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 6_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="160" height="30" uuid="2ed26e10-c2f8-439a-9e2a-62a4112370a5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled"/>
+								<textFieldExpression><![CDATA["<style isBold='true'>"+"Vía Administración: "+"</style>" + $F{via_administracion} + "\n" + 
+"<style isBold='true'>"+"Cantidad: " +"</style>" + $F{cantidad_dosis}  + " " + $F{nombre_unidad_dosis}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="fdf668f2-0662-440d-b816-81ea647bc1a1">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="30" uuid="a663f335-3e37-4edd-becd-7ec6213d810c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Por]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 6_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="130" height="30" uuid="e053913c-038b-4d49-8452-b270a146a529"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled"/>
+								<textFieldExpression><![CDATA["<style isBold='true'>"+"Cantidad: " +"</style>" + $F{cantidad}  + " " + $F{nombre_unidad}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="120" uuid="8431fd0d-cc15-41a1-84c3-f70772f8c8c4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="b34a2da7-34ab-4e71-af9b-17d813984144"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cada]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 6_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="120" height="30" uuid="9d10f3d4-3bfc-4c89-a9f4-010eca697688"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled"/>
+								<textFieldExpression><![CDATA["<style isBold='true'>"+"Cantidad: " +"</style>" + $F{duracion}  + " " + $F{nombre_unidad_tiempo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="63">
+			<printWhenExpression><![CDATA[($F{efectos_colaterales}.equals(null)? Boolean.FALSE : Boolean.TRUE)]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="34" width="550" height="15" uuid="a7caff1e-85b6-47c8-9f51-ee9037ef7028"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{efectos_colaterales}  != null ? $F{efectos_colaterales}   : "NA"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="30" uuid="1b673620-42f1-43cb-862e-a7574cb09804">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASPECTOS TOXICOLÓGICOS, ADVERTENCIAS, CONTRAINDICACIONES, O REACCIONES ADVERSAS Y ANTÍDOTOS, SI EXISTIESEN]]></text>
+			</staticText>
+		</band>
+		<band height="44">
+			<printWhenExpression><![CDATA[($F{precauciones_generales}.equals("")? Boolean.FALSE : Boolean.TRUE)]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="20" width="550" height="15" uuid="c5eefc6a-f954-40ec-9eae-49d0aaad1956"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{precauciones_generales}  != null ? $F{precauciones_generales}   : "NA"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="b8cc773e-6129-457c-b033-458bf07b12ab">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRECAUCIONES GENERALES]]></text>
+			</staticText>
+		</band>
+		<band height="43">
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="a07ff99c-793e-4c1f-9653-84bc70d9062f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE Y DIRECCIÓN DEL TITULAR DEL REGISTRO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="110" y="20" width="440" height="15" uuid="7a02e776-3bcb-4cde-abab-8d8227f9cda7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{razon_social}  != null ? $F{razon_social}   : "NA"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="110" height="15" uuid="ea3ff377-0e3a-4f1d-96c4-98ecbb45a8a9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón social:]]></text>
+			</staticText>
+		</band>
+		<band height="22">
+			<staticText>
+				<reportElement x="0" y="0" width="110" height="15" uuid="09bc709e-7761-476d-b03d-bf9cbbcf4d40">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="110" y="0" width="440" height="15" uuid="bc39bbde-6676-4f42-99d8-fe43d308c268"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{direccion}  != null ? $F{direccion}   : "NA"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="90">
+			<printWhenExpression><![CDATA[$F{num_origen_producto}.intValue() > 0 ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="f73e7fd8-5dd5-4a80-a446-24b9eda7f079">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE Y DIRECCIÓN DEL ESTABLECIMIENTO DEL FABRICANTE]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="15" width="550" height="60" uuid="d2ce6788-6ae3-4e21-aef8-52a1263172fc">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="Blank">
+					<datasetRun subDataset="DatasetOrigenProducto" uuid="5aca7fca-52ed-4869-8f36-ee0bb19716c7">
+						<datasetParameter name="idSolicitud">
+							<datasetParameterExpression><![CDATA[$P{idSolicitud}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="110" uuid="dd8c331c-0c03-4a2f-af86-2860715081e0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30" uuid="3892d89c-28b2-4929-831e-56f62f6826a9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Origen de fabricación]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="110" height="30" uuid="300832da-85d1-4460-8d84-2f4fa41ac13e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{origen_fabricacion}  != null ? $F{origen_fabricacion}   : "NA"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150" uuid="82e0abcd-22a5-4722-b383-a9e1f8af1fb0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="2ce1bd1f-9411-47b9-8a05-d6776c62a9b9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Nombre]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="150" height="30" uuid="619ce53d-0d2f-462f-8a4e-5698ef342d8c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{nombre_fabricante}  != null ? $F{nombre_fabricante}   : "NA"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="140" uuid="3d945b35-72ed-458e-9f16-854c35e8d1bb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="30" uuid="849f9f38-8a1a-4867-9d23-9209d4cb4126"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[País]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="140" height="30" uuid="31326d2c-82d4-4f0d-a0da-7a13d66e7ac9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{pais}  != null ? $F{pais}   : "NA"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150" uuid="7408ee75-edd5-4c66-821c-a9495315a7e4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="36a2bafc-08b2-453c-a3c3-439de0d5460f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Dirección]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="150" height="30" uuid="a6fcc874-5977-4546-8520-63f10a833534"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{direccion_fabricante}  != null ? $F{direccion_fabricante}   : "NA"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[($F{temperatura_almacenamiento}.equals(null)? Boolean.FALSE : Boolean.TRUE) ||
+($F{humedad_almacenamiento}.equals(null)? Boolean.FALSE : Boolean.TRUE)]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="137ab89c-d75f-4352-bbf8-95b1d72a732b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONDICIONES DE ALMACENAMIENTO (CUANDO CORRESPONDA)]]></text>
+			</staticText>
+		</band>
+		<band height="39">
+			<printWhenExpression><![CDATA[$F{temperatura_almacenamiento}.equals("")? Boolean.FALSE : Boolean.TRUE]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="9584fe25-3647-4ea6-80c5-1d0676384520">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temperatura de almacenamiento:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="15" width="550" height="15" uuid="06c5c31d-ddb2-4e8d-926d-5ed9f9fd51c5"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{temperatura_almacenamiento}  != null ? $F{temperatura_almacenamiento}   : "NA"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="37">
+			<printWhenExpression><![CDATA[$F{humedad_almacenamiento}.equals("")? Boolean.FALSE : Boolean.TRUE]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="57359283-6757-4ed6-b8d9-88813d5adced">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Humedad de almacenamiento:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="15" width="550" height="15" uuid="fc13f674-eca5-46cd-b559-49dc424ebc21"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{humedad_almacenamiento}  != null ? $F{humedad_almacenamiento}   : "NA"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="47">
+			<printWhenExpression><![CDATA[$F{declaracion_venta}.equals("")? Boolean.FALSE : Boolean.TRUE]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="15" uuid="6d37aa2a-81c8-40ec-b88b-ffa112bb9390">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARACIÓN DE VENTA]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="19" width="550" height="15" uuid="b7a6244a-2bb9-498e-89f0-cc4f1742e330"/>
+				<textFieldExpression><![CDATA[$F{declaracion_venta}  != null ? $F{declaracion_venta}   : "NA"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="70">
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="70" uuid="2c436823-7f22-439a-ac50-2bc9fd30fed5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NÚMERO DE SERIE, LOTE O PARTIDA
+FECHA DE VENCIMIENTO
+LEYENDA "USO VETERINARIO"
+INDICACIÓN EXPRESA DE MANTENERLO FUERA DEL ALCANCE DE LOS NIÑOS]]></text>
+			</staticText>
+		</band>
+		<band height="101">
+			<line>
+				<reportElement x="70" y="64" width="420" height="1" uuid="300553d0-5def-4b54-91ca-92b94e08247b"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="46" width="550" height="16" uuid="fb4610c8-dbf6-419b-91eb-cd62be52d5a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Documento firmado electrónicamente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="549" height="16" uuid="1ef1e4c7-9969-45e3-8350-df5774d02948"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[AGENCIA DE REGULACIÓN Y CONTROL FITO Y ZOOSANITARIO -  AGROCALIDAD]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="64" width="549" height="15" uuid="90572fac-dbff-45e0-ad78-a57bb92b32bb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_director}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="550" height="16" uuid="2232e285-826d-40e9-844d-37d3613b229d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Por Delegación:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="90" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="30">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+</jasperReport>

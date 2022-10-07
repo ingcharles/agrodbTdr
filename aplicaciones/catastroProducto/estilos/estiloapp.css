@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+
+#__administrarCatastro{
+	background-image: url('../img/administrarCatastro.png');
+}
+
+#__darDeBaja{
+	background-image: url('../img/darDeBaja.png');
+}
+
+#__reportes{
+	background-image: url('../img/reportes.png');
+}
+
+#__activacionPorcinos{
+	background-image: url('../img/activacionPorcinos.png');
+}
+
+#__modificacionCatastro{
+	background-image: url('../img/modificacionCatastro.png');
+}

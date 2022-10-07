@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="descripcionAccidente" language="groovy" pageWidth="595" pageHeight="842" columnWidth="580" leftMargin="5" rightMargin="10" topMargin="10" bottomMargin="10" uuid="f327ffcd-1e8f-4b4d-b65f-936a90d9d72e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codSolicitud" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rutaDescripAccidente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT describir_accidentado,
+       trabajo_habitual, accidente_trabajo, partes_lesionadas, persona_atendio,
+       traslado_accidentado, nombre_testigo, direccion_testigo, telefono_testigo
+  FROM g_investigacion_accidente_incidente.circunstancias_accidente
+  where codigo_datos_accidente=$P{codSolicitud};]]>
+	</queryString>
+	<field name="describir_accidentado" class="java.lang.String"/>
+	<field name="trabajo_habitual" class="java.lang.String"/>
+	<field name="accidente_trabajo" class="java.lang.String"/>
+	<field name="partes_lesionadas" class="java.lang.String"/>
+	<field name="persona_atendio" class="java.lang.String"/>
+	<field name="traslado_accidentado" class="java.lang.String"/>
+	<field name="nombre_testigo" class="java.lang.String"/>
+	<field name="direccion_testigo" class="java.lang.String"/>
+	<field name="telefono_testigo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="248" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="558" height="32" uuid="862a607f-8bd5-4909-9d45-16fd4f4c5757"/>
+				<imageExpression><![CDATA[$P{rutaDescripAccidente}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="57" y="10" width="359" height="20" forecolor="#FFFFFF" uuid="e4c867fe-8361-4b08-b8b0-17df1696b1a0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCIÓN Y CIRCUNSTANCIA DEL ACCIDENTE:]]></text>
+			</staticText>
+			<rectangle radius="4">
+				<reportElement x="193" y="41" width="365" height="60" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="80f1219f-cfed-4659-a1b1-8c3aa10fea97"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="1" y="41" width="192" height="60" forecolor="#4FB580" backcolor="#4FB580" uuid="d9d10557-9d40-48ee-bf50-dcc8d89cad89"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="8" y="56" width="168" height="33" uuid="212cb0ca-2de5-4e2c-b22f-ff10f2741e09"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Describir que hacia el trabajador y como se lesiona:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="208" y="53" width="343" height="40" forecolor="#000000" uuid="54f298c9-f3cf-47e0-a1d8-903c9d250092"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{describir_accidentado}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="4">
+				<reportElement x="193" y="107" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="536ed615-06e9-48c3-89ce-f3fa43bb7746"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="1" y="107" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="d0018819-1302-4b44-ab82-a6899c1a8194"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="193" y="136" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="271ca9f7-5e85-496e-a433-70daa38f3bd2"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="1" y="136" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="ed1c87c0-38bb-4627-ae08-ba2f52b84f68"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="1" y="193" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="b29efc40-693e-40e2-b32d-63d1bf3fe794"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="193" y="193" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="952effda-9383-453d-8f76-a063104c0e0a"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="1" y="164" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="faac769a-98b6-4afb-bc98-b00c876b946c"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="193" y="164" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="9e2a023d-bd89-4f9e-acdb-a97c636a48e4"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="193" y="222" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="6c044782-cb21-4a9c-80de-862789656460"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="1" y="222" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="43c26b1e-ac68-4b65-bd1f-292a005a1c15"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="8" y="109" width="183" height="20" uuid="431663df-7efd-49d2-91a2-98ac79152c6c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Era su trabajo habitual?:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="138" width="183" height="20" uuid="6b77bac8-6db8-4e67-aff3-80fe0126b5eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Ha sido accidente de trabajo?:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="166" width="183" height="20" uuid="a8ef9f78-78dc-49b0-badb-3e27b5c294d6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Partes lesionadas del cuerpo?:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="191" width="183" height="28" uuid="ec5947d5-c383-47f5-b04b-58ec56a7b2cf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Persona que lo atendió inmediatamente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="224" width="183" height="20" uuid="911de41d-9b21-4be9-8275-9f0d414ac668"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[El accidentado fue trasladado a:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="208" y="109" width="143" height="20" forecolor="#000000" uuid="e1cd9269-c4ce-41fa-8c55-46a2385c5e51"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trabajo_habitual}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="208" y="138" width="143" height="20" forecolor="#000000" uuid="6aeba19c-63de-42d6-8b64-3493a80332bd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{accidente_trabajo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="206" y="167" width="288" height="20" forecolor="#000000" uuid="1a072469-8a04-4974-8a1c-513cf79008d8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partes_lesionadas}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="206" y="194" width="288" height="20" forecolor="#000000" uuid="e4c42a48-6b33-409d-8d0f-989f4e580659"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{persona_atendio}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="208" y="223" width="288" height="20" forecolor="#000000" uuid="dc3f5c97-6e64-4f71-9ab5-769a826eea46"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{traslado_accidentado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

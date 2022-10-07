@@ -1,0 +1,165 @@
+@CHARSET "UTF-8";
+
+#__registroOperador {
+	background-image: url('../img/msitios.png');
+}
+
+#__solicitudes {
+	background-image: url('../img/msolicitudes.png');
+}
+
+#__revisionSitioOperador {
+	background-image: url('../img/mrevision.png');
+}
+
+#__declararProveedores {
+	background-image: url('../img/proveedores.png');
+}
+
+#_enviarSolicitudTemporal {
+	background-image: url('../img/temporal.png');
+}
+
+#__administrarDocumentos {
+	background-image: url('../img/admintrarDocumentos.png');
+}
+
+#__cargarAnexo {
+	background-image: url('../img/cargarAnexos.png');
+}
+
+#_agrupar {
+	background-image: url('../img/agrupar.png');
+}
+
+#__envioOperacionesMasivo {
+	background-image: url('../img/replicarOperaciones.png');
+}
+
+#__informacionAdicional {
+	background-image: url('../img/cargarInformacion.png');
+}
+
+#__rendimiento {
+	background-image: url('../img/registrarRendimiento.png');
+}
+
+#__representanteTecnico {
+	background-image: url('../img/declararProveedor	.png');
+}
+
+#__declararProducto {
+	background-image: url('../img/cargarProducto.png');
+}
+
+#__representanteTecnico{
+	background-image: url('../img/representanteTecnico.png');
+}
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+div h3 {
+	font-size: 1.1em;
+	color: #656569;
+	font-style: italic;
+	text-decoration: underline;
+	margin: 0px;
+}
+
+.circulo_rojo,.circulo_verde,.circulo_amarillo {
+	width: 20px;
+	height: 20px;
+	border-radius: 5px;
+	float: right;
+	border-right: 1px solid rgba(255, 255, 255, .75);
+	border-left: 1px solid rgba(0, 0, 0, .5);
+	border-bottom: 1px solid rgba(255, 255, 255, .75);
+	border-top: 1px solid rgba(0, 0, 0, .5);
+}
+
+.circulo_rojo {
+	background: repeating-linear-gradient(45deg, #ffffff, #f23953 2px, #f23953 5px);
+}
+
+.circulo_verde {
+	background: repeating-linear-gradient(45deg, #005588, #8cc63f 2px, #8cc63f 5px);
+}
+
+.circulo_amarillo {
+	background: repeating-linear-gradient(45deg, #ffffff, #f8c52b 2px, #f8c52b 5px);
+}
+
+.seleccionTemporal {
+	padding-bottom: 3px;
+	background-color: rgba(0, 0, 0, .2);
+	text-align: left;
+	border-radius: 5px;
+	margin: 5px 0 5px 0;
+	padding-left: 5px;
+}
+
+#mensajeCargando {
+	position: inherit !important;
+}
+
+.estadoOperador {
+	padding-left: 5px !important;
+	min-height: 2.5em !important;
+}
+
+
+#imagenTipoOperador{
+	margin: 0 auto;
+	background-image: url(../img/registroTipoOperador.png);	
+	width: 600px;
+	height: 200px;
+	background-repeat: no-repeat;
+}
+
+@keyframes color-notificacionFilaCargarRendimiento {
+        0% { background: #e8c8c8 ; }
+        25% { background: #f2adad ; } 
+        50% { background: #ff8596 ; } 
+        100% { background: #fd6464 ; }
+        50% { background: #ff8596 ; }
+         25% { background: #f2adad ; }   
+        0% { background: #e8c8c8 ; }  
+    }
+
+    .notificacionFilaCargarRendimiento{		
+		/*background: none;*/	
+		-webkit-animation: color-notificacionFilaCargarRendimiento 1.5s infinite !important;
+        -moz-animation: color-notificacionFilaCargarRendimiento 1.5s infinite !important;
+        -o-animation: color-notificacionFilaCargarRendimiento 1.5s infinite !important;
+        -ms-animation: color-notificacionFilaCargarRendimiento 1.5s infinite !important;
+        animation: color-notificacionFilaCargarRendimiento 1.5s infinite !important;
+		
+	}
+	
+@keyframes color-notificacionFilaSubsanacion {
+        0% { background: #fad429 ; }
+        25% { background: #ffdf4f ; } 
+        50% { background: #fae174 ; } 
+        100% { background: #fceba2 ; }
+        50% { background: #fae174 ; }
+         25% { background: #ffdf4f ; }   
+        0% { background: #fad429 ; }  
+    }
+
+    .notificacionFilaSubsanacion{		
+		/*background: none;*/	
+		-webkit-animation: color-notificacionFilaSubsanacion 1.5s infinite !important;
+        -moz-animation: color-notificacionFilaSubsanacion 1.5s infinite !important;
+        -o-animation: color-notificacionFilaSubsanacion 1.5s infinite !important;
+        -ms-animation: color-notificacionFilaSubsanacion 1.5s infinite !important;
+        animation: color-notificacionFilaSubsanacion 1.5s infinite !important;
+		
+	}
+		
+	 

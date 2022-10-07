@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+#_solicitudProveedoresExterior {
+	background-image: url('../img/solicitudProveedoresExterior.png');
+}
+
+#_revisionSolicitudesProveedoresExterior {
+	background-image: url('../img/revisionSolicitudesProveedoresExterior.png');
+}
+
+#_reportesProveedoresExterior {
+	background-image: url('../img/reportesProveedoresExterior.png');
+}
+
+#_modificarSolicitud {
+	background-image: url('../img/modificarProveedoresExterior.png');
+	position: relative;
+}
+
+#_asignar {
+	background-image: url('../img/asignarProveedoresExterior.png');
+	position: relative;
+}

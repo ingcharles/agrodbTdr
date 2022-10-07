@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="facturaGenerada" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ceabbcf-fa12-4831-a98f-e9dbecfbe992">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#C3CFD9">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#E6F3FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+			<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<parameter name="identificador" class="java.lang.String"/>
+	<parameter name="rutaLogoMag" class="java.lang.String"/>
+	<parameter name="rutaSubreportes" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rutaFotografia" class="java.lang.String"/>
+	<parameter name="rutaLogoAgro" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     ficha_empleado."identificador" AS ficha_empleado_identificador,
+     ficha_empleado."nombre" AS ficha_empleado_nombre,
+     ficha_empleado."apellido" AS ficha_empleado_apellido,
+     ficha_empleado."fecha_nacimiento" AS ficha_empleado_fecha_nacimiento,
+     datos_contrato."id_datos_contrato" AS datos_contrato_id_datos_contrato,
+     datos_contrato."identificador" AS datos_contrato_identificador,
+     datos_contrato."gestion" AS datos_contrato_gestion,
+     datos_contrato."coordinacion" AS datos_contrato_coordinacion,
+     datos_contrato."direccion" AS datos_contrato_direccion,
+     datos_contrato."gestion" AS datos_contrato_gestion,
+     datos_contrato."provincia" AS datos_contrato_provincia,
+     datos_contrato."grupo_ocupacional" AS datos_contrato_grupo_ocupacional,
+     datos_contrato."nombre_puesto" AS datos_contrato_nombre_puesto,
+     datos_contrato."partida_presupuestaria" AS datos_contrato_partida_presupuestaria,
+     datos_contrato."partida_individual" AS datos_contrato_partida_individual,
+     (SELECT fecha_inicio  FROM g_uath.datos_contrato where identificador= $P{identificador} order by 1 FETCH FIRST 1 row only ) As fecha_inicio
+FROM
+     "g_uath"."ficha_empleado" ficha_empleado INNER JOIN "g_uath"."datos_contrato" datos_contrato ON 	ficha_empleado."identificador" = datos_contrato."identificador" and
+datos_contrato."estado" = 1 and
+ficha_empleado."identificador" = $P{identificador}]]>
+	</queryString>
+	<field name="ficha_empleado_identificador" class="java.lang.String"/>
+	<field name="ficha_empleado_nombre" class="java.lang.String"/>
+	<field name="ficha_empleado_apellido" class="java.lang.String"/>
+	<field name="ficha_empleado_fecha_nacimiento" class="java.sql.Date"/>
+	<field name="datos_contrato_id_datos_contrato" class="java.lang.Integer"/>
+	<field name="datos_contrato_identificador" class="java.lang.String"/>
+	<field name="datos_contrato_gestion" class="java.lang.String"/>
+	<field name="datos_contrato_coordinacion" class="java.lang.String"/>
+	<field name="datos_contrato_direccion" class="java.lang.String"/>
+	<field name="datos_contrato_provincia" class="java.lang.String"/>
+	<field name="datos_contrato_grupo_ocupacional" class="java.lang.String"/>
+	<field name="datos_contrato_nombre_puesto" class="java.lang.String"/>
+	<field name="datos_contrato_partida_presupuestaria" class="java.lang.String"/>
+	<field name="datos_contrato_partida_individual" class="java.lang.String"/>
+	<field name="fecha_inicio" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="55">
+			<rectangle>
+				<reportElement x="0" y="0" width="551" height="52" forecolor="#D7D7D7" uuid="0dcae6f5-102f-4cc0-8aba-43415cc8e98a"/>
+			</rectangle>
+			<image>
+				<reportElement x="2" y="7" width="83" height="38" uuid="9997c197-6118-4a29-b58d-663bb5982a0c"/>
+				<imageExpression><![CDATA[$P{rutaLogoMag}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="459" y="9" width="91" height="36" uuid="3c11b402-359e-49e9-b82c-73ed0b23b5ce"/>
+				<imageExpression><![CDATA[$P{rutaLogoAgro}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Transparent" x="132" y="8" width="291" height="18" uuid="a30a2531-125c-4275-886d-774a56443cf6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="10" isBold="true"/>
+					<paragraph tabStopWidth="30"/>
+				</textElement>
+				<text><![CDATA[VALORACIÓN DE PERFIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="26" width="356" height="22" uuid="30f885e9-10d5-4de6-9c88-368a72c93686"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+					<paragraph tabStopWidth="30"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS HUMANOS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="203" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="186" y="96" width="171" height="10" uuid="e1ce626a-1404-4ad3-b830-75b33e2a9833"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ficha_empleado_fecha_nacimiento}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="186" y="37" width="171" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="080fd092-2267-492c-a830-312d3065d8e4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="186" y="77" width="171" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="2d44d04c-a3ae-4f4a-b60e-c0827e5d3b68"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="186" y="120" width="171" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="7e5cb2bc-c548-4726-8d2a-9966099e7d70"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="186" y="37" width="171" height="17" uuid="311eb9b9-1700-40aa-8a1c-1be07640d347"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÉDULA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="77" width="171" height="17" uuid="3b0b3f68-cdbc-4a11-ae0a-5b5950edc574"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE NACIMIENTO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="186" y="55" width="171" height="10" uuid="b7c3bc1e-0bea-4799-a157-83e1856ec131"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ficha_empleado_identificador}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="186" y="161" width="171" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="850585a7-8912-4d01-8f32-cf6032f1ff33"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="186" y="122" width="171" height="17" uuid="7884b8a6-211d-425f-aea3-443e4e8da66d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROVINCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="160" width="171" height="17" uuid="5ed9da34-95b4-4586-a339-5b3d408d4d73"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DENOMINACIÓN INSTITUCIONAL]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="186" y="140" width="171" height="10" uuid="af9d879e-7a84-4a0e-bf2b-690311171860"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datos_contrato_provincia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="186" y="180" width="171" height="10" uuid="92634128-9c65-4921-b3ba-a337907d9f55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datos_contrato_nombre_puesto}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="379" y="37" width="171" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="ad53f9b2-1aab-46e0-a2c7-5c8163ce542e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="379" y="120" width="171" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="349f5611-801a-4eb5-87bc-00b102dff497"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="379" y="160" width="171" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="9a768c9d-081a-40f5-ab8e-6d8c5c03f79c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="379" y="37" width="171" height="17" uuid="d1686359-6409-4636-8aec-77f881e6151e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRUPO OCUPACIONAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="379" y="121" width="171" height="17" uuid="39f7df5b-6759-47df-acfc-9368b5169038"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="379" y="161" width="171" height="17" uuid="0c2a42a2-d3e2-4279-8ae5-ae2336e586d7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE INGRESO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="379" y="55" width="171" height="10" uuid="522581a1-4b2a-40ab-b608-eb805ea3c1f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datos_contrato_grupo_ocupacional}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="379" y="181" width="171" height="10" uuid="d13e6644-3609-45e7-9cdc-e3b9f4f34c6e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="379" y="140" width="171" height="10" uuid="a23ead1a-10c9-486b-8084-913e8ca4e363"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datos_contrato_gestion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="379" y="77" width="171" height="17" uuid="5dc51228-9369-4098-9d23-e491c2d75fe2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRUPO OCUPACIONAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="379" y="76" width="171" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="55cdc625-aa72-4b4e-8907-85d46e42d66d"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="379" y="95" width="171" height="10" uuid="64654595-7a53-4803-87b5-4b666832b372"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datos_contrato_direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="379" y="78" width="171" height="17" uuid="8363dffe-d68c-4536-ac96-8551c585f2b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="163" width="161" height="17" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="30d8eed0-d2e9-4265-af0a-501e4aa0caf6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="163" width="161" height="17" uuid="77b34680-0137-4cf9-b26d-c8a469a0cf1b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE COMPLETO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="182" width="161" height="10" uuid="8951d9fd-59ae-4c67-9202-b2717da3de35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ficha_empleado_apellido}+" "+$F{ficha_empleado_nombre}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="39" width="161" height="123" isPrintInFirstWholeBand="true" forecolor="#D7D7D7" backcolor="#FEFEFE" uuid="1300ecf5-43bd-4c6e-95df-27aef9a072ba"/>
+			</rectangle>
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle">
+				<reportElement mode="Transparent" x="44" y="60" width="76" height="83" isPrintInFirstWholeBand="true" uuid="a0a2cd28-e177-45dc-9714-4937124c6a86"/>
+				<imageExpression><![CDATA[$P{rutaFotografia}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="table" mode="Opaque" x="0" y="0" width="551" height="20" backcolor="#D7D7D7" uuid="5e0e1025-dbf7-458f-92be-4d90cec196bf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN PRINCIPAL]]></text>
+			</staticText>
+		</band>
+		<band height="28">
+			<subreport>
+				<reportElement x="0" y="0" width="551" height="20" uuid="a56ff8f4-1104-4b08-8b85-303f1ea16949"/>
+				<subreportParameter name="identificador">
+					<subreportParameterExpression><![CDATA[$P{identificador}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreportes} + "R_valoracionper_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="28">
+			<subreport>
+				<reportElement x="0" y="0" width="551" height="20" uuid="08311357-cab2-49ca-867f-9f40f22e0178"/>
+				<subreportParameter name="identificador">
+					<subreportParameterExpression><![CDATA[$P{identificador}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreportes} + "R_valoracionper_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="28">
+			<subreport>
+				<reportElement x="0" y="0" width="551" height="20" uuid="2ff478c3-3dcf-496b-9749-e5c12359968d"/>
+				<subreportParameter name="identificador">
+					<subreportParameterExpression><![CDATA[$P{identificador}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreportes} + "R_valoracionper_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="17" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="513" height="14" forecolor="#F3F3F3" backcolor="#F3F3F3" uuid="83ec74a0-482a-4ef9-84a3-0ed219d66cef"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="2" width="40" height="14" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="3deaad7e-0722-472d-bb45-377690d69a2a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="513" y="1" width="37" height="14" forecolor="#D7D7D7" backcolor="#D7D7D7" uuid="f03f20e2-bfdd-445d-be9d-1a279c7cb1eb"/>
+			</rectangle>
+			<textField>
+				<reportElement x="399" y="5" width="60" height="7" uuid="7e21b5b0-e48f-479d-9330-43019dd0885c"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="461" y="5" width="40" height="7" uuid="aa3c3b44-e698-4459-b7dc-328fa4783b5d"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="0" width="352" height="17" uuid="85d22f9b-a06b-4cbb-a1f7-7316c42bdecc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Validado por: Unidad de Administración de Recursos Humanos]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

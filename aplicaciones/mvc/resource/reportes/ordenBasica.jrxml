@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InfomeBasico" pageWidth="595" pageHeight="842" columnWidth="545" leftMargin="30" rightMargin="20" topMargin="20" bottomMargin="20" uuid="35460e3e-b788-472c-b63d-845bb740ca1e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nombreReporte" class="java.lang.String"/>
+	<parameter name="codigo" class="java.lang.String"/>
+	<parameter name="revision" class="java.lang.String"/>
+	<parameter name="nombreLaboratorio" class="java.lang.String"/>
+	<parameter name="secuencial" class="java.lang.String"/>
+	<parameter name="lineaSuperior" class="java.lang.String"/>
+	<parameter name="abajoSummary" class="java.lang.String"/>
+	<parameter name="abajoSummary2" class="java.lang.String"/>
+	<parameter name="piePagina" class="java.lang.String"/>
+	<parameter name="rutaLogo" class="java.lang.String"/>
+	<parameter name="tiempoEntrega" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="temperatura" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="97" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="2" width="162" height="73" uuid="4edd8bbc-51d1-4325-9777-64e09214b086"/>
+			</rectangle>
+			<image>
+				<reportElement x="7" y="15" width="146" height="50" uuid="665c7296-0111-4f19-9e61-2aeadfc6649a"/>
+				<imageExpression><![CDATA[$P{rutaLogo}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="393" y="2" width="162" height="73" uuid="b6cb76d4-392c-4d7c-b910-646e66f0dd52"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="162" y="2" width="231" height="73" uuid="67262626-230c-43a9-a10f-c6860871c6bf"/>
+			</rectangle>
+			<line>
+				<reportElement x="393" y="50" width="162" height="1" uuid="f2c60be2-25b8-41c8-a28e-ea446c9f84a6"/>
+			</line>
+			<line>
+				<reportElement x="393" y="27" width="162" height="1" uuid="00322c67-3551-4e5c-b8f8-fa70735ff8a0"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="393" y="8" width="162" height="20" uuid="b71c94f4-0889-4e22-a06b-02590d368fae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{codigo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="393" y="30" width="162" height="20" uuid="0fc8658c-38fc-4b29-a4b9-6e2dd1894da0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{revision}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="444" y="54" width="27" height="20" uuid="20c95c8f-e0a2-4a37-aa15-2256568773cb"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="404" y="54" width="30" height="20" uuid="7a5ca5c5-65f1-4c4b-b937-0e0fbb219d51"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Hoja ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="471" y="54" width="18" height="20" uuid="2dece213-d053-42a0-91bf-1f313f01955f"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="166" y="9" width="221" height="21" uuid="a005eb42-3928-4560-8dad-db7976199b29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreLaboratorio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="166" y="34" width="221" height="20" uuid="5b10046e-e20b-4ab5-8213-cf957e0ce60f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreReporte}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="167" y="53" width="220" height="20" uuid="010cf9e6-6aff-4ab7-91ca-81f50c07c5c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{secuencial}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="502" y="54" width="38" height="20" uuid="38dc3119-14ce-428c-92af-d01af05cf4e0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="75" width="543" height="20" uuid="2aa7b823-273d-4df5-b057-b71bd464f229"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lineaSuperior}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="44" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="28" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="37" uuid="34898055-051f-43b8-813f-76af57bffd0b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{piePagina}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="158" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="31" width="555" height="29" uuid="c9c4d6b1-70e2-4fed-b39b-ecda54a7ffed"/>
+				<textElement textAlignment="Justified" verticalAlignment="Bottom" markup="html">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{abajoSummary}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="1" width="555" height="20" uuid="7355243a-7113-4064-95b0-4e75cde547e5"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$P{tiempoEntrega}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="134" width="525" height="20" uuid="f8cf4483-996b-4994-bc50-7ab6d2cfc39b"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$P{temperatura}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="78" width="555" height="29" uuid="be2456f9-aa08-4789-9192-24d44c84917c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Bottom" markup="html">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{abajoSummary2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

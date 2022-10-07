@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES_cronologias" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="59681bc8-e09c-4a33-a0af-87bc259242c3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_evento_sanitario_c" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select *  from
+g_seguimiento_eventos_sanitarios.cronologias_finales cf
+where cf.id_evento_sanitario = $P{id_evento_sanitario_c}]]>
+	</queryString>
+	<field name="id_cronologia_final" class="java.lang.Integer"/>
+	<field name="id_evento_sanitario" class="java.lang.Integer"/>
+	<field name="id_tipo_cronologia_final" class="java.lang.Integer"/>
+	<field name="nombre_tipo_cronologia_final" class="java.lang.String"/>
+	<field name="fecha_cronologia_final" class="java.sql.Timestamp"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<group name="id_evento_sanitario">
+		<groupExpression><![CDATA[$F{id_evento_sanitario}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="171" height="20" uuid="c63fed6d-3583-4380-937a-871d9dc78cd7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="0" width="110" height="20" uuid="cabe99f6-7f77-4ab2-930b-4fa057925898"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="171" height="20" uuid="2181664a-8274-4c8d-bfdb-c59b818f6d3b"/>
+				<textFieldExpression><![CDATA[$F{nombre_tipo_cronologia_final}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="0" width="110" height="20" uuid="08395113-68b9-4f68-9af4-e0daacdd4167"/>
+				<textFieldExpression><![CDATA[$F{fecha_cronologia_final}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

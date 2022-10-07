@@ -1,0 +1,49 @@
+<?php
+
+require_once '../../clases/ControladorImportaciones.php';
+require_once '../../clases/ControladorFinanciero.php';
+require_once '../../clases/ControladorFitosanitario.php';
+require_once '../../clases/ControladorFinancieroAutomatico.php';
+require_once '../../clases/Conexion.php';
+
+$ci = new ControladorImportaciones();
+$cf = new ControladorFinanciero();
+$cfa = new ControladorFinancieroAutomatico();
+$cfe = new ControladorFitosanitario();
+$conexion = new Conexion();
+
+$datos = $ci->listarImportacionPorEstado($conexion, 'verificacionVUE');
+//$datos = $cfe->listarFitosanitarioPorEstado($conexion, 'verificacionVUE');
+
+while ($solicitud = pg_fetch_assoc($datos)){
+	
+	$qCabeceraOrden = $cf->obtenerOrdenPagoPorIdentificadorSolicitud($conexion, $solicitud['id_importacion'], 'Importación');
+	$qCabeceraOrden = $cf->obtenerOrdenPagoPorIdentificadorSolicitud($conexion, $solicitud['id_fito_exportacion'], 'Fitosanitario');
+	
+	if(pg_num_rows($qCabeceraOrden) != 0){
+		
+		$cabeceraOrden = pg_fetch_assoc($qCabeceraOrden);
+
+		$idFinancieroCabecera = pg_fetch_result($cfa->guardarFinancieroAutomaticoCabecera($conexion, $cabeceraOrden['total_pagar'], $solicitud['id_vue'], 'Importación'), 0, 'id_financiero_cabecera');
+		//$idFinancieroCabecera = pg_fetch_result($cfa->guardarFinancieroAutomaticoCabecera($conexion, $cabeceraOrden['total_pagar'], $solicitud['id_vue'], 'Fitosanitario'), 0, 'id_financiero_cabecera');
+		
+		
+		$qDetaleOrden = $cf->abrirOrdenDetallePago($conexion, $cabeceraOrden['id_pago']);
+		
+		while ($detalleOrden = pg_fetch_assoc($qDetaleOrden)){
+			$cfa->guardarFinancieroAutomaticoDetalle($conexion, $idFinancieroCabecera, $detalleOrden['id_servicio'], $detalleOrden['concepto_orden'], $detalleOrden['cantidad'], $detalleOrden['precio_unitario'], $detalleOrden['descuento'], $detalleOrden['iva'], $detalleOrden['total']);													
+		}
+		
+		$cfa->actualizarIdOrdenPagoFinancieroAutomaticoCabecera($conexion, $idFinancieroCabecera, $cabeceraOrden['id_pago']);
+		$cfa->actualizarEstadoFinancieroAutomaticoCabecera($conexion, $idFinancieroCabecera, 'Atendida');
+		
+		
+	}
+	
+	
+	
+	
+	
+}
+
+?>

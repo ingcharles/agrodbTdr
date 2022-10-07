@@ -1,0 +1,1038 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CertificadoFitosanitario" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="d61ae6d7-e914-4b0e-b542-b1bfe3932d62">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="pruebas"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="409"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="584"/>
+	<parameter name="idSolicitud" class="java.lang.Integer"/>
+	<parameter name="nombreInspector" class="java.lang.String"/>
+	<parameter name="lugarExpedicion" class="java.lang.String"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<parameter name="rutaCertificado" class="java.lang.String"/>
+	<parameter name="rutaAnexo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+	cf.id_certificado_fitosanitario
+	, cf.codigo_certificado
+	, cf.tipo_certificado
+	, cf.nombre_idioma
+	, cf.estado_certificado
+	, cf.producto_organico
+	, cf.nombre_puerto_embarque
+	, cf.fecha_embarque
+	, COALESCE (STRING_AGG(DISTINCT (COALESCE (ppt.nombre_pais_transito || ' - ', '') || cf.nombre_pais_destino), '; '), '') AS organizacion
+	, SUBSTRING (cf.nombre_consignatario || ', ' || cf.direccion_consignatario, 1, 200) AS nombre_direccion_consignatario
+	, SUBSTRING (COALESCE (cf.nombre_marca, 'N/A'), 1 , 250) AS marca_distintiva
+	, SUBSTRING (COALESCE (cf.informacion_adicional, '') 
+		|| CASE WHEN cf.es_reemplazo = 'Si' THEN COALESCE (', El Certificado Fitosanitario Nº ' || cf.codigo_certificado || ', reemplaza y anula al Certificado Fitosanitario Nº ' || cfr.codigo_certificado, '') ELSE '' END 
+		|| CASE WHEN cf.producto_organico = 'Si' THEN COALESCE (', Código POA: ' || '(' || string_agg(DISTINCT(ep1.certificacion_organica), ', ') || ')', '') ELSE '' END, 1, 1115) AS informacion_adicional
+	, COUNT(DISTINCT(ep1.id_exportador_producto)) AS numero_exportadores
+	, cf.nombre_pais_destino
+	, cf.es_reemplazo
+	, cf.id_certificado_reemplazo
+	, SUBSTRING (cf.nombre_pais_origen || ', '	|| cf.nombre_provincia_origen, 1, 64) AS lugar_origen
+	, SUBSTRING (cf.nombre_medio_transporte, 1, 64) AS medio_transporte_declarado
+	, SUBSTRING (COALESCE (STRING_AGG(DISTINCT (ppt.nombre_pais_transito || ' - ' || ppt.nombre_puerto_transito), ', ') || '; ', '') || COALESCE (STRING_AGG(DISTINCT (cf.nombre_pais_destino || ' - ' || pd.nombre_puerto_pais_destino), ', '), ''), 1, 412) AS punto_entrada_declarado
+	, TO_CHAR (cf.fecha_aprobacion_certificado, 'YYYY-MM-DD') AS fecha_aprobacion_certificado
+	, ep.id_exportador_producto
+	, ep.identificador_exportador
+	, SUBSTRING (ep.razon_social_exportador || ', ' || ep.direccion_exportador, 1, 200) || CASE WHEN COUNT(DISTINCT(ep1.id_exportador_producto)) > 1 THEN CASE WHEN cf.nombre_idioma = 'Español' THEN ' / (Ver Anexo)' ELSE ' / (See Annex)' END ELSE '' END AS nombre_direccion_exportador
+	, ep.nombre_tipo_producto
+	, ep.nombre_subtipo_producto
+	, ep.nombre_producto
+	, ep.partida_arancelaria_producto
+	, SUBSTRING (ep.cantidad_comercial || ' ' || ep.nombre_unidad_cantidad_comercial, 1, 57) || CASE WHEN COUNT(DISTINCT(ep1.id_exportador_producto)) > 1 THEN CASE WHEN cf.nombre_idioma = 'Español' THEN ' / (Ver Anexo)' ELSE ' / (See Annex)' END ELSE '' END AS numero_descripcion_bultos
+	, ep.peso_bruto
+	, ep.nombre_unidad_peso_bruto
+	, ep.peso_neto
+	, ep.nombre_unidad_peso_neto
+	, ep.nombre_area
+	, ep.codigo_centro_acopio
+	, ep.nombre_provincia_area
+	, COALESCE (SUBSTRING (ep.nombre_tipo_tratamiento || ', ' || ep.nombre_tratamiento, 1, 80), 'N/A') AS tratamiento
+	, COALESCE (SUBSTRING (ep.duracion_tratamiento || ' ' || ep.nombre_unidad_duracion, 1, 50), 'N/A') AS duracion_temperatura
+	, COALESCE (SUBSTRING (ep.concentracion_tratamiento || ' ' || ep.nombre_unidad_concentracion, 1, 50), 'N/A') AS concentracion
+	, ep.temperatura_tratamiento
+	, ep.nombre_unidad_temperatura
+	, COALESCE (TO_CHAR (ep.fecha_tratamiento, 'YYYY-MM-DD'), 'N/A') AS fecha_tratamiento
+	, COALESCE (SUBSTRING (ep.producto_quimico, 1, 80), 'N/A') AS producto_quimico
+	, ep.estado_exportador_producto
+	, SUBSTRING (CASE WHEN cf.tipo_certificado = 'musaceas' THEN 
+		ep.nombre_subtipo_producto || ' - ' || p.nombre_comun || 
+	  	E'\n' || 'Peso Neto: ' || ep.peso_neto || ' ' || ep.nombre_unidad_peso_neto || 
+	  	E'\n' || 'Peso Bruto: ' || ep.peso_bruto || ' ' || ep.nombre_unidad_peso_bruto || CASE WHEN COUNT(DISTINCT(ep1.id_exportador_producto)) > 1 THEN CASE WHEN cf.nombre_idioma = 'Español' THEN ' / (Ver Anexo)' ELSE ' / (See Annex)' END ELSE '' END
+	  ELSE
+	  	ep.nombre_subtipo_producto || ' - ' || p.nombre_comun ||
+		E'\n' || 'Peso Neto: ' || ep.peso_neto || ' ' || ep.nombre_unidad_peso_neto || CASE WHEN COUNT(DISTINCT(ep1.id_exportador_producto)) > 1 THEN CASE WHEN cf.nombre_idioma = 'Español' THEN ' / (Ver Anexo)' ELSE ' / (See Annex)' END ELSE '' END
+	  END, 1, 167) AS producto_cantidad_declarada
+	, p.nombre_cientifico || CASE WHEN COUNT(DISTINCT(ep1.id_exportador_producto)) > 1 THEN CASE WHEN cf.nombre_idioma = 'Español' THEN ' / (Ver Anexo)' ELSE ' / (See Annex)' END ELSE '' END AS nombre_botanico
+	, 'Por la presente se certifica que las plantas, productos vegetales u otros artículos reglamentados descritos aquí se han inspeccionado y/o sometido a ensayos de acuerdo con los procedimientos oficiales adecuados y se considera que están libres de las plagas cuarentenarias especificadas por la parte contratante importadora y que cumplen los requisitos fitosanitarios vigentes de la parte contratante importadora, incluidos los relativos a las plagas no cuarentenarias reglamentadas.' || E'\nThis is to certify that the plants, plant products or other regulated articles described herein have been inspected and/or tested according to appropiate official procedures and are considered to be free from the quarantine pests specified by the importing contracting party and to conform with the current phytosanitary requirements of the importing contracting party, including those for regulated non-quarantine pests'::text AS texto_nombre_botanico
+	, LTRIM(TRIM(STRING_AGG (DISTINCT (r.nombre), ', ')), ' ,') AS nombre_requisito
+	, LTRIM(TRIM(STRING_AGG (DISTINCT (r.detalle), ', ')), ' ,') AS detalle_requisito
+	, COALESCE (CASE WHEN LENGTH (TRIM(STRING_AGG (DISTINCT (r.detalle_impreso), ', '), ', ')) <= '400' THEN SUBSTRING (TRIM(STRING_AGG (DISTINCT (r.detalle_impreso), ', '), ', '), 1, 400) || CASE WHEN COUNT(DISTINCT(ep1.id_exportador_producto)) > 1 THEN CASE WHEN cf.nombre_idioma = 'Español' THEN ' / (Ver Anexo)' ELSE ' / (See Annex)' END ELSE '' END END, 'N/A') AS detalle_impreso
+	, TRIM(STRING_AGG (DISTINCT (r.codigo), ', ')) AS codigo_requisito
+	, CASE WHEN cf.tipo_certificado = 'musaceas' THEN
+		CASE WHEN cf.nombre_idioma = 'Español' THEN
+			to_char(cf.fecha_embarque, 'TMDay' || ' dd ') || 'de ' || to_char(cf.fecha_embarque, 'TMmonth') || ' de ' || to_char(cf.fecha_embarque, 'yyyy') 
+		ELSE
+			to_char(cf.fecha_embarque, 'Day' || ' dd ') || TRIM(to_char(cf.fecha_embarque, 'month')) || to_char(cf.fecha_embarque, ' YYYY')
+		END
+	  ELSE
+	  	CASE WHEN cf.nombre_idioma = 'Español' THEN
+			to_char(cf.fecha_aprobacion_certificado, 'TMDay' || ' dd ') || 'de ' || to_char(cf.fecha_aprobacion_certificado, 'TMmonth') || ' de ' || to_char(cf.fecha_aprobacion_certificado, 'yyyy') 
+		ELSE
+			to_char(cf.fecha_aprobacion_certificado, 'Day' || ' dd ') || TRIM(to_char(cf.fecha_aprobacion_certificado, 'month')) || to_char(cf.fecha_aprobacion_certificado, ' YYYY')
+		END
+	  END AS fecha_aprobacion_certificado_letras
+FROM 
+	g_certificado_fitosanitario.certificado_fitosanitario cf
+	INNER JOIN g_certificado_fitosanitario.exportadores_productos ep ON cf.id_certificado_fitosanitario = ep.id_certificado_fitosanitario
+	INNER JOIN g_certificado_fitosanitario.exportadores_productos ep1 ON cf.id_certificado_fitosanitario = ep1.id_certificado_fitosanitario
+	INNER JOIN g_certificado_fitosanitario.puertos_destino pd ON cf.id_certificado_fitosanitario = pd.id_certificado_fitosanitario
+	INNER JOIN g_catalogos.productos p ON p.id_producto = ep.id_producto
+	INNER JOIN g_requisitos.requisitos_comercializacion rc ON rc.id_producto = ep.id_producto
+	INNER JOIN g_requisitos.requisitos_asignados ra ON rc.id_requisito_comercio = ra.id_requisito_comercio
+	INNER JOIN g_requisitos.requisitos r ON ra.requisito = r.id_requisito
+	LEFT JOIN g_certificado_fitosanitario.paises_puertos_transito ppt ON cf.id_certificado_fitosanitario = ppt.id_certificado_fitosanitario
+	LEFT JOIN g_certificado_fitosanitario.certificado_fitosanitario cfr ON cf.id_certificado_reemplazo = cfr.id_certificado_fitosanitario	
+WHERE
+	cf.id_certificado_fitosanitario = $P{idSolicitud} 
+	AND rc.id_localizacion = cf.id_pais_destino
+	AND ra.tipo = 'Exportación'
+	AND r.tipo = 'Exportación'
+	AND r.estado = 1
+	AND ep.estado_exportador_producto NOT IN ('Rechazado')
+GROUP BY cf.id_certificado_fitosanitario, p.nombre_comun, p.nombre_cientifico, ep.id_exportador_producto, cfr.codigo_certificado
+ORDER BY ep.id_exportador_producto ASC
+LIMIT 1]]>
+	</queryString>
+	<field name="id_certificado_fitosanitario" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_certificado_fitosanitario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="codigo_certificado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo_certificado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="tipo_certificado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_certificado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="nombre_idioma" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_idioma"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="estado_certificado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estado_certificado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="producto_organico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="producto_organico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="nombre_puerto_embarque" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_puerto_embarque"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="fecha_embarque" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_embarque"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="organizacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="organizacion"/>
+	</field>
+	<field name="nombre_direccion_consignatario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_direccion_consignatario"/>
+	</field>
+	<field name="marca_distintiva" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="marca_distintiva"/>
+	</field>
+	<field name="informacion_adicional" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="informacion_adicional"/>
+	</field>
+	<field name="numero_exportadores" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="numero_exportadores"/>
+	</field>
+	<field name="nombre_pais_destino" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_pais_destino"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="es_reemplazo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="es_reemplazo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="id_certificado_reemplazo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_certificado_reemplazo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="certificado_fitosanitario"/>
+	</field>
+	<field name="lugar_origen" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="lugar_origen"/>
+	</field>
+	<field name="medio_transporte_declarado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="medio_transporte_declarado"/>
+	</field>
+	<field name="punto_entrada_declarado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="punto_entrada_declarado"/>
+	</field>
+	<field name="fecha_aprobacion_certificado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_aprobacion_certificado"/>
+	</field>
+	<field name="id_exportador_producto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_exportador_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="identificador_exportador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_exportador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="nombre_direccion_exportador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_direccion_exportador"/>
+	</field>
+	<field name="nombre_tipo_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_tipo_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="nombre_subtipo_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_subtipo_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="nombre_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="partida_arancelaria_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="partida_arancelaria_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="numero_descripcion_bultos" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero_descripcion_bultos"/>
+	</field>
+	<field name="peso_bruto" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="peso_bruto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="nombre_unidad_peso_bruto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_peso_bruto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="peso_neto" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="peso_neto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="nombre_unidad_peso_neto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_peso_neto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="nombre_area" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_area"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="codigo_centro_acopio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo_centro_acopio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="nombre_provincia_area" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_provincia_area"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="tratamiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tratamiento"/>
+	</field>
+	<field name="duracion_temperatura" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="duracion_temperatura"/>
+	</field>
+	<field name="concentracion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="concentracion"/>
+	</field>
+	<field name="temperatura_tratamiento" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="temperatura_tratamiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="nombre_unidad_temperatura" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_temperatura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="fecha_tratamiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_tratamiento"/>
+	</field>
+	<field name="producto_quimico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="producto_quimico"/>
+	</field>
+	<field name="estado_exportador_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estado_exportador_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exportadores_productos"/>
+	</field>
+	<field name="producto_cantidad_declarada" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="producto_cantidad_declarada"/>
+	</field>
+	<field name="nombre_botanico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_botanico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+	</field>
+	<field name="texto_nombre_botanico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="texto_nombre_botanico"/>
+	</field>
+	<field name="nombre_requisito" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_requisito"/>
+	</field>
+	<field name="detalle_requisito" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalle_requisito"/>
+	</field>
+	<field name="detalle_impreso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="detalle_impreso"/>
+	</field>
+	<field name="codigo_requisito" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo_requisito"/>
+	</field>
+	<field name="fecha_aprobacion_certificado_letras" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_aprobacion_certificado_letras"/>
+	</field>
+	<background>
+		<band height="822" splitType="Stretch">
+			<image>
+				<reportElement x="-19" y="-27" width="595" height="849" uuid="eb579c83-bb9f-490d-919f-bcb68ddba616">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="91" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="45" width="547" height="42" uuid="dd5467b3-d9a1-4af9-8682-0de2cef3d47c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO FITOSANITARIO DE EXPORTACIÓN
+PHYTOSANITARY CERTIFICATE FOR EXPORT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="74" width="210" height="13" uuid="24295ff2-0d93-4674-a9dd-2c896f9d72e5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["N° " + $F{codigo_certificado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="704" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement mode="Opaque" x="70" y="0" width="208" height="50" backcolor="#BFE1FF" uuid="c51ef13d-d426-4b68-a884-22635004d24e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Organización de Protección Fitosanitaria de Ecuador
+Plant Protection Organization of Ecuador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="50" width="416" height="15" uuid="35fc122f-51d1-4c0b-bbc0-84dfaa5aa855">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[I. Descripción del Envío / Description of Consignment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="278" y="0" width="208" height="30" backcolor="#BFE1FF" uuid="f283b033-63fc-49aa-b241-fc4e718af3a5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="3" leftPadding="3">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[A: Organización (es) de Protección Fitosanitaria de
+TO: Plant Protection Organization (s) of]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="65" width="275" height="25" uuid="132ba581-b1d4-4b61-8683-9686cd4700b5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1. Nombre y dirección del exportador / Name and address of exporter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="65" width="275" height="25" uuid="c40e1566-4ece-4073-beb3-6f1fd1b8aec5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2. Nombre y dirección declarados del destinatario / Declared name and address of consignee]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="278" y="30" width="208" height="20" uuid="f539ce9e-5692-49a0-aa9f-2d10c1ad781f"/>
+				<box padding="4">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organizacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="90" width="275" height="30" uuid="e867bc55-5bbc-4d52-84ea-60df97850489"/>
+				<box padding="4">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_direccion_exportador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="278" y="90" width="275" height="30" uuid="88920a20-5538-48f0-afa7-e03e6ce2a00c"/>
+				<box padding="4">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_direccion_consignatario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="120" width="275" height="15" uuid="d2fe34b9-98c6-4404-b914-1444499b49a0"/>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[3. Lugar de origen / Place of origin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="120" width="275" height="15" uuid="a6f35545-a798-446d-8869-e9f68d7c9de9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6.9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[4. Medios de transporte declarados / Declared means of conveyance]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="135" width="275" height="25" uuid="3dcff2a5-53ab-437f-bde0-579a9748e3c6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lugar_origen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="278" y="135" width="275" height="25" uuid="57ac01a3-ebf7-47c2-a546-d184a004d8cd"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{medio_transporte_declarado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="160" width="275" height="15" uuid="c2d60f99-9585-4725-a4e2-3c504f166e7d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[5. Punto de entrada declarado / Declared point of entry]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="160" width="275" height="15" uuid="bd75e2e3-6285-4092-8875-38b328bcc92b"/>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[6. Marcas distintivas / Distinguishing marks]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="175" width="275" height="25" uuid="c0be4aa5-c45b-4298-aea7-0099c7e7d235">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{punto_entrada_declarado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="278" y="175" width="275" height="25" uuid="c1738781-1337-4d7d-a2d5-aec3ade0155b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marca_distintiva}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="200" width="275" height="25" uuid="9b5b4542-796d-49fd-9256-d9d24ed98884">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[7. Número y descripción de los bultos / Number and description of packages]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="200" width="275" height="25" uuid="4558bb20-e282-4b00-b622-8e6f4b22033d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[8. Cantidad declarada y nombre del producto / Name of product and quantity declared]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="225" width="275" height="40" uuid="8643cc8d-a691-420e-a8c0-020b98a2b5b6"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_descripcion_bultos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="278" y="225" width="275" height="40" uuid="018d0571-dfb3-4a28-b18f-2781e0ae2c08"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto_cantidad_declarada}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="265" width="550" height="15" uuid="4058ff06-75fb-4b75-9bc4-d1eb541bbbb2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[9. Nombre botánico de las plantas / Botanical name of plants]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="280" width="550" height="20" uuid="46b8229f-a4a7-45bf-a16e-a77e4b46a04e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_botanico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="300" width="550" height="64" uuid="0d88d550-c8be-4db7-8899-cf564826363a"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="6.5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{texto_nombre_botanico}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="3" y="364" width="550" height="15" backcolor="#BFE1FF" uuid="779b6096-12de-4133-a75d-5bd849a862ae">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[II. Declaración Adicional / Additional Declaration]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="379" width="550" height="40" uuid="3a2da7be-606f-4a57-8742-d7e70480c2c1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7.5" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_impreso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="3" y="419" width="550" height="15" backcolor="#BFE1FF" uuid="a7e8a110-7f9c-45b4-b7f3-a78254a9cf2d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[III. Tratamiento de Desinfestación y/o Desinfección / Desinfestation and/or Desinfection Treatment]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="449" width="275" height="30" uuid="baabd511-6a28-43cb-b879-ef10467a6695"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_tratamiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="434" width="275" height="15" uuid="087b4a9c-0d95-48de-9715-8bf210b501f6"/>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[10. Fecha / Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="434" width="275" height="15" uuid="38a7ec52-c038-4c27-847f-9ee71ccedb70">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[11. Tratamiento / Treatment]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="278" y="449" width="275" height="30" uuid="504d4458-6430-4295-a230-2e464cfe27e2"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tratamiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="479" width="275" height="25" uuid="d0dc3268-8591-4822-8a1b-b6edf394d9c6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[12. Producto químico (ingrediente activo) / Chemical (active ingredient)]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="504" width="275" height="30" uuid="31d9d691-ab88-409e-8f09-8ab498632faf"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto_quimico}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="278" y="479" width="137" height="25" uuid="2051cf67-75de-4f4c-a935-104d9571bbd4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[13. Duración y temperatura / Duration and temperature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="479" width="138" height="25" uuid="56861579-45c6-4c4a-8d59-8a98786161c3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[14. Concentración / Concentration]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="278" y="504" width="137" height="30" uuid="b0e44b03-bf54-41d1-af19-6fc7ecd7e4df"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{duracion_temperatura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="504" width="138" height="30" uuid="50bbdc1b-ab4b-40d0-a2ea-026d3aff71fb"/>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{concentracion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="534" width="550" height="15" uuid="b4fa31f7-7b95-4fd6-95d2-15cc7c0198d3"/>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[15. Información adicional / Additional information]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="549" width="550" height="58" uuid="38a033b1-32ba-41c4-aaf0-7bc892221a1b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{informacion_adicional}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="632" width="97" height="15" uuid="5e54f322-997c-43a3-89a2-02675e455fed"/>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7.5" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Fecha / Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="607" width="97" height="25" uuid="24a208b9-c564-47b6-9316-5137aaeaf961">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7.5" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Lugar de expedición / Place of issue]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="647" width="255" height="15" uuid="806d53f8-431a-49bc-af5f-1ece3d7bc8bc"/>
+				<box topPadding="0" leftPadding="4" bottomPadding="0" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6.5" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Nombre Funcionario Autorizado / Name of Authorized Officer]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="632" width="158" height="15" uuid="54270cb4-411d-4fac-b89a-ce56b0d342c7"/>
+				<box leftPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7.5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_aprobacion_certificado_letras}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="662" width="255" height="15" uuid="e8d24011-086f-4bb2-9628-6a7c9e5c0355">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7.5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreInspector}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="607" width="158" height="25" uuid="dab84c9b-dd2e-48c4-b76c-f9822475f6d4"/>
+				<box leftPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7.5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lugarExpedicion}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="3" y="0" width="67" height="65" uuid="394a59a0-7487-4ea6-815a-9503c37a2231">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="486" y="0" width="67" height="65" uuid="e0f5c94e-7a73-497d-9e10-5baeb0269013">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<componentElement>
+				<reportElement x="5" y="2" width="64" height="62" uuid="9f4748dd-d43b-4e9c-a168-80a60b1a81b4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$P{rutaCertificado}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<componentElement>
+				<reportElement x="488" y="2" width="63" height="61" uuid="adda388a-6837-4012-b004-db165419bc13">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.margin" value="pixel"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$P{rutaAnexo}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<staticText>
+				<reportElement x="3" y="53" width="13" height="12" uuid="4ba42a59-e473-49e2-95de-3cd3df604116"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[C]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="53" width="13" height="12" uuid="798d6965-286b-4171-b519-c9e2c74db600"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[A]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="258" y="607" width="205" height="70" uuid="224b19f5-51f1-4321-8580-bd9250b3dccd"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="463" y="607" width="90" height="70" uuid="389fe792-1556-4e3a-b499-21037c5ab60e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="11" rightPadding="11">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Este documento ha sido suscrito con firma electrónica, mediante la Ley de comercio electrónico, firmas electrónicas, mensajes de datos - Art. 16 Decreto Ejecutivo N° 981 - Uso de firma electrónica de la república del Ecuador.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="680" width="216" height="7" uuid="2d4fc77c-8e82-4bd5-947f-f59b2dc1da8e"/>
+				<textElement>
+					<font size="5.5"/>
+				</textElement>
+				<text><![CDATA[https://guia.agrocalidad.gob.ec/agrodb/aplicaciones/publico/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="258" y="680" width="61" height="7" uuid="f58d3c33-b867-4043-80a0-13aa16ef8cdc"/>
+				<textElement>
+					<font size="5.5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enlace de consulta:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="26">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+</jasperReport>

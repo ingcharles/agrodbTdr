@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+
+.encuesta{
+	text-align: left;
+}
+
+.pregunta p{
+	font-weight: bold;
+}
+
+.recuadro{
+	background-color: rgb(6,78,138);
+	color: white;
+	padding: 1px 10px;
+	border-radius: 5px;
+}
+
+.alerta{
+	color:red;
+}
+
+input {
+	width: auto;
+}
+
+input[type="radio"]{
+	margin-top: 0px;
+}
+
+label{
+	font-weight: normal;
+}
+
+.importante{
+	text-align: center;
+	text-transform: uppercase;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+#__encuesta{
+	background-image: url('../img/encuesta.png');
+}

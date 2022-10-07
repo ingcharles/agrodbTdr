@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:productosSensiblesCultivares" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:productosSensiblesCultivares">
+<types>
+<xsd:schema targetNamespace="urn:productosSensiblesCultivares"
+>
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+ <xsd:complexType name="datoSalida">
+  <xsd:all>
+   <xsd:element name="mensaje" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="buscarImportacionProductoSensibleCultivaresRequest"></message>
+<message name="buscarImportacionProductoSensibleCultivaresResponse">
+  <part name="return" type="tns:datoSalida" /></message>
+<portType name="Consulta productos sensibles y cultivaresPortType">
+  <operation name="buscarImportacionProductoSensibleCultivares">
+    <documentation>La siguiente funcion recibe los parametros de idVue y retorna los datos relaciones con los productos sensibles y cultivares.</documentation>
+    <input message="tns:buscarImportacionProductoSensibleCultivaresRequest"/>
+    <output message="tns:buscarImportacionProductoSensibleCultivaresResponse"/>
+  </operation>
+</portType>
+<binding name="Consulta productos sensibles y cultivaresBinding" type="tns:Consulta productos sensibles y cultivaresPortType">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="buscarImportacionProductoSensibleCultivares">
+    <soap:operation soapAction="urn:producto#buscarImportacionProductoSensibleCultivares" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:productosSensiblesCultivares" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:productosSensiblesCultivares" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+</binding>
+<service name="Consulta productos sensibles y cultivares">
+  <port name="Consulta productos sensibles y cultivaresPort" binding="tns:Consulta productos sensibles y cultivaresBinding">
+    <soap:address location="http://localhost/agrodb/aplicaciones/webServices/productoSensibleCultivares/sensibleCultivares.php"/>
+  </port>
+</service>
+</definitions>

@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="2facc099-2eba-4813-b8f4-ad3e2f8ac2ac">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Agrocalidad"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="idSolicitud" class="java.lang.Integer"/>
+	<parameter name="rutaFondo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+	o.id_operacion,
+	o.identificador_operador,
+	op.razon_social,
+	o.fecha_aprobacion,
+	o.fecha_finalizacion,
+	s.nombre_lugar,
+	s.provincia,
+	s.canton,
+	s.parroquia,
+	s.latitud,
+	s.longitud,
+	s.zona,
+	pco.nombre_predio,
+	pco.nombre_propietario,
+	pco.utm_x,
+	pco.utm_y,
+	pco.utm_z,
+	pco.id_catastro_predio_equidos
+FROM
+	g_operadores.operaciones o
+	INNER JOIN g_operadores.operadores op ON o.identificador_operador = op.identificador
+	INNER JOIN g_operadores.productos_areas_operacion pao ON o.id_operacion = pao.id_operacion 
+	INNER JOIN g_operadores.areas a ON pao.id_area = a.id_area
+	INNER JOIN g_operadores.sitios s ON a.id_sitio = s.id_sitio
+	INNER JOIN g_programas_control_oficial.catastro_predio_equidos pco ON o.identificador_operador = pco.cedula_propietario
+	INNER JOIN g_catalogos.tipos_operacion tio ON tio.id_tipo_operacion = o.id_tipo_operacion
+WHERE
+	o.id_operacion =  $P{idSolicitud}  and
+	tio.codigo = 'OEC' and tio.id_area='SA' and
+	pco.provincia = s.provincia and
+	pco.canton = s.canton and
+	pco.parroquia = s.parroquia 
+LIMIT 1]]>
+	</queryString>
+	<field name="id_operacion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_operacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operaciones"/>
+	</field>
+	<field name="identificador_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operaciones"/>
+	</field>
+	<field name="razon_social" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="razon_social"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="fecha_aprobacion" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_aprobacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operaciones"/>
+	</field>
+	<field name="fecha_finalizacion" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_finalizacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operaciones"/>
+	</field>
+	<field name="nombre_lugar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="provincia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="provincia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="canton" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="canton"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="parroquia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="parroquia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="latitud" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="latitud"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="longitud" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="longitud"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="zona" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="zona"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="nombre_predio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_predio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="catastro_predio_equidos"/>
+	</field>
+	<field name="nombre_propietario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_propietario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="catastro_predio_equidos"/>
+	</field>
+	<field name="utm_x" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="utm_x"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="catastro_predio_equidos"/>
+	</field>
+	<field name="utm_y" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="utm_y"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="catastro_predio_equidos"/>
+	</field>
+	<field name="utm_z" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="utm_z"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="catastro_predio_equidos"/>
+	</field>
+	<field name="id_catastro_predio_equidos" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_catastro_predio_equidos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="catastro_predio_equidos"/>
+	</field>
+	<background>
+		<band height="842">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image scaleImage="FillFrame">
+				<reportElement x="-20" y="-10" width="595" height="852" uuid="c6c0321c-cbda-4b01-b5c9-67770b770092">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{rutaFondo}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="91" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="4" width="555" height="26" uuid="219f6d30-d59a-4c74-850c-8d99ebc0c498">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO ZOOSANITARIO DE PRODUCCIÓN Y MOVILIDAD - FUNCIONAMIENTO (CZPM-F) PARA EL DILIGENCIAMIENTO DEL PASAPORTE EQUINO]]></text>
+			</staticText>
+		</band>
+		<band height="45">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="15" uuid="4f8f730a-d89c-4b39-aaca-107b648ee860">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS DE LA ORGANIZACIÓN ECUESTRE:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="160" y="25" width="395" height="15" uuid="245792d1-2cf2-4975-9029-bdfce1b1d409">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_predio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="25" width="160" height="15" uuid="364c180e-15b2-4094-8447-9953d6fbbf55">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre de la organización ecuestre:]]></text>
+			</staticText>
+		</band>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="160" height="15" uuid="7431f426-9fa1-4841-9770-53794d6fc84d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Propietario / Representante Legal:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="160" y="0" width="395" height="15" uuid="06a57af1-8a86-4db0-b7cb-72ffce022120">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_propietario}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="21">
+			<staticText>
+				<reportElement x="0" y="0" width="160" height="15" uuid="b493d160-e4c5-4d89-832a-d6790733d87b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cédula de identidad RUC:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="0" width="395" height="15" uuid="7f071f11-9be0-4301-b762-869bb9a4b459">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificador_operador}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="160" height="15" uuid="c2ade5a0-8049-4841-810d-1f7fd96c7e51">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Habilitado desde:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="0" width="395" height="15" uuid="d8b3e7db-52d0-41e8-bd32-9f7b854202ca">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_aprobacion})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="18" width="160" height="15" uuid="94a44226-fe0c-426c-a9d5-b994ebad0c5a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Habilitado hasta:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="18" width="395" height="15" uuid="a96ad4c5-9b29-4a3a-9e45-5a54cde87665">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{fecha_finalizacion})]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="152">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="15" uuid="df38895e-7fc2-428a-9555-ebc1af2f9d13">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UBICACIÓN DE LA ORGANIZACIÓN ECUESTRE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="160" height="15" uuid="857ec8ca-9cc0-491d-a0a5-13230917d6fb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="25" width="395" height="15" uuid="d165d48f-cf0c-4ebb-887c-f65e7297cba4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="46" width="395" height="15" uuid="7a90bc55-63b9-4664-af58-39eb53676b3f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="46" width="160" height="15" uuid="35820daa-c7fe-4562-98a6-ec7480f4c343">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="67" width="160" height="15" uuid="1156f03f-7371-4787-9875-50253e840a65">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="67" width="395" height="15" uuid="fff146c7-afc3-4132-970c-ee64d6177fc1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parroquia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="88" width="160" height="15" uuid="c7f25c8c-1884-4e72-a5e1-f29b0688853a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Coordenada UTM (WGS84)]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="88" width="395" height="15" uuid="4961676d-0fc5-4a1c-b263-a9a59f6a7678">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{latitud}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="108" width="395" height="15" uuid="d37cc230-2ed4-4558-9de0-e0af4a3f7ff2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{longitud}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="108" width="160" height="15" uuid="71ca5b22-7fcf-4995-a192-af3df814e81d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Este:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="127" width="395" height="15" uuid="cd88f3e5-e9a6-4f23-8929-68b10f8e6364">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zona}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="127" width="160" height="15" uuid="82335305-11cb-4ffb-9a28-3627c6e309e3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zona:]]></text>
+			</staticText>
+		</band>
+		<band height="89">
+			<staticText>
+				<reportElement x="0" y="30" width="554" height="40" uuid="d1ecf610-f5bc-488b-9816-9254823036bc"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[La Agencia de Regulación y Control Fito y Zoosanitario - AGROCALIDAD, en base a la Ley Orgánica de Sanidad Agropecuaria y su Reglamento; emite el certificado zoosanitario de producción y movilidad para el diligencimiento de pasaportes equinos a esta organización ecuestre, al haber cumplido con los requerimientos solicitados de acuerdo a la normativa vigente, amparada en el Programa Nacional Sanitario Equino.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="40">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+</jasperReport>

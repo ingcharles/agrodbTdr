@@ -1,0 +1,259 @@
+<?php
+
+require_once '../../clases/Conexion.php';
+require_once '../../aplicaciones/general/administrarArchivoFTP.php';
+
+	class procesoMigracion{
+		
+		private $conexionVUE;
+		
+		public function __construct(){
+		
+			//$this->conexionVUE = new Conexion('192.168.1.7','6432','Solicitudes_Dev','postgres','puntocafe');
+			//$this->conexionVUE = new Conexion('192.168.200.9','5432','Solicitudes_Dev_p','postgres','postgres');
+			//$this->conexionVUE = new Conexion('localhost','5432','Solicitudes_Dev','postgres','admin');
+		
+		}
+				
+		public function obtenerSolicitudesVUE(){
+			
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-03-01 00:00:00' and '2014-03-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-04-01 00:00:00' and '2014-04-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-05-01 00:00:00' and '2014-05-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-06-01 00:00:00' and '2014-06-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-03-01 00:00:00' and '2014-07-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-08-01 00:00:00' and '2014-08-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-09-01 00:00:00' and '2014-09-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-10-01 00:00:00' and '2014-10-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-11-01 00:00:00' and '2014-11-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-12-01 00:00:00' and '2014-12-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-01-01 00:00:00' and '2015-01-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-02-01 00:00:00' and '2015-02-28 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-03-01 00:00:00' and '2015-03-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-04-01 00:00:00' and '2015-04-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-05-01 00:00:00' and '2015-05-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-06-01 00:00:00' and '2015-06-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-07-01 00:00:00' and '2015-07-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-08-01 00:00:00' and '2015-08-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-09-01 00:00:00' and '2015-09-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-07-01 00:00:00' and '2015-10-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-11-01 00:00:00' and '2015-11-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-11-01 00:00:00' and '2015-12-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-01-01 00:00:00' and '2016-01-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-02-01 00:00:00' and '2016-02-29 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-02-01 00:00:00' and '2016-03-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-04-01 00:00:00' and '2016-04-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-05-01 00:00:00' and '2016-05-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-06-01 00:00:00' and '2016-06-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-07-01 00:00:00' and '2016-07-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-08-01 00:00:00' and '2016-08-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-09-01 00:00:00' and '2016-09-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-10-01 00:00:00' and '2016-10-31 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-11-01 00:00:00' and '2016-11-30 24:00:00' order by rgs_dt");
+			//ya esta ->$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-12-01 00:00:00' and '2016-12-31 24:00:00' order by rgs_dt");
+			
+			return $resultado;
+			
+		}
+		
+		//public function obtenerSolicitudesVUEeliminar(){
+				
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd not in ('101') and rgs_dt between '2014-03-01 00:00:00' and '2014-03-31 24:00:00' order by rgs_dt limit 1");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-04-01 00:00:00' and '2014-04-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-05-01 00:00:00' and '2014-05-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-06-01 00:00:00' and '2014-06-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-07-01 00:00:00' and '2014-07-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-08-01 00:00:00' and '2014-08-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-09-01 00:00:00' and '2014-09-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-10-01 00:00:00' and '2014-10-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-11-01 00:00:00' and '2014-11-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2014-12-01 00:00:00' and '2014-12-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-01-01 00:00:00' and '2015-01-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-02-01 00:00:00' and '2015-02-28 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-03-01 00:00:00' and '2015-03-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-04-01 00:00:00' and '2015-04-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-05-01 00:00:00' and '2015-05-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-06-01 00:00:00' and '2015-06-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-07-01 00:00:00' and '2015-07-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-08-01 00:00:00' and '2015-08-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-09-01 00:00:00' and '2015-09-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-10-01 00:00:00' and '2015-10-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-11-01 00:00:00' and '2015-11-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2015-12-01 00:00:00' and '2015-12-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-01-01 00:00:00' and '2016-01-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-02-01 00:00:00' and '2016-02-29 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-03-01 00:00:00' and '2016-03-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-04-01 00:00:00' and '2016-04-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-05-01 00:00:00' and '2016-05-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-06-01 00:00:00' and '2016-06-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-07-01 00:00:00' and '2016-07-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-08-01 00:00:00' and '2016-08-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-09-01 00:00:00' and '2016-09-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-10-01 00:00:00' and '2016-10-31 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-11-01 00:00:00' and '2016-11-30 24:00:00' order by rgs_dt");
+			//$resultado = $this->conexionVUE->ejecutarConsulta("SELECT * FROM vue_gateway.tn_eld_edoc_last_stat WHERE orgz_cd = '101' and rgs_dt between '2016-12-01 00:00:00' and '2016-12-31 24:00:00' order by rgs_dt");
+				
+			//return $resultado;
+				
+		//}
+		
+		public function obtenerDocumentosAdjuntos($idVue){
+
+			$resultado = $this->conexionVUE->ejecutarConsulta("SELECT subquery.FL_ID, 
+																	subquery.FL_NM, 
+																	subquery. ATCH_DCM_CTG_NM, 
+																	subquery.PRCS_SN, 
+																	subquery.RGS_DT, 
+																	subquery.RCSD_EDOC_AFR_CD, 
+																	FL.FL_PATH as ruta
+																FROM 
+																	(SELECT 
+																			A.FL_ID, 
+																			A.FL_NM , 
+																			A.ATCH_DCM_CTG_NM, 
+																			A.PRCS_SN, 
+																			A.RGS_DT, 
+																			B.RCSD_EDOC_AFR_CD
+																    FROM 
+																			vue_gateway.TA_IPT_EDOC_PRCS_INF B
+																		INNER JOIN 
+																			vue_gateway.TA_IPT_DOCB_FL_INF A 
+																		ON 
+																			A.PRCS_SN = B.PRCS_SN 
+																			AND A.ORGZ_CD = B.ORGZ_CD 
+																			AND B.RCSD_EDOC_AFR_ID = '$idVue'
+																			AND A.PRCS_SN IN ( SELECT 
+																									PRCS_SN 
+																								FROM 
+																									vue_gateway.TA_IPT_EDOC_PRCS_INF 
+																								WHERE 
+																									RCSD_EDOC_AFR_ID = '$idVue')) subquery
+																 INNER JOIN
+																 vue_gateway.ta_cmm_fl FL
+																 ON FL.FL_ID = subquery.FL_ID WHERE FL.FL_PATH != '';");
+			return $resultado;
+			
+		}
+		
+		/*public function eliminarDocumento($idDocumento){
+			
+			$resultado = $this->conexionVUE->ejecutarConsulta("DELETE FROM vue_gateway.ta_cmm_fl WHERE FL_ID = '$idDocumento'");
+			
+			return $resultado;
+			
+			
+		}*/
+		
+		
+	}
+	
+	
+	set_time_limit (36000);
+		
+	$proMigracion = new procesoMigracion();
+	$conexionVUE = new Conexion();
+	$cFTP = new administrarArchivoFTP();
+	
+	/*
+	 * 
+	 * *********************************************************************************************************************************************************************
+	 */
+	$solicitudes = $proMigracion->obtenerSolicitudesVUE();
+	
+	$i = 0;
+	
+	$conexionFTPRemoto = $cFTP->conexionFTP();
+		
+	while($solicitud = pg_fetch_assoc($solicitudes)){
+		
+		echo '</br>'.++$i.' - '. $solicitud['req_no'] .'</br>';
+		
+		$documentos = $proMigracion->obtenerDocumentosAdjuntos($solicitud['req_no']);
+		
+		while($documento = pg_fetch_assoc($documentos)){
+			
+			//$ruta= explode('DEV/', $documento['ruta']);
+			$rutaRemota= explode('PROD/', $documento['ruta']);
+			$archivoLocal = explode('/',$documento['ruta']);			
+			
+			echo 'Nombre de archivo '.$rutaRemota[1].'</br>';
+			
+			//$conexionFTPLocal = $cFTP->conexionFTP('192.168.200.9','ftpuser','Agrocalidad8');
+			
+			$carpeta = '';
+						
+			for ($j = 3; $j<count($archivoLocal)-1; $j++){
+				//@ftp_mkdir($conexionFTPLocal, $archivoLocal[$j]);				
+				//ftp_chdir($conexionFTPLocal, $archivoLocal[$j]);
+				$carpeta .= '/'.$archivoLocal[$j];
+			}
+			
+			$carpeta = 'D:\PROD'.$carpeta;
+			
+			echo $carpeta.'</br>';
+			
+			if (!file_exists($carpeta)) {
+				mkdir($carpeta, 0777, true);
+			}
+												
+			if (ftp_get($conexionFTPRemoto, $carpeta.'/'.end($archivoLocal), $rutaRemota[1], FTP_BINARY)) {
+				//readfile($archivoLocal);
+				echo 'Se ha escrito satisfactoriamente </br>';
+			} else {
+				echo 'Ha habido un problema durante la descarga </br>';
+			}
+			
+			/*if (ftp_put($conexionFTPLocal, end($archivoLocal), end($archivoLocal), FTP_BINARY)) {
+				echo "Se ha cargado con éxito </br>";
+				unlink(end($archivoLocal));
+			} else {
+				echo 'Hubo un problema durante la transferencia </br>';
+			}
+			
+			ftp_close($conexionFTPLocal);*/
+									
+		}
+		
+	}
+	
+	ftp_close($conexionFTPRemoto);
+	/******************************************************************************************************************************************************************
+	*
+	*/
+	
+	
+	
+	
+	/* $solicitudes = $proMigracion->obtenerSolicitudesVUEeliminar();
+	
+	$i = 0;
+	
+	$conexionFTPLocal = $cFTP->conexionFTP('192.168.200.9','ftpuser','Agrocalidad8');
+	
+	while($solicitud = pg_fetch_assoc($solicitudes)){
+		
+		echo '</br>'.++$i.' - '. $solicitud['req_no'] .'</br>';
+		
+		$documentos = $proMigracion->obtenerDocumentosAdjuntos($solicitud['req_no']);
+		
+		while($documento = pg_fetch_assoc($documentos)){
+
+			//$ruta= explode('DEV/', $documento['ruta']);
+			$rutaRemota= explode('PROD/', $documento['ruta']);
+			
+			if (ftp_delete($conexionFTPLocal, $rutaRemota[1])) {
+				echo 'Se ha eliminado satisfactoriamente </br>';
+				$proMigracion->eliminarDocumento($documento['FL_ID'])
+				
+				
+			} else {
+				echo 'Ha habido un problema durante la eliminación </br>';
+			}
+			
+		}
+		
+	}*/
+	
+	//ftp_close($conexionFTPLocal);
+
+?>

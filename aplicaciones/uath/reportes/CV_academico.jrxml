@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CV_academico" language="groovy" pageWidth="555" pageHeight="800" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7e8489f5-63d4-4582-aa91-8197eea6ced4">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="identificadorAcademico" class="java.lang.String"/>
+	<parameter name="rutaImagen" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	*
+FROM
+	g_uath.datos_academicos da
+WHERE
+	da.identificador=$P{identificadorAcademico}
+	and estado='Aceptado'
+	limit 5]]>
+	</queryString>
+	<field name="id_datos_academicos" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="nivel_instruccion" class="java.lang.String"/>
+	<field name="num_certificado" class="java.lang.String"/>
+	<field name="institucion" class="java.lang.String"/>
+	<field name="anios_estudio" class="java.lang.Integer"/>
+	<field name="titulo" class="java.lang.String"/>
+	<field name="pais" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="fecha_modificacion" class="java.sql.Timestamp"/>
+	<field name="archivo_academico" class="java.lang.String"/>
+	<field name="observaciones_rrhh" class="java.lang.String"/>
+	<field name="horas_capacitacion" class="java.lang.Integer"/>
+	<field name="carrera" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="71">
+			<image>
+				<reportElement x="20" y="5" width="405" height="64" uuid="92cfb0cb-7191-448e-a4fc-852f7c8c94b1"/>
+				<imageExpression><![CDATA[$P{rutaImagen}+"principales/FormacionAcademica.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="87" y="26" width="330" height="21" forecolor="#FFFFFF" backcolor="#F7E0CD" uuid="24c7621b-ac65-4eab-8fd0-d4b4885dd964"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Formación Académica]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement x="117" y="2" width="300" height="13" forecolor="#FFFFFF" uuid="5e16a22e-92ed-49c6-a295-04945c3baac4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{carrera}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="2" width="79" height="13" forecolor="#FFFFFF" uuid="cfd4df66-1ac3-499f-9a21-78c93b479375"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="16" width="300" height="12" forecolor="#FFFFFF" uuid="c1c904c4-3ae5-49ff-b013-5b390933f5c2"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="16" width="79" height="12" forecolor="#FFFFFF" uuid="c2f98abb-fc0d-4fdf-9d4e-fd7a597ccde3"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="34" y="29" width="79" height="12" forecolor="#FFFFFF" uuid="a7f73ee3-6869-47f1-93a1-1d578f22a4b3"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Número de registro]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="117" y="29" width="120" height="12" forecolor="#FFFFFF" uuid="d2ac30c5-1ebf-46e5-90ea-d3cd054523cc"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{num_certificado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="34" y="45" width="501" height="1" uuid="cd637515-7788-4452-a7fc-e04fba4ce0df"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#CCCCFF"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalle_solicitud" language="groovy" pageWidth="530" pageHeight="58" columnWidth="530" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2c534f50-ddfe-45b6-8cd2-bc058566993e">
+	<property name="ireport.zoom" value="5.0"/>
+	<property name="ireport.x" value="1548"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocalidadDesarrollo"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="idSolicitud" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+      id_producto_solicitud, id_tipo_producto, nombre_tipo, id_subtipo_producto,
+       nombre_subtipo, id_producto, nombre_producto,
+       (case when sexo is null then '' else (case when sexo ='H' then 'Hembra - Female' else 'Macho - Male' end) end) sexo,
+       (case when raza is null then '' else raza end),
+       (case when edad is null then '' else edad end),(case when color is null then '' else color end),
+       id_solicitud, identificacion_producto
+FROM
+       g_mercancias_valor_comercial.producto_solicitudes
+WHERE
+       id_solicitud= $P{idSolicitud}
+order by 1]]>
+	</queryString>
+	<field name="id_producto_solicitud" class="java.lang.Integer"/>
+	<field name="id_tipo_producto" class="java.lang.Integer"/>
+	<field name="nombre_tipo" class="java.lang.String"/>
+	<field name="id_subtipo_producto" class="java.lang.Integer"/>
+	<field name="nombre_subtipo" class="java.lang.String"/>
+	<field name="id_producto" class="java.lang.Integer"/>
+	<field name="nombre_producto" class="java.lang.String">
+		<fieldDescription><![CDATA[Producto para]]></fieldDescription>
+	</field>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="raza" class="java.lang.String"/>
+	<field name="edad" class="java.lang.String"/>
+	<field name="color" class="java.lang.String">
+		<fieldDescription><![CDATA[Color del producto]]></fieldDescription>
+	</field>
+	<field name="id_solicitud" class="java.lang.Integer"/>
+	<field name="identificacion_producto" class="java.lang.String"/>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="526" height="28" forecolor="#CCCCCC" backcolor="#F3F3F3" uuid="996577f1-3a5c-42f7-8d06-f96cdd4437cf"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="1" width="54" height="28" uuid="c86ac2df-d4f7-41d7-b14e-306b03612593"/>
+				<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad /
+Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="433" y="1" width="90" height="28" forecolor="#000000" uuid="3ef93f23-679f-4d07-b960-2d51593a6b7d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identificación /
+Identification]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="1" width="52" height="28" uuid="bdd0fcf8-6c0e-4d44-897b-5e8b35407bec"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edad /
+Age]]></text>
+			</staticText>
+			<line>
+				<reportElement x="306" y="1" width="1" height="28" forecolor="#CCCCCC" uuid="7a56c331-a833-4211-8bb9-20b809a839d6"/>
+			</line>
+			<staticText>
+				<reportElement x="360" y="1" width="72" height="28" uuid="20f78834-49e1-4b42-8098-53eb9f4702e1"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Color /
+Colour]]></text>
+			</staticText>
+			<line>
+				<reportElement x="432" y="1" width="1" height="28" forecolor="#CCCCCC" uuid="cb735836-0685-4594-b3ba-b26682558171"/>
+			</line>
+			<staticText>
+				<reportElement x="171" y="1" width="89" height="28" uuid="21de0db6-db17-4690-966b-7efcf128dd4b"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Raza /
+Breed]]></text>
+			</staticText>
+			<line>
+				<reportElement x="170" y="1" width="1" height="28" forecolor="#CCCCCC" uuid="de1f6296-9c1d-45e5-b7dd-c4a6f603df95"/>
+			</line>
+			<line>
+				<reportElement x="359" y="1" width="1" height="28" forecolor="#CCCCCC" uuid="9fdce3ff-6ac2-4f60-8d3e-c8940683bbd7"/>
+			</line>
+			<staticText>
+				<reportElement x="55" y="1" width="115" height="28" uuid="0a4ace22-29d5-48d7-a1b4-369fc3a7942a"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto-Especie /
+Products-Species]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="261" y="1" width="45" height="28" uuid="b57d3e51-145f-4d27-9aa5-07a2fb914160"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexo /
+Sex]]></text>
+			</staticText>
+			<line>
+				<reportElement x="54" y="1" width="1" height="28" forecolor="#CCCCCC" uuid="113f37f2-9c2f-43cf-a2d8-35da8695cac5"/>
+			</line>
+			<line>
+				<reportElement x="260" y="1" width="1" height="28" forecolor="#CCCCCC" uuid="4f6c3cef-9b3e-4747-b537-3e502616a08b"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="55" y="2" width="115" height="12" uuid="d2ba0683-f232-4fd3-a2a9-8c33b0ba96db"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="9" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="171" y="2" width="89" height="12" uuid="ebbe99f1-8e6c-4963-bb3a-29f761b4eb1c"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{raza}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="261" y="2" width="45" height="12" uuid="9c99016a-7984-49c3-bc95-6724de622f20"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="307" y="2" width="52" height="12" uuid="b6e2d6d6-799e-4402-9613-a17f838e51de"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{edad}+" meses"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="360" y="2" width="72" height="12" uuid="13320d15-b6ce-46ec-aa25-9f47843256a1"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{color}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="433" y="2" width="90" height="12" uuid="48c30af2-56ed-4bda-80d7-ee365da1e8a2"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificacion_producto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="2" width="54" height="12" uuid="cb37f2b4-de6c-44a7-aa55-ecffc0b2ed56"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="526" height="1" forecolor="#CCCCCC" uuid="b1fe4235-c88b-428c-8727-56a5164195d1"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

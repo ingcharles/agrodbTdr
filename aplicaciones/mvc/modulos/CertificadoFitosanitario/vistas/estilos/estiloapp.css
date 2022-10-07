@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+#__certificadoFitosanitario {
+	background-image: url('../img/certificadoFitosanitario.png');
+}
+
+
+#__revisionSolicitudes {
+	background-image: url('../img/revisionSolicitudes.png');
+}
+
+#__impresionSolicitudes{
+	background-image: url('../img/impresionSolicitudes.png');
+}
+
+#__emisionEphyto{
+	background-image: url('../img/emisionEphyto.png');
+}
+	
+#_cargaMasiva {
+	background-image: url('../img/cargaMasiva.png');
+	position: relative;
+}
+
+#_reimpresion {
+	background-image: url('../img/anulaReemplaza.png');
+	position: relative;
+}
+
+#_impresionMasiva {
+	background-image: url('../img/impresionMasiva.png');
+	position: relative;
+}

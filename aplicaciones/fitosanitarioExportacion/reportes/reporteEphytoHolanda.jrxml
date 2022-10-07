@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteEphytoHolanda.jrxml" language="groovy" pageWidth="595" pageHeight="842" columnWidth="545" leftMargin="25" rightMargin="25" topMargin="20" bottomMargin="20" uuid="4884f079-eb92-44fc-b09f-d7d4def368ad">
+	<property name="ireport.zoom" value="1.6105100000000068"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="192"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#7FFF00">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#DFFFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F7FFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="dataset1" uuid="f68e666d-acb2-4684-999b-d95c4512622e">
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset2" uuid="fbe8cafa-0d5d-48c0-b829-71b516e96f7c">
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset3" uuid="afa1b083-ad09-4842-9147-e289955fafe4">
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset4" uuid="7f3c93df-a319-4995-879e-a52d51d54eb1">
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset5" uuid="816abebc-9237-450a-a242-020e9f601da2">
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset6" uuid="a310f174-3f54-40aa-a573-554f08f6f2aa">
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset7" uuid="0d0fae5f-577b-4fe0-8d70-968fdc11b683">
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset8" uuid="32f942fd-859d-4ce5-952d-86a4d8ca5922">
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="rutaLogo" class="java.lang.String"/>
+	<parameter name="nombreCertificado" class="java.lang.String"/>
+	<parameter name="numeroCertificado" class="java.lang.String"/>
+	<parameter name="nombreExportador" class="java.lang.String"/>
+	<parameter name="direccionExportador" class="java.lang.String"/>
+	<parameter name="paisExportador" class="java.lang.String"/>
+	<parameter name="paisImportador" class="java.lang.String"/>
+	<parameter name="textoLeyenda" class="java.lang.String"/>
+	<parameter name="nombreImportador" class="java.lang.String"/>
+	<parameter name="direccionImportador" class="java.lang.String"/>
+	<parameter name="nombreMedioTransporte" class="java.lang.String"/>
+	<parameter name="nombrePuertoEntrada" class="java.lang.String"/>
+	<parameter name="pesoNeto" class="java.util.List"/>
+	<parameter name="nombreBotanicoProducto" class="java.util.List"/>
+	<parameter name="nombreLugarOrigen" class="java.util.List"/>
+	<parameter name="marcasDistintivas" class="java.util.List"/>
+	<parameter name="informacionAdicional" class="java.util.List"/>
+	<parameter name="tratamientoProducto" class="java.util.List"/>
+	<parameter name="fechaExpedicion" class="java.lang.String"/>
+	<parameter name="tecnicoAprobador" class="java.lang.String"/>
+	<parameter name="lugarEmision" class="java.lang.String"/>
+	<parameter name="nombreProducto" class="java.util.List"/>
+	<field name="_THIS" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<detail>
+		<band height="431">
+			<rectangle>
+				<reportElement x="325" y="142" width="220" height="70" uuid="7a79f117-4a46-4241-b92d-288c10beb871"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="281" width="270" height="60" uuid="8e70a0d8-2b74-40eb-9eb6-de5102863292"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="341" width="270" height="40" uuid="f614cb5b-a6bd-43f1-889c-e24d6f059395"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="217" width="545" height="50" uuid="1c5d866f-a254-4975-a146-53355d7ed460"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="142" width="330" height="70" uuid="2c2e5eaf-8a6a-49ab-af34-02dd3e0d6222"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="381" width="325" height="50" uuid="7ea62c83-27a7-47d5-99a1-f26b68d6dd85"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="325" y="381" width="220" height="50" uuid="4d40501d-de8a-4ccd-bcba-37c1b0adaaab"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<componentElement>
+				<reportElement x="326" y="409" width="219" height="16" uuid="5ff50cf4-5149-469b-beab-c42fead94305"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset2" uuid="b5bef267-00de-43dd-a110-9dcb2198b6e8">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{pesoNeto})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="219">
+						<textField>
+							<reportElement x="0" y="0" width="218" height="16" uuid="28fb6640-8ad6-4ee5-bfd8-ee8fc2b9250b"/>
+							<textElement>
+								<paragraph leftIndent="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement x="325" y="380" width="219" height="16" uuid="ac51d179-e5df-474f-968f-54b469fa6b24"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Cantidad declarada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="394" width="325" height="16" uuid="4786d2ac-b21c-43a0-b0dc-21b8ce3b2220"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Name of produce, number and description of packages]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="393" width="219" height="16" uuid="e291e642-1172-45b0-8022-438b9e3c9d5e"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Quantity declared]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="381" width="325" height="16" uuid="368a3279-318d-4c78-bb88-b0f658f6ff79"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Nombre del producto, número y descripción de bultos]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="270" y="281" width="275" height="60" uuid="218ffd6d-885e-45ac-b8b1-913a7e007356"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="270" y="281" width="275" height="16" uuid="92e3cfd0-7432-4b4b-aa84-56b0ec54e07e"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Nombre y dirección declarada del destinatario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="293" width="275" height="16" uuid="360f70df-cb2c-4664-811f-232529535bc3"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Declared name and address of the consignee]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="270" y="310" width="275" height="16" uuid="95aef6fa-1c96-47d0-aeb0-b1445950eba4"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{nombreImportador} == null) ? "Ninguno" : $P{nombreImportador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="324" width="275" height="16" uuid="60aacc33-c285-488b-8f74-da0bf8a8f900"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{direccionImportador} == null) ? "Ninguno" : $P{direccionImportador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="153" y="270" width="119" height="16" uuid="89810b6b-d318-4cce-9736-da5d1cbf2872"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCIÓN DEL ENVIO / ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="270" width="170" height="16" uuid="3521962f-b6cd-4cb6-9b61-d5fb3f682c4f"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPTION OF THE CONSIGNMENT]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="270" y="341" width="275" height="40" uuid="1e02e8ed-4423-4a8c-abeb-fd8d1d38b5ab"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="271" y="341" width="273" height="16" uuid="a85d25f0-d74b-4121-8df2-287f3227f121"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Punto de entrada declarado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="352" width="273" height="16" uuid="8a6621f3-7e44-49cb-be7f-877ac1fc03f5"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Declared point of entry]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="271" y="367" width="273" height="16" uuid="eeab7d76-5c62-42e0-9afd-1ca59f036cf5"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{nombrePuertoEntrada} == null) ? "Ninguno" : $P{nombrePuertoEntrada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="367" width="270" height="16" uuid="144ac498-c68b-44db-acb5-98eea58b4827"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{nombreMedioTransporte} == null) ? "Ninguno" : $P{nombreMedioTransporte}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="293" width="270" height="16" uuid="851f4017-2b9f-49b0-a8b2-70af25a71cf1"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Name and address of the exporter]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="325" width="270" height="16" uuid="fbcdbde1-7d70-47e8-8a5e-c3274d4a4fc6"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{direccionExportador} == null) ? "Ninguno" : $P{direccionExportador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="341" width="270" height="16" uuid="b5a3788c-e80d-496e-b9d0-2a19345f5193"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Medio de transporte declarado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="352" width="270" height="16" uuid="6cc76828-5f0a-44a6-b1e5-79f0c6e170f6"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Declared means of conveyance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="281" width="270" height="16" uuid="1de0819d-9cca-450b-92c0-8b46365470e7"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Nombre y dirección del exportador]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="217" width="545" height="50" uuid="f7f86961-fc61-45ef-9ac7-7bfc4281844b"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{textoLeyenda} == null) ? "Ninguno" : $P{textoLeyenda}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="142" width="330" height="16" uuid="010e702d-b0c6-494f-b43e-5e3bf3207b64"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Organización Nacional de Protección Fitosanitaria de ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="177" width="330" height="1" uuid="a146b5c2-efe8-413e-b28f-44ca12aa25fa"/>
+			</line>
+			<textField>
+				<reportElement x="358" y="171" width="184" height="30" uuid="126d0aff-53a8-446a-be0c-69319cffa719"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numeroCertificado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="155" width="191" height="16" uuid="98dbfd0b-674a-480c-a0a1-158b43fde1ec"/>
+				<textElement verticalAlignment="Top">
+					<font size="8" isItalic="true" isStrikeThrough="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[National Plant Protection Organization of]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="184" y="190" width="139" height="16" uuid="04ace81b-5fe7-4c8c-9152-0927c69237f5"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{paisImportador} == null) ? "Ninguno" : $P{paisImportador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="142" width="220" height="30" uuid="bc77034e-c53e-4699-9d45-7aa6df032b64"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{nombreCertificado} == null) ? "Ninguno" : $P{nombreCertificado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="190" width="191" height="16" uuid="30ee1e32-2886-434c-a8a0-2915ed3e4869"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[To: The Plant Protection Organization(s) of]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="170" width="37" height="30" uuid="9dc95111-af37-41b6-9e50-41067b04e09d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="177" width="330" height="16" uuid="95a1fa29-68db-41cd-824a-a3ecd8697f90"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Para: Organización(es) Nacional(es) de Protección Fitosanitaria de ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="184" y="155" width="139" height="16" uuid="c0e25d6b-0b21-49e1-a568-73cc37b1c6a5"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{paisExportador} == null) ? "Ninguno" : $P{paisExportador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="190" y="58" width="165" height="20" forecolor="#333333" uuid="2c2bde7b-2dc2-4f95-b268-d8a0028492b7"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPÚBLICA DEL ECUADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="80" width="303" height="20" uuid="fb65c6d9-4754-4345-b5c0-6957946b62a6"/>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[MINISTERIO DE AGRICULTURA Y GANADERIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="98" y="96" width="349" height="20" uuid="ae32e100-64e2-4ea7-b865-4a8db0907034"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[AGENCIA DE REGULACIÓN Y CONTROL FITO Y ZOOSANITARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="111" width="399" height="20" uuid="a16abf07-5e11-40cf-9a04-6f8d02d8bb1c"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Certificado Fitosanitario para Exportación recibido por plataforma tecnológica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="129" width="377" height="15" uuid="4986500c-b458-40ca-844c-16daf1b85342"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Impresión oficial del XML recibido al ingresar productos al Ecuador / Mensaje firmado electrónicamente]]></text>
+			</staticText>
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement x="30" y="3" width="480" height="55" uuid="d9c763a3-0cf0-4c2a-8a05-c72a5e27132c"/>
+				<imageExpression><![CDATA[$P{rutaLogo}]]></imageExpression>
+			</image>
+			<componentElement>
+				<reportElement x="0" y="410" width="325" height="16" uuid="40c124ed-f952-4002-a055-2708c6f9d40c"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset5" uuid="8a9fff89-03eb-4a38-986d-762422768f53">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{nombreProducto})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="325">
+						<textField>
+							<reportElement x="0" y="0" width="280" height="16" uuid="394f5fe8-9f8f-4e94-b84f-c3255434393a"/>
+							<textElement>
+								<paragraph leftIndent="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<textField>
+				<reportElement x="0" y="310" width="270" height="16" uuid="e953776e-5873-4203-ad56-c1dfca5fc631"/>
+				<textElement>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{nombreExportador} == null) ? "Ninguno" : $P{nombreExportador}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="54">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="325" y="-1" width="220" height="55" uuid="455ae7f0-fdf7-4a43-a847-c56810870871"/>
+			</rectangle>
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="166" y="-1" width="159" height="55" uuid="d00b2720-7bcb-452f-b12d-374b667d8c3d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="-1" width="166" height="55" uuid="26642947-eb09-4e06-9548-fe4e22486d34"/>
+			</rectangle>
+			<componentElement>
+				<reportElement x="166" y="28" width="160" height="17" uuid="de163107-6fb5-44a4-acd4-231c7a8775ad"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset4" uuid="536ac525-22e7-4ddc-91d8-006dcf959579">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{nombreLugarOrigen})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="17" width="160">
+						<textField>
+							<reportElement x="0" y="0" width="159" height="16" uuid="814467eb-5192-4e94-ad3d-b8aaba8b9dc5"/>
+							<textElement>
+								<paragraph leftIndent="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="0" width="166" height="16" uuid="eabb5f1e-24bf-4000-8fac-b2833fd60d2f"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Nombre botánico de la planta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="0" width="171" height="16" uuid="ff37641b-2cf8-4a2b-ae2a-c3a0bbdb55d1"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Marcas distintivas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="166" y="13" width="161" height="16" uuid="04bbf463-185e-461f-9dad-2e1b8936d18a"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Place of origin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="13" width="166" height="16" uuid="2c0a3da5-4dc2-4969-bbb0-2f75f431cd2b"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Botanical name of plant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="13" width="171" height="16" uuid="0c3359c5-8cb2-40c4-8904-40a058b96c56"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Distinguishing marks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="166" y="0" width="160" height="16" uuid="c88bc1f6-be0b-4a4e-bd06-4c2bd0c32f1b"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Lugar de Origen]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="29" width="166" height="17" uuid="d8a80b7e-edbb-490d-abeb-b8db3420cfd3"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset3" uuid="36bc05f4-d1f5-40ca-b805-32ca8238d0af">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{nombreBotanicoProducto})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="17" width="166">
+						<textField isStretchWithOverflow="true">
+							<reportElement x="0" y="0" width="166" height="16" uuid="305fbe46-c62f-4efd-8508-9aef42964703"/>
+							<textElement>
+								<paragraph leftIndent="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="325" y="29" width="159" height="16" uuid="8c1cc912-c2e3-4267-93ac-b48510850251"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset7" uuid="e8b990f3-befb-409b-8442-a1f13d7bd7bc">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{marcasDistintivas})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="159">
+						<textField>
+							<reportElement x="0" y="0" width="100" height="16" uuid="dbeb271f-342d-4f2a-b59f-1f8421b15732"/>
+							<textElement>
+								<paragraph leftIndent="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+		<band height="41">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="-1" y="13" width="545" height="28" uuid="79de89c7-92b3-4d27-a41b-3ec67c87d592"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="2" width="277" height="16" uuid="a97d27da-9f30-4478-bbf5-bb2907a6ba18"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[DECLARACIÓN ADICIONAL / ]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="-1" y="19" width="543" height="16" uuid="38a630c3-a920-4532-ab77-7b739f11923b"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset8" uuid="c554ddf0-f789-4262-88b2-fd1a4bac888e">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{informacionAdicional})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="543">
+						<textField isStretchWithOverflow="true">
+							<reportElement x="1" y="0" width="542" height="16" uuid="db18fb9f-f430-42c4-a635-b6e2ec033c37"/>
+							<textElement>
+								<paragraph leftIndent="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement x="280" y="2" width="149" height="16" uuid="fed45e55-73bf-44fe-8913-b22351a6b2c0"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ADDITIONAL DECLARATION]]></text>
+			</staticText>
+		</band>
+		<band height="42">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="1" y="14" width="545" height="28" uuid="e4ad8982-9fd9-492f-be39-493fa7b54479"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="3" width="277" height="16" uuid="252f6541-ccf0-4e45-b263-daba4edcb945"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[TRATAMIENTO DE DESINFECCIÓN Y/O DESINFECTACIÓN /]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="3" width="265" height="16" uuid="6b758ddb-78b7-4e16-bc46-942a15518e07"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ DESINFECTION AND/OR DESINFESTATION TREATMENT]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="23" width="545" height="16" uuid="144aec4a-c36a-4661-8d7c-0ce53792d1e7"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dataset6" uuid="7efbd14d-b260-4a43-b471-081343f575c5">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{tratamientoProducto})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="545">
+						<textField isStretchWithOverflow="true">
+							<reportElement x="1" y="0" width="542" height="16" uuid="287e827b-fe55-4a51-8969-7d9242a22d12"/>
+							<textElement>
+								<paragraph leftIndent="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{_THIS}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+		<band height="89">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="14" width="545" height="75" uuid="ec999cdb-cfd4-476e-8f25-c9f631d89676"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="155" y="68" width="390" height="16" uuid="b778f730-3aa7-442e-a619-e7944402b18f"/>
+				<textFieldExpression><![CDATA[$P{tecnicoAprobador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="2" y="73" width="162" height="16" uuid="10d91aaf-344f-44d3-889d-f5d5ae4ff935"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Authorized officer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="278" y="3" width="268" height="16" uuid="6fca66bb-b416-4e6f-902a-f7b99128e20c"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ INFORMATION OF EXPEDITION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="2" y="60" width="160" height="16" uuid="ac8651d8-1e2c-4841-873d-a402cdb16e2e"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Oficial Autorizado]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="155" y="26" width="390" height="16" uuid="0762f8f3-db5c-4dc1-9cc7-c033d3288789"/>
+				<textFieldExpression><![CDATA[($P{lugarEmision}==null)?"Ninguno"+", "+$P{fechaExpedicion}:$P{lugarEmision}+", "+$P{fechaExpedicion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="2" y="17" width="164" height="16" uuid="93b909ae-9690-4b4d-bff8-3dcc514fe55d"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Lugar y fecha de expedición]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="2" y="29" width="164" height="16" uuid="435cd94c-4a70-4b67-8fe2-16b698b51825"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Place and date of issue]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="2" y="3" width="275" height="16" uuid="0d973302-684d-4099-8e5e-f80a23eb7106"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS DE EXPEDICIÓN /]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

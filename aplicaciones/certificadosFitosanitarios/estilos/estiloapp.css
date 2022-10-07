@@ -1,0 +1,34 @@
+@CHARSET "UTF-8";
+
+#__entrada {
+	background-image: url('../img/entrada.png');
+}
+
+#__validar {
+	background-image: url('../img/validar.png');
+}
+
+#__documentos {
+	background-image: url('../img/documentos.png');
+}
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+#tablaServicio td {
+	font-size: 1em;
+	border: 1px solid rgba(0, 0, 0, .1);
+	padding: 3px 7px 2px 7px;
+}
+
+#tablaServicio th {
+	font-size: 1em;
+	border: 1px solid rgba(0, 0, 0, .1);
+	padding: 3px 7px 2px 7px;
+	background-color: rgba(0, 0, 0, .1)
+}
+

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="infoAccidente" language="groovy" pageWidth="595" pageHeight="842" columnWidth="580" leftMargin="5" rightMargin="10" topMargin="10" bottomMargin="10" uuid="0c511878-60ff-410e-b722-6ffe14ee5515">
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codSolicitud" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rutaInfoAccidente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+cod_datos_accidente,
+fecha_accidente,
+tipo_accidente,
+lugar_accidente,
+direccion,
+referencia,
+dia,
+hora_accidente,
+( SELECT nombre FROM g_catalogos.localizacion WHERE id_localizacion = reg.id_localizacion_parroquia ) as parroquia,
+( SELECT nombre FROM g_catalogos.localizacion WHERE id_localizacion = reg.id_localizacion_provincia ) as provincia,
+( SELECT nombre FROM g_catalogos.localizacion WHERE id_localizacion = reg.id_localizacion_ciudad ) as canton
+  FROM
+  g_investigacion_accidente_incidente.registro_accidente reg
+  WHERE
+  cod_datos_accidente = $P{codSolicitud};]]>
+	</queryString>
+	<field name="cod_datos_accidente" class="java.lang.Integer"/>
+	<field name="fecha_accidente" class="java.sql.Date"/>
+	<field name="tipo_accidente" class="java.lang.String"/>
+	<field name="lugar_accidente" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="referencia" class="java.lang.String"/>
+	<field name="dia" class="java.lang.String"/>
+	<field name="hora_accidente" class="java.sql.Time"/>
+	<field name="parroquia" class="java.lang.String"/>
+	<field name="provincia" class="java.lang.String"/>
+	<field name="canton" class="java.lang.String"/>
+	<detail>
+		<band height="291" splitType="Stretch">
+			<rectangle radius="4">
+				<reportElement x="192" y="39" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="b7e749b8-652e-43ce-8c38-e08a3fc337d8"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="39" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="78d6dc91-55ba-4eb6-b776-441676cfc642"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="67" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="a863b482-9d80-462f-a032-db6a367a9bed"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="67" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="92f0d9b7-98fd-4d28-900a-c7f5d5562d14"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="95" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="c89d2850-4cde-404f-9ab3-c9e3b6480ef0"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="95" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="ef79f288-eb8b-4a82-8513-6d00ae669a14"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="123" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="97d7d4c3-0af8-4fe1-bb60-6496efe3e5a5"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="123" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="de4e40b7-0cfe-476b-9289-b05971a6d775"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="151" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="ea76a17a-e1aa-4453-a1a4-0684782705a8"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="151" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="084758b8-c338-458c-8b39-2c95e57d0af0"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="179" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="5e9a0e35-5687-49c9-a431-8c3a67914fac"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="179" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="0613f555-dcdf-465b-90b7-ac04e132d1b0"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="208" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="2ad5b1dd-71ab-487e-9cef-e1fc5c442a87"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="208" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="fa2d61c5-abbb-473d-9a12-5088ebc17de9"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="266" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="17c4a409-1df1-402c-b4c6-4991c6a3ad4a"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="237" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="791b4d81-e1e0-4a9f-8b9c-d451d5b6b0d8"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="0" y="237" width="192" height="22" forecolor="#4FB580" backcolor="#4FB580" uuid="3a750737-f400-488c-8e48-5851156bbf9b"/>
+			</rectangle>
+			<rectangle radius="4">
+				<reportElement x="192" y="266" width="365" height="22" forecolor="#B4DDCB" backcolor="#B4DDCB" uuid="52d537d2-ee28-416a-b39f-c4598e3f2cb4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="42" width="169" height="20" uuid="5074d6bf-bba6-4a86-beef-15ff962ab616"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Día de la semana:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="71" width="169" height="20" uuid="20717ee1-1fdf-42c2-b978-ab385fff4e72"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha del accidente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="97" width="169" height="20" uuid="83431a4b-69fd-4a1f-babf-6f10deef422a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de accidente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="123" width="169" height="20" uuid="3a6f8596-1c1d-4efe-a21a-59e425010b00"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar de accidente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="153" width="169" height="20" uuid="200b9786-1d0b-43fe-bd59-ccc049ba420e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="180" width="169" height="20" uuid="4e769ca1-d840-47da-bf8e-f148a392069f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Referencia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="210" width="169" height="20" uuid="16da803f-73e8-4f9f-b19f-53309926fe7b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="239" width="169" height="20" uuid="0cfab1f0-ce2d-43ee-a79c-48d7d0c485ab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ciudad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="268" width="169" height="20" uuid="571be492-4fe9-4bc1-b3d4-4a5fa040d816"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sector:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="42" width="100" height="20" forecolor="#000000" uuid="0e8c78c5-75f7-4b04-b55c-6228b25dc63c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="212" y="71" width="179" height="20" forecolor="#000000" uuid="2def35d4-0759-4a19-b0ea-89ccbca015c4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_accidente}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="97" width="289" height="20" forecolor="#000000" uuid="b950a983-8706-4326-9142-831e36eb42c1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_accidente}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="124" width="289" height="20" forecolor="#000000" uuid="c2ecb537-965a-4706-b7d7-7ac55a0ae736"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lugar_accidente}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="153" width="289" height="20" forecolor="#000000" uuid="bdec1c8a-c7ad-4fe8-bbd7-acaff74e1c04"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="183" width="289" height="20" forecolor="#000000" uuid="5003b1de-0e21-42de-9735-e6661b31c2b6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="212" width="196" height="20" forecolor="#000000" uuid="279c6cde-83af-462e-bc3e-286e1a2934ef"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="239" width="196" height="20" forecolor="#000000" uuid="5570520f-b9e6-4dda-a233-2c9889a23f42"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="212" y="268" width="196" height="20" forecolor="#000000" uuid="da0cc44c-ce7a-4315-a35f-d9099bbbfc10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parroquia}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="557" height="32" uuid="c901a80b-8b45-4aa9-894e-5d6cd5f988dd"/>
+				<imageExpression><![CDATA[$P{rutaInfoAccidente}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="57" y="6" width="265" height="20" forecolor="#FFFFFF" uuid="df17a7b5-424c-48bb-81cb-6ba2cd2732cf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN DEL ACCIDENTE:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 4.0.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jrReporteGerencial" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<queryString language="SQL">
+		<![CDATA[select distinct
+tf.id_tramite_flujo,tf.identificador,tf.remitente,tf.ejecutor,
+ pf.codificacion_perfil, p.id_solicitud,p.identificador,p.id_expediente,p.id_certificado,p.estado,p.nombre as nombre_producto, 
+			o.razon_social,s.provincia,sp.nombre as subtipo_producto,p.fecha_solicitud as fecha_inicio,p.fecha_inscripcion as fecha_fin,
+			ce.nombre,tf.id_tramite_flujo,tf.id_tramite,tf.id_flujo_documento,tf.identificador as tecnico,tf.fecha_inicio as fecha_tecnico			
+			from g_dossier_pecuario.solicitudes p
+			left join g_operadores.operadores o on p.identificador=o.identificador
+			left join g_operadores.sitios s on s.id_sitio=p.id_sitio
+			left join g_catalogos.subtipo_productos sp on sp.id_subtipo_producto=p.id_subtipo_producto
+			left join g_catalogos.catalogo_ef ce on ce.codigo=p.tipo_solicitud
+			left join g_ensayo_eficacia.tramites tt on tt.id_documento=p.id_solicitud and tt.tipo_documento='DP'
+			left join g_ensayo_eficacia.tramites_flujos tf on tf.id_tramite=tt.id_tramite
+			left join g_ensayo_eficacia.flujo_documentos fd on fd.id_flujo_documento=tf.id_flujo_documento
+			left join g_ensayo_eficacia.flujo_fases ff on ff.id_flujo=fd.id_flujo and ff.id_fase=fd.id_fase
+			left join g_usuario.usuarios_perfiles up on up.identificador=tf.remitente
+			left join g_usuario.perfiles pf on pf.id_perfil=up.id_perfil
+			where ff.estado='analizarDossier' and fd.tipo_documento='DP' 
+
+			order by tf.id_tramite_flujo]]>
+	</queryString>
+	<field name="id_expediente" class="java.lang.String"/>
+	<field name="fecha_inicio" class="java.sql.Timestamp"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="razon_social" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="nombre_producto" class="java.lang.String"/>
+	<field name="tecnico" class="java.lang.String"/>
+	<field name="remitente" class="java.lang.String"/>
+	<field name="fecha_fin" class="java.sql.Timestamp"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="id_solicitud" class="java.lang.Integer"/>
+	<field name="id_certificado" class="java.lang.String"/>
+	<field name="provincia" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

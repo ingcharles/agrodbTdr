@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES_medidaSanitariaReporte" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f978c387-bdce-4fac-8c25-03e32df33a1f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_evento_sanitario" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select ms.*, fe.nombre, fe.apellido from
+g_seguimiento_eventos_sanitarios.medida_sanitaria ms,
+g_uath.ficha_empleado fe
+where
+ms.id_evento_sanitario = $P{id_evento_sanitario} and
+ms.identificador = fe.identificador]]>
+	</queryString>
+	<field name="id_medida_sanitaria" class="java.lang.Integer"/>
+	<field name="id_evento_sanitario" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<field name="origen_enfermedad" class="java.lang.String"/>
+	<field name="cuarentena_predio" class="java.lang.String"/>
+	<field name="numero_acta" class="java.lang.String"/>
+	<field name="medidas_sanitarias" class="java.lang.String"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<field name="ruta_mapa_medidas" class="java.lang.String"/>
+	<field name="ruta_fotos" class="java.lang.String"/>
+	<field name="numero_visita" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="apellido" class="java.lang.String"/>
+	<group name="numero_visita">
+		<groupExpression><![CDATA[$F{numero_visita}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="84" height="20" uuid="e41f6463-afa8-4359-9f38-044560f065a9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Visita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="0" width="82" height="20" uuid="843c255c-77b6-4a64-b267-518f104b3d9a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[F. Visita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="166" y="0" width="120" height="20" uuid="c728039a-be94-4c98-817f-50a803b84274"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="0" width="100" height="20" uuid="edb12e7d-b831-493d-b0bf-f9a6c9e46e23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medidas Sanitarias]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="0" width="169" height="20" uuid="ab662681-5620-4769-8077-239bde14b51f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Responsable]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="84" height="20" uuid="d12c5c3c-96f0-4a91-ab3f-ee6afab50a6c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numero_visita}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="0" width="82" height="20" uuid="1f24a11e-62d9-45f2-b5f5-3b773dc9a763"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_creacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="166" y="0" width="120" height="20" uuid="8bfaa18b-2ee5-41d6-bd42-1e76cea0149a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="286" y="0" width="100" height="20" uuid="7e12b4c0-36b5-49f6-8e4b-e59060862159"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{medidas_sanitarias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="386" y="0" width="87" height="20" uuid="66380418-831d-4423-ad65-0c7a1478e99a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="0" width="82" height="20" uuid="322d3dbd-7d2c-4cd9-b5fa-51f1f9ad5bf4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

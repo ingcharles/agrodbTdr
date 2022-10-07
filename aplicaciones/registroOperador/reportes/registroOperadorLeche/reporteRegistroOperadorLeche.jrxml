@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteRegistroOperadorDeLeche" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="0a8dd36e-fe7f-4668-983e-9553f0e5528c">
+	<property name="ireport.zoom" value="2.8531167061100446"/>
+	<property name="ireport.x" value="283"/>
+	<property name="ireport.y" value="1555"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocalidadPruebas"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="idOperadorTipoOperacion" class="java.lang.Integer"/>
+	<parameter name="codigoCertificadoLeche" class="java.lang.String"/>
+	<parameter name="nombreTecnico" class="java.lang.String"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	distinct op.identificador,
+	case when op.razon_social = '' then op.nombre_representante ||' '|| op.apellido_representante else razon_social end nombre_operador,
+	s.identificador_operador||'.'||s.codigo_provincia||s.codigo as codigo_sitio,
+	s.nombre_lugar nombre_sitio,
+	s.direccion,
+	s.provincia,
+	s.canton,
+	s.parroquia,
+	a.nombre_area,
+	op.telefono_uno,
+	op.correo,
+	to_char(ope.fecha_aprobacion,'DD/MM/YYYY') fecha_aprobacion,
+	to_char(ope.fecha_finalizacion,'DD/MM/YYYY') fecha_finalizacion,
+	ca.capacidad_instalada,
+	ca.numero_trabajadores,
+	um.nombre as unidad_medida_nombre,
+	lb.nombre as nombre_laboratorio
+FROM
+	g_operadores.operadores op,
+	g_operadores.operaciones ope,
+	g_operadores.productos_areas_operacion pao,
+	g_operadores.areas a,
+	g_operadores.sitios s,
+	g_operadores.centros_acopio ca,
+	g_administracion_catalogos.items_catalogo lb,
+	g_catalogos.unidades_medidas um
+WHERE
+	op.identificador = ope.identificador_operador and
+	ope.id_operacion = pao.id_operacion and
+	pao.id_area = a.id_area and
+	a.id_sitio = s.id_sitio and
+	a.id_area = ca.id_area and
+	ope.id_operador_tipo_operacion = ca.id_operador_tipo_operacion and
+	um.codigo = ca.codigo_unidad_medida and
+	lb.id_item = ca.id_laboratorio_leche and
+	ope.estado = 'registrado' and
+	ca.estado_centro_acopio = 'activo' and
+	ca.id_centro_acopio = (SELECT max(id_centro_acopio) FROM g_operadores.centros_acopio WHERE id_operador_tipo_operacion = $P{idOperadorTipoOperacion}  and estado_centro_acopio = 'activo')]]>
+	</queryString>
+	<field name="identificador" class="java.lang.String">
+		<fieldDescription><![CDATA[Cédula/RUC]]></fieldDescription>
+	</field>
+	<field name="nombre_operador" class="java.lang.String">
+		<fieldDescription><![CDATA[Operador]]></fieldDescription>
+	</field>
+	<field name="codigo_sitio" class="java.lang.String"/>
+	<field name="nombre_sitio" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[Dirección]]></fieldDescription>
+	</field>
+	<field name="provincia" class="java.lang.String">
+		<fieldDescription><![CDATA[Provincia]]></fieldDescription>
+	</field>
+	<field name="canton" class="java.lang.String">
+		<fieldDescription><![CDATA[Cantón]]></fieldDescription>
+	</field>
+	<field name="parroquia" class="java.lang.String">
+		<fieldDescription><![CDATA[Parroquia]]></fieldDescription>
+	</field>
+	<field name="nombre_area" class="java.lang.String"/>
+	<field name="telefono_uno" class="java.lang.String"/>
+	<field name="correo" class="java.lang.String"/>
+	<field name="fecha_aprobacion" class="java.lang.String"/>
+	<field name="fecha_finalizacion" class="java.lang.String"/>
+	<field name="capacidad_instalada" class="java.lang.Double">
+		<fieldDescription><![CDATA[Campo que almacena la capacidad del centro de acopio]]></fieldDescription>
+	</field>
+	<field name="numero_trabajadores" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Campo que almacena numero de trabajadores de centro de acopio]]></fieldDescription>
+	</field>
+	<field name="unidad_medida_nombre" class="java.lang.String"/>
+	<field name="nombre_laboratorio" class="java.lang.String"/>
+	<variable name="fecha_finalizacion_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{fecha_finalizacion}]]></variableExpression>
+	</variable>
+	<background>
+		<band height="822" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image scaleImage="FillFrame">
+				<reportElement x="-20" y="-30" width="595" height="852" uuid="af6feb57-37b3-4f33-ad89-32f71f4d28e5"/>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="76" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement x="85" y="12" width="371" height="36" forecolor="#CC0000" uuid="44df0cdf-1c73-40ca-8659-5407474d32a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="13" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO DE REGISTRO DE CENTROS DE ACOPIO DE LECHE CRUDA]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="555" splitType="Stretch">
+			<rectangle radius="3">
+				<reportElement mode="Transparent" x="16" y="342" width="524" height="90" uuid="95dadad3-9b5a-44fa-a617-e7723c1f5bee"/>
+			</rectangle>
+			<rectangle radius="3">
+				<reportElement x="16" y="342" width="524" height="20" backcolor="#CCCCCC" uuid="c92e97b7-99b0-4e47-9801-f2d239b067ec"/>
+			</rectangle>
+			<rectangle radius="3">
+				<reportElement mode="Transparent" x="16" y="45" width="524" height="290" uuid="d5441fc0-4a6a-43b7-b444-26e325306663">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle radius="3">
+				<reportElement x="16" y="45" width="524" height="20" backcolor="#CCCCCC" uuid="8246fbf3-c94c-4a84-a1e7-60872cfd4f4c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="26" y="285" width="142" height="20" forecolor="#000000" backcolor="#000000" uuid="6f2e414a-9dfb-4c10-ac3a-354a6bd9f6ce"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[NÚMERO DE TELÉFONO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="264" width="142" height="20" forecolor="#000000" backcolor="#000000" uuid="4402401e-4f7b-4353-a717-294083381da2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="200" width="142" height="20" forecolor="#000000" backcolor="#000000" uuid="ccdc5bee-645e-458f-af28-e6db9ec37f29"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[PROVINCIA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="306" width="142" height="20" forecolor="#000000" backcolor="#000000" uuid="6042407c-7f00-403b-981a-137711565aca"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CORREO ELECTRÓNICO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="97" width="142" height="38" forecolor="#000000" backcolor="#000000" uuid="d9eb3bc3-1815-4562-9459-fe78d22de366"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DEL OPERADOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="221" width="142" height="20" forecolor="#000000" backcolor="#000000" uuid="fc7dd2a0-820f-4a74-bfe1-6a7cc2524f74"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CANTÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="8" width="168" height="20" forecolor="#666666" uuid="6f61d083-a6af-4595-a10b-339572e0a916"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[N° CERTIFICADO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="374" width="137" height="20" forecolor="#000000" backcolor="#000000" uuid="3db8786b-33f4-44d6-95aa-3c1a4a6738e2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CAPACIDAD INSTALADA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="395" width="132" height="20" forecolor="#000000" backcolor="#000000" uuid="3ccff664-93de-43cd-9432-18f732b0dd1e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[FECHA DE EMISIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="75" width="179" height="20" forecolor="#000000" backcolor="#000000" uuid="5a602db3-0933-4d2d-90a3-5cda3edcb286"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[IDENTIFICADOR DEL OPERADOR:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="205" y="97" width="318" height="38" forecolor="#666666" backcolor="#000000" uuid="79d54c41-d018-46eb-9321-9e69bdd46b64"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="75" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="93db1056-3f4f-413b-b2f5-3a8e403718e4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{identificador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="199" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="f756c621-1f2a-425f-86fb-8885e6e23986"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="221" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="3e973568-66b4-495d-bfe3-18f04df0fb62"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{canton}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="264" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="7399c788-eaea-457d-a36f-983c63d73011"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="285" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="8ecaf2d4-d2b1-4c51-b6fc-30d55a4c26ff"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{telefono_uno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="306" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="2f25c588-f50d-47ed-8dc7-ed859e766d90"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="45" width="142" height="20" forecolor="#000000" uuid="9dff3ca5-e252-4702-924e-d10676817ba1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[DATOS GENERALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="342" width="207" height="20" forecolor="#000000" uuid="9af0461a-4d97-4958-8d6e-9e0ff25ae6fd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL CENTO DE ACOPIO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="278" y="8" width="245" height="20" forecolor="#666666" uuid="43ea889d-c1f0-4e7c-bd62-6d20236f4aa7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{codigoCertificadoLeche}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="163" y="374" width="43" height="20" forecolor="#787878" uuid="a5f90961-d9a2-407f-898c-18cf849e9d47"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{capacidad_instalada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="374" width="43" height="20" forecolor="#787878" uuid="7beb75dd-c7ee-4b58-8038-51104dc2ab23"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{unidad_medida_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="395" width="115" height="20" forecolor="#787878" uuid="dff89fcc-af8c-4212-b11b-ace7d60203ce"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_finalizacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="138" width="142" height="20" forecolor="#000000" backcolor="#000000" uuid="ac3a6e70-25af-4b5c-bc09-d869472f2bc1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO DEL SITIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="159" width="142" height="20" forecolor="#000000" backcolor="#000000" uuid="a1423d60-27dd-4ea8-ae2d-beb3c355af42"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DEL SITIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="242" width="142" height="20" forecolor="#000000" backcolor="#000000" uuid="a0a0f947-db14-42ff-8a64-a2811f3a5475"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[PARROQUIA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="205" y="138" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="5b6ff15a-befd-4a34-8029-5d120309d0ba"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{codigo_sitio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="159" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="581113e1-88cc-4e42-8447-679cc66f05bf"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_sitio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="242" width="318" height="20" forecolor="#666666" backcolor="#000000" uuid="50b6c3b4-4e7a-4b1e-b069-d19035a8d836"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{parroquia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="286" y="374" width="65" height="20" forecolor="#000000" backcolor="#000000" uuid="c47cc52c-8a57-4642-8996-06eb732909e4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[UNIDAD:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="395" width="132" height="20" forecolor="#000000" backcolor="#000000" uuid="690da30c-109a-4944-85ef-a2fcce15b15c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[FECHA DE CADUCIDAD:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="163" y="395" width="116" height="20" forecolor="#666666" uuid="c3be1f75-db54-4ecc-b96c-4b3fef736709"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_aprobacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="179" width="164" height="20" forecolor="#000000" backcolor="#000000" uuid="8b10657d-366e-400f-80e2-ab26dda66876"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CENTRO DE ACOPIO DE LECHE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="205" y="179" width="318" height="19" forecolor="#666666" uuid="b031077f-9cad-43d1-8eb5-e11202746520"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_area}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="440" y="440" width="98" height="100" uuid="b384deb4-6c87-494a-8beb-b5ce2e235f79">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Numero de registro: "+ $P{codigoCertificadoLeche} +"\nIdentificador operador: "+ $F{identificador}+"\nNombre operador: "+ $F{nombre_operador} +"\nNombre del Sitio: "  + $F{nombre_sitio} + "\nCapacidad instalada: "  + $F{capacidad_instalada} + "\nFecha de caducidad: "  + $F{fecha_finalizacion} + "\nNombre del tecnico: "  + $P{nombreTecnico}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<rectangle radius="3">
+				<reportElement mode="Transparent" x="439" y="439" width="100" height="100" uuid="55650a42-1824-4aa3-b46a-1790a19f80c6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+		</band>
+	</columnHeader>
+	<lastPageFooter>
+		<band height="50">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+</jasperReport>

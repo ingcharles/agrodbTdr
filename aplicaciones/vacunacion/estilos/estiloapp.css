@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+
+#__vacunacion{
+	background-image: url('../img/vacunacion.png');
+}
+
+#__fiscalizacion{
+	background-image: url('../img/fiscalizador.png');
+}
+
+#__administradorRolEmpleado{
+	background-image: url('../img/administradorDigitador.png');	
+}
+
+#__anularVacunacion{
+	background-image: url('../img/anularVacunacion.png');
+}
+
+#__reportes{
+	background-image: url('../img/reportes.png');
+}
+
+#__reportarCertificadoAnulado{
+	background-image: url('../img/reportarAnulado.png');
+}

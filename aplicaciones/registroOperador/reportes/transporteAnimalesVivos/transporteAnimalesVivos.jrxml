@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="528fd1ce-7617-4708-8079-c4d4b1623329">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="locahost"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="491"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="495"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Empty Dataset1" uuid="41dc2a97-f982-4e0d-a45c-bcd4ed73d0bd">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idOperadorTipoOperacion" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT 
+tp.nombre as nombre_tipo_producto
+, string_agg(distinct(stp.nombre), ', ') as nombre_subtipo_producto
+FROM 
+g_operadores.operaciones op
+INNER JOIN g_catalogos.productos p ON op.id_producto = p.id_producto
+INNER JOIN g_catalogos.subtipo_productos stp ON p.id_subtipo_producto = stp.id_subtipo_producto
+INNER JOIN g_catalogos.tipo_productos tp ON stp.id_tipo_producto = tp.id_tipo_producto
+WHERE
+op.id_operador_tipo_operacion =  $P{idOperadorTipoOperacion} 
+GROUP BY 1]]>
+		</queryString>
+		<field name="nombre_tipo_producto" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_tipo_producto"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tipo_productos"/>
+		</field>
+		<field name="nombre_subtipo_producto" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nombre_subtipo_producto"/>
+		</field>
+	</subDataset>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<parameter name="selloSeguridad" class="java.lang.String"/>
+	<parameter name="idOperadorTipoOperacion" class="java.lang.Integer"/>
+	<parameter name="rutaCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+	DISTINCT op.identificador_operador
+	, CASE WHEN o.razon_social = '' THEN o.nombre_representante ||' '|| o.apellido_representante ELSE o.razon_social END nombre_operador
+	, o.direccion as direccion_operador
+	, o.correo as correo_operador
+	, o.telefono_uno as telefono_operador
+	, o.provincia as nombre_provincia_operador
+	, o.canton as nombre_canton_operador
+	, o.parroquia as nombre_parroquia_operador
+	, dvta.codigo_certificado
+	, dvta.placa_vehiculo
+	, dvta.identificador_propietario_vehiculo
+	, dvta.marca_vehiculo
+	, dvta.modelo_vehiculo
+	, dvta.anio_vehiculo
+	, dvta.color_vehiculo
+	, dvta.clase_vehiculo
+	, dvta.tipo_vehiculo
+	, dvta.tamanio_contenedor_vehiculo
+	, dvta.caracteristica_contenedor_vehiculo
+	, to_char(dvta.fecha_aprobacion, 'YYYY-MM-DD hh:mi') as fecha_aprobacion
+FROM 
+	g_operadores.operaciones op
+	INNER JOIN g_operadores.operadores o ON op.identificador_operador = o.identificador
+	INNER JOIN g_operadores.datos_vehiculo_transporte_animales dvta ON op.id_operador_tipo_operacion = dvta.id_operador_tipo_operacion
+WHERE
+	op.id_operador_tipo_operacion =  $P{idOperadorTipoOperacion}]]>
+	</queryString>
+	<field name="identificador_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operaciones"/>
+	</field>
+	<field name="nombre_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_operador"/>
+	</field>
+	<field name="direccion_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="direccion_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="correo_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="correo_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="telefono_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefono_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="nombre_provincia_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_provincia_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="nombre_canton_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_canton_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="nombre_parroquia_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_parroquia_operador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="codigo_certificado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="codigo_certificado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="placa_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="placa_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="identificador_propietario_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_propietario_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="marca_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="marca_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="modelo_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="modelo_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="anio_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="anio_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="color_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="color_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="clase_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="clase_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="tipo_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="tamanio_contenedor_vehiculo" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="tamanio_contenedor_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="caracteristica_contenedor_vehiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="caracteristica_contenedor_vehiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<field name="fecha_aprobacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_aprobacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datos_vehiculo_transporte_animales"/>
+	</field>
+	<background>
+		<band height="822" splitType="Stretch">
+			<image>
+				<reportElement x="-20" y="-20" width="594" height="842" uuid="7a26b890-128e-481b-92f0-87dc910bd2f5"/>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="277" splitType="Stretch">
+			<rectangle radius="4">
+				<reportElement mode="Transparent" x="12" y="81" width="532" height="119" uuid="97451013-7105-4390-b02f-464d8331816b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="28" y="85" width="132" height="15" uuid="ea573976-eb83-4d8a-9b8c-f60a61f361f0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identificador operador:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="133" width="120" height="15" uuid="6d7f7ca0-fff4-4e89-bcf0-a9b8d1331e1c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Correo electrónico:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="101" width="132" height="15" uuid="81518808-b412-4b1b-8f5e-cf5e11857e6c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="149" width="62" height="15" uuid="19d21b8f-8c06-4993-a854-1f3033d0e173">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="85" width="357" height="15" uuid="af820c7f-db77-4ca7-84cd-80d2c615e118">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d12f881c-4d7c-40da-adb1-9a70f73c7845"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificador_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="101" width="357" height="15" uuid="c1ae7d23-f22a-4836-b7a1-afe106a24b03">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f840fd4c-8af7-4b1d-a6ab-de87f51b94ac"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="149" width="426" height="15" uuid="91160cc3-af00-47a9-8c77-77729933ca73">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_provincia_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="133" width="368" height="15" uuid="a0145606-cb4f-4af4-90bd-fb056f10a6a0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04f25fef-8510-40c2-8f4c-c810c5a4242c"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{correo_operador}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="4">
+				<reportElement mode="Opaque" x="11" y="36" width="532" height="20" backcolor="#B1D7FA" uuid="e35d112b-6eba-42eb-a781-8146363cc774">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="92" y="181" width="426" height="15" uuid="3961bcc7-0d6a-4729-8a25-df94adf94e78">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_operador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="28" y="181" width="62" height="15" uuid="9466468b-7f84-46ec-aefe-b2e2da980ca4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="92" y="165" width="178" height="15" uuid="27c77a90-ba3a-48f3-bcfd-2be13a6c235c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_canton_operador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="28" y="165" width="62" height="15" uuid="a04ff846-e294-4e57-ad32-56d850f375cb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="165" width="62" height="15" uuid="e25cf7b5-8381-4db3-84f5-748731d2e8c7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="340" y="165" width="178" height="15" uuid="e7d6a711-da01-45f6-9d8f-b20b4f5c45bc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_parroquia_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="117" width="368" height="15" uuid="92e965bf-2e6c-431b-add7-a6ae52d61205">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04f25fef-8510-40c2-8f4c-c810c5a4242c"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_operador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="28" y="117" width="120" height="15" uuid="d17e2e18-f3b9-49c4-a0fe-26e8015d2f29">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de teléfono:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="13" y="229" width="529" height="40" uuid="5fedc227-fb9e-4666-973b-753132ae74a9">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Empty Dataset1" uuid="6a9e7178-7645-40f5-941f-2d4ea44a8565">
+						<datasetParameter name="idOperadorTipoOperacion">
+							<datasetParameterExpression><![CDATA[$P{idOperadorTipoOperacion}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="270" uuid="fca8c9a7-cf89-4415-90a7-89f0a8ffad12">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+								<bottomPen lineWidth="1.0"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="270" height="20" uuid="3edc1e78-289e-4c80-97d8-9f426847e669"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tipo de producto]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement x="0" y="0" width="270" height="20" uuid="0a7f8cc3-0c6a-4f11-bcd0-56f72ef4ea47"/>
+								<box padding="4">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Justified" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre_tipo_producto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="259" uuid="9820feba-5da8-4264-a80e-00c95bf9a661">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+								<bottomPen lineWidth="1.0"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="259" height="20" uuid="73ee2b5a-3d70-478e-95c4-3830ba2ea71d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Subtipo de producto]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="259" height="20" uuid="c99f1d74-2d96-4d4c-8ebe-97d44e2dd464"/>
+								<box padding="4">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Justified" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre_subtipo_producto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="12" y="207" width="167" height="15" uuid="ffbbf9cb-a95a-431e-82c3-f22d593a7ff9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Habilitado para transportar:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="36" width="410" height="19" uuid="ba11513a-431c-4be6-8dec-686efb8cee3c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_certificado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="12" y="59" width="167" height="15" uuid="3130ce07-72a1-4d08-87cb-b5cf039a559c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del operador:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="10" width="528" height="16" uuid="b53d4e76-da66-47bb-a47e-04048ea85695"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REGISTRO TEMPORAL DE VEHÍCULOS QUE TRANSPORTAN ANIMALES VIVOS]]></text>
+			</staticText>
+		</band>
+		<band height="184">
+			<staticText>
+				<reportElement x="12" y="10" width="167" height="15" uuid="4af178e9-e33d-4132-9517-3b66b6a9e81d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del vehículo:]]></text>
+			</staticText>
+			<rectangle radius="4">
+				<reportElement mode="Transparent" x="11" y="31" width="532" height="119" uuid="02abf1c5-6a44-43a3-9111-a79404191ebb"/>
+			</rectangle>
+			<textField>
+				<reportElement x="91" y="36" width="178" height="15" uuid="f05165d8-a362-48bc-b4d5-d63472b02f0b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{placa_vehiculo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="36" width="62" height="15" uuid="3441d6e6-2b99-46fe-8810-c8edd7e8a759">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Placa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="36" width="62" height="15" uuid="82d78898-aab1-4908-a132-6ece44a90b99">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marca:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="339" y="36" width="178" height="15" uuid="aed05515-29a3-43b0-b718-0ef6900f1183">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marca_vehiculo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="52" width="178" height="15" uuid="a3d41d4e-8b64-480e-9b87-0506e658dfa0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_vehiculo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="339" y="52" width="178" height="15" uuid="f9cf3cce-1f94-40dc-a480-85c6fae899f2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modelo_vehiculo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="275" y="52" width="62" height="15" uuid="f61c4657-cd00-47d7-83f0-df734ef9efec">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Modelo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="52" width="62" height="15" uuid="be45db5b-fa62-4762-a921-fe357dc24910">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="68" width="62" height="15" uuid="a3c0115e-b898-4871-a75d-8536b45a5fe2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="91" y="84" width="178" height="15" uuid="88abc90f-8648-40a1-9efb-9cc7000a5d1d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tamanio_contenedor_vehiculo} + " m2"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="68" width="178" height="15" uuid="e8150e11-5b0b-41e6-b760-4838fd40623e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clase_vehiculo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="339" y="68" width="178" height="15" uuid="a4eff01d-0518-4d91-a006-f1a9ae6681e1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anio_vehiculo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="27" y="84" width="62" height="15" uuid="4ff833b4-0ea2-4e4a-b1db-d548a599513b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tamaño:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="68" width="62" height="15" uuid="9c2d7517-3cf0-47b3-bb34-944ba354d383">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clase:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="100" width="183" height="15" uuid="141ae311-715d-49d6-a2e2-c7e7273ddcdf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Características del contenedor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="210" y="104" width="307" height="36" uuid="59cb048a-7ff8-4aac-a16e-b60cc462e17b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a66db41d-a239-45dc-8f4c-5d92203b23b5"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{caracteristica_contenedor_vehiculo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="327" y="159" width="110" height="15" uuid="13f04e8b-a96b-431e-aab4-9c0276f454ba">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de emisión:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="419" y="159" width="122" height="15" uuid="97529f4c-5c10-45a1-a029-5cd70b87d267">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_aprobacion}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="634">
+			<break>
+				<reportElement x="0" y="10" width="574" height="1" uuid="402aa202-21ec-4bb5-a3be-78e5d8b84004"/>
+			</break>
+			<staticText>
+				<reportElement x="210" y="93" width="100" height="20" uuid="0d55d930-f7c8-48f1-94e1-283d8c310117"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Base Legal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="146" width="507" height="484" uuid="a4ad93de-e022-48e6-929f-b98ebd25ad5e"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Art. 48.- Del bienestar animal.- Las disposiciones relativas al bienestar animal, observarán los estándares establecidos en la Ley de la materia y en los instrumentos internacionales.
+(…) El bienestar animal es condición indispensable para el manejo y trasporte por vía terrestre, marítima y aérea, de animales, de conformidad con los criterios técnicos y requisitos zoosanitarios que establezca la Agencia.
+
+Reglamento General a la Ley Orgánica de Sanidad Agropecuaria.
+
+Art. 254.-De los estándares para vehículos de transporte para animales.- Los contenedores para transporte de animales vivos, se diseñarán, construirán y adaptarán según convenga a la especie, al tamaño y el peso de los animales, respetando las directrices detalladas a continuación, y para cuya implementación se deberá coordinar con la autoridad competente en movilidad y transporte:
+
+1. Paredes internas sin salientes puntiagudas o cortantes que puedan herir a los animales;
+
+2. Piso antideslizante;
+
+3. Los contenedores deberán contar con ventilación adecuada, y, en ningún caso, serán completamente cerrados;
+
+4. Protección contra el sol, lluvia, viento y demás condiciones meteorológicas que pudieran afectar a los animales;
+
+5. Medidas de seguridad que reduzcan al máximo la posibilidad de que los animales escapen;
+
+6. El diseño de los contenedores deberá permitir su adecuada limpieza y desinfección e impedir cualquier fuga de orina y/o excrementos durante el trayecto;
+
+7. El diseño de los contenedores deberá garantizar que los excrementos y/o la orina de los animales instalados en los niveles superiores del contenedor, no se filtre a los niveles inferiores y no ensucie a otros animales. Esta condición no será aplicable a las aves de corral transportadas en contenedores de plástico;
+
+8. El vehículo solo podrá ser utilizado para el transporte de animales después de haber sido lavado y desinfectado;
+
+9. Los contenedores de vehículos grandes permitirán la adaptación de separaciones resistentes para soportar el peso de los animales. Estas separaciones limitarán la longitud de cada compartimento a un máximo de cuatro metros y medio;
+
+10. Las aves serán transportadas en jaulas de construcción sólida como para resistir sin deformarse por el peso de otras, que proporcionen espacio, ventilación adecuada y en condiciones de no ocasionarles daño alguno, evitando el hacinamiento dentro de las misma, deberán ubicarse sobre plataformas planas, apiladas y buscando que se mantengan fijas en lo posible; y,
+
+11. Los pollitos recién nacidos se transportarán en cajas que contarán con separadores fijos que permitirán subdividirlas en compartimentos, para evitar que los animales se hacinen en las esquinas.
+]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement mode="Transparent" x="60" y="20" width="401" height="60" uuid="778af766-14c5-4e45-96e1-fbf2f80f6f00"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="24" y="123" width="259" height="18" uuid="eb626bc5-c3ff-4184-897b-8257325c556a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ley Orgánica de Sanidad Agropecuaria.
+]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="188">
+			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
+			<rectangle>
+				<reportElement mode="Transparent" x="12" y="5" width="101" height="101" uuid="169b6803-7689-4b7b-82c0-815b9c78271b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="444" y="5" width="101" height="101" uuid="f047b6c7-4d9a-424f-9f68-630445d87998"/>
+			</rectangle>
+			<componentElement>
+				<reportElement x="13" y="7" width="97" height="97" uuid="42bda698-6e40-4e67-9ab9-3b0453cc623a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$P{rutaCertificado}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<staticText>
+				<reportElement x="119" y="20" width="318" height="18" uuid="29981254-ab55-4efd-9917-592500906791"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Aprobado mediante sistema GUIA]]></text>
+			</staticText>
+			<image>
+				<reportElement x="445" y="6" width="99" height="102" uuid="24a550a3-457a-4ba2-892c-836e75d8069e"/>
+				<imageExpression><![CDATA[$P{selloSeguridad}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50"/>
+	</lastPageFooter>
+</jasperReport>

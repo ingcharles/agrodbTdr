@@ -1,0 +1,106 @@
+@CHARSET "UTF-8";
+
+#__nuevoVigenciaDocumento {
+	background-image: url('../img/administracionVigencia.png');
+}
+
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+div h3 {
+	font-size: 1.1em;
+	color: #656569;
+	font-style: italic;
+	text-decoration: underline;
+	margin: 0px;
+}
+
+.seleccionTemporal {
+	padding-bottom: 3px;
+	background-color: rgba(0, 0, 0, .2);
+	text-align: left;
+	border-radius: 5px;
+	margin: 5px 0 5px 0;
+	padding-left: 5px;
+}
+
+/* #mensajeCargando {
+	position: inherit !important;
+}
+
+.estadoOperador {
+	padding-left: 5px !important;
+	min-height: 2.5em !important;
+}*/
+
+
+#popup {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    /*background-color:rgba(230,229,229,.7);*/
+    background-color:rgba(23,23,23,.1);
+    display:none;
+    z-index: 1005;
+}
+
+.content-popup {
+    margin:0px auto;
+    margin-top:120px;
+    position:relative;
+    padding:10px;
+    width:400px;
+    min-height:150px;
+    border-radius:4px;
+    background-color:#FFFFFF;
+   	box-shadow: 0 2px 5px #666666;
+   	top: 40%;
+}
+
+.content-popup {
+    color:#48484B;
+    border-bottom: 1px solid #48484B;
+    margin-top: 0;
+    padding-bottom: 4px;
+}
+
+.popup-overlay {
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    display:none;
+    background-color: #777777;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.close {
+    /*position: relative;*/
+    display-flex: right;
+    right: 15px;
+}
+
+div h5{
+	text-align: left;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+	margin: 3px;
+}
+
+.botonesAviso{
+	text-align: center;
+	margin-top: 10px;
+}
+

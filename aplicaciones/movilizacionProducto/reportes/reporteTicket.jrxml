@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteTicket" language="groovy" columnCount="5" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="111" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="37cb4581-a58c-4ff5-9d10-465719971818">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="produccion"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="id_movilizacion" class="java.lang.Integer"/>
+	<parameter name="logoSeguridadTicket" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	mo.numero_certificado
+	,to_char(mo.fecha_inicio_vigencia,'DD/MM/YYYY') fecha_inicio_vigencia
+	,unaccent(sp.nombre ||' - '|| pr.nombre_comun) as nombre_producto
+	,dm.numero_lote
+	,tm.identificador_producto
+	,s.nombre_lugar
+FROM
+	g_movilizacion_producto.movilizacion mo
+	,g_movilizacion_producto.detalle_movilizacion dm
+	,g_movilizacion_producto.ticket_movilizacion tm
+	,g_catalogos.productos pr
+	,g_catalogos.subtipo_productos sp
+	,g_operadores.sitios s
+WHERE
+
+	sp.id_subtipo_producto = pr.id_subtipo_producto
+	and mo.id_movilizacion = dm.id_movilizacion
+	and dm.id_detalle_movilizacion = tm.id_detalle_movilizacion
+	and pr.id_producto = dm.producto
+	and mo.sitio_destino = s.id_sitio
+	and mo.id_movilizacion = $P{id_movilizacion}]]>
+	</queryString>
+	<field name="numero_certificado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero_certificado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="movilizacion"/>
+	</field>
+	<field name="fecha_inicio_vigencia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_inicio_vigencia"/>
+	</field>
+	<field name="nombre_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_producto"/>
+	</field>
+	<field name="numero_lote" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero_lote"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detalle_movilizacion"/>
+	</field>
+	<field name="identificador_producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ticket_movilizacion"/>
+	</field>
+	<field name="nombre_lugar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_lugar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<detail>
+		<band height="150" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="97" height="97" uuid="5d996a4b-738c-4aac-bc3a-ec5926b0a722">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{logoSeguridadTicket}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="20" y="3" width="72" height="9" uuid="3d186a69-d7b4-4228-af20-e09e42924a01"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_certificado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="3" width="8" height="9" uuid="30a14344-af3d-4509-a658-3daa7dc7f901"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="39" width="96" height="12" uuid="f7b6a193-f9eb-462d-b292-fd50bde6f8aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificador_producto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="68" width="95" height="8" uuid="00d41a41-5711-4ad5-952e-490ca9f3836f"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="83" width="95" height="9" uuid="72b500f7-6339-470c-a0b0-6275e267d5b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_inicio_vigencia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="74" width="95" height="9" uuid="3337bd1c-b665-41bc-bef1-3f6097d05b03"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Movilizacion]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="0" width="97" height="97" uuid="11702c5a-f08d-4225-80fd-85a04e92d988">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="9" y="51" width="78" height="16" uuid="16a510eb-51f3-4e46-836d-9a9240423f52"/>
+				<textElement textAlignment="Left">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_lugar}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="8" y="21" width="81" height="30" uuid="296d4e99-8288-4959-b585-f828ee72d7b9"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="3of9" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$F{identificador_producto}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

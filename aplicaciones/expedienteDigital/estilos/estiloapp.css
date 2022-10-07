@@ -1,0 +1,99 @@
+@CHARSET "UTF-8";
+
+
+.__area_registrado,
+.__operacion_registrado,
+.__area_espera,
+.__operacion_inspeccion,
+.__operacion_pago,
+.__operacion_verificacion,
+.__operacion_cargarAdjunto,
+.__area_noHabilitado,
+.__area_registradoObservacion,
+.__operacion_cargarIA,
+.__operacion_noHabilitado,
+.__operacion_asignadoInspeccion,
+.__operacion_registradoObservacion,
+.__operacion_subsanacion,
+.__area_subsanacion{
+    padding-top: 10px;
+    margin-left: 30px;
+    position: relative;
+    vertical-align: sub;
+    font-size: smaller !important;
+}
+
+.__area_registrado:before,
+.__operacion_registrado:before,
+.__area_espera:before,
+.__operacion_inspeccion:before,
+.__operacion_pago:before,
+.__operacion_verificacion:before,
+.__operacion_cargarAdjunto:before,
+.__area_noHabilitado:before,
+.__area_registradoObservacion:before,
+.__operacion_cargarIA:before,
+.__operacion_noHabilitado:before,
+.__operacion_asignadoInspeccion:before,
+.__operacion_registradoObservacion:before,
+.__operacion_subsanacion:before,
+.__area_subsanacion:before{
+    position: absolute;
+    left: -23px;
+    top: 3px;
+}
+
+
+.__area_registrado:before,
+.__operacion_registrado:before{
+	content: url('../img/aprobado.png');
+}
+
+.__area_rechazado:before,
+.__operacion_rechazado:before {
+	content: url('../img/rechazado.png');
+}
+
+.__area_noHabilitado:before,
+.__operacion_noHabilitado:before {
+	content: url('../img/rechazado.png');
+}
+
+.__area_registradoObservacion:before,
+.__operacion_registradoObservacion:before {
+	content: url('../img/registradoObservacion.png');
+}
+
+.__area_subsanacion:before,
+.__operacion_subsanacion:before {
+	content: url('../img/subsanar.png');
+}
+
+.__area_espera:before{
+    content: url('../img/proceso.png');
+}
+
+.__operacion_cargarAdjunto:before{
+    content: url('../img/adjunto.png');
+}
+
+.__operacion_pago:before{
+    content: url('../img/pago.png');
+}
+
+.__operacion_verificacion:before{
+    content: url('../img/verificacion.png');
+}
+
+.__operacion_asignadoInspeccion:before{
+    content: url('../img/inspeccionAsignado.png');
+}
+
+.__operacion_inspeccion:before{
+    content: url('../img/inspeccion.png');
+}
+
+.__operacion_cargarIA:before{
+    content: url('../img/cargarInformacion.png');
+}
+

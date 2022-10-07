@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteUno" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ce8785a7-dd28-4916-ba85-ed73d25ee02f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="identificador" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\xampp\\htdocs\\agrodb\\aplicaciones\\inventarios\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rutaSubparmetro" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     ficha_empleado."identificador" AS ficha_empleado_identificador,
+     ficha_empleado."nombre" AS ficha_empleado_nombre,
+     ficha_empleado."apellido" AS ficha_empleado_apellido,
+     ficha_empleado."tipo_documento" AS ficha_empleado_tipo_documento,
+     ficha_empleado."nacionalidad" AS ficha_empleado_nacionalidad,
+     ficha_empleado."genero" AS ficha_empleado_genero,
+     ficha_empleado."estado_civil" AS ficha_empleado_estado_civil,
+     ficha_empleado."cedula_militar" AS ficha_empleado_cedula_militar,
+     ficha_empleado."fecha_nacimiento" AS ficha_empleado_fecha_nacimiento,
+     ficha_empleado."edad" AS ficha_empleado_edad,
+     ficha_empleado."tipo_sangre" AS ficha_empleado_tipo_sangre,
+     ficha_empleado."identificacion_etnica" AS ficha_empleado_identificacion_etnica,
+     ficha_empleado."nacionalidad_indigena" AS ficha_empleado_nacionalidad_indigena,
+     ficha_empleado."fecha_modificacion" AS ficha_empleado_fecha_modificacion,
+     ficha_empleado."fotografia" AS ficha_empleado_fotografia,
+     ficha_empleado."estado_empleado" AS ficha_empleado_estado_empleado,
+     ficha_empleado."extension" AS ficha_empleado_extension,
+     ficha_empleado."domicilio" AS ficha_empleado_domicilio,
+     ficha_empleado."convencional" AS ficha_empleado_convencional,
+     ficha_empleado."celular" AS ficha_empleado_celular,
+     ficha_empleado."mail_personal" AS ficha_empleado_mail_personal,
+     ficha_empleado."mail_institucional" AS ficha_empleado_mail_institucional,
+     ficha_empleado."extension_magap" AS ficha_empleado_extension_magap,
+     ficha_empleado."tiene_discapacidad" AS ficha_empleado_tiene_discapacidad,
+     ficha_empleado."carnet_conadis_empleado" AS ficha_empleado_carnet_conadis_empleado,
+     ficha_empleado."representante_familiar_discapacidad" AS ficha_empleado_representante_familiar_discapacidad,
+     ficha_empleado."carnet_conadis_familiar" AS ficha_empleado_carnet_conadis_familiar,
+     ficha_empleado."id_localizacion_parroquia" AS ficha_empleado_id_localizacion_parroquia,
+     ficha_empleado."id_localizacion_provincia" AS ficha_empleado_id_localizacion_provincia,
+     ficha_empleado."id_localizacion_canton" AS ficha_empleado_id_localizacion_canton,
+     ficha_empleado."tiene_enfermedad_catastrofica" AS ficha_empleado_tiene_enfermedad_catastrofica,
+     ficha_empleado."nombre_enfermedad_catastrofica" AS ficha_empleado_nombre_enfermedad_catastrofica
+FROM
+     "g_uath"."ficha_empleado" ficha_empleado
+WHERE
+     identificador = $P{identificador}]]>
+	</queryString>
+	<field name="ficha_empleado_identificador" class="java.lang.String"/>
+	<field name="ficha_empleado_nombre" class="java.lang.String"/>
+	<field name="ficha_empleado_apellido" class="java.lang.String"/>
+	<field name="ficha_empleado_tipo_documento" class="java.lang.String"/>
+	<field name="ficha_empleado_nacionalidad" class="java.lang.String"/>
+	<field name="ficha_empleado_genero" class="java.lang.String"/>
+	<field name="ficha_empleado_estado_civil" class="java.lang.String"/>
+	<field name="ficha_empleado_cedula_militar" class="java.lang.String"/>
+	<field name="ficha_empleado_fecha_nacimiento" class="java.sql.Date"/>
+	<field name="ficha_empleado_edad" class="java.lang.Integer"/>
+	<field name="ficha_empleado_tipo_sangre" class="java.lang.String"/>
+	<field name="ficha_empleado_identificacion_etnica" class="java.lang.String"/>
+	<field name="ficha_empleado_nacionalidad_indigena" class="java.lang.String"/>
+	<field name="ficha_empleado_fecha_modificacion" class="java.sql.Timestamp"/>
+	<field name="ficha_empleado_fotografia" class="java.lang.String"/>
+	<field name="ficha_empleado_estado_empleado" class="java.lang.String"/>
+	<field name="ficha_empleado_extension" class="java.lang.Integer"/>
+	<field name="ficha_empleado_domicilio" class="java.lang.String"/>
+	<field name="ficha_empleado_convencional" class="java.lang.String"/>
+	<field name="ficha_empleado_celular" class="java.lang.String"/>
+	<field name="ficha_empleado_mail_personal" class="java.lang.String"/>
+	<field name="ficha_empleado_mail_institucional" class="java.lang.String"/>
+	<field name="ficha_empleado_extension_magap" class="java.lang.String"/>
+	<field name="ficha_empleado_tiene_discapacidad" class="java.lang.String"/>
+	<field name="ficha_empleado_carnet_conadis_empleado" class="java.lang.String"/>
+	<field name="ficha_empleado_representante_familiar_discapacidad" class="java.lang.String"/>
+	<field name="ficha_empleado_carnet_conadis_familiar" class="java.lang.String"/>
+	<field name="ficha_empleado_id_localizacion_parroquia" class="java.lang.Integer"/>
+	<field name="ficha_empleado_id_localizacion_provincia" class="java.lang.Integer"/>
+	<field name="ficha_empleado_id_localizacion_canton" class="java.lang.Integer"/>
+	<field name="ficha_empleado_tiene_enfermedad_catastrofica" class="java.lang.String"/>
+	<field name="ficha_empleado_nombre_enfermedad_catastrofica" class="java.lang.String"/>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="3a524a4c-9f11-40d7-9dcb-ff5bdddbfcb9"/>
+				<text><![CDATA[ficha_empleado_nombre]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="0" width="198" height="20" uuid="571f3855-943d-4e9f-ad31-a287c1f6b083"/>
+				<textFieldExpression><![CDATA[$F{ficha_empleado_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="0" width="100" height="20" uuid="b8e9cc19-104e-4e41-bfe9-c82b9ec01a22"/>
+				<textFieldExpression><![CDATA[$F{ficha_empleado_apellido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="53" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="53" uuid="fa0e4008-70d4-4d51-acb2-b7abb7f019c7"/>
+				<subreportParameter name="identificadorSubreporte">
+					<subreportParameterExpression><![CDATA[$F{ficha_empleado_identificador}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubparmetro}+"subreporteTres.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

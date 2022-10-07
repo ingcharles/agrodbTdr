@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalle_importacion" language="groovy" pageWidth="550" pageHeight="100" columnWidth="100" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2c534f50-ddfe-45b6-8cd2-bc058566993e">
+	<property name="ireport.zoom" value="4.279675059165006"/>
+	<property name="ireport.x" value="1259"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idSolicitud" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+       id_producto_solicitud, id_tipo_producto, nombre_tipo, id_subtipo_producto,
+       nombre_subtipo, id_producto, nombre_producto,
+       (case when sexo is null then '' else sexo end) sexo,
+       (case when raza is null then '' else raza end),
+       (case when edad is null then '' else edad end),(case when color is null then '' else color end),
+       producto_solicitudes.id_solicitud, s.pais_origen_destino, identificacion_producto
+FROM
+       g_mercancias_valor_comercial.producto_solicitudes, g_mercancias_valor_comercial.solicitudes s
+WHERE
+       producto_solicitudes.id_solicitud= $P{idSolicitud}
+       and producto_solicitudes.id_solicitud = s.id_solicitud
+order by 1]]>
+	</queryString>
+	<field name="id_producto_solicitud" class="java.lang.Integer"/>
+	<field name="id_tipo_producto" class="java.lang.Integer"/>
+	<field name="nombre_tipo" class="java.lang.String"/>
+	<field name="id_subtipo_producto" class="java.lang.Integer"/>
+	<field name="nombre_subtipo" class="java.lang.String"/>
+	<field name="id_producto" class="java.lang.Integer"/>
+	<field name="nombre_producto" class="java.lang.String">
+		<fieldDescription><![CDATA[Producto para]]></fieldDescription>
+	</field>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="raza" class="java.lang.String"/>
+	<field name="edad" class="java.lang.String"/>
+	<field name="color" class="java.lang.String">
+		<fieldDescription><![CDATA[Color del producto]]></fieldDescription>
+	</field>
+	<field name="id_solicitud" class="java.lang.Integer"/>
+	<field name="pais_origen_destino" class="java.lang.String"/>
+	<field name="identificacion_producto" class="java.lang.String"/>
+	<detail>
+		<band height="13">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="5" y="0" width="109" height="12" uuid="d2ba0683-f232-4fd3-a2a9-8c33b0ba96db"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_producto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="233" y="0" width="60" height="12" uuid="ebbe99f1-8e6c-4963-bb3a-29f761b4eb1c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{raza}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="300" y="0" width="14" height="12" uuid="9c99016a-7984-49c3-bc95-6724de622f20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="323" y="0" width="13" height="12" uuid="b6e2d6d6-799e-4402-9613-a17f838e51de"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="369" y="0" width="46" height="12" uuid="48c30af2-56ed-4bda-80d7-ee365da1e8a2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificacion_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="0" width="46" height="12" uuid="cb37f2b4-de6c-44a7-aa55-ecffc0b2ed56"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="419" y="0" width="94" height="12" uuid="9b9df61f-2ee2-4b45-bea4-6d42d0cdc5f8"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pais_origen_destino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="335" y="0" width="24" height="12" uuid="099f4fac-137c-40b7-b64b-dada62278819"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[meses]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

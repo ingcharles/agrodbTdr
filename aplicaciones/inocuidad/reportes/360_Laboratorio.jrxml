@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="360_Laboratorio" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2a1cba98-3763-424a-bda8-0d8379fff811">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ic_muestra_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    am.ic_muestra_id,
+    am.ic_analisis_muestra_id,
+    am.observaciones,
+    am.activo,
+    (SELECT NOMBRE_COMUN FROM g_catalogos.productos WHERE id_producto = pi.ic_insumo_id) as insumo,
+    (SELECT NOMBRE FROM G_INOCUIDAD.IC_LMR WHERE ic_lmr_id = pi.ic_lmr_id) as lmr,
+    limite_minimo,limite_maximo,
+    rv.um AS unidad_medida,
+    rv.valor,
+    rv.observaciones AS obs
+   FROM g_inocuidad.ic_analisis_muestra am
+   JOIN g_inocuidad.ic_registro_valor rv ON am.ic_analisis_muestra_id::numeric = rv.ic_analisis_muestra_id
+   join g_inocuidad.ic_producto_insumo pi ON  pi.ic_producto_id = rv.ic_producto_id and pi.ic_insumo_id = rv.ic_insumo_id
+WHERE ic_muestra_id = $P{ic_muestra_id}]]>
+	</queryString>
+	<field name="ic_muestra_id" class="java.math.BigDecimal"/>
+	<field name="ic_analisis_muestra_id" class="java.lang.Integer"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<field name="activo" class="java.lang.Boolean"/>
+	<field name="insumo" class="java.lang.String"/>
+	<field name="lmr" class="java.lang.String"/>
+	<field name="limite_minimo" class="java.math.BigDecimal"/>
+	<field name="limite_maximo" class="java.math.BigDecimal"/>
+	<field name="unidad_medida" class="java.lang.String"/>
+	<field name="valor" class="java.math.BigDecimal"/>
+	<field name="obs" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FEFEFE" backcolor="#395A9C" uuid="9ece291d-1092-4bdd-a859-3142107da2cc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laboratorio]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="154" y="40" width="401" height="40" uuid="8196dcb5-9a40-4405-9e78-29804597debc"/>
+				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="154" height="20" uuid="1195ffd6-7eb6-4e42-8b2a-c1c52e439073"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="20" width="100" height="20" uuid="d69eb012-e78f-48ee-86e1-a918ebdc530e"/>
+				<textFieldExpression><![CDATA[$F{ic_analisis_muestra_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="10" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="10" uuid="f1d1bf5d-2cce-46ab-ba08-28650116aa2d"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Insumo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="57" height="10" uuid="bc8870bc-5c82-4723-ac8e-17edca9abc57"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="157" y="0" width="52" height="10" uuid="01d4a0df-617a-43a4-b015-7b37be9fa400"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Lim. Mínimo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="209" y="0" width="52" height="10" uuid="194e2986-5216-491c-b49f-0d8da0fc5770"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="261" y="0" width="52" height="10" uuid="2b1c3253-a121-4fd5-9cd6-383298a20401"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Lim. Máximo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="313" y="0" width="176" height="10" uuid="3885bf2d-a1f0-4a92-a35c-bc3e4eb5f003"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="0" width="66" height="10" uuid="8a9197b4-5a6b-4b16-9272-818b9e0e32a7"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Resultado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="209" y="0" width="52" height="20" uuid="21ba0a9d-503b-4289-8d57-a645f3b3c9a2"/>
+				<box leftPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="261" y="0" width="52" height="20" uuid="4184adfe-9d26-4c8e-a76d-a506ba8cb66e"/>
+				<box leftPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{limite_maximo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="489" y="0" width="66" height="20" forecolor="#000000" backcolor="#E8AFB6" uuid="520a7600-e2b6-44c3-932b-a9e9441d48f6">
+					<printWhenExpression><![CDATA[$F{valor}.doubleValue()>$F{limite_maximo}.doubleValue()]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}.doubleValue()<$F{limite_minimo}.doubleValue()?"INFERIOR":
+($F{valor}.doubleValue()>$F{limite_maximo}.doubleValue()?"SUPERIOR":"")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="57" height="20" uuid="b24895f4-2e16-4411-9d77-be75b8787e4b"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidad_medida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="46809781-006a-4f49-a19a-221190b721e3"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{insumo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="313" y="0" width="176" height="20" uuid="f3aa8017-2259-46c1-b70d-bae321927cd9"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{obs}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="489" y="0" width="66" height="20" forecolor="#000000" uuid="be90815c-3fc7-4b9c-afcd-a50a31336975"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="489" y="0" width="66" height="20" forecolor="#000000" backcolor="#E8DAAF" uuid="a4bdfa75-ed94-4d25-acc3-adf5b4960972">
+					<printWhenExpression><![CDATA[$F{valor}.doubleValue()<$F{limite_minimo}.doubleValue()]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}.doubleValue()<$F{limite_minimo}.doubleValue()?"INFERIOR":
+$F{valor}.doubleValue()>$F{limite_maximo}.doubleValue()?"SUPERIOR":""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="0" width="52" height="20" uuid="17647bfd-d62b-46b8-95b4-7a30b122df2f"/>
+				<box leftPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{limite_minimo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="21">
+			<subreport>
+				<reportElement x="1" y="0" width="555" height="21" uuid="c2eaa594-b502-4536-a34d-8ac35fb9c8f8"/>
+				<subreportParameter name="IC_ANALISIS_MUESTRA_ID">
+					<subreportParameterExpression><![CDATA[$F{ic_analisis_muestra_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "360_Evaluacion.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

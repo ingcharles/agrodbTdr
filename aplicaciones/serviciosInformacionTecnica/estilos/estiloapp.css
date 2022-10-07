@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+textarea {
+	resize: none;
+}
+
+.enfermedades{
+	width: 160px !important;
+	height: 130px !important;
+}
+
+#__administracionCatalogos{
+	background-image: url('../img/administracionCatalogos.png');
+}
+
+#__administracionServicios{
+	background-image: url('../img/administracionServicion.png');
+}
+
+#__servicios{
+	background-image: url('../img/servicios.png');
+}
+
+#__administracionCertificados{
+	background-image: url('../img/administracionCertificado.png');
+}
+
+#__consultaCertificados{
+	background-image: url('../img/consultaCertificado.png');
+}

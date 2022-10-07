@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certificado" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ba443fd0-28ab-48c8-8c7a-e8150098ac92">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="30"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="nombreOperador" class="java.lang.String"/>
+	<parameter name="nombreOperacion" class="java.lang.String"/>
+	<parameter name="codigo" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="fondoCertificado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	*
+FROM
+	g_catalogos.cursos
+WHERE
+	id_area = 'AI' and
+	id_gestion = 'DIA' and
+    	nomenclatura = 'MVA' and
+	estado = 'activo']]>
+	</queryString>
+	<field name="id_curso" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Identificador unico de la tabla]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[Producto]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="numero_curso" class="java.lang.String">
+		<fieldDescription><![CDATA[Caracter o número que identificaque la cantidad de cursos dictados]]></fieldDescription>
+	</field>
+	<field name="tipo_curso" class="java.lang.String">
+		<fieldDescription><![CDATA[Caracter que identifique el tipo de curso que se esta dictando por ejemplo C para curso]]></fieldDescription>
+	</field>
+	<field name="nomenclatura" class="java.lang.String">
+		<fieldDescription><![CDATA[Caracteres que identican a un curso]]></fieldDescription>
+	</field>
+	<field name="anio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Año en el cual se dicta el curso]]></fieldDescription>
+	</field>
+	<field name="duracion" class="java.lang.String">
+		<fieldDescription><![CDATA[Tiempo de duración del curso]]></fieldDescription>
+	</field>
+	<field name="id_area" class="java.lang.String"/>
+	<field name="id_gestion" class="java.lang.String">
+		<fieldDescription><![CDATA[Nombre de la gestión que solicito la creación del curso]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<fieldDescription><![CDATA[Estado]]></fieldDescription>
+	</field>
+	<field name="fecha_creacion" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[fecha de creacion del registro]]></fieldDescription>
+	</field>
+	<background>
+		<band height="595" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="842" height="595" uuid="1e54c428-b030-41d2-a5fd-c4929698f7e3"/>
+				<imageExpression><![CDATA[$P{fondoCertificado}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="534" splitType="Stretch">
+			<staticText>
+				<reportElement x="540" y="30" width="154" height="20" forecolor="#444444" uuid="add928fd-f5a0-439e-be42-d3a7c951c43d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Número de reconocimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="221" y="64" width="401" height="69" forecolor="#424242" uuid="99e772b0-fa7a-4279-8b05-8ee1ebb648a0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="19" isItalic="false"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[AGENCIA DE REGULACIÓN Y CONTROL FITO Y ZOOSANITARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="130" width="181" height="20" forecolor="#505050" uuid="d060fdbc-906a-441b-8481-02c7be7ae519"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<text><![CDATA[Confiere la presente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="149" width="189" height="29" forecolor="#131313" uuid="f2aa9d8f-9ef0-44c6-ab09-0bf809174b71"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="23" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Autorización]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="187" width="188" height="20" forecolor="#151515" uuid="23c247f6-1fd7-47fd-a332-b96b34020a75"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<text><![CDATA[Para desempeñarse como:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="226" width="24" height="20" forecolor="#151515" uuid="ee3a8409-602d-4984-a696-eb36f1d1f1d9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<text><![CDATA[A:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="259" width="123" height="20" forecolor="#151515" uuid="46d60318-b5a5-424b-becd-b836915fa379"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<text><![CDATA[Por aprobar el:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="345" width="186" height="20" forecolor="#151515" uuid="8d9c9fb7-453d-440f-8ad5-af2e083a6cd8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<text><![CDATA[Con una duración de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="421" y="374" width="156" height="20" forecolor="#505050" uuid="151ee863-08c9-4e47-8f72-dc5e60b8e4c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Fecha de emisión:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="418" width="491" height="20" forecolor="#505050" uuid="585a860c-eda4-4fab-82cf-7fa938eeee25"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[La presente autorización estará en vigencia hasta el momento en el cual se desarrolle un nuevo]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="316" y="345" width="392" height="20" uuid="65e7f509-05fe-4b22-a18d-74941f842a24"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{duracion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="253" y="260" width="455" height="71" uuid="3c5946c7-b565-4735-a972-ee18e0c21a81"/>
+				<textElement verticalAlignment="Top">
+					<font size="15" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="227" width="552" height="20" uuid="f05f4bb9-d790-4e19-8cb1-31fd1b4f7aa5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreOperador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="188" width="442" height="20" uuid="f85a99f7-8b3d-46b5-8443-ed4d94f7e544"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreOperacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="694" y="30" width="118" height="20" uuid="f1af5db0-1398-42cb-bc00-028d866bb52f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="577" y="374" width="157" height="20" uuid="98b65b4c-c8a8-42d4-a331-424b82003e51"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="670" y="70" width="91" height="91" uuid="e514396e-f666-468d-b3d1-1ad80bb93b1e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["Numero de reconocimiento: "+ $P{codigo} +
+"\nFecha de emision del certificado: "  + $P{fecha} +
+"\nNombre del operador: "  + $P{nombreOperador} +
+"\nNombre de la operacion declarada por el operador: "  + $P{nombreOperacion}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="50">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

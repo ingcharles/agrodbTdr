@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+
+div h2 {
+	text-align: right;
+	font-size: 1.7em;
+	font-weight: lighter;
+	border-bottom: 1px solid #DEDEDE;
+	color: #656569;
+}
+
+#tbItems td{
+	text-align:center !important;
+}
+
+
+#vizualizador{	
+	box-sizing: border-box !important;
+	width: 80%;
+	/*width:100px;*/
+	min-width: 250px;
+	height: 320px;
+	background: #4F4F4F;	
+  	display: inline-block;
+    text-align: center; 
+    padding-top: 10px;    
+    overflow: scroll;
+    padding-bottom:10px;
+    max-width:500px;
+}
+
+
+#hoja{
+	box-sizing: border-box !important;
+	width: 90%;
+	height: 825px; 
+	display: inline-block;
+    text-align: center; 
+    padding-top: 10px; 
+    background: white;
+    padding-bottom:10px;
+    padding-left: 15px;  
+}
+
+#hojaH{
+	box-sizing: border-box !important;
+	width: 625px;
+	height: 500px; 
+    text-align: center; 
+    padding-top: 10px; 
+    background: white;
+    padding-bottom:10px;
+    padding-left: 15px;   
+    margin: 15px;
+}
+
+#__asignacionPlantilla{
+	background-image: url('../img/AsignaciondePlantillas.png');
+}

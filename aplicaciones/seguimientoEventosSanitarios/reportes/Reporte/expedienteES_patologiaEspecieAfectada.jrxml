@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="expedienteES_patologiaEspecieAfectada" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="707a9eac-cc41-4310-b36b-c05df09d2226">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_notificacion_evento_sanitario" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT * FROM g_seguimiento_eventos_sanitarios.patologia_especie_afectada
+WHERE id_notificacion_evento_sanitario=$P{id_notificacion_evento_sanitario}]]>
+	</queryString>
+	<field name="id_patologia_especie_afectada" class="java.lang.Integer"/>
+	<field name="id_notificacion_evento_sanitario" class="java.lang.Integer"/>
+	<field name="identificador" class="java.lang.String"/>
+	<field name="fecha_creacion" class="java.sql.Timestamp"/>
+	<field name="id_patologia" class="java.lang.Integer"/>
+	<field name="nombre_patologia" class="java.lang.String"/>
+	<field name="id_especie" class="java.lang.Integer"/>
+	<field name="nombre_especie" class="java.lang.String"/>
+	<field name="animales_sanos" class="java.lang.Integer"/>
+	<field name="animales_enfermos" class="java.lang.Integer"/>
+	<field name="animales_muertos" class="java.lang.Integer"/>
+	<field name="poblacion_existente" class="java.lang.Integer"/>
+	<group name="id_especie">
+		<groupExpression><![CDATA[$F{id_especie}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="141" height="20" uuid="5bc2cd16-0919-4540-a775-0cc374206ea3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="0" width="359" height="20" uuid="3b093514-bc66-4c91-8de4-bf5249fba09c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Patología denunciada]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="141" height="20" uuid="07d5fe0d-0e08-4d11-913f-0bf3b4ffed63"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombre_especie}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="141" y="0" width="359" height="20" uuid="9ea7d77a-ad4a-4b32-870a-ba171644d8b5"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombre_patologia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,304 @@
+@CHARSET "UTF-8";
+
+@media only print {
+/********************************ESTILOS GENERALES*/
+
+	body{
+		font-family: Arial;
+		font-size: 11pt;
+	}
+	
+	button, #opcionesAplicacion, #listadoItems,#barraGeneral, .acerca, .mensajeInicial, .soloPantalla, .nota{
+		display: none;
+	}
+	
+	#areaTrabajo{
+		max-width: 100%;
+	}
+	
+	#detalleItem{
+		width:100%;
+		float: left;
+	}
+	
+	ul { /*border: 1px solid blue;*/
+		padding: 0cm;
+	}
+	
+	li { /*border: 1px solid red;*/
+		list-style: none;
+	}
+	
+	header{
+		width: inherit;
+		text-align: center;
+		margin-bottom: 2px;
+	}
+	
+	header div.numero{
+		display:inline;
+		font-size: 1.8em;
+		font-weight: bold;
+	}
+	
+	header img{
+		width: 100%
+	}
+	
+	
+	h1 {
+		display:inline;
+		color: black;
+		font-size: 1.8em;
+		font-weight: bold;	
+	}
+	/*h1:before{
+		content: url(../img/encabezado.png); 
+	}*/
+	
+	/*h1:after {
+	content: "   N°   ";
+	}*/
+	
+	/*nav {
+		font-family: "Text Me One", "Segoe UI", Tahoma, Helvetica, freesans, sans-serif;
+		
+	}*/
+	
+	a {
+		color: inherit;
+		display: inline-block;
+		border: 1px solid rgba(255, 255, 255, 0);
+	}
+	
+	a:after {
+		content: "→";
+	}
+	
+	label{
+		font-weight: bold;
+		text-decoration: underline;
+		width: 200% !important;
+		display: inline-block !important;
+	}
+	
+	#error {
+		background: url(../img/error.png) center top no-repeat;
+		margin-top: 30px;
+		padding-top: 69px;
+		color: #DEDEDE;;
+		text-align: center;
+		font-size: 2em;
+	}
+	
+	
+	/************************************ESTILOS ESPECIFICOS*/
+	
+	input,select, textarea {
+		display: block;
+		background-color:white;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		border: 1px solid white;
+		color: black;
+		appearance:none;
+		font-size: inherit;
+		-moz-appearance:none; /* Firefox */
+		-webkit-appearance:none; /* Safari and Chrome */
+		overflow: hidden;
+		width: 100% !important;
+	}
+	
+	table {
+		margin: 1px 0;
+		border-collapse: collapse;
+	}
+	
+	table th {
+		text-align: center;
+	}
+	
+	table td,table th {
+		padding: 1px;
+	}
+	
+	
+	/********************************************************/
+	
+	
+	table.soloImpresion{
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		border: solid 1pt black;
+		border-spacing: 0;
+		border-collapse: separate;
+	}
+	
+	table.soloImpresion tr{
+		border: none;
+	}
+	
+	table.soloImpresion td{
+		width: 1%;
+		vertical-align: top;
+		border: solid 1pt black !important;
+		position: relative;
+		padding: 0px;
+		margin: 0px;
+	}
+	
+	.soloImpresion fieldset{
+		display: block;
+		height: 100%;
+	}
+	
+	fieldset {
+		/*float:left;*/
+		margin: 0;
+		padding: 3pt;
+		border: none
+	}
+	
+	legend {
+		font-variant:small-caps;
+		font-size: 1.1em;
+		display: block;
+		padding: 3pt 3pt;
+		margin-left: -3pt;
+		border-top: 1px solid gray;
+		border-bottom: 1px solid gray;
+		background-color: #CCC;
+		font-weight: bold;
+		width: 100%;
+	}
+	
+	
+	/********************************/
+	
+	
+	iframe{
+		width: 100%;
+		overflow: hidden;
+		height: 6.1cm;
+		border: none;
+	}
+	
+	/*******************************BORDES REDONDEADOS*/
+	a,nav div,fieldset,button
+		{
+		border-radius: 5px;
+	}
+	
+	/*******************************COLORES DE INTERFAZ*/
+	
+	
+	table thead {
+		background-color: rgba(0, 0, 0, .2);
+	}
+	
+	
+	.comentario{
+		font-style: italic;
+	}
+	
+	.exito{
+		color: #0F0;
+	}
+	
+	.alerta{
+		color: #F00;
+	}
+	
+	figure{
+		width: 95%;
+		margin: 0;
+	    text-align: center; 
+	}
+	
+	figure figcaption {
+	    padding: 3px 5px; 
+	    width: 100%;  
+	    text-align: center; 
+	}
+	
+	figure img {
+	    width: 95%;
+	}
+	
+	
+	.rostro img{
+		width:auto;
+		height: 4cm;
+	}
+	
+		#fotosVehiculo tr{
+			display: inline-block;
+			margin: 0;
+			width: 50%;
+			overflow: hidden;
+			padding: 0;
+		}
+		
+	
+		#fotosVehiculo form{
+			display: none;
+		}
+		
+	/*****************Pie de Firma*************************/
+	
+	
+	table.firmas{
+		
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		/*border: solid 1pt black;*/
+		border-spacing: 40pt;
+		border-collapse: separate;
+		/*position: relative;*/
+	}
+	
+	table.firmas caption{
+		text-align: left;
+		font-size:medium !important;
+		font-weight: bold !important;
+		padding: 15px 0px 25px 0px;
+	}
+	
+	table.firmas tr:first-child{
+		text-align: left;
+	}
+	
+	
+	table.firmas td{
+		text-align: center;
+		padding: 20px;
+		border-top:  solid 1px black;
+		/*line-height: 1px;*/
+	}
+	
+	/*-------------------------------------------*/
+	
+	#historial{
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		border: solid 1pt black;
+		border-spacing: 0;
+		border-collapse: separate;
+	}
+	
+	#historial td{
+		border-right:  solid 1px black;
+	}
+	
+	#historial td{
+		text-align: center;
+		padding: 10px;
+		border-top:  solid 1px black;
+	}
+	
+
+		
+}

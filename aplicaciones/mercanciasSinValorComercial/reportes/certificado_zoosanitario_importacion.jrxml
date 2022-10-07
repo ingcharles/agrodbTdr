@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certificado_zoosanitario_importacion2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0fa83bcc-e583-47a1-ac74-547e5493b033">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="2208"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocalidadProduccion"/>
+	<parameter name="idSolicitud" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="imagen" class="java.lang.String"/>
+	<parameter name="rutaSubreporte" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	distinct s.id_solicitud, s.fecha_solicitud, s.identificador_operador, s.tipo_solicitud,
+        (case when s.nombre_propietario ='' then (select (case when razon_social  = '' then identificador else razon_social end) from g_operadores.operadores where identificador=s.identificador_operador ) else s.nombre_propietario end ) solicitante,
+        (case when s.direccion_propietario ='' then (select direccion from g_operadores.operadores where identificador=s.identificador_operador ) else s.direccion_propietario end),
+        s.nombre_destinatario,s.direccion_destinatario,s.id_localizacion_origen_destino,l.nombre pais,pu.nombre_puerto,to_char(s.fecha_embarque,'dd/mm/yyyy') fecha_embarque, li.nombre puesto_control,observacion, tr.tipo transporte, s.nombre_uso, s.observacion, s.nombre_provincia_control,s.fecha_emision, s.fecha_emision + interval '15' day as plazo
+FROM
+	g_mercancias_valor_comercial.solicitudes s,g_catalogos.localizacion l, g_catalogos.lugares_inspeccion li, g_mercancias_valor_comercial.documentos_adjuntos d, g_catalogos.puertos pu, g_catalogos.medios_transporte tr
+WHERE
+	l.id_localizacion = s.id_localizacion_origen_destino and
+	li.id_lugar = s.id_lugar_control and
+	pu.id_puerto = s.id_puerto and
+	s.id_solicitud = $P{idSolicitud} and
+	tr.id_medios_transporte = s.id_medios_transporte]]>
+	</queryString>
+	<field name="id_solicitud" class="java.lang.Integer"/>
+	<field name="fecha_solicitud" class="java.sql.Timestamp"/>
+	<field name="identificador_operador" class="java.lang.String"/>
+	<field name="tipo_solicitud" class="java.lang.String">
+		<fieldDescription><![CDATA[Código del tipo de registro]]></fieldDescription>
+	</field>
+	<field name="solicitante" class="java.lang.String"/>
+	<field name="direccion_propietario" class="java.lang.String"/>
+	<field name="nombre_destinatario" class="java.lang.String"/>
+	<field name="direccion_destinatario" class="java.lang.String"/>
+	<field name="id_localizacion_origen_destino" class="java.lang.Integer"/>
+	<field name="pais" class="java.lang.String"/>
+	<field name="nombre_puerto" class="java.lang.String"/>
+	<field name="fecha_embarque" class="java.lang.String">
+		<fieldDescription><![CDATA[Fecha de embarque, vuelo o envío]]></fieldDescription>
+	</field>
+	<field name="puesto_control" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String"/>
+	<field name="transporte" class="java.lang.String"/>
+	<field name="nombre_uso" class="java.lang.String">
+		<fieldDescription><![CDATA[Nombre científico del uso]]></fieldDescription>
+	</field>
+	<field name="nombre_provincia_control" class="java.lang.String"/>
+	<field name="fecha_emision" class="java.sql.Timestamp"/>
+	<field name="plazo" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[El plazo en días que se da a la fase según la condición]]></fieldDescription>
+	</field>
+	<background>
+		<band height="802">
+			<rectangle>
+				<reportElement x="26" y="137" width="501" height="621" forecolor="#FFFFFF" uuid="108fcf97-2792-448b-8a3b-b273f37cc222"/>
+			</rectangle>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="253">
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="26" y="150" width="473" height="12" uuid="74369378-270f-4b18-9f69-6d998583e233"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{solicitante}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="26" y="185" width="473" height="12" uuid="a81deb16-f588-4d96-9e6f-e0f105c8566d"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_propietario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="00000000000000000000P" isBlankWhenNull="true">
+				<reportElement x="100" y="198" width="240" height="12" uuid="722ed403-29f2-4f78-ab67-b6ca823b5937"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_solicitud}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="13">
+			<subreport>
+				<reportElement x="23" y="0" width="484" height="13" uuid="d49c6f70-6eee-49ee-bbba-b30846e4a095"/>
+				<subreportParameter name="idSolicitud">
+					<subreportParameterExpression><![CDATA[$P{idSolicitud}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte}+"detalle_importacion.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="460">
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="23" y="61" width="476" height="12" uuid="a509ec98-d6b5-4673-afa4-ea05c29f16a6"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_propietario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="23" y="111" width="100" height="12" uuid="6311a6ca-6083-4334-b86d-523c393c07e9"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transporte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="157" y="109" width="207" height="21" uuid="4c6eac8a-934e-4ee9-aaf7-bf5af01af11d"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_puerto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="374" y="109" width="146" height="21" isPrintWhenDetailOverflows="true" uuid="aaeb208f-e44f-4d87-b830-3f44e398e81c"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{puesto_control}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="23" y="22" width="476" height="12" uuid="02bdea08-a056-4e9a-84a4-88e0fb5d6844"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{solicitante}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="23" y="156" width="100" height="12" uuid="5ad8d6e9-54f8-491b-851a-78c35e7ba37d"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_uso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="375" y="156" width="177" height="12" isPrintWhenDetailOverflows="true" uuid="93e99252-b287-446b-abc8-96977c2eca9a"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEEE, d 'de' MMMMM 'de' yyy ").format($F{plazo})]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="23" y="378" width="119" height="12" uuid="d7ac411f-1521-4cd7-bac3-36744b3da5dd"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_provincia_control}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="23" y="416" width="189" height="12" uuid="d59ea474-ed3c-46c0-9666-1f51dab99feb"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("EEEEE, d 'de' MMMMM 'de' yyyy ").format($F{fecha_emision})]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="23" y="242" width="471" height="103" uuid="c2a481cb-fc67-4fc3-b226-7559e06d2d34"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="136">
+			<subreport>
+				<reportElement x="0" y="34" width="502" height="89" uuid="fe8fd58c-d279-4bf8-bde5-e9a34804f157"/>
+				<subreportParameter name="idLocalizacion">
+					<subreportParameterExpression><![CDATA[$F{id_localizacion_origen_destino}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idSolicitud">
+					<subreportParameterExpression><![CDATA[$P{idSolicitud}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{rutaSubreporte}+"requisitos_importacion.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="7" width="555" height="20" uuid="a8ca3436-a521-42b6-8858-c70e3539f1cd"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Requisitos Zoosanitarios para Importación de Mascotas]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

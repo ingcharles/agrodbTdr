@@ -1,0 +1,150 @@
+@CHARSET "UTF-8";
+
+
+
+@media only screen {
+	#visualizacion{
+		background-image: url(../../general/img/back3.png);
+		padding: 10px;
+	}
+	
+	.visualizacion_pagina{
+		width: 21cm;
+		min-height:27cm;
+		margin: auto;
+		border: 1px solid gray;
+		box-sizing: border-box;
+		padding: 1.5cm;
+		background-color: white;
+		box-shadow: 1px 1px 2px #666;
+	}
+	
+	.visualizacion_pagina .agro{
+		/*float: right;*/
+		right: 1.5cm;
+	}
+
+	.visualizacion_pagina .magap{
+		/*float: left;*/
+		left: 1.5cm;
+	}
+}
+
+@media only print {
+	#visualizacion{
+		background-image: none;
+	}
+	
+	.visualizacion_pagina{
+		margin: auto;
+		box-sizing: border-box;
+		background-color: white;
+	}
+	
+	.visualizacion_pagina .agro{
+		/*float: right;*/
+		right: 0;
+	}
+
+	.visualizacion_pagina .magap{
+		/*float: left;*/
+		left: 0;
+	}
+	
+}
+
+body{
+	margin: 0;
+	padding: 0;
+}
+
+.visualizacion_pagina{
+	position: relative;
+	
+}
+
+.visualizacion_pagina .logo {
+	height: 1cm;
+	position: absolute;
+}
+
+
+#titulos{
+	padding-top: .5cm;
+	text-align: center;
+}
+
+h1, h2, h3{
+	
+	margin: 0;
+	padding: 0;
+}
+
+h1{font-size: large;}
+
+h2{
+	padding: .25cm;
+}
+
+h3{
+	margin-top: .25cm;
+	font-size: medium;
+	width: 100%;
+	padding: .1cm;
+	background-color: #aaa;
+	border: 1px solid #999;
+	font-weight: bold;
+	border-radius: .1cm;
+}
+
+.titulo_formulario{
+	padding: .2cm 0;
+}
+
+.visualizacion_pagina fieldset {
+	margin-top: .25cm;
+	border: none;
+	font-size: 0;
+}
+
+.visualizacion_pagina legend {
+	width: 100%;
+	padding: .1cm;
+	background-color: #eee;
+	border: 1px solid #ddd;
+	font-weight: bold;
+	border-radius: .1cm;
+}
+
+.visualizacion_pagina fieldset *{
+	font-size: small;
+	/*padding: 0.1cm;*/
+}
+
+.visualizacion_pagina fieldset > div {
+	display: inline-block;
+	padding: .1cm;
+ 	box-sizing: border-box;
+}
+
+.visualizacion_pagina input{
+	border: none;
+	border-bottom: 1px solid black;
+}
+
+.visualizacion_pagina label{
+	font-weight: bold;
+}
+
+.visualizacion_pagina label:after{
+	content: ": ";
+}
+
+.visualizacion_pagina .opcion{
+	padding-left: 0.25cm;
+	padding-right: 0.5cm;
+}
+
+#__formularios{
+	background-image: url('../img/formularios.png');
+}

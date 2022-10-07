@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="imprimirBitacora" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="665e3d1f-7493-4776-9c71-03e3cc874be4">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="agrocalidadDesarrollo"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="numeroTramite" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+                        	t.id_tramite, t.numero_tramite, t.fecha_creacion,
+                        	t.guia_quipux, t.oficio_memo, t.asunto, 
+                            t.id_unidad_destino, 
+                           COALESCE(
+										CASE WHEN t.estado_tramite = 'Ingresado' THEN a.nombre 
+										ELSE (SELECT 
+												a1.nombre 
+											FROM
+												g_seguimiento_documental.seguimientos s
+												INNER JOIN g_estructura.area a1 ON a1.id_area = s.id_unidad_destino
+											WHERE
+												s.id_tramite = t.id_tramite
+											ORDER BY
+												s.fecha_creacion DESC
+											LIMIT 1)
+						                            END, a.nombre) as unidad_destino,
+                            t.anexos, t.quipux_agr, 
+                        	t.estado_tramite
+                        FROM
+                        	g_seguimiento_documental.tramites t
+                        	INNER JOIN g_estructura.area a ON t.id_unidad_destino = a.id_area
+                        WHERE
+                             t.id_tramite IN ($P!{numeroTramite})
+                        ORDER BY
+                            t.numero_tramite ASC]]>
+	</queryString>
+	<field name="id_tramite" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_tramite"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="numero_tramite" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numero_tramite"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="fecha_creacion" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_creacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="guia_quipux" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="guia_quipux"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="oficio_memo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="oficio_memo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="asunto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="asunto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="id_unidad_destino" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="id_unidad_destino"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="unidad_destino" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="unidad_destino"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="area"/>
+	</field>
+	<field name="anexos" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="anexos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="quipux_agr" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="quipux_agr"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<field name="estado_tramite" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estado_tramite"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="800" height="30" uuid="dd9f7f94-d8f2-4d87-8ff7-84c97894c940"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="19" isBold="true" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Bitácora de Entrega de Trámites]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="40" y="60" width="160" height="30" uuid="3f11aa27-09f2-4e8f-81b3-4b8b11fee094"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="40" height="30" uuid="a587a1c9-0953-4c7b-b0d2-4f79b04893b5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="70" height="30" uuid="bcd81e02-dab8-4687-a99d-cb56a547b597">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="409317b2-a6d9-40b1-ba7e-640ad0151f20"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REGISTRO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="10" width="40" height="30" uuid="c5d2864a-352a-449e-ad85-efe067a2529e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="095d9e6d-ca1e-4d3d-9f4b-5c99ac82dcd6"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="10" width="50" height="30" uuid="64f11b20-8240-4c4e-b51b-d3b0291038e0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b3fca97-0413-4905-b778-0f39613b9342"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GUÍA DE
+CORREO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="10" width="60" height="30" uuid="4ddb45eb-053f-4bda-812f-6be8f8e1e85e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="151636a9-fe00-41d8-b5f8-1be7a9a57cf0"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MEMO/OFICIO/REF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="10" width="220" height="30" uuid="fc45e1a3-4a7f-4287-92ce-fb699f0832aa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee476a37-2ce2-4d65-85d0-224228b7ec6d"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASUNTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="10" width="80" height="30" uuid="8994fa36-7e31-446e-ad21-072324d51cbf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4759b99b-452b-4a9f-b7fa-7a5a4b8a8107"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDAD DESTINO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="520" y="10" width="50" height="30" uuid="bf027329-f00e-4f6c-add4-beb2081ee2dc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e057c67d-e867-4a1e-8402-34a9209f2a04"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANEXOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="570" y="10" width="120" height="30" uuid="7abbcba2-40f6-41f4-ba9b-c5a9446f6fba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cfb3432c-0380-4c3e-9804-58d084b52463"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUIPUX AGR.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="10" width="60" height="30" uuid="68b83b91-c4c5-4cae-94ca-5b3a22777b39">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cfb3432c-0380-4c3e-9804-58d084b52463"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMA Y
+NOMBRE
+RECIBIDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="750" y="10" width="52" height="30" uuid="d1e146b3-a533-4c15-8f87-d6293da95f36">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cfb3432c-0380-4c3e-9804-58d084b52463"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="1">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA/HORA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="70" height="30" uuid="5c1303bc-d4f6-438f-832a-e19cd4b8c52c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="409317b2-a6d9-40b1-ba7e-640ad0151f20"/>
+				</reportElement>
+				<box padding="1">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_tramite}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
+				<reportElement stretchType="RelativeToTallestObject" x="70" y="0" width="40" height="30" uuid="a338b808-1398-41f2-bc87-44725a345234">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="095d9e6d-ca1e-4d3d-9f4b-5c99ac82dcd6"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_creacion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="110" y="0" width="50" height="30" uuid="e328b0e7-de9e-4c32-8ecf-43e827da9c64">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b3fca97-0413-4905-b778-0f39613b9342"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{guia_quipux}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="160" y="0" width="60" height="30" uuid="48ca80ee-a06c-402a-bef3-8097d6fb6e3b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="151636a9-fe00-41d8-b5f8-1be7a9a57cf0"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{oficio_memo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement key="" stretchType="RelativeToTallestObject" x="220" y="0" width="220" height="30" uuid="2eb01775-b503-45a9-8310-0824757fda58">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee476a37-2ce2-4d65-85d0-224228b7ec6d"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{asunto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="440" y="0" width="80" height="30" uuid="2408721c-f2fb-4adc-8def-37c64f1a35ab">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4759b99b-452b-4a9f-b7fa-7a5a4b8a8107"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidad_destino}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="520" y="0" width="50" height="30" uuid="4472c546-35ee-4349-8c01-a058ab155efc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e057c67d-e867-4a1e-8402-34a9209f2a04"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anexos}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="570" y="0" width="120" height="30" uuid="c49c3f40-26ea-42b8-a601-fe07387ecded">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cfb3432c-0380-4c3e-9804-58d084b52463"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quipux_agr}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="690" y="0" width="60" height="30" uuid="ea5e859f-73b9-4bf0-a4b9-e18cb501fb36">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cfb3432c-0380-4c3e-9804-58d084b52463"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="750" y="0" width="52" height="30" uuid="a8ba8b07-c6aa-401d-b708-3e84108b08a6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cfb3432c-0380-4c3e-9804-58d084b52463"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="1">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
