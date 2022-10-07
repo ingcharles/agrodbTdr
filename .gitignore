@@ -8,6 +8,6 @@
 *.sql
 *.json
 *.svn-base
-clases\Constantes.php
-clases\Conexion.php
-aplicaciones\mvc\config\config.php
+clases/Constantes.php
+clases/Conexion.php
+aplicaciones/mvc/config/config.php
