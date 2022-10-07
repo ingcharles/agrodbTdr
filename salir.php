@@ -4,6 +4,7 @@ require_once 'clases/Conexion.php';
 require_once 'clases/ControladorAuditoria.php';
 
 $conexion = new Conexion();
+
 $ca = new ControladorAuditoria();
 
 //---------------------------AUDITORIA
