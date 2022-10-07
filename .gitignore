@@ -8,6 +8,13 @@
 *.sql
 *.json
 *.svn-base
+<<<<<<< HEAD
 clases/Conexion.php
 clases/Constantes.php
 aplicaciones/mvc/config/config.php
+=======
+clases/Constantes.php
+clases/Conexion.php
+aplicaciones/mvc/config/config.php
+
+>>>>>>> b769c6fbbb0b4feaf2fdb238dec98f5999ac714c
