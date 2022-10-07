@@ -85,11 +85,11 @@ define('URL_GENER', URL_PROTOCOL . URL_DOMAIN . URL_GUIA . '/general' . '/');
 //$clave = mcrypt_decrypt($algorithm, $key, $encrypted_data, $mode, $iv);
 
 define('DB_DRIVER', 'pdo_pgsql');
-define('DB_PORT', '9999');
-define('DB_HOST', '192.168.15.135');
-define('DB_NAME', 'agrocalidadprueba');
+define('DB_PORT', '5434');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'agrocalidadtdr');
 define('DB_USER', 'postgres');
-define('DB_PASS', 'A9r@07c@/i.');
+define('DB_PASS', 'admin');
 define('DB_CHARSET', 'utf8');
 
 /**
@@ -101,7 +101,8 @@ define("JAVA_SERVLET", "/AgrodbJava/Laboratorios");
 /**
  * Rutas del archivo para los reportes
  */
-$rutaBaseReportes = "/var/www/html/agrodbPrueba/aplicaciones/mvc/";
+//$rutaBaseReportes = "/var/www/html/agrodbPrueba/aplicaciones/mvc/";
+$rutaBaseReportes = "C:/xampp/htdocs/agrodbTdr/aplicaciones/mvc/";
 define("JAVA_URL_PLANTILLA_OT", $rutaBaseReportes . "resource/reportes/ordenBasica.jrxml");
 define("JAVA_URL_PLANTILLA_INFORME", $rutaBaseReportes . "resource/reportes/informeBasico.jrxml");
 define("JAVA_URL_PLANTILLA_ETIQUETAS", $rutaBaseReportes . "resource/reportes/etiquetas.jrxml");
