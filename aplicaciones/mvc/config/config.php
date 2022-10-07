@@ -85,11 +85,11 @@ define('URL_GENER', URL_PROTOCOL . URL_DOMAIN . URL_GUIA . '/general' . '/');
 //$clave = mcrypt_decrypt($algorithm, $key, $encrypted_data, $mode, $iv);
 
 define('DB_DRIVER', 'pdo_pgsql');
-define('DB_PORT', '5434');
+define('DB_PORT', '5234');
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'agrocalidadtdr');
 define('DB_USER', 'postgres');
-define('DB_PASS', 'admin');
+define('DB_PASS', 'postgresql');
 define('DB_CHARSET', 'utf8');
 
 /**
