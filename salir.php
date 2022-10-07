@@ -9,8 +9,8 @@ $ca = new ControladorAuditoria();
 
 //---------------------------AUDITORIA
 
-	//$qLog = $ca -> guardarLog($conexion,$tipo_aplicacion);
-	//$ca->guardarUpdate($conexion, pg_fetch_result($qTransaccion, 0, 'id_transaccion'), $_SESSION['usuario'], 'El usuario ' . $_SESSION['usuario'].'ha finalizado sesión');
+//$qLog = $ca -> guardarLog($conexion,$tipo_aplicacion);
+//$ca->guardarUpdate($conexion, pg_fetch_result($qTransaccion, 0, 'id_transaccion'), $_SESSION['usuario'], 'El usuario ' . $_SESSION['usuario'].'ha finalizado sesión');
 
 //--------------------------------
 
