@@ -21,7 +21,7 @@ $rutaArchivo = $filaSolicitud['ruta_informe'];
 
 <body>
 
-	<embed id="visor" src="<?php echo  $filaSolicitud['ruta_informe']; ?>" width="560" height="490">
+	<embed id="visor" src="<?php echo  $filaSolicitud['ruta_informe']; ?>" width="540" height="490">
 
 </body>
 

@@ -18,8 +18,8 @@ if($identificador==''){
 }else{
 	$usuario=1;
 }
-$saldos = pg_fetch_result($cv->consultarSaldoFuncionario($conexion, $identificador), 0, 'minutos_disponibles');
-$saldos = $saldos + pg_fetch_result($cv->consultarSaldoFuncionarioNuevo($conexion, $identificador), 0, 'minutos_disponibles');
+
+$saldos = pg_fetch_assoc($cv->consultarSaldoFuncionario($conexion,$identificador));
 
 $subtipos = $cv->obtenerSubTipoPermiso($conexion,'usuario',null);
 
@@ -71,7 +71,7 @@ if(pg_num_rows($permisoMaternidad) > 0){
     <input type="hidden" id="opcionPermiso" name="opcionPermiso" value="ninguno"/>
 	<input type="hidden" id="opcionTipoPermiso" name="opcionTipoPermiso" value="ninguno"/>
 	<input type="hidden" id="opcion" name="opcion" value="Nuevo" /> 
-	<input type="hidden" id="disponibilidad" name="disponibilidad" value="<?php echo $saldos; ?>" /> 
+	<input type="hidden" id="disponibilidad" name="disponibilidad" value="<?php echo $saldos['minutos_disponibles']; ?>" /> 
 <input type="hidden" id="archivo" name="archivo" value="0" />
 	<input type="hidden" id="identificador" name="identificador" value="<?php echo $identificador; ?>" />
 
@@ -493,7 +493,7 @@ $("#fechaSalida").datepicker({
     	}
 	  	var fecha=new Date($('#fechaSalida').datepicker('getDate'));
 	
-	  	if( ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-RN") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-ER") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-MH") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-PIV" || $("#subTipoSolicitud option:selected").attr('data-codigo')=="PE-PIVF" )){
+	  	if(($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-RN") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-ER") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-MH") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-PIV" || $("#subTipoSolicitud option:selected").attr('data-codigo')=="PE-PIVF" )){
 	  		if(	opcionPermisoHoras == 1) fecha.setDate(fecha.getDate()+1);
 	  		else fecha.setDate(fecha.getDate()+dias);
 	  	}else{
@@ -591,8 +591,8 @@ $("#horaSalida").change(function(){
 				$("#horaSalida").val('24:00');
 			}
 
-			//Permisos de 2 horas  || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-AM")
-			if(($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-RN")  || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-MH") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "EN-RE") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-ER")){
+			//Permisos de 2 horas
+			if(($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-RN") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-MH") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "EN-RE") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-ER")){
 
 					if(parseInt(hora)==24){
 						$("#horaRetorno").val('02'+':'+minuto);
@@ -772,8 +772,8 @@ function esCampoValido(elemento){
 						$("#horaSalida").val('24:00');
 					}
 
-					//Permisos de 2 horas  || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-AM")
-					if(($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-RN")  || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-MH") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "EN-RE") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-ER")){
+					//Permisos de 2 horas
+					if(($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-RN") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-MH") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "EN-RE") || ($("#subTipoSolicitud option:selected").attr('data-codigo')== "PE-ER")){
 							if(parseInt(hora)==24){
 								$("#horaRetorno").val('02'+':'+minuto);
 								$("#horaRetorno").attr('readonly', 'readonly');

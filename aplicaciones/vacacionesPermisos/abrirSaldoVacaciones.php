@@ -1,24 +1,22 @@
-<?php
+<?php 
 session_start();
 require_once '../../clases/Conexion.php';
 require_once '../../clases/ControladorVacaciones.php';
 
 try {
-    $conexion = new Conexion();
-    $cv = new ControladorVacaciones();
-
-    $tmp = explode('.', $_POST['id']);
-    $identificador = $tmp[0];
-    $estado = $tmp[1];
-
-    //$listaReporte = $cv->filtroObtenerReporteSaldoUsuario($conexion, $identificador, $estado, '', '', '', 'individual');
-    
-    
-    $listaReporte = $cv->filtroObtenerReporteSaldoUsuario($conexion, $identificador, $estado, '', '', '', '');
-    
+	$conexion = new Conexion();
+	$cv = new ControladorVacaciones();
+	
+	$tmp = explode('.',$_POST['id']);
+	$identificador=$tmp[0];
+	$estado=$tmp[1];		
+	
+	$listaReporte = $cv->filtroObtenerReporteSaldoUsuario($conexion, $identificador,$estado, '', '', '', 'individual');
+	
 } catch (Exception $e) {
-   // echo $e;
+	echo $e;
 }
+
 
 ?>
 
@@ -31,38 +29,36 @@ try {
 
 	<fieldset>
 		<legend>Saldo de vacaciones</legend>
+
 		<table style="width: 100%">
 			<thead>
 				<tr>
+					<th>Identificador</th>
+					<th>Nombre funcionario</th>
 					<th>Año</th>
-					<th>Mes</th>
-					<th colspan="2">Cantidad disponible</th>
-					<th>Total</th>
-				</tr>
-				<tr> <td colspan="2" ><th>Días laborables</th>
-					<th>Días no laborables</th> 
-					<th></th>
+					<th>Cantidad disponible</th>
 				</tr>
 			</thead>
 
-			<?php
-            echo PHP_EOL;
-            $datos = $cv->devolverTiempoActual($conexion, $listaReporte, $identificador,$estado);
-            foreach ($datos as $fila) {
-                echo '<tr>
-            				
-            					<td align="left">' . $fila['anio'] . '</td>
-								<td align="left">' . $fila['mes'] . '</td>
-                                <td align="left">' . $fila['utilizado'] . '</td>
-                                <td align="left">' . $fila['libre'] . '</td>
-            					<td align="right">' . $fila['tiempo'] . ' día(s) </td>
-            				</tr>';
-           }
-           echo'<tr>
-               <th colspan="5" align="right"> Total: '.$fila['tiempoTotal'].'</th>
-               </tr>';
-?>
+			<?php 
+			$contador = 0;
+			while($fila = pg_fetch_assoc($listaReporte)) {
+
+			$dias=floor(intval($fila['minutos_disponibles'])/480);
+			$horas=floor((intval($fila['minutos_disponibles'])-$dias*480)/60);
+			$minutos=(intval($fila['minutos_disponibles'])-$dias*480)-$horas*60;
+
+			echo '<tr>
+					<td>'.$fila['identificador'].'</td>
+					<td>'.$fila['apellido'].' '.$fila['nombre'].'</td>
+					<td>'.$fila['anio'].'</td>
+					<td>'. $dias.' días '. $horas .' horas '. $minutos .' minutos</td>
+				</tr>';
+
+	 	}
+	 	?>
 		</table>
+
 
 	</fieldset>
 </body>

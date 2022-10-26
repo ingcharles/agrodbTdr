@@ -27,6 +27,8 @@
 	$listaReporte = $cv->filtroObtenerReporteHistoricoUsuario($conexion, $identificador, $apellido, $nombre, $fechaInicio, $fechaFin, $tipoPermiso, $subtipoPermiso, $estadoVacacion,$area);
 	
 ?>
+
+
 <html LANG="es">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
@@ -91,7 +93,6 @@ color:#ffffff;
 			<th>Nombre</th>
 			<th>Subtipo permiso</th>
 			<th>Tiempo utilizado</th>
-			<th>Tiempo utilizado (minutos)</th>
 			<th>Fecha inicio</th>
 			<th>Fecha fin</th>
 			<th>Estado</th>
@@ -124,7 +125,6 @@ color:#ffffff;
 					<td>'.$fila['nombre'].'</td>
 					<td>'.$fila['descripcion_subtipo'].'</td>
 					<td>'.$minutosUtilizados.' </td>
-                    <td>'.$fila['minutos_utilizados'].' </td>
 					<td>'. date('Y-m-d H:i',strtotime($fila['fecha_inicio'])).'</td>
 					<td>'. date('Y-m-d H:i',strtotime($fila['fecha_fin'])).'</td>
 					<td>'.$fila['estado'].'</td>

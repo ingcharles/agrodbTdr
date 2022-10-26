@@ -66,11 +66,11 @@
 			<tr>
 				<th>Fecha inicio:</th>
 					<td>
-						<input id="fechaInicio" name="fechaInicio" type="text"  style="width: 100%;" readonly="readonly"/>
+						<input id="fechaInicio" name="fechaInicio" type="text"  style="width: 100%;" readonly="readonly" />
 					</td>
 				<th>Fecha fin:</th>
 					<td>
-						<input id="fechaFin" name="fechaFin" type="text"  style="width: 100%;" readonly="readonly"/>
+						<input id="fechaFin" name="fechaFin" type="text"  style="width: 100%;" readonly="readonly" />
 					</td>		
 			</tr>
 			
@@ -147,7 +147,7 @@ $(document).ready(function(){
 	    changeYear: true
 	  });
 		
-});
+});							
 
 $("#listarHistoricoVacaciones").submit(function(event){
 

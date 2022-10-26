@@ -152,16 +152,6 @@ $filaSolicitud = pg_fetch_assoc($cv->obtenerPermisoSolicitado($conexion,$id_subt
 				<?php echo ($filaSolicitud['ruta_informe']==''? '<span class="alerta">No ha generado ningún archivo aún</span>':'<a href='.$filaSolicitud['ruta_informe'].' target="_blank" class="archivo_cargado" id="archivo_cargado">Acción de personal creada</a>')?>
 			</div>
 	</fieldset>
-	<?php if($filaSolicitud['ruta_archivo_reintegro']!=''){?>
-	<fieldset id="accionPersonalReintegro">
-		<legend>Acción de Reintegro</legend>
-
-			<div data-linea="1">
-				<label>Acción de Reintegro:</label>
-				<?php echo ($filaSolicitud['ruta_archivo_reintegro']==''? '<span class="alerta">No ha generado ningún archivo aún</span>':'<a href='.$filaSolicitud['ruta_archivo_reintegro'].' target="_blank" class="archivo_cargado" id="archivo_cargado">Acción de reintegro creada</a>')?>
-			</div>
-	</fieldset>
-	<?php }?>
 	</div>
 <div id="resultadoFin"></div>
 <script type="text/javascript">

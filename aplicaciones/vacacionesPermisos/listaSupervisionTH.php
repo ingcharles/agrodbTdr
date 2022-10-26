@@ -64,32 +64,11 @@ if($_POST['estado_requerimiento']!=''){
 		$areaBusqueda .= $zona;
 	}
 
-	$txtEstado = 'Por generar informe';
-    if($estado == 'Reintegro'){
-    	$txtEstado = 'Informe manual';
-    	$res=$cv->obtenerPermisosRevisionManual($conexion,$tipo_permiso,$fecha_desde,$fecha_hasta,$id_solicitud,$identificadorBusq,$id_director,$areaBusqueda);
-    	while($fila = pg_fetch_assoc($res)){
-    		
-    		$itemsFiltrados[]= array('<tr
-				id="'.$fila['id_permiso_empleado'].'"
-				class="item"
-				data-rutaAplicacion="vacacionesPermisos"
-				data-opcion="cargarPermisoTH"
-				ondragstart="drag(event)"
-				draggable="true"
-				data-destino="detalleItem">
-				<!--td>'.++$contador.'</td-->
-				<td>'.$fila['id_permiso_empleado'].'</td>
-				<td style="white-space:nowrap;"><b>'.$fila['apellido'].' '.$fila['nombre']. '</b></td>
-       			<td> Desde: '.$fila['fecha_inicio'].'<br/> Hasta: '.$fila['fecha_fin'].'</td>
-				<td><span class="alerta">'.$txtEstado.'</span></td>
-			</tr>');
-    	}
-    }else{
-    	$res=$cv->obtenerPermisosRevisionProceso($conexion,$tipo_permiso,$fecha_desde,$fecha_hasta,$id_solicitud,$identificadorBusq,$id_director,$estado,$areaBusqueda);
-    	while($fila = pg_fetch_assoc($res)){
-    		
-    		$itemsFiltrados[]= array('<tr
+	$res=$cv->obtenerPermisosRevisionProceso($conexion,$tipo_permiso,$fecha_desde,$fecha_hasta,$id_solicitud,$identificadorBusq,$id_director,$estado,$areaBusqueda);
+
+	while($fila = pg_fetch_assoc($res)){
+
+		$itemsFiltrados[]= array('<tr
 				id="'.$fila['id_permiso_empleado'].'"
 				class="item"
 				data-rutaAplicacion="vacacionesPermisos"
@@ -101,11 +80,9 @@ if($_POST['estado_requerimiento']!=''){
 				<td>'.$fila['id_permiso_empleado'].'</td>
 				<td style="white-space:nowrap;"><b>'.$fila['apellido'].' '.$fila['nombre']. '</b></td>
        			<td> Desde: '.$fila['fecha_inicio'].'<br/> Hasta: '.$fila['fecha_fin'].'</td>
-				<td>'.$estadoRegistro=($fila['estado']=='Aprobado' || $fila['estado']=='Reintegro' )?'<span class="alerta">'.$txtEstado.'</span>':'<a href='.$fila['ruta_informe'].' target="_blank" class="archivo_cargado" id="archivo_cargado">Archivo Generado</a>'.'</td>
+				<td>'.$estadoRegistro=$fila['estado']=='Aprobado'?'<span class="alerta">Por generar informe</span>':'<a href='.$fila['ruta_informe'].' target="_blank" class="archivo_cargado" id="archivo_cargado">Archivo Generado</a>'.'</td>
 			</tr>');
-    	}
-    }
-	
+	}
 }
 
 ?>
@@ -141,7 +118,6 @@ if($_POST['estado_requerimiento']!=''){
 						<option value="">Seleccione un estado....</option>
 						<option value="Aprobado">Por generar informe recursos humano</option>
 						<option value="InformeGenerado">Con informe generado</option>
-						<option value="Reintegro">Por generar informe manual recursos humano</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -172,11 +148,13 @@ if($_POST['estado_requerimiento']!=''){
 
 <script>	
 var usuario = <?php echo json_encode($usuario); ?>;
+//<!--  data-destino="areaTrabajo #listadoItems"-->
 	$(document).ready(function(){
 		$("#listadoItems").removeClass("comunes");
 		$("#listadoItems").addClass("lista");
 		$("#detalleItem").html('<div class="mensajeInicial">Arrastre aqui un registro para revisarlo.</div>');								
 		construirPaginacion($("#paginacion"),<?php echo json_encode($itemsFiltrados);?>);
+		//construirPaginacionexp($("#paginacion"),<?php echo 1;?>);
 		
 		if(usuario == '0'){
 			$("#estadoSesion").html("Su sesión ha expirado, por favor ingrese nuevamente al Sistema GUIA.").addClass("alerta");

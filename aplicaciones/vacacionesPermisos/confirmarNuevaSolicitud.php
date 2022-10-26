@@ -31,7 +31,6 @@ try{
 	$subtipoPermiso = pg_fetch_assoc($cv->obtenerSubTipoPermiso($conexion,null,$_POST['subTipoSolicitud']));
 	$minutosPermitidos = $subtipoPermiso['minutos_permitidos'];	
 	$minutosDisponibles = pg_fetch_result($cv->consultarSaldoFuncionario($conexion,$identificador), 0, 'minutos_disponibles');
-	$minutosDisponibles = $minutosDisponibles + pg_fetch_result($cv->consultarSaldoFuncionarioNuevo($conexion,$identificador), 0, 'minutos_disponibles');
 
 	if($_POST['fechaSuceso'] != "")
 		$fechaSuceso= $_POST['fechaSuceso'];

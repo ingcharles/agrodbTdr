@@ -5,7 +5,7 @@ require_once '../../clases/Conexion.php';
 require_once '../../clases/ControladorUsuarios.php';
 
 $conexion = new Conexion();
-$cu = new ControladorUsuarios(); 
+$cu = new ControladorUsuarios();
 
 ?>
 	
@@ -25,20 +25,6 @@ $cu = new ControladorUsuarios();
 		<span class="ordinal">2</span>
 		<aside></aside>
 	</article>
-	
-	<article id="1" class="item" data-rutaAplicacion="vacacionesPermisos"	data-opcion="filtroHistoricoReintegro" draggable="true" data-destino="listadoItems">
-		<div></div>
-		<span>Acciones de personal de reintegro</span>
-		<span class="ordinal">3</span>
-		<aside></aside>
-	</article>
-	<article id="1" class="item" data-rutaAplicacion="vacacionesPermisos"	data-opcion="filtroLiquidaciones" draggable="true" data-destino="listadoItems">
-		<div></div>
-		<span>Liquidaciones</span>
-		<span class="ordinal">4</span>
-		<aside></aside>
-	</article>
-	
 	
 <script type="text/javascript">
 

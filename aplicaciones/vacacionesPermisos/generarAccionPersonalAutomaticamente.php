@@ -157,7 +157,7 @@
 							$filename = $filaSolicitud['identificador'].'-AccionPersonal-'.$id_registro.'.pdf';
 							$ReporteJasper='aplicaciones/vacacionesPermisos/reportes/accionPersonal.jrxml';
 							$salidaReporte = 'aplicaciones/vacacionesPermisos/accionPersonal/'.$filename;
-							
+
 							$parameters['parametrosReporte'] = array(
 								'identificador'=> $identificadorFuncionario,
 								'codigoAccionPersonal'=> $codigoAccionPersonal,

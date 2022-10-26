@@ -20,16 +20,11 @@ $idPermiso=$_POST['id'];
 $filaSolicitud = pg_fetch_assoc($cv->obtenerPermisoSolicitado($conexion,$idPermiso));
 
 $saldoFuncionario = $cv->consultarSaldoFuncionario($conexion,$filaSolicitud['identificador']);
-$saldoFuncionarioNuevo = $cv->consultarSaldoFuncionarioNuevo($conexion,$filaSolicitud['identificador']);
 
 if(pg_num_rows($saldoFuncionario) > 0){
 	$saldos = pg_fetch_result($saldoFuncionario, 0, 'minutos_disponibles');
 }else{
 	$saldos =0;
-}
-
-if(pg_num_rows($saldoFuncionarioNuevo) > 0){
-	$saldos = $saldos + pg_fetch_result($saldoFuncionarioNuevo, 0, 'minutos_disponibles');
 }
 
 
@@ -40,7 +35,7 @@ $rutaArchivo = $filaSolicitud['ruta_informe'];
 	<h1>Generar acción de personal</h1>
 </header>
 
-<form id="generarAccionPersonalForm" data-rutaAplicacion="vacacionesPermisos" data-opcion="generarAccionPersonalTcpdf" data-destino="detalleItem" data-accionEnExito="ACTUALIZAR">
+<form id="generarAccionPersonalForm" data-rutaAplicacion="vacacionesPermisos" data-opcion="generarAccionPersonal" data-destino="detalleItem" data-accionEnExito="ACTUALIZAR">
 	<input type="hidden" id="opcion" name="opcion" value="Actualizar" />
 	<input type="hidden" id="disponibilidad" name="disponibilidad" value="<?php echo $saldos; ?>"/>
      <input type="hidden" id="identificadorTH" name="identificadorTH" value="<?php echo $_SESSION['usuario']; ?>" />

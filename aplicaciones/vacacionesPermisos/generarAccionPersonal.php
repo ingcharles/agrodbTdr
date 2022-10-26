@@ -244,7 +244,7 @@ try {
 		if($codigoSubtipoPermiso == "VA-VA"){
 			$parameters['parametrosReporte'] += array('vacaciones'=> ' ');
 		}else{ /*if($codigoSubtipoPermiso == 'PE-PIV')*/
-			$parameters['parametrosReporte'] += array('licencia'=> ' ');
+				$parameters['parametrosReporte'] += array('licencia'=> ' ');
 		}
 		
 		//CAMBIAR RUTA IMAGEN A accionPersonal

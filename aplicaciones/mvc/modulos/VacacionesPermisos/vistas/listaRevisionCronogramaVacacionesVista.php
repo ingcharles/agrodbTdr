@@ -23,4 +23,6 @@
 	});
 
 	$("#tablaItems").click(function () {});
+	$('#__autorizarPlanificacionVacaciones').stop();
+	$('#__autorizarPlanificacionVacaciones').removeAttr("style");
 </script>
