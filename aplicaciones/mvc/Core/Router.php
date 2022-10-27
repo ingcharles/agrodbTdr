@@ -29,14 +29,14 @@ class Router{
 			$this->splitUrl();
 
 			// Verificamos si existe el módulo
-			if (! $this->url_module){echo 111;
+			if (! $this->url_module){
 				// Si no existe el módulo en la url se direcciona a la página de incio de la versión anterior del GUIA
 				$page = new \Agrodb\Controladores\InicioControlador();
 				$page->index();
 			}elseif (file_exists(APP . ucfirst($this->url_module) . '/Controladores/')){ // Existe el módulo?
 			                                                                             // Si existe el módulo verificamos si existe el controlador en la url
 				if (! $this->url_controller){
-echo 2222;
+
 					// Si no existe el controlador, verificamos si existe el controlador IndexControlador (Dafault)
 					if (file_exists(APP . ucfirst($this->url_module) . '/Controladores/IndexControlador.php')){
 						$controller = "\\Agrodb\\" . ucfirst($this->url_module) . "\\Controladores\\IndexControlador";
@@ -46,7 +46,7 @@ echo 2222;
 						$page->index();
 					}
 				}elseif (file_exists(APP . ucfirst($this->url_module) . '/Controladores/' . ucfirst($this->url_controller) . 'Controlador.php')){
-echo 3333;
+
 					// Existe el módulo y controlador, creamos un objecto de la clase del controlador
 					$controller = "\\Agrodb\\" . ucfirst($this->url_module) . "\\Controladores\\" . ucfirst($this->url_controller) . 'Controlador';
 					$this->url_controller = new $controller();
@@ -92,7 +92,7 @@ echo 3333;
 	/**
 	 * Obtenemos y dividimos la URL, en Módulo, Controlador, Método y parámetros
 	 */
-	private function splitUrl(){echo "URL:".$_SERVER['REQUEST_URI'];
+	private function splitUrl(){
 		if (isset($_SERVER['REQUEST_URI'])){
 
 			$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); // no selecciona los argmentos tipo ?h=n
@@ -118,10 +118,10 @@ echo 3333;
 			// Impresión para depurar
 			
 			
-			  echo '<br>Módulo: ' . $this->url_module . '<br>';
+			  /*echo '<br>Módulo: ' . $this->url_module . '<br>';
 			  echo 'Controlador: ' . $this->url_controller . '<br>';
 			  echo 'Método: ' . $this->url_action . '<br>';
-			  echo 'Parámetros: ' . print_r($this->url_params, true) . '<br>';
+			  echo 'Parámetros: ' . print_r($this->url_params, true) . '<br>';*/
 		
 			// exit();
 		}

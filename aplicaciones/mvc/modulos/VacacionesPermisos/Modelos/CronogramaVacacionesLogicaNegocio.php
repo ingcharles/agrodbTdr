@@ -100,4 +100,137 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 		 return $this->modeloCronogramaVacaciones->ejecutarSqlNativo($consulta);
 	}
 
+	/**
+	 * Ejecuta una consulta(SQL) personalizada para obtener los datos del empleado y fecha ingreso a la institucion
+	 *
+	 * @return array
+	 */
+	public function obtenerDatosEmpleadoFechaIngresoInstitucion($identificador){
+		
+		$consulta = "SELECT
+				fe.identificador,
+				fe.apellido || ' ' || fe.nombre AS nombre, 
+				mdc.fecha_inicio AS fecha_ingreso_institucion,
+				--ar.id_area_padre, 
+				arr.nombre AS nombre_unidad_administrativa,
+				--ar.id_area, 
+				ar.nombre AS nombre_gestion_administrativa, 
+				pu.id_puesto, 
+				pu.nombre_puesto AS puesto_institucional
+		FROM
+				g_estructura.area ar 
+				INNER JOIN g_estructura.area arr ON arr.id_area = ar.id_area_padre AND arr.estado = 1
+				INNER JOIN g_uath.datos_contrato dc ON ar.id_area = dc.id_gestion AND dc.estado = 1
+				INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = dc.identificador AND fe.estado_empleado = 'activo'
+				LEFT JOIN g_catalogos.puestos pu ON ar.id_area = pu.id_area AND pu.estado = 1 AND dc.nombre_puesto = pu.nombre_puesto,
+				(SELECT dc1.fecha_inicio FROM g_uath.datos_contrato dc1 WHERE dc1.id_datos_contrato = (SELECT MIN(dcc.id_datos_contrato) id_datos_contrato FROM g_uath.datos_contrato dcc WHERE dcc.identificador = '" . $identificador . "') 
+				) mdc 
+		WHERE
+				dc.identificador = '" . $identificador . "' AND ar.estado = 1 ;";
+		
+		$res = $this->modeloCronogramaVacaciones->ejecutarSqlNativo($consulta);
+		return $res;
+	}
+	/**
+	 * Ejecuta una consulta(SQL) personalizada para obtener el nombre del empleado
+	 *
+	 * @return array
+	 */
+	public function datosFuncionario($conexion, $identificador){
+	
+		$sqlScript = "SELECT
+						apellido ||' '|| nombre AS nombre
+					FROM
+						g_uath.ficha_empleado
+					WHERE
+						identificador = '$identificador' estado_empleado = 'activo'";
+		$res = $this->modeloCronogramaVacaciones->ejecutarSqlNativo($sqlScript);
+		return $res;
+	}
+
+	/**
+	 * Ejecuta una consulta(SQL) personalizada para obtener saldo de vacaciones funcionarios
+	 *
+	 * @return array
+	 */
+
+	public function consultarSaldoFuncionario($usuario, $activo = 'TRUE'){
+		$sqlScript = "SELECT
+							SUM(minutos_disponibles) AS minutos_disponibles,
+							STRING_AGG(DISTINCT anio::CHARACTER varying,', ') AS anio
+						FROM
+							g_vacaciones.minutos_disponibles_funcionarios
+						WHERE
+							activo = ".$activo."
+							AND identificador = '" . $usuario . "'
+							GROUP BY identificador";
+		$res = $this->modeloCronogramaVacaciones->ejecutarSqlNativo($sqlScript);
+		return $res;
+	}
+
+	/**
+	 * Ejecuta una consulta(SQL) personalizada para obtener saldo de vacaciones funcionarios en nueva 
+	 *
+	 * @return array
+	 */
+
+	public function consultarSaldoFuncionarioNuevo($usuario, $activo = 'TRUE'){
+		$sqlScript = "SELECT
+							sum(minutos_disponibles) as minutos_disponibles,
+							string_agg(DISTINCT anio::CHARACTER varying,', ') as anio
+						FROM
+							g_vacaciones.tiempo_disponible_funcionarios
+						WHERE
+							activo = ".$activo."
+							AND identificador = '" . $usuario . "'
+							GROUP BY identificador;";
+		$res = $this->modeloCronogramaVacaciones->ejecutarSqlNativo($sqlScript);
+		return $res;
+	}
+
+	/**
+	 * Ejecuta una consulta(SQL) personalizada para dar formato a dias disponibles de vacaciones
+	 *
+	 * @return array
+	 */
+
+	public function devolverFormatoDiasDisponibles($minutosutilizados){
+		if ($minutosutilizados >= 1){
+			$valor = '';
+		}else{
+			$valor = '- ';
+		}
+		$minutosutilizados = abs($minutosutilizados);
+		$diasDescontados = '';
+		$separador = '';
+		$dias = floor(intval($minutosutilizados) / 480);
+		if ($dias != 0){
+			if ($dias >= 2)
+				$diasDescontados .= $valor . $dias . ' días';
+			else
+				$diasDescontados .= $valor . $dias . ' día';
+			$separador = ' ';
+			$valor = '';
+		}
+		$horas = floor((intval($minutosutilizados) - $dias * 480) / 60);
+		if ($horas != 0){
+			$valor = '';
+			if ($horas >= 2)
+				$diasDescontados .= $separador . $valor . $horas . ' horas';
+			else
+				$diasDescontados .= $separador . $valor . $horas . ' hora';
+			$separador = ' ';
+		}
+		$minutos = (intval($minutosutilizados) - $dias * 480) - $horas * 60;
+		if ($minutos != 0){
+			if ($minutos >= 2)
+				$diasDescontados .= $separador . $valor . $minutos . ' minutos';
+			else
+				$diasDescontados .= $separador . $valor . $minutos . ' minuto';
+		}
+		return $diasDescontados;
+	}
+
+	
+
 }

@@ -1,47 +1,31 @@
 <header>
 	<h1><?php echo $this->accion; ?></h1>
 </header>
+
+<?php echo $this->datosGenerales; ?>
+
 <form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='cronogramavacaciones/guardar' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 	<fieldset>
-		<legend>CronogramaVacaciones</legend>				
-
-		<div data-linea="1">
-			<label for="id_cronograma_vacacion">id_cronograma_vacacion </label>
-			<input type="text" id="id_cronograma_vacacion" name="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>"
-			placeholder="Identificador unico de la tabla" maxlength="16" />
-		</div>				
-
-		<div data-linea="2">
-			<label for="identificador">identificador </label>
-			<input type="text" id="identificador" name="identificador" value="<?php echo $this->modeloCronogramaVacaciones->getIdentificador(); ?>"
-			placeholder="Cedula de funcionario que planifica las vacaciones" maxlength="13" />
-		</div>				
-
-		<div data-linea="3">
-			<label for="fecha_ingreso_institucion">fecha_ingreso_institucion </label>
-			<input type="text" id="fecha_ingreso_institucion" name="fecha_ingreso_institucion" value="<?php echo $this->modeloCronogramaVacaciones->getFechaIngresoInstitucion(); ?>"
-			placeholder="Fecha de ingreso del primer contrato" maxlength="16" />
-		</div>				
-
-		<div data-linea="4">
-			<label for="id_puesto">id_puesto </label>
-			<input type="text" id="id_puesto" name="id_puesto" value="<?php echo $this->modeloCronogramaVacaciones->getIdPuesto(); ?>"
-			placeholder="identificador unico de la tabla g_catalogos.puestos" maxlength="16" />
-		</div>				
+		<legend>Datos generales</legend>
 
 		<div data-linea="5">
-			<label for="identificador_backup">identificador_backup </label>
-			<input type="text" id="identificador_backup" name="identificador_backup" value="<?php echo $this->modeloCronogramaVacaciones->getIdentificadorBackup(); ?>"
-			placeholder="Cedula de funcionario backup del que planifica las vacaciones" maxlength="13" />
+			<label for="identificador_backup">Funcionario reemplazo: </label>
+			<select name="identificador_backup" id="identificador_backup" class="validacion">
+				<?php echo $this->datosFuncionarioBackup; ?>
+			</select>
 		</div>				
 
 		<div data-linea="6">
-			<label for="total_dias_planificados">total_dias_planificados </label>
-			<input type="text" id="total_dias_planificados" name="total_dias_planificados" value="<?php echo $this->modeloCronogramaVacaciones->getTotalDiasPlanificados(); ?>"
-			placeholder="Número total de dias planificados de vacaciones" maxlength="16" />
-		</div>				
+			<label for="numero_periodos_planificar">Número de periodos a planificar: </label>
+			<select name="numero_periodos_planificar" id="numero_periodos_planificar">
+				<option value="">Seleccionar...</option>
+				<option value="1">Un periodo</option>
+				<option value="2">Dos periodos</option>
+			</select>
+		</div>	
+		
 
-		<div data-linea="7">
+		<!-- div data-linea="7">
 			<label for="observacion">observacion </label>
 			<input type="text" id="observacion" name="observacion" value="<?php echo $this->modeloCronogramaVacaciones->getObservacion(); ?>"
 			placeholder="Observaciones de la aprobación o rechazo de la planificacion de vacaciones" maxlength="512" />
@@ -99,18 +83,121 @@
 			<label for="anio_cronograma_vacacion">anio_cronograma_vacacion </label>
 			<input type="text" id="anio_cronograma_vacacion" name="anio_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getAnioCronogramaVacacion(); ?>"
 			placeholder="" maxlength="16" />
-		</div>
+		</div -->
+		
+		
+	</fieldset>
 
-		<div data-linea="17">
+	<div id="dDatosPeriodo"></div>
+		
+		<!-- div data-linea="11">
+			<label for="total_dias_planificados">total_dias_planificados </label>
+			<input type="text" id="total_dias_planificados" name="total_dias_planificados" value="<?php echo $this->modeloCronogramaVacaciones->getTotalDiasPlanificados(); ?>"
+			placeholder="Número total de dias planificados de vacaciones" maxlength="16" />
+		</div -->
+
+	
+	<div id="datosPlanificarPeriodos"> </div>
+
+	<div data-linea="17">
 			<button type="submit" class="guardar">Guardar</button>
-		</div>
-	</fieldset >
+	</div>
+
 </form >
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+         <input class="form-control input-sm" type="text" onkeyup="calculo(this);"name="_cantidad80[]">
+      </td>
+      <td>
+        <input class="form-control input-sm" type="text" onkeyup="calculo(this);"name="_cantidad100[]">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input class="form-control input-sm" type="text" onkeyup="calculo(this);"name="_cantidad80[]">
+      </td>
+      <td>
+        <input class="form-control input-sm" type="text" onkeyup="calculo(this);"name="_cantidad100[]">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input class="form-control input-sm" type="text" onkeyup="calculo(this);"name="_cantidad80[]">
+        </td>
+      <td>
+        <input class="form-control input-sm" type="text" onkeyup="calculo(this);"name="_cantidad100[]">
+      </td>
+    </tr>
+    
+    <h2>
+      La suma de la columna es: <span id="rpta"></span>
+    <h2>
+  </tbody>
+</table>
+
+
 <script type ="text/javascript">
+
+	var identificadorFuncionario = "<?php echo $this->identificador; ?>";
+
 	$(document).ready(function() {
 		construirValidador();
 		distribuirLineas();
-	 });
+	});
+
+	function calculo(e)
+  {
+    var acumulador = 0;
+    var nombre_input = e.name;
+    var hermanos = 'input[name="' + nombre_input + '"]';
+    var input_hermanos = $('table').find(hermanos);
+    $.each(input_hermanos, function(idx, x)
+    {
+      var num = parseInt($(x).val());
+      if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
+        acumulador += num;
+    });
+	$('#hFechaFin').val(acumulador);
+    $('#rpta').html(acumulador);
+  }
+
+
+	
+    /*$("#identificador_backup").change(function (event) {
+        mostrarMensaje("", "EXITO");
+        //if ($("#identificador_backup").val() != '') {
+            $.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/obtenerDatosFuncionarioBackup",
+                {
+                    identificador_funcionario: identificadorFuncionario
+                }, function (data) {
+                    if (data.estado === 'EXITO') {
+                        $("#identificador_backup").html(data.comboSubtipoProducto);
+                    }
+                }, 'json');
+        //} else {
+        //    mostrarMensaje("Por favor seleccione un valor", "FALLO");
+        //}
+    });*/
+
+	$("#numero_periodos_planificar").change(function (event) {		
+		mostrarMensaje("", "EXITO");
+		if($("#numero_periodos_planificar").val() != ""){
+			var numeroPeriodosPlanificar = $("#numero_periodos_planificar").val();
+
+			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos",
+                {
+                    numero_periodos_planificar: numeroPeriodosPlanificar
+                }, function (data) {
+                    if (data.estado === 'EXITO') {
+                        $("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
+                    }
+                }, 'json');
+		}
+	});
+
 
 	$("#formulario").submit(function (event) {
 		event.preventDefault();

@@ -153,4 +153,15 @@ class DatosContratoLogicaNegocio implements IModelo
         }
 	}
 
+	/**
+	* Ejecuta una consulta(SQL) personalizada .
+	*
+	* @return array|ResultSet
+	*/
+	public function obtenerDatosFuncionarioBackup($identificadorFuncionario)
+	{
+	$consulta = "SELECT * FROM g_uath.f_obtenerbackup ('" . $identificadorFuncionario . "')";
+		 return $this->modeloDatosContrato->ejecutarSqlNativo($consulta);
+	}
+
 }
