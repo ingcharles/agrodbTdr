@@ -105,7 +105,7 @@
 
 </form >
 
-<table>
+<!-- <table>
   <tbody>
     <tr>
       <td>
@@ -136,7 +136,7 @@
       La suma de la columna es: <span id="rpta"></span>
     <h2>
   </tbody>
-</table>
+</table> -->
 
 
 <script type ="text/javascript">
