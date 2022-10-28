@@ -11,6 +11,9 @@ $cu = new ControladorUsuarios();
 $ca = new ControladorAreas();
 
 $identificadorUsuario = $_SESSION['usuario'];
+$isAprovedAS = false;
+$isAprovedAPV = true;
+
 //$identificadorUsuario = $_REQUEST['identificadorSSO'];
 
 $qDatoEmpleado = $cu->obtenerDatosEmpleado($conexion, $identificadorUsuario);
@@ -70,7 +73,8 @@ $_SESSION['idArea'] = $areaUsuario['id_area'];
 <script type="text/javascript">
 
 var app = <?php echo json_encode($_POST['app']); ?> ;
-
+var isAprovedAS = <?php echo json_encode($isAprovedAS); ?>;
+var isAprovedAPV = <?php echo json_encode($isAprovedAPV); ?>;
 	$("document").ready(function(event){	
 		
 		if( app != 'general'){
@@ -102,7 +106,23 @@ var app = <?php echo json_encode($_POST['app']); ?> ;
 	                	cerrarMenu(elemento);
 	                }
 	            }	
-	        }   	
+	        }   
+
+			var opcion = "#"+$(this).attr("id");
+			if( app =="vacacionesPermisos" && ((opcion=="#__autorizacionSolicitudes" && isAprovedAS ) || (opcion=="#__autorizarPlanificacionVacaciones" && isAprovedAPV))){
+				colors = ['#ef3e56', '#c7c7c7' ];
+				var i = 0;
+
+				animate_loop = function() {      
+				$(opcion).addClass('abiertoColor');
+				$('.abiertoColor').animate({backgroundColor:colors[(i++)%colors.length]
+					}, 700, function(){
+						animate_loop();
+					});
+				};
+				animate_loop();		
+				
+			}
 	    });	
 		
 		if(validarMenuDesplegable){

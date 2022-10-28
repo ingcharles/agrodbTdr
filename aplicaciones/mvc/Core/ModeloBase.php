@@ -95,6 +95,7 @@ class ModeloBase extends AbstractTableGateway {
             $config = [
                 'driver' => DB_DRIVER,
                 'hostname' => DB_HOST,
+                'port' => DB_PORT,
                 'database' => DB_NAME,
                 'schema' => $esquema,
                 'username' => DB_USER,
