@@ -1,4 +1,4 @@
-<?php
+<?php 
 	session_start();
 	require_once '../../clases/Conexion.php';
 	require_once '../../clases/ControladorAplicaciones.php';
@@ -32,12 +32,16 @@ while($fila = pg_fetch_assoc($res)){
 }
 
 $minutos=pg_fetch_result($cd->consultarSaldoFuncionario($conexion,$identificador), 0, 'minutos_disponibles');
-
-$minutos= $minutos + pg_fetch_result($cd->consultarSaldoFuncionarioNuevo($conexion,$identificador), 0, 'minutos_disponibles');
 $minutosDisponibles=$cd->devolverFormatoDiasDisponibles($minutos);
 //-----------------------------devolver jefe inmediato-------------------------------------------------------
 	$resultadoConsulta=$cd->devolverJefeImnediato($conexion, $identificador);
+	//print_r($resultadoConsulta);
 //-----------------------------------------------------------------------------------------------------------
+
+//$dias=floor(intval($minutos['minutos_disponibles'])/480);
+//$horas=floor((intval($minutos['minutos_disponibles'])-$dias*480)/60);
+//$minutos=(intval($minutos['minutos_disponibles'])-$dias*480)-$horas*60;
+
 ?>
 
 </nav>

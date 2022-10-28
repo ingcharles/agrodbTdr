@@ -23,16 +23,12 @@ try{
 			//-----------------------------------------------------------------------------------------
 			if(strcmp($fila['codigo'],"PE-PIV")==0 || strcmp($fila['codigo'],"VA-VA")==0 || strcmp($fila['codigo'],"PE-PIVF")==0){
 				if (strcmp($_POST['estado_solicitud'],"Aprobado")==0){
-					
-					$cv->actualizarSaldosFuncionarioNuevo($conexion,$fila['identificador'],$minutosConsumidos, $id_registro);
-					
+					$cv->actualizarSaldosFuncionario($conexion,$fila['identificador'],$minutosConsumidos, $id_registro);
 					$minutos=pg_fetch_result($cv->consultarSaldoFuncionario($conexion,$fila['identificador']),0,'minutos_disponibles');
-					$minutos=$minutos + pg_fetch_result($cv->consultarSaldoFuncionarioNuevo($conexion,$fila['identificador']),0,'minutos_disponibles');
 					if($minutos == ''){
 					    $minutos=0;
 					}
 					$cv->actualizarMinutosActuales($conexion,$id_registro,$minutos);
-					
 				}
 			}
 		}

@@ -77,6 +77,8 @@ color:#ffffff;
 }
 
 </style>
+
+
 </head>
 <body>
 
@@ -86,32 +88,25 @@ color:#ffffff;
 		    <th>Cédula</th>
 		    <th>Apellidos y Nombres</th>
 		    <th>Año</th>
-		    <th>Tiempo disponibles</th>
 		    <th>Minutos disponibles</th>
 		</tr>
 	</thead>
 	<tbody>
 	 <?php
+	 	 
 	 While($fila = pg_fetch_assoc($listaReporte)) {
-		$tiempoFormateado= $cv->devolverTiempoFormateadoDHM($fila['minutos_disponibles']);
+
+		$dias=floor(intval($fila['minutos_disponibles'])/480);
+		$horas=floor((intval($fila['minutos_disponibles'])-$dias*480)/60);
+		$minutos=(intval($fila['minutos_disponibles'])-$dias*480)-$horas*60;
+	 							
         echo '<tr>
 			<td class="formato">'.$fila['identificador'].'</td>
 			<td>'.$fila['apellido'].' '.$fila['nombre'].'</td>
 			<td>'.$fila['anio'].'</td>
-		    <td>'. $tiempoFormateado.'</td> 	
-            <td>'. $fila['minutos_disponibles'].'</td> 
+		    <td>'. $dias.' días '. $horas .' horas '. $minutos .' minutos</td> 	
     	</tr>';
-	 }
-	 $listaReporteFuncionario = $cv->filtroObtenerReporteSaldoFuncionario($conexion, $identificador, $estadoSaldo, $apellido, $nombre, $area, 'individual');
-	 While($fila = pg_fetch_assoc($listaReporteFuncionario)) {
-	 	$tiempoFormateado= $cv->devolverTiempoFormateadoDHM($fila['minutos_disponibles']);
-	 	echo '<tr>
-			<td class="formato">'.$fila['identificador'].'</td>
-			<td>'.$fila['apellido'].' '.$fila['nombre'].'</td>
-			<td>'.$fila['anio'].'</td>
-		    <td>'. $tiempoFormateado.'</td>
-            <td>'. $fila['minutos_disponibles'].'</td>
-    	</tr>';
+        
 	 }
 	 
 	 ?>

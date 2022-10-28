@@ -3,6 +3,7 @@
 	require_once '../../clases/Conexion.php';
 	require_once '../../clases/ControladorVacaciones.php';
 
+	
 	$conexion = new Conexion();
 	$cv = new ControladorVacaciones();
 	
@@ -22,6 +23,7 @@
 <meta charset="utf-8">
 </head>
 <body>
+
 <table>
 
 <tr>
@@ -66,18 +68,12 @@
 	</thead>
 	
 <?php 
-        $contador = 0; //$listaReporteFuncionario
-        $ban = 1;
+		$contador = 0;
 		while($fila = pg_fetch_assoc($listaReporte)){
-			$ban=0;
-			$listaReporteFuncionario = $cv->filtroObtenerReporteSaldoFuncionario($conexion, $fila['identificador'], $estadoSaldo, $apellido, $nombre, $area, 'unico');
-			if(pg_num_rows($listaReporteFuncionario) > 0){
-				    $consult = pg_fetch_assoc($listaReporteFuncionario);
-				    if($fila['identificador'] == $consult['identificador']){
-						$fila['minutos_disponibles'] =$fila['minutos_disponibles'] + $consult['minutos_disponibles'];
-				    }
-			}
 			
+			$dias=floor(intval($fila['minutos_disponibles'])/480);
+			$horas=floor((intval($fila['minutos_disponibles'])-$dias*480)/60);
+			$minutos=(intval($fila['minutos_disponibles'])-$dias*480)-$horas*60;
 			$identifi=$fila['identificador'].'.'.$estadoSaldo;
 			echo '<tr 
 						id="'.$identifi.'"
@@ -90,30 +86,8 @@
 					<td>'.++$contador.'</td>
 					<td style="white-space:nowrap;"><b>'.$fila['identificador'].'</b></td>
 					<td>'.$fila['apellido'].' '.$fila['nombre'].'</td>
-					<td align="right">'.number_format(($fila['minutos_disponibles']/480),2) .' día(s)</td>
+					<td>'. $dias.' días '. $horas .' horas '. $minutos .' minutos</td>
 				</tr>';
-			}
-			
-			if($ban){
-				
-				$listaReporteFuncionario = $cv->filtroObtenerReporteSaldoFuncionario($conexion, $identificador, $estadoSaldo, $apellido, $nombre, $area, 'unico');
-				while($fila = pg_fetch_assoc($listaReporteFuncionario)){
-					
-					$identifi=$fila['identificador'].'.'.$estadoSaldo;
-					echo '<tr
-						id="'.$identifi.'"
-						class="item"
-						data-rutaAplicacion="vacacionesPermisos"
-						data-opcion="abrirSaldoVacaciones"
-						ondragstart="drag(event)"
-						draggable="true"
-						data-destino="detalleItem">
-					<td>'.++$contador.'</td>
-					<td style="white-space:nowrap;"><b>'.$fila['identificador'].'</b></td>
-					<td>'.$fila['apellido'].' '.$fila['nombre'].'</td>
-					<td align="right">'.number_format(($fila['minutos_disponibles']/480),2) .' día(s)</td>
-				</tr>';
-				}
 			}
 ?>			
 </table>
@@ -125,7 +99,6 @@
 	$(document).ready(function(){
 		$("#listadoItems").removeClass("comunes");
 		$("#listadoItems").addClass("lista");
-		$("#detalleItem").html('<div class="mensajeInicial">Arrastre aqui un registro para revisarlo.</div>');			
 	});
 
 	$("#generarReportePDF").submit(function(event){

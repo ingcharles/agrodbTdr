@@ -25,14 +25,12 @@ if(pg_num_rows($qSaldos) > 0){
 }else{	
 	$saldos = 0;
 }
-
-$qSaldos =  $cv->consultarSaldoFuncionarioNuevo($conexion,$filaSolicitud['identificador']);
-if(pg_num_rows($qSaldos) > 0){
-	$saldos = $saldos + pg_fetch_result($cv->consultarSaldoFuncionarioNuevo($conexion,$filaSolicitud['identificador']), 0, 'minutos_disponibles');
-}
-
 //Tiempo disponible funcionario solicitante
-$diasDisponibles  = $cv->devolverTiempoFormateadoDHM($saldos);
+$saldoDisponible = pg_fetch_result($cv->consultarSaldoFuncionario($conexion,$filaSolicitud['identificador']), 0, 'minutos_disponibles');
+$dias=floor(intval($saldoDisponible)/480);
+$horas=floor((intval($saldoDisponible)-$dias*480)/60);
+$minutos=(intval($saldoDisponible)-$dias*480)-$horas*60;
+$diasDisponibles = $dias .' días, '.$horas.' horas, '.$minutos.' minutos';
 ?>
 <header>
 	<h1>Solicitudes por Revisar</h1>

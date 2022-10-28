@@ -189,7 +189,7 @@ try{
 							  if(pg_num_rows($cd->verificarResponsable($conexion,$identificadorUsuario, $idareafuncionario))){
 									$prioridad = pg_fetch_result($cd->verificarResponsable($conexion,$identificadorUsuario, $idareafuncionario), 0, 'prioridad');
 									if($prioridad==1 or $prioridad==3)$designacion='Titular';
-									
+									else $designacion='Subrogante';
 								}								
 								if(pg_num_rows($cd->verificarResponsablePuesto($conexion,$identificadorUsuario, $idareafuncionario))){
 									$designacion='Encargado';								
