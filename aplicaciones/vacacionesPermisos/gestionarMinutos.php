@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-	<meta charset="utf-8">
-</head>
 
-<body>
 	<?php
 
 	if ($_SERVER['REMOTE_ADDR'] == '') {
@@ -73,7 +67,7 @@
 
 		$minutoS1 = microtime(true);
 		$minutoS2 = microtime(true);
-		$tiempo = $minutoS2 - minutoS1;
+		$tiempo = $minutoS2 - $minutoS1;
 		$xcadenota = "FECHA " . date("d/m/Y") . " " . date("H:i:s");
 		$xcadenota .= "; IP REMOTA " . $_SERVER['REMOTE_ADDR'];
 		$xcadenota .= "; SERVIDOR HTTP " . $_SERVER['HTTP_REFERER'];
@@ -83,6 +77,3 @@
 		fclose($arch);
 	}
 	?>
-</body>
-
-</html>
