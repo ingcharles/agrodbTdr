@@ -160,6 +160,7 @@
       if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
         acumulador += num;
     });
+	console.log(acumulador);
 	$('#hFechaFin').val(acumulador);
     $('#rpta').html(acumulador);
   }

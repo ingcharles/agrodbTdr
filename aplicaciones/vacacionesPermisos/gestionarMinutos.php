@@ -34,6 +34,7 @@
 			}
 			$res = $cv->obtenerDiaIngresoEmpleado($conexion, date("d"));
 			//$res=$cv->obtenerDiaIngresoEmpleado($conexion, date("18"));
+			$anio = date('Y');
 			while ($fila = pg_fetch_assoc($res)) {
 
 				switch ($fila['regimen_laboral']) {
@@ -47,24 +48,25 @@
 				echo IN_MSG . 'Acreditación de ' . $cantidad . ' minutos al usuario con cédula número ' . $fila['identificador'] . ' en el mes de ' . date("F");
 				$anioEmpleado = pg_fetch_assoc($cv->obtenerAnioMayor($conexion, $fila['identificador']));
 				if ($anioEmpleado['anio'] != '') {
-					if ($anioEmpleado['anio'] == date('Y')) {
+					if ($anioEmpleado['anio'] == $anio) {
 						$anio = $anioEmpleado['anio'];
 						$cv->incrementarSaldosFuncionario($conexion, $fila['identificador'], $cantidad, $anio);
-						//Incrementar dias a funcionarios que cumplieron 5 o mas años bajo el codigo de trabajo
-						$cantidad = 480; //un dia 8 horas en minutos
-						$cv->incrementoDiaPasadoCincoAnios($conexion, $anio, $cantidad);
+						
 					} else {
 						$anio = $anioEmpleado['anio'] + 1;
 						$cv->incrementarSaldosFuncionarioNuevoAnio($conexion, $fila['identificador'], $cantidad, $anio);
 					}
 				} else {
-					$anio = date('Y');
+					
 					$secuencial = pg_fetch_assoc($cv->obtenerSecuencialanio($conexion, $fila['identificador'], $anio));
 					if ($secuencial['secuencial'] == '') $secu = 1;
 					else $secu = $secuencial['secuencial'] + 1;
 					$cv->incrementarSaldosFuncionarioNuevoAnio($conexion, $fila['identificador'], $cantidad, $anio, $secu);
 				}
 			}
+			//Incrementar dias a funcionarios que cumplieron 5 o mas años bajo el codigo de trabajo
+			$cantidad = 480; //un dia 8 horas en minutos
+			$cv->incrementoDiaPasadoCincoAnios($conexion, $anio, $cantidad);
 			$cv->verificarSaldosMayores60($conexion);
 		}
 	} else {
