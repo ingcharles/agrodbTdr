@@ -105,7 +105,7 @@
 
 </form >
 
-<table>
+<!-- <table>
   <tbody>
     <tr>
       <td>
@@ -136,7 +136,7 @@
       La suma de la columna es: <span id="rpta"></span>
     <h2>
   </tbody>
-</table>
+</table> -->
 
 
 <script type ="text/javascript">
@@ -160,6 +160,7 @@
       if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
         acumulador += num;
     });
+	console.log(acumulador);
 	$('#hFechaFin').val(acumulador);
     $('#rpta').html(acumulador);
   }

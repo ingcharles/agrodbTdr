@@ -167,7 +167,6 @@ class ControladorVacaciones
 						estado=1 
 						and regimen_laboral not in ('Servicios Civiles - Profesionales')
 						and EXTRACT(DAY FROM fecha_inicio) = $dia;"; //TODO: ordenar por fecha de contrato
-
 		$res = $conexion->ejecutarConsulta($sqlScript);
 
 		return $res;

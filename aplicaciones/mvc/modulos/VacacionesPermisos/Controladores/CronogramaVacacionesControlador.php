@@ -133,9 +133,9 @@ class CronogramaVacacionesControlador extends BaseControlador
 												</thead>
 												<tbody>
 													<tr>	
-														<td>Primer periodo<input type="hidden" name="hPeriodo"></td>
+														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo"></td>
 														<td><input type="date" name="hFechaIncio"></td>
-														<td><input type="number" name="hnumeroDias" min="15" max="30" value ="15" id="diaPrimerPeriodo" onkeyup="calculo(this)"></td>
+														<td><input type="text" name="hnumeroDias" min="15" max="30" value ="15" id="diaPrimerPeriodo" onkeyup="calculo(this)"></td>
 														<td><input type="date" name="hFechaFin"></td>
 													</tr>
 												</tbody>
@@ -155,18 +155,17 @@ class CronogramaVacacionesControlador extends BaseControlador
 												</thead>
 												<tbody>
 													<tr>
-														<td>Primer periodo<input type="hidden" name="hPeriodo"></td>
+														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo"></td>
 														<td><input type="date" name="hFechaIncio"></td>
 														<td><input type="number" name="hnumeroDias" min="15" max="30" value ="15" onkeyup="calculo(this)"></td>
 														<td><input type="date" name="hFechaFin"></td>
-														<td><input type="text" name="hTotalDias"></td>
 													</tr>
 													<tr>
-														<td>Segundo periodo<input type="hidden" name="hPeriodo"></td>
+														<td style="font-weight: bold;">Segundo periodo<input type="hidden" name="hPeriodo"></td>
 														<td><input type="date" name="hFechaIncio"></td>
 														<td><input type="number" name="hnumeroDias" min="15" max="30" value ="15" onkeyup="calculo(this)"></td>
-														<td><input type="text" name="hFechaFin" id="hFechaFin"></td>
-														<td><input type="text" name="hTotalDias"></td>
+														<td><input type="date" name="hFechaFin"></td>
+														
 													</tr>
 												</tbody>
 											</table>';
@@ -174,7 +173,13 @@ class CronogramaVacacionesControlador extends BaseControlador
 
 		}
 
-		$datosPlanificarPeriodos .= '</fieldset>';
+		$datosPlanificarPeriodos .= '<div data-linea="1">
+										<label for="total_dias_planificados">Total días planificados: </label>
+										<label for="total_dias" id="total_dias">0</label>
+										<input type="hidden" readOnly="readOnly" id="total_dias_planificados" name="total_dias_planificados" value=""
+										placeholder="# total de días planificados" maxlength="13" />
+									</div>				
+								</fieldset>';
   		
 		echo json_encode(array(
             'estado' => 'EXITO',
