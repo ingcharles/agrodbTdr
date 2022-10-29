@@ -1,11 +1,17 @@
 <header>
 	<h1><?php echo $this->accion; ?></h1>
 </header>
-<form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='revisioncronogramavacaciones/guardar' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
-	<fieldset>
-		<legend>RevisionCronogramaVacaciones</legend>				
 
-		<div data-linea="1">
+<?php 
+	echo $this->datosGenerales; 
+	echo $this->periodoCronograma;
+?>
+
+<form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='revisioncronogramavacaciones/guardar' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
+
+<?php echo $this->resultadoRevision; ?>
+
+<!-- div data-linea="1">
 			<label for="id_revision_cronograma_vacacion">id_revision_cronograma_vacacion </label>
 			<input type="text" id="id_revision_cronograma_vacacion" name="id_revision_cronograma_vacacion" value="<?php echo $this->modeloRevisionCronogramaVacaciones->getIdRevisionCronogramaVacacion(); ?>"
 			placeholder="Identificador unico de la tabla" required maxlength="8" />
@@ -39,12 +45,12 @@
 			<label for="fecha_creacion">fecha_creacion </label>
 			<input type="text" id="fecha_creacion" name="fecha_creacion" value="<?php echo $this->modeloRevisionCronogramaVacaciones->getFechaCreacion(); ?>"
 			placeholder="fecha de creacion del registro" required maxlength="8" />
-		</div>
+		</div -->
 
 		<div data-linea="7">
 			<button type="submit" class="guardar">Guardar</button>
 		</div>
-	</fieldset >
+	
 </form >
 <script type ="text/javascript">
 	$(document).ready(function() {

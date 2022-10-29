@@ -113,10 +113,9 @@ class CronogramaVacacionesControlador extends BaseControlador
 	public function construirPlanificarPeriodos()
     {
 
-		$datosPlanificarPeriodos = "";
 		$numeroPeriodosPlanificar = $_POST['numero_periodos_planificar'];
 
-		$datosPlanificarPeriodos .= '<fieldset>
+		$datosPlanificarPeriodos = '<fieldset>
 									<legend>Ingresar periodo</legend>';
 
 		switch ($numeroPeriodosPlanificar){
