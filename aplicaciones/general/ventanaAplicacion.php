@@ -5,14 +5,21 @@ require_once '../../clases/ControladorAreas.php';
 require_once '../../clases/ControladorAplicaciones.php';
 require_once '../../clases/ControladorUsuarios.php';
 require_once '../../clases/ControladorCatastro.php';
+require_once '../../clases/ControladorVacaciones.php';
+
 
 $conexion = new Conexion();
 $cu = new ControladorUsuarios();
 $ca = new ControladorAreas();
+$cv = new ControladorVacaciones();
 
 $identificadorUsuario = $_SESSION['usuario'];
-$isAprovedAS = false;
-$isAprovedAPV = true;
+// $isAprovedAS = false;
+// $isAprovedAPV = true;
+$qPermiso=$cv->obtenerPermisosCreados($conexion, $_SESSION['idArea']);
+$datoPermiso = pg_fetch_assoc($qPermiso);
+$isAprovedAS =  $datoPermiso['existe'];
+
 
 //$identificadorUsuario = $_REQUEST['identificadorSSO'];
 
@@ -109,10 +116,10 @@ var isAprovedAPV = <?php echo json_encode($isAprovedAPV); ?>;
 	        }   
 
 			var opcion = "#"+$(this).attr("id");
-			if( app =="vacacionesPermisos" && ((opcion=="#__autorizacionSolicitudes" && isAprovedAS ) || (opcion=="#__autorizarPlanificacionVacaciones" && isAprovedAPV))){
+
+			if( app =="vacacionesPermisos" && opcion=="#__autorizacionSolicitudes" && isAprovedAS==1 )/* || (opcion=="#__autorizarPlanificacionVacaciones" && isAprovedAPV)))*/{
 				colors = ['#ef3e56', '#c7c7c7' ];
 				var i = 0;
-
 				animate_loop = function() {      
 				$(opcion).addClass('abiertoColor');
 				$('.abiertoColor').animate({backgroundColor:colors[(i++)%colors.length]
@@ -120,8 +127,7 @@ var isAprovedAPV = <?php echo json_encode($isAprovedAPV); ?>;
 						animate_loop();
 					});
 				};
-				animate_loop();		
-				
+				animate_loop();			
 			}
 	    });	
 		

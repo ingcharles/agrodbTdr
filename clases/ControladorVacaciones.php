@@ -152,6 +152,7 @@ class ControladorVacaciones
 		$res = $conexion->ejecutarConsulta($sqlScript);
 		return $res;
 	}
+	
 
 	public function obtenerDiaIngresoEmpleado($conexion, $dia)
 	{
@@ -1760,5 +1761,15 @@ class ControladorVacaciones
 		return $res;
 	}
 	//--------------------------------------------------------------------------------------------------------
-
+	// ----------------------------------EXISTEN PERMISOS---------------------------
+	public function obtenerPermisosCreados($conexion,$idAreaJefe){
+			$sql=	"
+			SELECT 
+			(CASE WHEN  COUNT(pe.identificador) > 0 THEN 1 ELSE 0 END)  as existe  
+			FROM g_vacaciones.permiso_empleado pe
+			WHERE pe.estado='creado' and pe.id_area_jefe =
+			'" . $idAreaJefe . "'";
+			$res = $conexion->ejecutarConsulta($sql);
+			return $res;
+	}
 }
