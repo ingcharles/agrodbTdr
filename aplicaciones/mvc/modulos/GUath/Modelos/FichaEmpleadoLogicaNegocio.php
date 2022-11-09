@@ -127,4 +127,69 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 
 		return $this->modelo->ejecutarSqlNativo($consulta);
 	}
+
+	/**
+	 * Busca los datos del usuario interno de niveles inferiores a director
+	 *
+	 * @param type $identificador
+	 * @return type
+	 */
+	public function obtenerDatosFuncionarioNivelInferiorFuncionarioPorIdentificadorPadre($identificadorFuncionario){
+		
+		$consulta = "SELECT
+							fe.identificador
+							, fe.nombre || ' ' || fe.apellido as nombre
+							, dc.direccion
+							, dc.id_gestion
+							, dc.gestion
+							, cv.fecha_creacion
+						FROM
+							g_uath.datos_contrato dc
+						INNER JOIN g_estructura.funcionarios f ON f.identificador = dc.identificador
+						INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = dc.identificador
+						INNER JOIN (SELECT
+										f.id_area as id_area_padre
+										, a.id_area
+										, f.identificador
+									FROM
+										g_estructura.funcionarios f
+									INNER JOIN g_estructura.area a ON a.id_area_padre = f.id_area
+									INNER JOIN g_uath.datos_contrato dc ON dc.identificador = f.identificador and dc.estado = 1) eap ON eap.id_area = dc.id_gestion
+						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador = fe.identificador
+						WHERE
+							eap.identificador = '" . $identificadorFuncionario . "'
+							and dc.estado = 1
+							and cv.estado_cronograma_vacacion = 'Creado';";
+
+		return $this->modelo->ejecutarSqlNativo($consulta);
+
+	}
+
+	/**
+	 * Busca los datos del usuario interno que genero un cronograma
+	 *
+	 * @param type $identificador
+	 * @return type
+	 */
+	public function obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($estadoCronograma){
+		
+		$consulta = "SELECT
+							fe.identificador
+							, fe.nombre || ' ' || fe.apellido as nombre
+							, dc.direccion
+							, dc.id_gestion
+							, dc.gestion
+							, cv.fecha_creacion
+						FROM
+						g_uath.datos_contrato dc
+						INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = dc.identificador
+						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador = fe.identificador
+						WHERE
+							dc.estado = 1
+							and cv.estado_cronograma_vacacion = '" . $estadoCronograma . "'";
+
+		return $this->modelo->ejecutarSqlNativo($consulta);
+
+	}
+	
 }
