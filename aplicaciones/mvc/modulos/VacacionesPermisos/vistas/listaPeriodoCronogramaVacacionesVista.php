@@ -3,9 +3,9 @@
 <table id="tablaItems">
 	<thead><tr>
 		<th>#</th>
-		<th>Columna1</th>
-		<th>Columna2</th>
-		<th>Columna3</th>
+		<th>Identificador</th>
+		<th>Apellidos y Nombres</th>
+		<th># de periodos</th>
 		<th>Columna4</th>
 		</tr></thead>
 	<tbody></tbody>
