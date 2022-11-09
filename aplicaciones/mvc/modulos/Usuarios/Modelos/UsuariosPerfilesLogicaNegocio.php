@@ -283,4 +283,29 @@ class UsuariosPerfilesLogicaNegocio implements IModelo
         
         return $this->modelo->ejecutarSqlNativo($consulta);
     }
+
+    /**
+     *
+     * @param type $codigoperfil
+     * @return type
+     */
+    public function buscarUsuariosPorIdentificadorPorPerfil($arrayParametros)
+    {
+        
+        $identificador = $arrayParametros['identificador'];
+        $codigoPerfil = $arrayParametros['codigo_perfil'];
+        
+        $consulta = "SELECT
+                            up.identificador
+                            , p.codificacion_perfil
+                            FROM
+                            g_usuario.perfiles p	
+                            INNER JOIN g_usuario.usuarios_perfiles up ON up.id_perfil = p.id_perfil
+                            WHERE
+                                p.codificacion_perfil in " . $codigoPerfil . "
+                                and up.identificador = '" . $identificador . "'
+                    			and p.estado = 1";
+        
+        return $this->modelo->ejecutarSqlNativo($consulta);
+    }
 }

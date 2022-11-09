@@ -12,6 +12,8 @@
  */
  namespace Agrodb\VacacionesPermisos\Controladores;
 
+use Agrodb\GUath\Modelos\FichaEmpleadoLogicaNegocio;
+use Agrodb\Usuarios\Modelos\UsuariosPerfilesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\RevisionCronogramaVacacionesLogicaNegocio;
  use Agrodb\VacacionesPermisos\Modelos\RevisionCronogramaVacacionesModelo;
@@ -22,6 +24,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		 private $lNegocioRevisionCronogramaVacaciones = null;
 		 private $modeloRevisionCronogramaVacaciones = null;
 		 private $lNegocioCronogramaVacaciones = null;
+		 private $lNegocioUsuariosPerfiles = null;
+		 private $lNegocioFichaEmpleado = null;
 		 private $accion = null;
 		 private $datosGenerales = null;
 		 private $periodoCronograma = null;
@@ -36,6 +40,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		 $this->lNegocioRevisionCronogramaVacaciones = new RevisionCronogramaVacacionesLogicaNegocio();
 		 $this->modeloRevisionCronogramaVacaciones = new RevisionCronogramaVacacionesModelo();
 		 $this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
+		 $this->lNegocioUsuariosPerfiles = new UsuariosPerfilesLogicaNegocio();
+		 $this->lNegocioFichaEmpleado = new FichaEmpleadoLogicaNegocio();
 
 		 set_exception_handler(array($this, 'manejadorExcepciones'));
 		}	/**
@@ -44,9 +50,45 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		public function index()
 		{
 
+			$estadoCronograma = "";
+			$identificadorFuncionario = $this->identificador;
+			$perfil = "('PFL_DIR_PROG_VAC', 'PFL_DIR_VAC_TTHH', 'PFL_DE_PROG_VAC')";
+
+        	$arrayParametros = array(
+			'identificador' => $identificadorFuncionario
+            , 'codigo_perfil' => $perfil);
+
+			$qObtenerPerfilFuncionario = $this->lNegocioUsuariosPerfiles->buscarUsuariosPorIdentificadorPorPerfil($arrayParametros);
+			$perfilUsuario = $qObtenerPerfilFuncionario->current()->codificacion_perfil;
+
+			switch($perfilUsuario){
+
+				case 'PFL_DIR_PROG_VAC':
+					echo "ES DIRECTOR";
+
+					$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioNivelInferiorFuncionarioPorIdentificadorPadre($identificadorFuncionario);
+
+				break;
+				case 'PFL_DIR_VAC_TTHH':
+					echo "ES DE TALENTO HUMANO";
+					$estadoCronograma = "EnviadoTthh";
+					$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($estadoCronograma);
+
+
+				break;
+				case'PFL_DE_PROG_VAC':
+					
+					echo "ES DIRECTOR EJECUTIVO";
+					$estadoCronograma = "EnviadoDdee";
+					$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($estadoCronograma);
+
+				break;
+
+			}
+
 			//TODO: Obtener el perfil del empleado para enviarlo -director - thh - DE para realizar el filtro
 			$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
-		 	$solicitudesPlanificacionVacaciones = $this->obtenerSolicitudesPlanificacionVacaciones();
+		 	//$solicitudesPlanificacionVacaciones = $this->obtenerSolicitudesPlanificacionVacaciones();
 		 
 			$this->tablaHtmlRevisionCronogramaVacaciones($solicitudesPlanificacionVacaciones);
 			require APP . 'VacacionesPermisos/vistas/listaRevisionCronogramaVacacionesVista.php';
@@ -95,10 +137,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		  data-destino="detalleItem">
 		  <td>' . ++$contador . '</td>
 		  <td style="white - space:nowrap; "><b>' . $fila['identificador'] . '</b></td>
-		<td>'
-				. 'AYALA ROSERO EDISON JAVIER'/*$fila['id_cronograma_vacacion'] */. '</td>
-		<td>' . 'Dirección de Tecnologías de la Información y Comunicación'/*$fila['identicador_revisor']*/
-				. '</td>
+		<td>' . $fila['nombre'] . '</td>
+		<td>' . $fila['direccion'] . '</td>
 		<td>' . date('Y-m-d',strtotime($fila['fecha_creacion'])) . '</td>
 		</tr>');
 		}
