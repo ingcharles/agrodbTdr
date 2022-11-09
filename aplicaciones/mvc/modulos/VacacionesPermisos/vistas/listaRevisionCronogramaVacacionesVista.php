@@ -1,12 +1,14 @@
-<header><nav><?php echo $this->crearAccionBotones();?></nav></header>
+<header>
+<nav><?php echo $this->panelBusqueda; ?></nav>
+<nav><?php echo $this->crearAccionBotones();?></nav></header>
 <div id="paginacion" class="normal"></div>
 <table id="tablaItems">
 	<thead><tr>
 		<th>#</th>
-		<th>Columna1</th>
-		<th>Columna2</th>
-		<th>Columna3</th>
-		<th>Columna4</th>
+		<th>Identificador</th>
+		<th>Nombre</th>
+		<th>Dirección/Gestión</th>
+		<th>Fecha creación</th>
 		</tr></thead>
 	<tbody></tbody>
 </table>
