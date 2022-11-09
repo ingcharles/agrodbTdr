@@ -231,6 +231,73 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 		return $diasDescontados;
 	}
 
-	
+	public function guardarPlanificacionVacaciones(Array $datos){
+		try{
+			$this->modeloCronogramaVacaciones = new CronogramaVacacionesModelo();
+			$proceso = $this->modeloCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->getConnection();
+			if (! $proceso->beginTransaction()){
+				throw new \Exception('No se pudo iniciar la transacción: Guardar destinatario');
+			}
+
+			$tablaModelo = new CronogramaVacacionesModelo($datos);
+			$datosBd = $tablaModelo->getPrepararDatos();
+			print_r($datosBd);
+			if ($tablaModelo->getIdCronogramaVacacion() != null && $tablaModelo->getIdCronogramaVacacion() > 0){
+				$this->modeloCronogramaVacaciones->actualizar($datosBd, $tablaModelo->getIdCronogramaVacacion());
+				$idRegistro = $datosBd["id_cronograma_vacacion"];
+			}else{
+				//unset($datosBd["id_cronograma_vacacion"]);
+				$arrayParametros = array(
+					'identificador' =>  $_POST['identificador_registro'],
+					'fecha_ingreso_institucion' =>  $_POST['fecha_ingreso_institucion'],
+					'id_puesto' =>  $_POST['id_puesto'],
+					'identificador_backup' =>  $_POST['identificador_backup'],
+					'total_dias_planificados' =>  $_POST['total_dias_planificados'],
+					'usuario_creacion' =>  $_POST['identificador_registro'],
+					'estado_cronograma_vacacion' =>  'Creado',
+					'anio_cronograma_vacacion' =>  $_POST['anio_cronograma_vacacion']
+
+			 );
+			 //print_r($arrayParametros);
+				$idRegistro = $this->modeloCronogramaVacaciones->guardar($arrayParametros);
+				$statement = $this->modeloCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->createStatement();
+				
+				for ($i = 0; $i < count($datos['hFechaInicio']); $i ++){
+					
+					$datosDetalle = array(
+						'id_cronograma_vacacion' => (integer) $idRegistro,
+						'numero_periodo' => $datos['hPeriodo'][$i],
+						'fecha_inicio' => $datos['hFechaInicio'][$i],
+						'fecha_fin' => $datos['hFechaFin'][$i],
+						'total_dias' => $datos['hNumeroDias'][$i]);
+					
+					$sqlInsertar = $this->modeloCronogramaVacaciones->guardarSql('periodo_cronograma_vacaciones', $this->modeloCronogramaVacaciones->getEsquema());
+					$sqlInsertar->columns(array_keys($datosDetalle));
+					$sqlInsertar->values($datosDetalle, $sqlInsertar::VALUES_MERGE);
+					$sqlInsertar->prepareStatement($this->modeloCronogramaVacaciones->getAdapter(), $statement);
+					$statement->execute();
+					
+				}
+
+			
+			}
+
+			if (! $idRegistro){
+				throw new \Exception('No se registo los datos en la tabla cronograma vacacion');
+			}
+
+
+			$proceso->commit();
+			return $idRegistro;
+		}catch (\Exception $ex){
+			$proceso->rollback();
+			throw new \Exception($ex->getMessage());
+			return 0;
+		}
+	}
 
 }

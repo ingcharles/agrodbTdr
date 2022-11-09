@@ -76,7 +76,12 @@ class BaseControlador extends Comun
 
 		$diasDisponibles = $cronogramaVacacionesLogicaNegocio->devolverFormatoDiasDisponibles($minutos);
 
-		$datos = '<fieldset>
+		$datos = '
+		
+		<input type="hidden" name="fecha_ingreso_institucion" id="fecha_ingreso_institucion" value="' . $fechaIngreso . '"/>
+		<input type="hidden" name="id_puesto" id="id_puesto" value="' . $idPuesto . '"/>
+
+		<fieldset>
 		<legend>Cronograma de planificación</legend>
 		<input type="hidden" name="id_puesto" id="id_puesto" value="' . $idPuesto . '" />"
 		<div data-linea="1">
