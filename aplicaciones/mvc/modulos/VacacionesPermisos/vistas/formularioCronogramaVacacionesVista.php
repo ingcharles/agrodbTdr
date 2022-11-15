@@ -22,13 +22,10 @@
 		</div>				
 
 		<div data-linea="6">
-			<label for="numero_periodos_planificar">Número de periodos a planificar: </label>
-			<select name="numero_periodos_planificar" id="numero_periodos_planificar">
-				<option value="">Seleccionar...</option>
-				<option value="1">Un periodo</option>
-				<option value="2">Dos periodos</option>
-				<option value="3">Tres periodos</option>
-				<option value="4">Cuatro periodos</option>
+			<label for="numero_periodos">Número de periodos a planificar: </label>
+			<select name="numero_periodos" id="numero_periodos"><option value="">Seleccionar...</option>
+
+			<?php echo $this->numeroPeriodos; ?>	
 			</select>
 		</div>	
 		
@@ -95,12 +92,13 @@
 		$('#total_dias_planificados').val(acumuladorDias);
 		
   }
+ 
+   
 
-
-	$("#numero_periodos_planificar").change(function (event) {		
+	$("#numero_periodos").change(function (event) {		
 		mostrarMensaje("", "EXITO");
-		if($("#numero_periodos_planificar").val() != ""){
-			var numeroPeriodosPlanificar = $("#numero_periodos_planificar").val();
+		if($("#numero_periodos").val() != ""){
+			var numeroPeriodosPlanificar = $("#numero_periodos").val();
 
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos",
                 {
@@ -132,7 +130,7 @@
 						}
 					});
 
-					var valorComboPeriodo = $("#numero_periodos_planificar option:selected").val();
+					var valorComboPeriodo = $("#numero_periodos option:selected").val();
 					
 					var valorMaximo = 0;
 					switch (valorComboPeriodo) {
@@ -194,7 +192,7 @@
 				var filas = $('table#tPeriodosPlanificar').find("tr");
 				var banderaTablaVacia = true;
 				var banderaTablaFechas = true;
-				var valorComboPeriodo = $("#numero_periodos_planificar option:selected").val();
+				var valorComboPeriodo = $("#numero_periodos option:selected").val();
 				var valorMaximo = 0;
 				var valorMaximoMensaje = "El número de días de un periodo no puede ser mayor a ";
 				var valorSuperado = false;
