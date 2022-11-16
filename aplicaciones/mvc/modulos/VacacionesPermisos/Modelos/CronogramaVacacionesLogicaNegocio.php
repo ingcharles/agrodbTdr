@@ -15,6 +15,7 @@
 namespace Agrodb\VacacionesPermisos\Modelos;
 
 use Agrodb\VacacionesPermisos\Modelos\IModelo;
+use Seld\JsonLint\Undefined;
 
 class CronogramaVacacionesLogicaNegocio implements IModelo
 {
@@ -98,7 +99,17 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 	 */
 	public function buscarCronogramaVacaciones()
 	{
-		$consulta = "SELECT * FROM " . $this->modeloCronogramaVacaciones->getEsquema() . ". cronograma_vacaciones";
+		
+		 $consulta = "SELECT * FROM " . $this->modeloCronogramaVacaciones->getEsquema() . ". cronograma_vacaciones";
+		return $this->modeloCronogramaVacaciones->ejecutarSqlNativo($consulta);
+	}
+
+	public function buscarCronogramaVacacionesFiltro($filtroEstado)
+	{
+		
+		$filtro = $filtroEstado;
+	    $estado = $filtro != "" ? "'" . $filtro . "'" : "null";	
+		$consulta = "SELECT * FROM " . $this->modeloCronogramaVacaciones->getEsquema() . ". cronograma_vacaciones where  ($estado is NULL or estado_cronograma_vacacion = $estado)";
 		return $this->modeloCronogramaVacaciones->ejecutarSqlNativo($consulta);
 	}
 
@@ -240,6 +251,8 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 
 	public function guardarPlanificacionVacaciones(array $datos)
 	{
+
+
 		try {
 			$this->modeloCronogramaVacaciones = new CronogramaVacacionesModelo();
 			$proceso = $this->modeloCronogramaVacaciones->getAdapter()
@@ -251,7 +264,8 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 
 			$tablaModelo = new CronogramaVacacionesModelo($datos);
 			$datosBd = $tablaModelo->getPrepararDatos();
-			print_r($datosBd);
+
+
 			if ($tablaModelo->getIdCronogramaVacacion() != null && $tablaModelo->getIdCronogramaVacacion() > 0) {
 				$this->modeloCronogramaVacaciones->actualizar($datosBd, $tablaModelo->getIdCronogramaVacacion());
 				$idRegistro = $datosBd["id_cronograma_vacacion"];
@@ -264,11 +278,12 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 					'identificador_backup' =>  $_POST['identificador_backup'],
 					'total_dias_planificados' =>  $_POST['total_dias_planificados'],
 					'usuario_creacion' =>  $_POST['identificador_registro'],
-					'estado_cronograma_vacacion' =>  'Creado',
 					'anio_cronograma_vacacion' =>  $_POST['anio_cronograma_vacacion'],
-					'numero_periodos' => $_POST['numero_periodos']
+					'numero_periodos' => $_POST['numero_periodos'],
+					'estado_cronograma_vacacion' =>  'RevisionJefe'
 
 				);
+
 				//print_r($arrayParametros);
 				$idRegistro = $this->modeloCronogramaVacaciones->guardar($arrayParametros);
 				$statement = $this->modeloCronogramaVacaciones->getAdapter()
@@ -280,7 +295,7 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 					$datosDetalle = array(
 						'id_cronograma_vacacion' => (int) $idRegistro,
 						'numero_periodo' => $i + 1,
-						'fecha_inicio' => $datos['hFechaInicio'][$i + 1],
+						'fecha_inicio' => $datos['hFechaInicio'][$i],
 						'fecha_fin' => $datos['hFechaFin'][$i],
 						'total_dias' => $datos['hNumeroDias'][$i]
 					);
@@ -318,7 +333,7 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 			if (!$proceso->beginTransaction()) {
 				throw new \Exception('No se pudo iniciar la transacción: Guardar destinatario');
 			}
-		
+
 
 			$tablaModelo = new CronogramaVacacionesModelo($datos);
 			$datosBd = $tablaModelo->getPrepararDatos();

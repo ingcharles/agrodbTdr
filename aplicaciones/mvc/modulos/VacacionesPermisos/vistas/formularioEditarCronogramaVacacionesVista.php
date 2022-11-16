@@ -13,22 +13,21 @@
 	<fieldset>
 		<legend>Datos planificación</legend>
 		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
-		
 		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
+		<input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="RevisionJefe" />
 
 		<div data-linea="5">
 			<label for="identificador_backup">Funcionario reemplazo: </label>
-			<select name="identificador_backup" id="identificador_backup" class="validacion">
+			
 				<?php echo $this->datosFuncionarioBackup; ?>
-			</select>
+			
 		</div>
 
 		<div data-linea="6">
 			<label for="numero_periodos_planificar">Número de periodos a planificar: </label>
-			<select name="numero_periodos" id="numero_periodos">
-				<option value="">Seleccionar...</option>
+			
 				<?php echo $this->numeroPeriodos; ?>
-			</select>
+		
 		</div>
 
 
@@ -40,7 +39,13 @@
 	<div id="datosPlanificarPeriodos"> </div>
 
 	<div data-linea="17">
-		<button type="submit" class="guardar">Guardar</button>
+	<?php 
+
+	 if($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion()!="RechazadoJefe"){
+      "";
+	}else{
+	echo	'<button  type="submit" class="guardar">Guardar</button>';
+	} ?>
 	</div>
 
 </form>
@@ -55,7 +60,7 @@
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "Creado") {
+		if (estadoCronograma == "RechazadoJefe" || estadoCronograma == "RevisionJefe") {
 
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
 				numero_periodos_planificar: $('#numero_periodos').val(),

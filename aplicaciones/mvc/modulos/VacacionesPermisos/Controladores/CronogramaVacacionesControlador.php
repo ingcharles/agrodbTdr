@@ -32,6 +32,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 	private $lNegocioPeriodoCronogramaVacaciones = null;
 	private $datosFuncionarioBackup = null;
 	private $lNegocioDatosContrato = null;
+	private $panelBusqueda = null;
 	/**
 	 * Constructor
 	 */
@@ -49,7 +50,9 @@ class CronogramaVacacionesControlador extends BaseControlador
 	 */
 	public function index()
 	{
+
 		$modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacaciones();
+		$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
 		$this->tablaHtmlCronogramaVacaciones($modeloCronogramaVacaciones);
 		require APP . 'VacacionesPermisos/vistas/listaCronogramaVacacionesVista.php';
 	}
@@ -61,8 +64,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$anioPlanificacion = (date('Y') + 1);
 		$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
 		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
-		$this->numeroPeriodos = $this->obtenerNumeroPeriodos();
-		$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador);
+		$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null,true);
+		$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, null, true);
 		$this->anioPlanificacion = $anioPlanificacion;
 		require APP . 'VacacionesPermisos/vistas/formularioCronogramaVacacionesVista.php';
 	}
@@ -74,7 +77,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$this->lNegocioCronogramaVacaciones->guardar($_POST);
 	}
 
-	public function actualizarPlanificacion(){
+	public function actualizarPlanificacion()
+	{
 		$estado = 'EXITO';
 		$mensaje = '';
 		$contenido = '';
@@ -109,24 +113,34 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$lista = '';
 
 		$_POST['identificador_registro'] = $_SESSION['usuario'];
-		$id = $this->lNegocioCronogramaVacaciones->guardarPlanificacionVacaciones($_POST);
-		if ($id != 0) {
-			$contenido = $id;
-			// if ($_POST['accion'] == 'Nuevo Registro'){
-			// 	$lista = $this->listarDestinatariosRegistrados($id);
-			// }else{
-			// 	$lista = $this->listarDestinatariosRegistrados($id, 'No');
-			// }
-		} else {
-			$estado = 'FALLO';
-			$mensaje = 'Error al guardar el registro !!';
+		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador'=>$_POST['identificador_registro'],'anio_cronograma_vacacion'=>(integer)$_POST['anio_cronograma_vacacion']));
+		
+		if(!$existe->count()){
+			$id = $this->lNegocioCronogramaVacaciones->guardarPlanificacionVacaciones($_POST);
+			if ($id != 0) {
+				$contenido = $id;
+				// if ($_POST['accion'] == 'Nuevo Registro'){
+				// 	$lista = $this->listarDestinatariosRegistrados($id);
+				// }else{
+				// 	$lista = $this->listarDestinatariosRegistrados($id, 'No');
+				// }
+			} else {
+				$estado = 'FALLO';
+				$mensaje = 'Error al guardar el registro !!';
+			}
+			echo json_encode(array(
+				'estado' => $estado,
+				'mensaje' => $mensaje,
+				'lista' => $lista,
+				'contenido' => $contenido
+			));
+		}else{
+			
+			echo json_encode(array(
+				'estado' => 'Error',
+				'mensaje' => 'Ya existe una planificación en este año.'
+			));
 		}
-		echo json_encode(array(
-			'estado' => $estado,
-			'mensaje' => $mensaje,
-			'lista' => $lista,
-			'contenido' => $contenido
-		));
 	}
 	/**
 	 *Obtenemos los datos del registro seleccionado para editar - Tabla: CronogramaVacaciones
@@ -141,9 +155,15 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$this->anioPlanificacion = $anioPlanificacion;
 		$this->accion = "Editar CronogramaVacaciones";
 		$this->modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscar($_POST["id"]);
-
-		$this->numeroPeriodos = $this->obtenerNumeroPeriodos($this->modeloCronogramaVacaciones->getNumeroPeriodos());
-		$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, $this->modeloCronogramaVacaciones->getIdentificadorBackup());
+		$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
+		$estado = false;
+		switch ($estadoCronogramaRegistro) {
+			case 'RechazadoJefe':
+				$estado = true;
+				break;
+		}
+		$this->numeroPeriodos = $this->obtenerNumeroPeriodos($this->modeloCronogramaVacaciones->getNumeroPeriodos(),$estado);
+		$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, $this->modeloCronogramaVacaciones->getIdentificadorBackup(), $estado);
 		require APP . 'VacacionesPermisos/vistas/formularioEditarCronogramaVacacionesVista.php';
 	}
 	/**
@@ -161,27 +181,33 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$contador = 0;
 			foreach ($tabla as $fila) {
 				$this->itemsFiltrados[] = array(
-					'<tr id="' . $fila['id_cronograma_vacacion'] . '"
+					'<tr style="text-align:center; " id="' . $fila['id_cronograma_vacacion'] . '"
 		  class="item" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\cronogramavacaciones"
 		  data-opcion="editar" ondragstart="drag(event)" draggable="true"
 		  data-destino="detalleItem">
-		  <td>' . ++$contador . '</td>
+		  <td >' . ++$contador . '</td>
 		  <td style="white - space:nowrap; "><b>' . $fila['id_cronograma_vacacion'] . '</b></td>
 <td>'
 						. $fila['identificador'] . '</td>
 <td>' . $fila['fecha_ingreso_institucion']
 						. '</td>
-<td>' . $fila['id_puesto'] . '</td>
+<td>' . $fila['identificador_backup'] . '</td>
+<td>' . $fila['total_dias_planificados'] . '</td>
+<td>' . $fila['estado_cronograma_vacacion'] . '</td>
 </tr>'
 				);
 			}
 		}
 	}
 
-	public function obtenerDatosFuncionarioBackup($identificadorFuncionario, $identificadorFuncionarioBackup = null)
+	public function obtenerDatosFuncionarioBackup($identificadorFuncionario, $identificadorFuncionarioBackup = null, $habilitar = false)
 	{
-
-		$comboFuncionarioBackup = '<option value="">Seleccionar....</option>';
+		$readOnly = "disabled";
+		if ($habilitar) {
+			$readOnly = "";
+		}
+		$comboFuncionarioBackup = '<select ' . $readOnly. ' name="identificador_backup" id="identificador_backup" class="validacion">';
+		$comboFuncionarioBackup .= '<option value="">Seleccionar....</option>';
 
 		$funcionarioBackup = $this->lNegocioDatosContrato->obtenerDatosFuncionarioBackup($identificadorFuncionario);
 
@@ -192,18 +218,22 @@ class CronogramaVacacionesControlador extends BaseControlador
 				$comboFuncionarioBackup .= '<option value="' . $item->identificador . '">' . $item->nombre . '</option>';
 			}
 		}
-
+		$comboFuncionarioBackup .= '</select>';
 		return $comboFuncionarioBackup;
 	}
 
-	public function obtenerNumeroPeriodos($numeroPeriodos = null)
+	public function obtenerNumeroPeriodos($numeroPeriodos = null,$habilitar=false)
 	{
 
-
-		$comboNumeroPeriodos = "";
+		$readOnly = "disabled";
+		if ($habilitar) {
+			$readOnly = "";
+		}
+		
 		$arrayEstados = array(
 			'1' => 'Un periodo', '2' => 'Dos periodos', '3' => 'Tres periodos', '4' => 'Cuatro periodos'
 		);
+		$comboNumeroPeriodos ='<select ' . $readOnly . ' name="numero_periodos" id="numero_periodos"><option value="">Seleccionar...</option>';
 		foreach ($arrayEstados as $llaveEstado => $valorEstado) {
 			if ($numeroPeriodos == $llaveEstado) {
 				$comboNumeroPeriodos .= '<option value="' . $llaveEstado . '" selected>' . $valorEstado . '</option>';
@@ -211,7 +241,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 				$comboNumeroPeriodos .= '<option value="' . $llaveEstado . '" >' . $valorEstado . '</option>';
 			}
 		}
-
+	   $comboNumeroPeriodos.='</select>';
 		return $comboNumeroPeriodos;
 	}
 
@@ -225,7 +255,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 
 		if (isset($_POST['id_cronograma_vacacion'])) {
 			$idCronograma = $_POST['id_cronograma_vacacion'];
-			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma,'estado_registro'=>'Activo'));
+			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => 'Activo'));
 			$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
 													<tr>
@@ -388,4 +418,67 @@ class CronogramaVacacionesControlador extends BaseControlador
 			'datosPlanificarPeriodos' => $datosPlanificarPeriodos
 		));
 	}
+
+
+
+	public function cargarPanelBusquedaSolicitud()
+	{
+
+		//TODO: Recibir el perfil para mostrar mas filtros
+
+		$panelBusqueda = '<table id="fBusqueda" class="filtro" style="width: 400px;">
+                        				<tbody>
+											<tr>
+												<th colspan="5">Buscar:</th>
+											</tr>
+											
+                        					<tr>
+                        						<td colspan="1">Estado: </td>
+                        						<td colspan="4">
+												<select id="estado_cronograma_vacacion" name="estado_cronograma_vacacion"  style="width: 100%" class="validacion">
+												<option value="">Seleccione...</option>
+												<option value="Creado">Creado</option>
+												<option value="RevisionJefe">Revisión Jefe</option>
+												<option value="RechazadoJefe">Rechazado Jefe</option>
+												<option value="Aprobado">Aprobado</option>
+												</select>
+                        						</td>
+                        					</tr>
+                        				
+                        					<tr>
+                        						<td colspan="4">
+                        							<button id="btnFiltrar">Buscar</button>
+                        						</td>
+                        					</tr>
+                        				</tbody>
+                        			</table>';
+
+		return $panelBusqueda;
+	}
+
+	public function listarSolicitudeCronogramaVacacion()
+    {
+        $estado = 'EXITO';
+        $mensaje = '';
+        $contenido = '';
+      $filtro=  $_POST['estado_cronograma_vacacion'] ;
+
+        $solicitudesModificacion = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacacionesFiltro($filtro);
+
+        if ($solicitudesModificacion->count()) {
+            $this->tablaHtmlCronogramaVacaciones($solicitudesModificacion);
+            $contenido = \Zend\Json\Json::encode($this->itemsFiltrados);
+        } else {
+            $contenido = \Zend\Json\Json::encode('');
+            $mensaje = 'No existen registros';
+            $estado = 'FALLO';
+        }
+
+        echo json_encode(array(
+            'estado' => $estado,
+            'mensaje' => $mensaje,
+            'contenido' => $contenido));
+    }
+
+
 }
