@@ -1,5 +1,6 @@
 <?php
- /**
+
+/**
  * Controlador CronogramaVacaciones
  *
  * Este archivo controla la lógica del negocio del modelo:  CronogramaVacacionesModelo y  Vistas
@@ -10,74 +11,120 @@
  * @package VacacionesPermisos
  * @subpackage Controladores
  */
- namespace Agrodb\VacacionesPermisos\Controladores;
+
+namespace Agrodb\VacacionesPermisos\Controladores;
 
 use Agrodb\GUath\Modelos\DatosContratoLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
- use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesModelo;
- 
-class CronogramaVacacionesControlador extends BaseControlador 
+use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesModelo;
+use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesLogicaNegocio;
+use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesModelo;
+
+class CronogramaVacacionesControlador extends BaseControlador
 {
 
-		private $lNegocioCronogramaVacaciones = null;
-		private $modeloCronogramaVacaciones = null;
-		private $accion = null;
-		private $datosGenerales = null;
-		private $datosFuncionarioBackup = null;
-		private $lNegocioDatosContrato = null;
+	private $lNegocioCronogramaVacaciones = null;
+	private $modeloCronogramaVacaciones = null;
+
+	private $accion = null;
+	private $datosGenerales = null;
+	private $numeroPeriodos = null;
+	private $lNegocioPeriodoCronogramaVacaciones = null;
+	private $datosFuncionarioBackup = null;
+	private $lNegocioDatosContrato = null;
+	private $panelBusqueda = null;
 	/**
-		* Constructor
-		*/
-		 function __construct()
-		{
+	 * Constructor
+	 */
+	function __construct()
+	{
 		parent::__construct();
-		 $this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
-		 $this->modeloCronogramaVacaciones = new CronogramaVacacionesModelo();
-		 $this->lNegocioDatosContrato = new DatosContratoLogicaNegocio();
-		 set_exception_handler(array($this, 'manejadorExcepciones'));
-		}	/**
-		* Método de inicio del controlador
-		*/
-		public function index()
-		{
-		 $modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacaciones();
-		 $this->tablaHtmlCronogramaVacaciones($modeloCronogramaVacaciones);
-		 require APP . 'VacacionesPermisos/vistas/listaCronogramaVacacionesVista.php';
-		}	/**
-		* Método para desplegar el formulario vacio
-		*/
-		public function nuevo()
-		{
-			$anioPlanificacion = (date('Y')+ 1);
-			$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion; 
-			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
-			$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador);
-			$this->anioPlanificacion = $anioPlanificacion;
-			require APP . 'VacacionesPermisos/vistas/formularioCronogramaVacacionesVista.php';
-		}	/**
-		* Método para registrar en la base de datos -CronogramaVacaciones
-		*/
-		public function guardar()
-		{
-		  $this->lNegocioCronogramaVacaciones->guardar($_POST);
-		}	
+		$this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
+		$this->modeloCronogramaVacaciones = new CronogramaVacacionesModelo();
+		$this->lNegocioDatosContrato = new DatosContratoLogicaNegocio();
+		$this->lNegocioPeriodoCronogramaVacaciones = new PeriodoCronogramaVacacionesLogicaNegocio();
+		set_exception_handler(array($this, 'manejadorExcepciones'));
+	}
+	/**
+	 * Método de inicio del controlador
+	 */
+	public function index()
+	{
+
+		$modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacaciones();
+		$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
+		$this->tablaHtmlCronogramaVacaciones($modeloCronogramaVacaciones);
+		require APP . 'VacacionesPermisos/vistas/listaCronogramaVacacionesVista.php';
+	}
+	/**
+	 * Método para desplegar el formulario vacio
+	 */
+	public function nuevo()
+	{
+		$anioPlanificacion = (date('Y') + 1);
+		$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
+		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
+		$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null,true);
+		$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, null, true);
+		$this->anioPlanificacion = $anioPlanificacion;
+		require APP . 'VacacionesPermisos/vistas/formularioCronogramaVacacionesVista.php';
+	}
+	/**
+	 * Método para registrar en la base de datos -CronogramaVacaciones
+	 */
+	public function guardar()
+	{
+		$this->lNegocioCronogramaVacaciones->guardar($_POST);
+	}
+
+	public function actualizarPlanificacion()
+	{
+		$estado = 'EXITO';
+		$mensaje = '';
+		$contenido = '';
+		$lista = '';
+
+		$_POST['identificador_registro'] = $_SESSION['usuario'];
+		$id = $this->lNegocioCronogramaVacaciones->actualizarPlanificacionVacaciones($_POST);
+		if ($id != 0) {
+			$contenido = $id;
+			// if ($_POST['accion'] == 'Nuevo Registro'){
+			// 	$lista = $this->listarDestinatariosRegistrados($id);
+			// }else{
+			// 	$lista = $this->listarDestinatariosRegistrados($id, 'No');
+			// }
+		} else {
+			$estado = 'FALLO';
+			$mensaje = 'Error al guardar el registro !!';
+		}
+		echo json_encode(array(
+			'estado' => $estado,
+			'mensaje' => $mensaje,
+			'lista' => $lista,
+			'contenido' => $contenido
+		));
+	}
+
+	public function guardarPlanificacion()
+	{
+		$estado = 'EXITO';
+		$mensaje = '';
+		$contenido = '';
+		$lista = '';
+
+		$_POST['identificador_registro'] = $_SESSION['usuario'];
+		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador'=>$_POST['identificador_registro'],'anio_cronograma_vacacion'=>(integer)$_POST['anio_cronograma_vacacion']));
 		
-		public function guardarPlanificacion(){
-			$estado = 'EXITO';
-			$mensaje = '';
-			$contenido = '';
-			$lista = '';
-	
-			$_POST['identificador_registro'] = $_SESSION['usuario'];
+		if(!$existe->count()){
 			$id = $this->lNegocioCronogramaVacaciones->guardarPlanificacionVacaciones($_POST);
-			if ($id != 0){
+			if ($id != 0) {
 				$contenido = $id;
 				// if ($_POST['accion'] == 'Nuevo Registro'){
 				// 	$lista = $this->listarDestinatariosRegistrados($id);
 				// }else{
 				// 	$lista = $this->listarDestinatariosRegistrados($id, 'No');
 				// }
-			}else{
+			} else {
 				$estado = 'FALLO';
 				$mensaje = 'Error al guardar el registro !!';
 			}
@@ -85,73 +132,158 @@ class CronogramaVacacionesControlador extends BaseControlador
 				'estado' => $estado,
 				'mensaje' => $mensaje,
 				'lista' => $lista,
-				'contenido' => $contenido));
+				'contenido' => $contenido
+			));
+		}else{
+			
+			echo json_encode(array(
+				'estado' => 'Error',
+				'mensaje' => 'Ya existe una planificación en este año.'
+			));
 		}
-		/**
-		*Obtenemos los datos del registro seleccionado para editar - Tabla: CronogramaVacaciones
-		*/
-		public function editar()
-		{
-		 $this->accion = "Editar CronogramaVacaciones"; 
-		 $this->modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscar($_POST["id"]);
-		 require APP . 'VacacionesPermisos/vistas/formularioCronogramaVacacionesVista.php';
-		}	/**
-		* Método para borrar un registro en la base de datos - CronogramaVacaciones
-		*/
-		public function borrar()
-		{
-		  $this->lNegocioCronogramaVacaciones->borrar($_POST['elementos']);
-		}	/**
-		* Construye el código HTML para desplegar la lista de - CronogramaVacaciones
-		*/
-		 public function tablaHtmlCronogramaVacaciones($tabla) {
-		{
-		 $contador = 0;
-		  foreach ($tabla as $fila) {
-		   $this->itemsFiltrados[] = array(
-		  '<tr id="' . $fila['id_cronograma_vacacion'] . '"
-		  class="item" data-rutaAplicacion="'.URL_MVC_FOLDER.'VacacionesPermisos\cronogramavacaciones"
+	}
+	/**
+	 *Obtenemos los datos del registro seleccionado para editar - Tabla: CronogramaVacaciones
+	 */
+	public function editar()
+	{
+		$anioPlanificacion = (date('Y') + 1);
+		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
+
+		//lamar al backup del usuario 
+		//buscar en la tabla
+		$this->anioPlanificacion = $anioPlanificacion;
+		$this->accion = "Editar CronogramaVacaciones";
+		$this->modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscar($_POST["id"]);
+		$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
+		$estado = false;
+		switch ($estadoCronogramaRegistro) {
+			case 'RechazadoJefe':
+				$estado = true;
+				break;
+		}
+		$this->numeroPeriodos = $this->obtenerNumeroPeriodos($this->modeloCronogramaVacaciones->getNumeroPeriodos(),$estado);
+		$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, $this->modeloCronogramaVacaciones->getIdentificadorBackup(), $estado);
+		require APP . 'VacacionesPermisos/vistas/formularioEditarCronogramaVacacionesVista.php';
+	}
+	/**
+	 * Método para borrar un registro en la base de datos - CronogramaVacaciones
+	 */
+	public function borrar()
+	{
+		$this->lNegocioCronogramaVacaciones->borrar($_POST['elementos']);
+	}
+	/**
+	 * Construye el código HTML para desplegar la lista de - CronogramaVacaciones
+	 */
+	public function tablaHtmlCronogramaVacaciones($tabla)
+	{ {
+			$contador = 0;
+			foreach ($tabla as $fila) {
+				$this->itemsFiltrados[] = array(
+					'<tr style="text-align:center; " id="' . $fila['id_cronograma_vacacion'] . '"
+		  class="item" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\cronogramavacaciones"
 		  data-opcion="editar" ondragstart="drag(event)" draggable="true"
 		  data-destino="detalleItem">
-		  <td>' . ++$contador . '</td>
+		  <td >' . ++$contador . '</td>
 		  <td style="white - space:nowrap; "><b>' . $fila['id_cronograma_vacacion'] . '</b></td>
 <td>'
-		  . $fila['identificador'] . '</td>
+						. $fila['identificador'] . '</td>
 <td>' . $fila['fecha_ingreso_institucion']
-		  . '</td>
-<td>' . $fila['id_puesto'] . '</td>
-</tr>');
-		}
+						. '</td>
+<td>' . $fila['identificador_backup'] . '</td>
+<td>' . $fila['total_dias_planificados'] . '</td>
+<td>' . $fila['estado_cronograma_vacacion'] . '</td>
+</tr>'
+				);
+			}
 		}
 	}
 
-	public function obtenerDatosFuncionarioBackup($identificadorFuncionario)
-    {
-
-        $comboFuncionarioBackup = '<option value="">Seleccionar....</option>';
+	public function obtenerDatosFuncionarioBackup($identificadorFuncionario, $identificadorFuncionarioBackup = null, $habilitar = false)
+	{
+		$readOnly = "disabled";
+		if ($habilitar) {
+			$readOnly = "";
+		}
+		$comboFuncionarioBackup = '<select ' . $readOnly. ' name="identificador_backup" id="identificador_backup" class="validacion">';
+		$comboFuncionarioBackup .= '<option value="">Seleccionar....</option>';
 
 		$funcionarioBackup = $this->lNegocioDatosContrato->obtenerDatosFuncionarioBackup($identificadorFuncionario);
 
-        foreach ($funcionarioBackup as $item) {
-            $comboFuncionarioBackup .= '<option value="' . $item->identificador . '">' . $item->nombre . '</option>';
-        }
-
+		foreach ($funcionarioBackup as $item) {
+			if ($item->identificador == $identificadorFuncionarioBackup) {
+				$comboFuncionarioBackup .= '<option selected value="' . $item->identificador . '">' . $item->nombre . '</option>';
+			} else {
+				$comboFuncionarioBackup .= '<option value="' . $item->identificador . '">' . $item->nombre . '</option>';
+			}
+		}
+		$comboFuncionarioBackup .= '</select>';
 		return $comboFuncionarioBackup;
-    }
+	}
+
+	public function obtenerNumeroPeriodos($numeroPeriodos = null,$habilitar=false)
+	{
+
+		$readOnly = "disabled";
+		if ($habilitar) {
+			$readOnly = "";
+		}
+		
+		$arrayEstados = array(
+			'1' => 'Un periodo', '2' => 'Dos periodos', '3' => 'Tres periodos', '4' => 'Cuatro periodos'
+		);
+		$comboNumeroPeriodos ='<select ' . $readOnly . ' name="numero_periodos" id="numero_periodos"><option value="">Seleccionar...</option>';
+		foreach ($arrayEstados as $llaveEstado => $valorEstado) {
+			if ($numeroPeriodos == $llaveEstado) {
+				$comboNumeroPeriodos .= '<option value="' . $llaveEstado . '" selected>' . $valorEstado . '</option>';
+			} else {
+				$comboNumeroPeriodos .= '<option value="' . $llaveEstado . '" >' . $valorEstado . '</option>';
+			}
+		}
+	   $comboNumeroPeriodos.='</select>';
+		return $comboNumeroPeriodos;
+	}
 
 	public function construirPlanificarPeriodos()
-    {
+	{
 
 		$numeroPeriodosPlanificar = $_POST['numero_periodos_planificar'];
 
 		$datosPlanificarPeriodos = '<fieldset>
 									<legend>Ingresar periodo</legend>';
 
-		switch ($numeroPeriodosPlanificar){
+		if (isset($_POST['id_cronograma_vacacion'])) {
+			$idCronograma = $_POST['id_cronograma_vacacion'];
+			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => 'Activo'));
+			$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
+												<thead>
+													<tr>
+														<th>Periodo</th>
+														<th>Fecha inicio</th>
+														<th>Número días</th>
+														<th>Fecha retorno</th>
+													</tr>
+												</thead>
+												
+										';
+			foreach ($periodos as $item) {
+				$datosPlanificarPeriodos .= '<tbody>
+			<tr>	
+				<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
+				<td><input value=' . $item->fecha_inicio . ' type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
+				<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias[]" id="diaPrimerPeriodo" onkeyup="calculo(this,' . "'^(3[0]{0,1})$'" . ');"></td>
+				<td><input value=' . $item->fecha_fin . ' type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
+			</tr>
+		</tbody>';
+			}
+			$datosPlanificarPeriodos .= '	</table>';
+		} else {
+			switch ($numeroPeriodosPlanificar) {
 
-			case '1':
-				
-				$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
+				case '1':
+
+					$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
 													<tr>
 														<th>Periodo</th>
@@ -164,16 +296,16 @@ class CronogramaVacacionesControlador extends BaseControlador
 													<tr>	
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" id="diaPrimerPeriodo" onkeyup="calculo(this,'."'^(3[0]{0,1})$'".');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" id="diaPrimerPeriodo" onkeyup="calculo(this,' . "'^(3[0]{0,1})$'" . ');"></td>
 														<td><input type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 												</tbody>
 											</table>';
 
-			break;
+					break;
 
-			case '2':
-				$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
+				case '2':
+					$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
 													<tr>
 														<th>Periodo</th>
@@ -186,20 +318,20 @@ class CronogramaVacacionesControlador extends BaseControlador
 													<tr>
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'."'^(1[5]{0,1})$'".');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[5]{0,1})$'" . ');"></td>
 														<td><input type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold;">Segundo periodo<input type="hidden" name="hPeriodo[]" value="2"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'."'^(1[5]{0,1})$'".');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[5]{0,1})$'" . ');"></td>
 														<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly" ></td>
 													</tr>
 												</tbody>
 											</table>';
-			break;
-			case '3':
-				$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
+					break;
+				case '3':
+					$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
 													<tr>
 														<th>Periodo</th>
@@ -212,26 +344,26 @@ class CronogramaVacacionesControlador extends BaseControlador
 													<tr>
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias"  name="hNumeroDias[]" onkeyup="calculo(this,'."'^(1[0]|[1-9])$'".');"></td>
+														<td><input type="text" class="piNumeroDias"  name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
 														<td><input type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold;">Segundo periodo<input type="hidden" name="hPeriodo[]" value="2"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'."'^(1[0]|[1-9])$'".');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
 														<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold;">Tercer periodo<input type="hidden" name="hPeriodo[]" value="3"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'."'^(1[0]|[1-9])$'".');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
 														<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 												</tbody>
 											</table>';
-			break;
-			case '4':
-				$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
+					break;
+				case '4':
+					$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
 													<tr>
 														<th>Periodo</th>
@@ -244,32 +376,35 @@ class CronogramaVacacionesControlador extends BaseControlador
 													<tr>
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias"  name="hNumeroDias[]" onkeyup="calculo(this,'."'^([7-9])$'".');"></td>
+														<td><input type="text" class="piNumeroDias"  name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');"></td>
 														<td><input type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold;">Segundo periodo<input type="hidden" name="hPeriodo[]" value="2"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'."'^([7-9])$'".');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');"></td>
 														<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 													<td style="font-weight: bold;">Tercer periodo<input type="hidden" name="hPeriodo[]" value="3"></td>
 													<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-													<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'."'^([7-9])$'".');"></td>
+													<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');"></td>
 													<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 												</tr>
 												<tr>
 													<td style="font-weight: bold;">Cuarto periodo<input type="hidden" name="hPeriodo[]" value="4"></td>
 													<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-													<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'."'^([7-9])$'".');"></td>
+													<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');"></td>
 													<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 												</tr>
 												</tbody>
 											</table>';
-			break;
-
+					break;
+			}
 		}
+
+
+
 
 		$datosPlanificarPeriodos .= '<div data-linea="1">
 										<label for="total_dias_planificados">Días planificados: </label>
@@ -277,35 +412,73 @@ class CronogramaVacacionesControlador extends BaseControlador
 										<input type="hidden" id="total_dias_planificados" name="total_dias_planificados" value="" />
 									</div>				
 								</fieldset>';
-								// $datosPlanificarPeriodos .= '<script>$(document).ready(function() {
-								// 	$(".piFechaFin").datepicker({
-										
-								// 		changeMonth: true,
-								// 		changeYear: true
-									
-								// 	  });
-					  
-								// 	  $(".piFechaInicio").datepicker({
-								// 		  yearRange: "+0:+1", 
-								// 	  changeMonth: true,
-								// 	  changeYear: true,
-									 
-								// 	  minDate: "0",
-					  
-								// 	  onSelect: function(dateText, inst) {
-								// 		var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
-								// 		var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
-										
-								// 		 var elementoNumeroDias = $(this).parents("tr").find(".piNumeroDias");
-										
-								// 		sumarDias(this, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);
-								// 	  }
-								// 	  });
-								// 	});</script>';
+
 		echo json_encode(array(
-            'estado' => 'EXITO',
-            'datosPlanificarPeriodos' => $datosPlanificarPeriodos
-        ));
+			'estado' => 'EXITO',
+			'datosPlanificarPeriodos' => $datosPlanificarPeriodos
+		));
+	}
+
+
+
+	public function cargarPanelBusquedaSolicitud()
+	{
+
+		//TODO: Recibir el perfil para mostrar mas filtros
+
+		$panelBusqueda = '<table id="fBusqueda" class="filtro" style="width: 400px;">
+                        				<tbody>
+											<tr>
+												<th colspan="5">Buscar:</th>
+											</tr>
+											
+                        					<tr>
+                        						<td colspan="1">Estado: </td>
+                        						<td colspan="4">
+												<select id="estado_cronograma_vacacion" name="estado_cronograma_vacacion"  style="width: 100%" class="validacion">
+												<option value="">Seleccione...</option>
+												<option value="Creado">Creado</option>
+												<option value="RevisionJefe">Revisión Jefe</option>
+												<option value="RechazadoJefe">Rechazado Jefe</option>
+												<option value="Aprobado">Aprobado</option>
+												</select>
+                        						</td>
+                        					</tr>
+                        				
+                        					<tr>
+                        						<td colspan="4">
+                        							<button id="btnFiltrar">Buscar</button>
+                        						</td>
+                        					</tr>
+                        				</tbody>
+                        			</table>';
+
+		return $panelBusqueda;
+	}
+
+	public function listarSolicitudeCronogramaVacacion()
+    {
+        $estado = 'EXITO';
+        $mensaje = '';
+        $contenido = '';
+      $filtro=  $_POST['estado_cronograma_vacacion'] ;
+
+        $solicitudesModificacion = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacacionesFiltro($filtro);
+
+        if ($solicitudesModificacion->count()) {
+            $this->tablaHtmlCronogramaVacaciones($solicitudesModificacion);
+            $contenido = \Zend\Json\Json::encode($this->itemsFiltrados);
+        } else {
+            $contenido = \Zend\Json\Json::encode('');
+            $mensaje = 'No existen registros';
+            $estado = 'FALLO';
+        }
+
+        echo json_encode(array(
+            'estado' => $estado,
+            'mensaje' => $mensaje,
+            'contenido' => $contenido));
     }
+
 
 }

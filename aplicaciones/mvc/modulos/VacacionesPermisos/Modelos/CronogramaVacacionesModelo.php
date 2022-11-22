@@ -131,6 +131,9 @@ class CronogramaVacacionesModelo extends ModeloBase
 		*/
 		protected $anioCronogramaVacacion;
 
+
+		protected $numeroPeriodos;
+
 	/**
 	* Campos del formulario 
 	* @var array 
@@ -661,6 +664,22 @@ class CronogramaVacacionesModelo extends ModeloBase
 		return $this->anioCronogramaVacacion;
 	}
 
+
+	public function setNumeroPeriodos($numeroPeriodos)
+	{
+	  $this->numeroPeriodos = (Integer) $numeroPeriodos;
+	    return $this;
+	}
+
+	/**
+	* Get anioCronogramaVacacion
+	*
+	* @return null|Integer
+	*/
+	public function getNumeroPeriodos()
+	{
+		return $this->numeroPeriodos;
+	}
 	/**
 	* Guarda el registro actual
 	* @param array $datos
