@@ -5,7 +5,7 @@
  * Este archivo se complementa con el archivo   PeriodoCronogramaVacacionesLogicaNegocio.
  *
  * @author  AGROCALIDAD
- * @date    2022-10-22
+ * @date    2022-11-21
  * @uses    PeriodoCronogramaVacacionesModelo
  * @package VacacionesPermisos
  * @subpackage Modelos
@@ -103,7 +103,7 @@ class PeriodoCronogramaVacacionesModelo extends ModeloBase
 	/**
 	*Secuencia
 */
-		 private $secuencial = 'g_vacaciones"."periodo_cronograma_vacaciones_id_periodo_cronograma_vacacion_seq'; 
+		 private $secuencial = 'g_vacaciones"."PeriodoCronogramaVacaciones_id_periodo_cronograma_vacacion_seq'; 
 
 
 
