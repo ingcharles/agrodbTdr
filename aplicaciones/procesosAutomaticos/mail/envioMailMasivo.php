@@ -7,7 +7,7 @@ require_once '../../../clases/ControladorMailMasivo.php';
 $conexion = new Conexion();
 $cMail = new ControladorMail();
 $cro = new ControladorRegistroOperador();
-$cmm = new ControladorMailMasivo()
+$cmm = new ControladorMailMasivo();
 
 $nombreRequerimiento="GLPI #51883";
 $areas = "'IAV','IAP'";

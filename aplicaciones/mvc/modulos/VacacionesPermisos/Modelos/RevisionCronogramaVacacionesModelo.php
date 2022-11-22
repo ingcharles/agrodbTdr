@@ -38,7 +38,7 @@ class RevisionCronogramaVacacionesModelo extends ModeloBase
 		* Campo visible en el formulario
 		* usuario que va aprobar el cronograma vacacion
 		*/
-		protected $identicadorRevisor;
+		protected $identificadorRevisor;
 		/**
 		* @var String
 		* Campo requerido
@@ -89,7 +89,7 @@ class RevisionCronogramaVacacionesModelo extends ModeloBase
 	/**
 	*Secuencia
 */
-		 private $secuencial = 'g_vacaciones"."revision_cronograma_vacaciones_id_revision_cronograma_vacacion_seq'; 
+		 private $secuencial = 'g_vacaciones"."revision_cronograma_vacacione_id_revision_cronograma_vacaci_seq'; 
 
 
 
@@ -256,27 +256,27 @@ class RevisionCronogramaVacacionesModelo extends ModeloBase
 	}
 
 	/**
-	* Set identicadorRevisor
+	* Set identificadorRevisor
 	*
 	*usuario que va aprobar el cronograma vacacion
 	*
-	* @parámetro String $identicadorRevisor
-	* @return IdenticadorRevisor
+	* @parámetro String $identificadorRevisor
+	* @return IdentificadorRevisor
 	*/
-	public function setIdenticadorRevisor($identicadorRevisor)
+	public function setIdentificadorRevisor($identificadorRevisor)
 	{
-	  $this->identicadorRevisor = (String) $identicadorRevisor;
+	  $this->identificadorRevisor = (String) $identificadorRevisor;
 	    return $this;
 	}
 
 	/**
-	* Get identicadorRevisor
+	* Get identificadorRevisor
 	*
 	* @return null|String
 	*/
-	public function getIdenticadorRevisor()
+	public function getIdentificadorRevisor()
 	{
-		return $this->identicadorRevisor;
+		return $this->identificadorRevisor;
 	}
 
 	/**

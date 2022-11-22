@@ -134,10 +134,17 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 	 * @param type $identificador
 	 * @return type
 	 */
-	public function obtenerDatosFuncionarioNivelInferiorFuncionarioPorIdentificadorPadre($identificadorFuncionario){
+	public function obtenerDatosFuncionarioNivelInferiorFuncionarioPorIdentificadorPadre($arrayParametros){
 		
+		$identificador = $arrayParametros['identificador'];
+		$identificadorFuncionarioInferior = $arrayParametros['identificador_funcionario_inferior'] != "" ? "'" . $arrayParametros['identificador_funcionario_inferior'] . "'" : "NULL";
+		$nombreFuncionarioInferior = $arrayParametros['nombre_funcionario'] != "" ? "'" . $arrayParametros['nombre_funcionario'] . "'" : "NULL";
+		$fechaInicio = $arrayParametros['fecha_inicio'] != "" ? "'" . $arrayParametros['fecha_inicio'] . "'" : "NULL";
+		$fechaFin = $arrayParametros['fecha_fin'] != "" ? "'" . $arrayParametros['fecha_fin'] . "'" : "NULL";
+
 		$consulta = "SELECT
-							fe.identificador
+							cv.id_cronograma_vacacion
+							, fe.identificador
 							, fe.nombre || ' ' || fe.apellido as nombre
 							, dc.direccion
 							, dc.id_gestion
@@ -157,7 +164,10 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 									INNER JOIN g_uath.datos_contrato dc ON dc.identificador = f.identificador and dc.estado = 1) eap ON eap.id_area = dc.id_gestion
 						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador = fe.identificador
 						WHERE
-							eap.identificador = '" . $identificadorFuncionario . "'
+							eap.identificador = '" . $identificador . "'
+							and ($identificadorFuncionarioInferior is NULL or usuario_creacion = $identificadorFuncionarioInferior)
+							and ($fechaInicio is NULL or fecha_creacion >= $fechaInicio)
+							and ($fechaFin is NULL or fecha_creacion <= $fechaFin)
 							and dc.estado = 1
 							and cv.estado_cronograma_vacacion = 'Creado';";
 
@@ -171,11 +181,18 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 	 * @param type $identificador
 	 * @return type
 	 */
-	public function obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($estadoCronograma){
-		
+	public function obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros){
+
+		$identificadorFuncionarioInferior = $arrayParametros['identificador_funcionario_inferior'] != "" ? "'" . $arrayParametros['identificador_funcionario_inferior'] . "'" : "NULL";
+		$nombreFuncionarioInferior = $arrayParametros['nombre_funcionario'] != "" ? "'" . $arrayParametros['nombre_funcionario'] . "'" : "NULL";
+		$fechaInicio = $arrayParametros['fecha_inicio'] != "" ? "'" . $arrayParametros['fecha_inicio'] . "'" : "NULL";
+		$fechaFin = $arrayParametros['fecha_fin'] != "" ? "'" . $arrayParametros['fecha_fin'] . "'" : "NULL";
+		$estadoCronogramaVacacion = $arrayParametros['estado_cronograma_vacacion'];
+
 		$consulta = "SELECT
 							fe.identificador
 							, fe.nombre || ' ' || fe.apellido as nombre
+							, cv.id_cronograma_vacacion
 							, dc.direccion
 							, dc.id_gestion
 							, dc.gestion
@@ -186,7 +203,10 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador = fe.identificador
 						WHERE
 							dc.estado = 1
-							and cv.estado_cronograma_vacacion = '" . $estadoCronograma . "'";
+							and cv.estado_cronograma_vacacion = '" . $estadoCronogramaVacacion . "'
+							and ($identificadorFuncionarioInferior is NULL or usuario_creacion = $identificadorFuncionarioInferior)
+							and ($fechaInicio is NULL or fecha_creacion >= $fechaInicio)
+							and ($fechaFin is NULL or fecha_creacion <= $fechaFin)";
 
 		return $this->modelo->ejecutarSqlNativo($consulta);
 

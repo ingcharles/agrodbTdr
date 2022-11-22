@@ -13,6 +13,7 @@
   namespace Agrodb\VacacionesPermisos\Modelos;
   
   use Agrodb\VacacionesPermisos\Modelos\IModelo;
+  use Agrodb\Core\Excepciones\GuardarExcepcion;
  
 class RevisionCronogramaVacacionesLogicaNegocio implements IModelo 
 {
@@ -37,14 +38,52 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 	*/
 	public function guardar(Array $datos)
 	{
+
+		try {
+
 		$tablaModelo = new RevisionCronogramaVacacionesModelo($datos);
+		
+		$procesoIngreso = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+                ->getDriver()
+                ->getConnection();
+            $procesoIngreso->beginTransaction();
+		
 		$datosBd = $tablaModelo->getPrepararDatos();
+		/*echo '<pre>';
+		print_r($datos);
+		echo '<pre>';*/
+		
 		if ($tablaModelo->getIdRevisionCronogramaVacacion() != null && $tablaModelo->getIdRevisionCronogramaVacacion() > 0) {
-		return $this->modeloRevisionCronogramaVacaciones->actualizar($datosBd, $tablaModelo->getIdRevisionCronogramaVacacion());
+			$idRevisionCronogramaVacacion = $this->modeloRevisionCronogramaVacaciones->actualizar($datosBd, $tablaModelo->getIdRevisionCronogramaVacacion());
 		} else {
-		unset($datosBd["id_revision_cronograma_vacacion"]);
-		return $this->modeloRevisionCronogramaVacaciones->guardar($datosBd);
-	}
+			unset($datosBd["id_revision_cronograma_vacacion"]);
+			$idRevisionCronogramaVacacion = $this->modeloRevisionCronogramaVacaciones->guardar($datosBd);
+		}
+
+		$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+		->getDriver()
+		->createStatement();
+
+		$idCronogramaVacacion = $datos['id_cronograma_vacacion'];
+		$estadoCronogramaVacacion = $datos['estado_cronograma_vacacion'];
+
+		$datosCronogramaVacacion = ['id_cronograma_vacacion' => $idCronogramaVacacion
+									, 'estado_cronograma_vacacion' => $estadoCronogramaVacacion ];
+
+		$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
+                    $sqlActualizar->set($datosCronogramaVacacion);
+                    $sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion));
+                    $sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
+                    $statement->execute();
+
+		$procesoIngreso->commit();
+
+        return $idRevisionCronogramaVacacion;
+
+        } catch (GuardarExcepcion $ex) {
+            $procesoIngreso->rollback();
+            throw new \Exception($ex->getMessage());
+        }
 	}
 
 	/**
