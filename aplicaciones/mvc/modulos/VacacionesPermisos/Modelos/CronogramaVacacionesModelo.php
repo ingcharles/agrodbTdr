@@ -166,7 +166,7 @@ class CronogramaVacacionesModelo extends ModeloBase
 	/**
 	*Secuencia
 */
-		 private $secuencial = 'g_vacaciones"."CronogramaVacaciones_id_cronograma_vacacion_seq'; 
+		 private $secuencial = 'g_vacaciones"."cronograma_vacaciones_id_cronograma_vacacion_seq'; 
 
 
 

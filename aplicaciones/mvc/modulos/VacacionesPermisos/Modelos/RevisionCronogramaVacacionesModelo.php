@@ -96,7 +96,7 @@ class RevisionCronogramaVacacionesModelo extends ModeloBase
 	/**
 	*Secuencia
 */
-		 private $secuencial = 'g_vacaciones"."RevisionCronogramaVacaciones_id_revision_cronograma_vacacion_seq'; 
+		 private $secuencial = 'g_vacaciones"."revision_cronograma_vacacione_id_revision_cronograma_vacaci_seq'; 
 
 
 

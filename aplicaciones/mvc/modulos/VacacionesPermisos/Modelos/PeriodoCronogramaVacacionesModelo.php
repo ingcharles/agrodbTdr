@@ -103,7 +103,7 @@ class PeriodoCronogramaVacacionesModelo extends ModeloBase
 	/**
 	*Secuencia
 */
-		 private $secuencial = 'g_vacaciones"."PeriodoCronogramaVacaciones_id_periodo_cronograma_vacacion_seq'; 
+		 private $secuencial = 'g_vacaciones"."periodo_cronograma_vacaciones_id_periodo_cronograma_vacacio_seq'; 
 
 
 
