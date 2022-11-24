@@ -117,7 +117,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 	{
 
 		$_POST['identificador_registro'] = $_SESSION['usuario'];
-		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador' => $_POST['identificador_registro'], 'anio_cronograma_vacacion' => (int)$_POST['anio_cronograma_vacacion']));
+		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador_funcionario' => $_POST['identificador_registro'], 'anio_cronograma_vacacion' => (int)$_POST['anio_cronograma_vacacion']));
 
 		if (!$existe->count()) {
 			$id = $this->lNegocioCronogramaVacaciones->guardarPlanificacionVacaciones($_POST);
@@ -178,7 +178,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		  <td >' . ++$contador . '</td>
 		  <td style="white - space:nowrap; "><b>' . $fila['id_cronograma_vacacion'] . '</b></td>
 <td>'
-						. $fila['identificador'] . '</td>
+						. $fila['identificador_funcionario'] . '</td>
 <td>' . $fila['fecha_ingreso_institucion']
 						. '</td>
 <td>' . $fila['identificador_backup'] . '</td>

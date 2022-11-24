@@ -162,7 +162,7 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 										g_estructura.funcionarios f
 									INNER JOIN g_estructura.area a ON a.id_area_padre = f.id_area
 									INNER JOIN g_uath.datos_contrato dc ON dc.identificador = f.identificador and dc.estado = 1) eap ON eap.id_area = dc.id_gestion
-						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador = fe.identificador
+						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador_funcionario = fe.identificador
 						WHERE
 							eap.identificador = '" . $identificador . "'
 							and ($identificadorFuncionarioInferior is NULL or usuario_creacion = $identificadorFuncionarioInferior)

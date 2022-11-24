@@ -263,7 +263,7 @@
 						if (!banderaTablaFechas) {
 							$("#estado").html("Revise los rangos de fechas ingresados.").addClass("alerta");
 						} else {
-							console.log(ejecutarJson($("#formulario")).responseText);
+							//console.log(ejecutarJson($("#formulario")).responseText);
 							JSON.parse(ejecutarJson($("#formulario")).responseText);
 						}
 					}
