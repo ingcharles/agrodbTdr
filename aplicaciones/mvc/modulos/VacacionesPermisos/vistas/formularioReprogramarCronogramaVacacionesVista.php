@@ -8,24 +8,27 @@
 </style>
 
 
-<form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='cronogramavacaciones/guardarPlanificacion' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
+<form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='cronogramavacaciones/actualizarPlanificacion' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 	<?php echo $this->datosGenerales; ?>
 	<fieldset>
 		<legend>Datos planificación</legend>
+		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
 		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
+		<input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="RevisionJefe" />
 
 		<div data-linea="5">
 			<label for="identificador_backup">Funcionario reemplazo: </label>
-
-			<?php echo $this->datosFuncionarioBackup; ?>
-
+			
+				<?php echo $this->datosFuncionarioBackup; ?>
+			
 		</div>
 
 		<div data-linea="6">
-			<label for="numero_periodos">Número de periodos a planificar: </label>
-			<?php echo $this->numeroPeriodos; ?>
+			<label for="numero_periodos_planificar">Número de periodos a planificar: </label>
+			
+				<?php echo $this->numeroPeriodos; ?>
+		
 		</div>
-
 
 
 	</fieldset>
@@ -36,7 +39,13 @@
 	<div id="datosPlanificarPeriodos"> </div>
 
 	<div data-linea="17">
-		<button type="submit" class="guardar">Guardar</button>
+	<?php 
+
+	 if($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion()!="RechazadoJefe"){
+      "";
+	}else{
+	echo	'<button  type="submit" class="guardar">Guardar</button>';
+	} ?>
 	</div>
 
 </form>
@@ -44,10 +53,74 @@
 
 <script type="text/javascript">
 	var identificadorFuncionario = "<?php echo $this->identificador; ?>";
+	var idCronogramaVacacion = "<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>";
+	var estadoCronograma = "<?php echo $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion(); ?>";
 
 	$(document).ready(function() {
 		construirValidador();
 		distribuirLineas();
+
+		if (estadoCronograma == "RechazadoJefe" || estadoCronograma == "RevisionJefe") {
+
+			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
+				numero_periodos_planificar: $('#numero_periodos').val(),
+				id_cronograma_vacacion: idCronogramaVacacion
+			}, function(data) {
+				if (data.estado === 'EXITO') {
+					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
+					$(".piFechaFin").datepicker({
+						changeMonth: false,
+						changeYear: false,
+						dateFormat: 'yy/mm/dd',
+					});
+
+					$(".piFechaInicio").datepicker({
+						yearRange: "+0:+1",
+						changeMonth: true,
+						changeYear: true,
+						dateFormat: 'yy/mm/dd',
+						minDate: '0',
+						onSelect: function(dateText, inst) {
+							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
+							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
+							var elementoNumeroDias = $(this).parents("tr").find(".piNumeroDias");
+							elementoFechaInicio.removeClass("alerta");
+							sumarDias(this, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);
+						}
+					});
+					var valorComboPeriodo = $("#numero_periodos option:selected").val();
+
+					var valorMaximo = 0;
+					switch (valorComboPeriodo) {
+						case "2":
+							valorMaximo = 15;
+							break;
+						case "3":
+							valorMaximo = 10;
+							break;
+						case "4":
+							valorMaximo = 7;
+							maxLength = 1;
+							break;
+						default:
+							valorMaximo = 30;
+							break;
+					}
+					$(".piNumeroDias").val(valorMaximo);
+					$(".piNumeroDias").numeric();
+					//$(".piNumeroDias").attr("maxlength", 2);
+
+					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
+					$('#total_dias').html(totalDias);
+					$('#total_dias_planificados').val(totalDias);
+
+				}
+			}, 'json');
+		}
+
+
+
+
 	});
 
 
@@ -86,7 +159,6 @@
 		$('#total_dias_planificados').val(acumuladorDias);
 
 	}
-
 
 
 	$("#numero_periodos").change(function(event) {
@@ -198,13 +270,8 @@
 						valorMaximo = 10;
 						break;
 					case "4":
-<<<<<<< HEAD
 						valorMaximo = 9;
-					break;
-=======
-						valorMaximo = 7;
 						break;
->>>>>>> 453a47a60ea05dbfcac87d837646bc0f04e450ed
 					default:
 						valorMaximo = 30;
 						break;
@@ -236,8 +303,10 @@
 				});
 
 				for (let index = 0; index < arrayFechas.length - 1; index++) {
+
 					const element = arrayFechas[index];
 					const elementNext = arrayFechas[index + 1];
+
 					var fechaInicio1 = new Date(elementNext.fecha_inicio);
 					var fechaFin1 = new Date(element.fecha_fin);
 					console.log(fechaInicio1);
@@ -247,6 +316,7 @@
 						console.log("esta mal");
 						$('.piFechaInicio').eq(index + 1).addClass("alerta"); //.css({color:'red'});
 					}
+
 				}
 
 				$.each(input_hermanos, function(idx, x) {
@@ -268,8 +338,9 @@
 						if (!banderaTablaFechas) {
 							$("#estado").html("Revise los rangos de fechas ingresados.").addClass("alerta");
 						} else {
-							//console.log(ejecutarJson($("#formulario")).responseText);
-							JSON.parse(ejecutarJson($("#formulario")).responseText);
+
+							abrir($(this), event, false);
+							abrir($("#ventanaAplicacion #opcionesAplicacion a.abierto"), "#listadoItems", true);
 						}
 					}
 				}

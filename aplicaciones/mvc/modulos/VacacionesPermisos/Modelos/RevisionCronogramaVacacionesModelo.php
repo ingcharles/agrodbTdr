@@ -5,7 +5,7 @@
  * Este archivo se complementa con el archivo   RevisionCronogramaVacacionesLogicaNegocio.
  *
  * @author  AGROCALIDAD
- * @date    2022-10-22
+ * @date    2022-11-21
  * @uses    RevisionCronogramaVacacionesModelo
  * @package VacacionesPermisos
  * @subpackage Modelos
@@ -53,6 +53,13 @@ class RevisionCronogramaVacacionesModelo extends ModeloBase
 		* estado de la solicitud
 		*/
 		protected $estadoSolicitud;
+		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Observacion  cuando se rechaza o se aprueba el cronograma de vacaciones
+		*/
+		protected $observacion;
 		/**
 		* @var Date
 		* Campo requerido
@@ -325,6 +332,30 @@ class RevisionCronogramaVacacionesModelo extends ModeloBase
 	public function getEstadoSolicitud()
 	{
 		return $this->estadoSolicitud;
+	}
+
+	/**
+	* Set observacion
+	*
+	*Observacion  cuando se rechaza o se aprueba el cronograma de vacaciones
+	*
+	* @parámetro String $observacion
+	* @return Observacion
+	*/
+	public function setObservacion($observacion)
+	{
+	  $this->observacion = (String) $observacion;
+	    return $this;
+	}
+
+	/**
+	* Get observacion
+	*
+	* @return null|String
+	*/
+	public function getObservacion()
+	{
+		return $this->observacion;
 	}
 
 	/**

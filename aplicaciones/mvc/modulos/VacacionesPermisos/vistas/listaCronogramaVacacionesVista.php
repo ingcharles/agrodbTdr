@@ -22,6 +22,7 @@
 	$(document).ready(function() {
 		construirPaginacion($("#paginacion"), <?php print_r(json_encode($this->itemsFiltrados, JSON_UNESCAPED_UNICODE)); ?>);
 		$("#listadoItems").removeClass("comunes");
+		$("#detalleItem").html('<div class="mensajeInicial">Arrastre aqui un item para revisarlo.</div>');
 	});
 	$("#_eliminar").click(function() {
 		if ($("#cantidadItemsSeleccionados").text() > 1) {
@@ -33,20 +34,19 @@
 	$("#tablaItems").click(function() {});
 
 
-//Funciones quer permiten filtrar
-$("#btnFiltrar").click(function () {
+		//Funciones quer permiten filtrar
+		$("#btnFiltrar").click(function () {
+			fn_filtrar();
+		}
 
-	fn_filtrar();
-}
-
-);
+		);
 
 function fn_filtrar() {
 
-$("#paginacion").html("<div id='cargando'>Cargando...</div>");
-$("#detalleItem").html('<div class="mensajeInicial">Arrastre aqui un item para revisarlo.</div>');
+//$("#paginacion").html("<div id='cargando'>Cargando...</div>");
 
-$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/listarSolicitudeCronogramaVacacion",
+
+$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/listarSolicitudesCronogramaVacacion",
 	{
 		estado_cronograma_vacacion: $('#estado_cronograma_vacacion').val()	
 	},
@@ -60,8 +60,5 @@ $.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/listarSolicitud
 		}
 	}, 'json');
 }
-
-
-
 
 </script>

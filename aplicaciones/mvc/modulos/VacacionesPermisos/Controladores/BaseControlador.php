@@ -54,7 +54,7 @@ class BaseControlador extends Comun
 		$fechaIngreso = $qDatosFuncionario->current()->fecha_ingreso_institucion;
 		$unidadAdministrativa = $qDatosFuncionario->current()->nombre_unidad_administrativa;
 		$gestionAdministrativa = $qDatosFuncionario->current()->nombre_gestion_administrativa;
-		$idPuesto = $qDatosFuncionario->current()->id_puesto;
+		
 		$puestoInstitucional = $qDatosFuncionario->current()->puesto_institucional;
 		
 		$qSaldoFuncionario = $cronogramaVacacionesLogicaNegocio->consultarSaldoFuncionario($this->identificador);
@@ -79,10 +79,9 @@ class BaseControlador extends Comun
 
 		$datos = '
 		<input type="hidden" name="fecha_ingreso_institucion" id="fecha_ingreso_institucion" value="' . $fechaIngreso . '"/>
-		<input type="hidden" name="id_puesto" id="id_puesto" value="' . $idPuesto . '"/>
+		<input type="hidden" name="nombre_puesto" id="nombre_puesto" value="' . $puestoInstitucional . '"/>
 		<fieldset>
 		<legend>Cronograma de planificación</legend>
-		<input type="hidden" name="id_puesto" id="id_puesto" value="' . $idPuesto . '" />"
 		<div data-linea="1">
 			<label for="identificador">Identificador: </label>' 
 			. $this->identificador .

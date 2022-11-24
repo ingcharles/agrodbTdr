@@ -83,7 +83,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				break;
 				case'PFL_DE_PROG_VAC':					
 					echo "ES DIRECTOR EJECUTIVO";
-					$estadoCronogramaVacacion = "EnviadoDdee";
+					$estadoCronogramaVacacion = "EnviadoDe";
 					$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 					$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 
@@ -192,7 +192,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				$estadoCronograma = "EnviadoTthh";
 			break;
 			case 'PFL_DIR_VAC_TTHH':
-				$estadoCronograma = "EnviadoDdee";
+				$estadoCronograma = "EnviadoDe";
 			break;
 			case'PFL_DE_PROG_VAC':
 				$estadoCronograma = "Aprobado";
@@ -254,7 +254,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				break;
 				case'PFL_DE_PROG_VAC':					
 					echo "ES DIRECTOR EJECUTIVO";
-					$estadoCronogramaVacacion = "EnviadoDdee";
+					$estadoCronogramaVacacion = "EnviadoDe";
 					$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 					$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 

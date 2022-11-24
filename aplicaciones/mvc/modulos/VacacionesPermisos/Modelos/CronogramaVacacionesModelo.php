@@ -5,7 +5,7 @@
  * Este archivo se complementa con el archivo   CronogramaVacacionesLogicaNegocio.
  *
  * @author  AGROCALIDAD
- * @date    2022-10-22
+ * @date    2022-11-21
  * @uses    CronogramaVacacionesModelo
  * @package VacacionesPermisos
  * @subpackage Modelos
@@ -33,6 +33,13 @@ class CronogramaVacacionesModelo extends ModeloBase
 		*/
 		protected $identificador;
 		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Nombre del funcionario que planifica el cronograma de vacaciones
+		*/
+		protected $nombreFuncionario;
+		/**
 		* @var Date
 		* Campo requerido
 		* Campo visible en el formulario
@@ -40,12 +47,19 @@ class CronogramaVacacionesModelo extends ModeloBase
 		*/
 		protected $fechaIngresoInstitucion;
 		/**
-		* @var Integer
+		* @var String
 		* Campo requerido
 		* Campo visible en el formulario
 		* identificador unico de la tabla g_catalogos.puestos
 		*/
-		protected $idPuesto;
+		protected $nombrePuesto;
+		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Area de funcionario que tiene altualmente el tramite
+		*/
+		protected $idAreaPadre;
 		/**
 		* @var String
 		* Campo requerido
@@ -61,12 +75,19 @@ class CronogramaVacacionesModelo extends ModeloBase
 		*/
 		protected $totalDiasPlanificados;
 		/**
-		* @var String
+		* @var Integer
 		* Campo requerido
 		* Campo visible en el formulario
-		* Observaciones de la aprobación o rechazo de la planificacion de vacaciones
+		* Es el anio actual + 1 para planificar las vacaciones
 		*/
-		protected $observacion;
+		protected $anioCronogramaVacacion;
+		/**
+		* @var Integer
+		* Campo requerido
+		* Campo visible en el formulario
+		* Es el numero de periodos seleccionados al planficiar las vacaciones
+		*/
+		protected $numeroPeriodos;
 		/**
 		* @var String
 		* Campo requerido
@@ -78,9 +99,9 @@ class CronogramaVacacionesModelo extends ModeloBase
 		* @var String
 		* Campo requerido
 		* Campo visible en el formulario
-		* Area de funcionario que tiene altualmente el tramite
+		* Observaciones de la aprobacion o rechazo de la planificacion de vacaciones
 		*/
-		protected $idAreaRevisor;
+		protected $observacion;
 		/**
 		* @var String
 		* Campo requerido
@@ -96,6 +117,13 @@ class CronogramaVacacionesModelo extends ModeloBase
 		*/
 		protected $usuarioModificacion;
 		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Estado de la revision del registro de planificacion de vacaciones
+		*/
+		protected $estadoCronogramaVacacion;
+		/**
 		* @var Date
 		* Campo requerido
 		* Campo visible en el formulario
@@ -106,33 +134,9 @@ class CronogramaVacacionesModelo extends ModeloBase
 		* @var Date
 		* Campo requerido
 		* Campo visible en el formulario
-		* Fecha de modificación en el sistema
+		* Fecha de modificacion en el sistema
 		*/
 		protected $fechaModificacion;
-		/**
-		* @var String
-		* Campo requerido
-		* Campo visible en el formulario
-		* Estado de la revisión del registro de planificacion de vacaciones
-		*/
-		protected $estadoCronogramaVacacion;
-		/**
-		* @var String
-		* Campo requerido
-		* Campo visible en el formulario
-		* Estado del registro Activo/Inactivo
-		*/
-		protected $estadoSolicitud;
-		/**
-		* @var Integer
-		* Campo requerido
-		* Campo visible en el formulario
-		* 
-		*/
-		protected $anioCronogramaVacacion;
-
-
-		protected $numeroPeriodos;
 
 	/**
 	* Campos del formulario 
@@ -329,6 +333,30 @@ class CronogramaVacacionesModelo extends ModeloBase
 	}
 
 	/**
+	* Set nombreFuncionario
+	*
+	*Nombre del funcionario que planifica el cronograma de vacaciones
+	*
+	* @parámetro String $nombreFuncionario
+	* @return NombreFuncionario
+	*/
+	public function setNombreFuncionario($nombreFuncionario)
+	{
+	  $this->nombreFuncionario = (String) $nombreFuncionario;
+	    return $this;
+	}
+
+	/**
+	* Get nombreFuncionario
+	*
+	* @return null|String
+	*/
+	public function getNombreFuncionario()
+	{
+		return $this->nombreFuncionario;
+	}
+
+	/**
 	* Set fechaIngresoInstitucion
 	*
 	*Fecha de ingreso del primer contrato
@@ -353,27 +381,51 @@ class CronogramaVacacionesModelo extends ModeloBase
 	}
 
 	/**
-	* Set idPuesto
+	* Set nombrePuesto
 	*
 	*identificador unico de la tabla g_catalogos.puestos
 	*
 	* @parámetro Integer $idPuesto
 	* @return IdPuesto
 	*/
-	public function setIdPuesto($idPuesto)
+	public function setIdPuesto($nombrePuesto)
 	{
-	  $this->idPuesto = (Integer) $idPuesto;
+	  $this->nombrePuesto = (String) $nombrePuesto;
 	    return $this;
 	}
 
 	/**
-	* Get idPuesto
+	* Get nombrePuesto
 	*
-	* @return null|Integer
+	* @return null|String
 	*/
-	public function getIdPuesto()
+	public function getNombrePuesto()
 	{
-		return $this->idPuesto;
+		return $this->nombrePuesto;
+	}
+
+	/**
+	* Set idAreaPadre
+	*
+	*Area de funcionario que tiene altualmente el tramite
+	*
+	* @parámetro String $idAreaPadre
+	* @return IdAreaPadre
+	*/
+	public function setIdAreaPadre($idAreaPadre)
+	{
+	  $this->idAreaPadre = (String) $idAreaPadre;
+	    return $this;
+	}
+
+	/**
+	* Get idAreaPadre
+	*
+	* @return null|String
+	*/
+	public function getIdAreaPadre()
+	{
+		return $this->idAreaPadre;
 	}
 
 	/**
@@ -425,27 +477,51 @@ class CronogramaVacacionesModelo extends ModeloBase
 	}
 
 	/**
-	* Set observacion
+	* Set anioCronogramaVacacion
 	*
-	*Observaciones de la aprobación o rechazo de la planificacion de vacaciones
+	*Es el anio actual + 1 para planificar las vacaciones
 	*
-	* @parámetro String $observacion
-	* @return Observacion
+	* @parámetro Integer $anioCronogramaVacacion
+	* @return AnioCronogramaVacacion
 	*/
-	public function setObservacion($observacion)
+	public function setAnioCronogramaVacacion($anioCronogramaVacacion)
 	{
-	  $this->observacion = (String) $observacion;
+	  $this->anioCronogramaVacacion = (Integer) $anioCronogramaVacacion;
 	    return $this;
 	}
 
 	/**
-	* Get observacion
+	* Get anioCronogramaVacacion
 	*
-	* @return null|String
+	* @return null|Integer
 	*/
-	public function getObservacion()
+	public function getAnioCronogramaVacacion()
 	{
-		return $this->observacion;
+		return $this->anioCronogramaVacacion;
+	}
+
+	/**
+	* Set numeroPeriodos
+	*
+	*Es el numero de periodos seleccionados al planficiar las vacaciones
+	*
+	* @parámetro Integer $numeroPeriodos
+	* @return NumeroPeriodos
+	*/
+	public function setNumeroPeriodos($numeroPeriodos)
+	{
+	  $this->numeroPeriodos = (Integer) $numeroPeriodos;
+	    return $this;
+	}
+
+	/**
+	* Get numeroPeriodos
+	*
+	* @return null|Integer
+	*/
+	public function getNumeroPeriodos()
+	{
+		return $this->numeroPeriodos;
 	}
 
 	/**
@@ -473,27 +549,27 @@ class CronogramaVacacionesModelo extends ModeloBase
 	}
 
 	/**
-	* Set idAreaRevisor
+	* Set observacion
 	*
-	*Area de funcionario que tiene altualmente el tramite
+	*Observaciones de la aprobacion o rechazo de la planificacion de vacaciones
 	*
-	* @parámetro String $idAreaRevisor
-	* @return IdAreaRevisor
+	* @parámetro String $observacion
+	* @return Observacion
 	*/
-	public function setIdAreaRevisor($idAreaRevisor)
+	public function setObservacion($observacion)
 	{
-	  $this->idAreaRevisor = (String) $idAreaRevisor;
+	  $this->observacion = (String) $observacion;
 	    return $this;
 	}
 
 	/**
-	* Get idAreaRevisor
+	* Get observacion
 	*
 	* @return null|String
 	*/
-	public function getIdAreaRevisor()
+	public function getObservacion()
 	{
-		return $this->idAreaRevisor;
+		return $this->observacion;
 	}
 
 	/**
@@ -545,6 +621,30 @@ class CronogramaVacacionesModelo extends ModeloBase
 	}
 
 	/**
+	* Set estadoCronogramaVacacion
+	*
+	*Estado de la revision del registro de planificacion de vacaciones
+	*
+	* @parámetro String $estadoCronogramaVacacion
+	* @return EstadoCronogramaVacacion
+	*/
+	public function setEstadoCronogramaVacacion($estadoCronogramaVacacion)
+	{
+	  $this->estadoCronogramaVacacion = (String) $estadoCronogramaVacacion;
+	    return $this;
+	}
+
+	/**
+	* Get estadoCronogramaVacacion
+	*
+	* @return null|String
+	*/
+	public function getEstadoCronogramaVacacion()
+	{
+		return $this->estadoCronogramaVacacion;
+	}
+
+	/**
 	* Set fechaCreacion
 	*
 	*Fecha de registro en el sistema
@@ -571,7 +671,7 @@ class CronogramaVacacionesModelo extends ModeloBase
 	/**
 	* Set fechaModificacion
 	*
-	*Fecha de modificación en el sistema
+	*Fecha de modificacion en el sistema
 	*
 	* @parámetro Date $fechaModificacion
 	* @return FechaModificacion
@@ -592,94 +692,6 @@ class CronogramaVacacionesModelo extends ModeloBase
 		return $this->fechaModificacion;
 	}
 
-	/**
-	* Set estadoCronogramaVacacion
-	*
-	*Estado de la revisión del registro de planificacion de vacaciones
-	*
-	* @parámetro String $estadoCronogramaVacacion
-	* @return EstadoCronogramaVacacion
-	*/
-	public function setEstadoCronogramaVacacion($estadoCronogramaVacacion)
-	{
-	  $this->estadoCronogramaVacacion = (String) $estadoCronogramaVacacion;
-	    return $this;
-	}
-
-	/**
-	* Get estadoCronogramaVacacion
-	*
-	* @return null|String
-	*/
-	public function getEstadoCronogramaVacacion()
-	{
-		return $this->estadoCronogramaVacacion;
-	}
-
-	/**
-	* Set estadoSolicitud
-	*
-	*Estado del registro Activo/Inactivo
-	*
-	* @parámetro String $estadoSolicitud
-	* @return EstadoSolicitud
-	*/
-	public function setEstadoSolicitud($estadoSolicitud)
-	{
-	  $this->estadoSolicitud = (String) $estadoSolicitud;
-	    return $this;
-	}
-
-	/**
-	* Get estadoSolicitud
-	*
-	* @return null|String
-	*/
-	public function getEstadoSolicitud()
-	{
-		return $this->estadoSolicitud;
-	}
-
-	/**
-	* Set anioCronogramaVacacion
-	*
-	*
-	*
-	* @parámetro Integer $anioCronogramaVacacion
-	* @return AnioCronogramaVacacion
-	*/
-	public function setAnioCronogramaVacacion($anioCronogramaVacacion)
-	{
-	  $this->anioCronogramaVacacion = (Integer) $anioCronogramaVacacion;
-	    return $this;
-	}
-
-	/**
-	* Get anioCronogramaVacacion
-	*
-	* @return null|Integer
-	*/
-	public function getAnioCronogramaVacacion()
-	{
-		return $this->anioCronogramaVacacion;
-	}
-
-
-	public function setNumeroPeriodos($numeroPeriodos)
-	{
-	  $this->numeroPeriodos = (Integer) $numeroPeriodos;
-	    return $this;
-	}
-
-	/**
-	* Get anioCronogramaVacacion
-	*
-	* @return null|Integer
-	*/
-	public function getNumeroPeriodos()
-	{
-		return $this->numeroPeriodos;
-	}
 	/**
 	* Guarda el registro actual
 	* @param array $datos
