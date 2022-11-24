@@ -82,7 +82,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 					$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 				break;
 				case'PFL_DE_PROG_VAC':					
-					echo "ES DIRECTOR EJECUTIVO";
+					//echo "ES DIRECTOR EJECUTIVO";
 					$estadoCronogramaVacacion = "EnviadoDe";
 					$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 					$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);

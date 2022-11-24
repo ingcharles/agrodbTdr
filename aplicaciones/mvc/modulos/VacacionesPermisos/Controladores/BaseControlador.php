@@ -17,6 +17,7 @@ namespace Agrodb\VacacionesPermisos\Controladores;
 session_start();
 
 use Agrodb\Core\Comun;
+use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesLogicaNegocio;
 
@@ -24,7 +25,7 @@ class BaseControlador extends Comun
 {
 	public $itemsFiltrados = array();
 	public $codigoJS = null;
-
+	private $lNegocioConfiguracionCronogramaVacaciones = null;
 	/**
 	* Constructor
 	*/
@@ -32,6 +33,7 @@ class BaseControlador extends Comun
 		parent::usuarioActivo();
 		//Si se requiere agregar código concatenar la nueva cadena con  ejemplo $this->codigoJS.=alert('hola');
 		$this->codigoJS = \Agrodb\Core\Mensajes::limpiar();
+		$this->lNegocioConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesLogicaNegocio();
 	}
 	public function crearTabla() {
 		$tabla = "//No existen datos para mostrar...";
@@ -46,10 +48,11 @@ class BaseControlador extends Comun
 	}
 
 	public function construirDatosGeneralesCronogramaVacaciones() {
-		
+		$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
 		$cronogramaVacacionesLogicaNegocio = new CronogramaVacacionesLogicaNegocio();
+		$idConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->id_configuracion_cronograma_vacacion;
 		$qDatosFuncionario = $cronogramaVacacionesLogicaNegocio->obtenerDatosEmpleadoFechaIngresoInstitucion($this->identificador);
-
 		$nombre = $qDatosFuncionario->current()->nombre;
 		$fechaIngreso = $qDatosFuncionario->current()->fecha_ingreso_institucion;
 		$unidadAdministrativa = $qDatosFuncionario->current()->nombre_unidad_administrativa;
@@ -76,10 +79,12 @@ class BaseControlador extends Comun
 		$minutos = $minutos + $minutosNuevo;
 
 		$diasDisponibles = $cronogramaVacacionesLogicaNegocio->devolverFormatoDiasDisponibles($minutos);
-
+		
 		$datos = '
 		<input type="hidden" name="fecha_ingreso_institucion" id="fecha_ingreso_institucion" value="' . $fechaIngreso . '"/>
 		<input type="hidden" name="nombre_puesto" id="nombre_puesto" value="' . $puestoInstitucional . '"/>
+		<input type="hidden" name="id_configuracion_cronograma_vacacion" id="id_configuracion_cronograma_vacacion" value="' . $idConfiguracionCronogramaVacacion  . '"/>
+		
 		<fieldset>
 		<legend>Cronograma de planificación</legend>
 		<div data-linea="1">

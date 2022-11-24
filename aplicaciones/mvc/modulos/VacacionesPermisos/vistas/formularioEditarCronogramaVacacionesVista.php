@@ -18,16 +18,16 @@
 
 		<div data-linea="5">
 			<label for="identificador_backup">Funcionario reemplazo: </label>
-			
-				<?php echo $this->datosFuncionarioBackup; ?>
-			
+
+			<?php echo $this->datosFuncionarioBackup; ?>
+
 		</div>
 
 		<div data-linea="6">
 			<label for="numero_periodos_planificar">Número de periodos a planificar: </label>
-			
-				<?php echo $this->numeroPeriodos; ?>
-		
+
+			<?php echo $this->numeroPeriodos; ?>
+
 		</div>
 
 
@@ -39,13 +39,13 @@
 	<div id="datosPlanificarPeriodos"> </div>
 
 	<div data-linea="17">
-	<?php 
+		<?php
 
-	 if($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion()!="RechazadoJefe"){
-      "";
-	}else{
-	echo	'<button  type="submit" class="guardar">Guardar</button>';
-	} ?>
+		if ($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion() != "RechazadoJefe") {
+			"";
+		} else {
+			echo	'<button  type="submit" class="guardar">Guardar</button>';
+		} ?>
 	</div>
 
 </form>
@@ -113,6 +113,12 @@
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
+					if (estadoCronograma == "RevisionJefe") {
+						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
+							$(elem).attr('disabled', true);
+						})
+						console.log('siiiiiii')
+					}
 
 				}
 			}, 'json');

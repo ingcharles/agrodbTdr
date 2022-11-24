@@ -277,9 +277,11 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 			} else {
 				//unset($datosBd["id_cronograma_vacacion"]);
 				$arrayParametros = array(
+					'id_configuracion_cronograma_vacacion'=>  $_POST['id_configuracion_cronograma_vacacion'],
 					'identificador_funcionario' =>  $_POST['identificador_registro'],
 					'fecha_ingreso_institucion' =>  $_POST['fecha_ingreso_institucion'],
 					'nombre_puesto' =>  $_POST['nombre_puesto'],
+					'nombre_funcionario'=>$_POST['nombre_funcionario'],
 					'identificador_backup' =>  $_POST['identificador_backup'],
 					'total_dias_planificados' =>  $_POST['total_dias_planificados'],
 					'usuario_creacion' =>  $_POST['identificador_registro'],
@@ -367,11 +369,13 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 
 				for ($i = 0; $i < count($datos['hFechaInicio']); $i++) {
 					$datosDetalle = array(
+					
 						'id_cronograma_vacacion' => (int) $idRegistro,
 						'numero_periodo' => $i + 1,
 						'fecha_inicio' => $datos['hFechaInicio'][$i],
 						'fecha_fin' => $datos['hFechaFin'][$i],
-						'total_dias' => $datos['hNumeroDias'][$i]
+						'total_dias' => $datos['hNumeroDias'][$i],
+						'estado_registro' => 'Activo'
 					);
 
 					$sqlInsertar = $this->modeloCronogramaVacaciones->guardarSql('periodo_cronograma_vacaciones', $this->modeloCronogramaVacaciones->getEsquema());

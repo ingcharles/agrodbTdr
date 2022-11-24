@@ -9,7 +9,8 @@
 
 
 <form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='cronogramavacaciones/guardarPlanificacion' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
-	<?php echo $this->datosGenerales; ?>
+	
+    <?php echo $this->datosGenerales; ?>
 	<?php echo $this->datosPeriodoCronograma; ?>
 </form>
 

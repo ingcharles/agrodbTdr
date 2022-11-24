@@ -22,6 +22,8 @@ use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesModelo;
 
 use Agrodb\Core\Constantes;
 use Agrodb\Core\Mensajes;
+use Agrodb\GUath\Modelos\FichaEmpleadoLogicaNegocio;
+use Agrodb\Usuarios\Modelos\UsuariosLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
 
 class CronogramaVacacionesControlador extends BaseControlador
@@ -35,6 +37,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 	private $numeroPeriodos = null;
 	private $lNegocioPeriodoCronogramaVacaciones = null;
 	private $lNegocioConfiguracionCronogramaVacaciones = null;
+	private $lNegocioUsuario=null;
 	private $datosFuncionarioBackup = null;
 	private $datosPeriodoCronograma = null;
 	private $lNegocioDatosContrato = null;
@@ -50,6 +53,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$this->lNegocioDatosContrato = new DatosContratoLogicaNegocio();
 		$this->lNegocioPeriodoCronogramaVacaciones = new PeriodoCronogramaVacacionesLogicaNegocio();
 		$this->lNegocioConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesLogicaNegocio();
+		$this->lNegocioUsuario=new FichaEmpleadoLogicaNegocio();
 		set_exception_handler(array($this, 'manejadorExcepciones'));
 	}
 	/**
@@ -82,6 +86,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null, true);
 			$this->datosPeriodoCronograma = $this->construirDatosPlanificacionCronograma();
 			$this->anioPlanificacion = $anioPlanificacion;
+			
 		}else{
 			$this->accion = "Nueva solicitud de planificación año.";
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
@@ -132,8 +137,13 @@ class CronogramaVacacionesControlador extends BaseControlador
 
 	public function guardarPlanificacion()
 	{
-
+		$filtro=['identificador'=>$_SESSION['usuario']];
+		$usuario=$this->lNegocioUsuario->buscarLista($filtro);
+		$nombreUsuario=$usuario->current()->nombre .' '. $usuario->current()->apellido;
 		$_POST['identificador_registro'] = $_SESSION['usuario'];
+		$_POST['nombre_funcionario']=$nombreUsuario;
+		
+
 		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador_funcionario' => $_POST['identificador_registro'], 'anio_cronograma_vacacion' => (int)$_POST['anio_cronograma_vacacion']));
 
 		if (!$existe->count()) {
@@ -262,6 +272,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 
 		if (isset($_POST['id_cronograma_vacacion'])) {
 			$idCronograma = $_POST['id_cronograma_vacacion'];
+			$arrayEstados = ['Primer Periodo:','Segundo Periodo:','Tercer Periodo:','Cuarto Periodo:'];
+			
 			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => 'Activo'));
 			$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
@@ -274,15 +286,17 @@ class CronogramaVacacionesControlador extends BaseControlador
 												</thead>
 												
 										';
+			$periodo=0;
 			foreach ($periodos as $item) {
 				$datosPlanificarPeriodos .= '<tbody>
 			<tr>	
-				<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
+				<td style="font-weight: bold;">' . $arrayEstados[$periodo] . '<input type="hidden" name="hPeriodo[]" value="1"></td>
 				<td><input value=' . $item->fecha_inicio . ' type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
 				<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias[]" id="diaPrimerPeriodo" onkeyup="calculo(this,' . "'^(3[0]{0,1})$'" . ');"></td>
 				<td><input value=' . $item->fecha_fin . ' type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 			</tr>
 		</tbody>';
+		$periodo++;
 			}
 			$datosPlanificarPeriodos .= '	</table>';
 		} else {
@@ -520,12 +534,12 @@ class CronogramaVacacionesControlador extends BaseControlador
 	}
 
 	public function construirDatosPlanificacionCronograma() {
-
+		$anioPlanificacion = (date('Y') + 1);
 		$funcionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, null, true);
 		
 		$datos = '<fieldset>
 					<legend>Datos planificación</legend>
-					<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
+					<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="' . $anioPlanificacion  . '" />
 
 					<div data-linea="5">
 						<label for="identificador_backup">Funcionario reemplazo: </label>
