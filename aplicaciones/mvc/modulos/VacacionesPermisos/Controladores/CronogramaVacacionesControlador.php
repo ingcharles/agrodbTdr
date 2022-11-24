@@ -117,15 +117,9 @@ class CronogramaVacacionesControlador extends BaseControlador
 	{
 
 		$_POST['identificador_registro'] = $_SESSION['usuario'];
-<<<<<<< HEAD
 		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador' => $_POST['identificador_registro'], 'anio_cronograma_vacacion' => (int)$_POST['anio_cronograma_vacacion']));
 
 		if (!$existe->count()) {
-=======
-		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador_funcionario'=>$_POST['identificador_registro'],'anio_cronograma_vacacion'=>(integer)$_POST['anio_cronograma_vacacion']));
-		
-		if(!$existe->count()){
->>>>>>> rama-aprobacion-cronograma
 			$id = $this->lNegocioCronogramaVacaciones->guardarPlanificacionVacaciones($_POST);
 			if ($id != 0) {
 				Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
@@ -452,16 +446,6 @@ class CronogramaVacacionesControlador extends BaseControlador
 		return $panelBusqueda;
 	}
 
-<<<<<<< HEAD
-	public function listarSolicitudeCronogramaVacacion()
-	{
-		$estado = 'EXITO';
-		$mensaje = '';
-		$contenido = '';
-		$filtro =  $_POST['estado_cronograma_vacacion'];
-
-		$solicitudesModificacion = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacacionesFiltro($filtro);
-=======
 	public function listarSolicitudesCronogramaVacacion()
     {
         $estado = 'EXITO';
@@ -474,7 +458,6 @@ class CronogramaVacacionesControlador extends BaseControlador
 							, 'estado_cronograma_vacacion'=> $estadoCronogramaVacacion];
 
         $solicitudesModificacion = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacacionesFiltro($arrayParametros);
->>>>>>> rama-aprobacion-cronograma
 
 		if ($solicitudesModificacion->count()) {
 			$this->tablaHtmlCronogramaVacaciones($solicitudesModificacion);
