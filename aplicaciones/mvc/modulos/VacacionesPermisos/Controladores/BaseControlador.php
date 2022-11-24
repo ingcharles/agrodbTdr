@@ -114,7 +114,7 @@ class BaseControlador extends Comun
 		<hr/>
 		<div data-linea="7">
 			<label for="dias_disponibles">Días disponibles: </label>'
-			. $diasDisponibles .
+			. $diasDisponibles .    
 		'</div>
 		</fieldset>';		
 
