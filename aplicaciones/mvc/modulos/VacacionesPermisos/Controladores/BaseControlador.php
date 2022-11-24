@@ -122,6 +122,19 @@ class BaseControlador extends Comun
 
 	}
 
+	public function construirDatosGeneralesCronogramaVacacionesNoConfigurado() {
+
+		$datos = '<fieldset>
+					<legend>Cronograma de planificación</legend>
+					<div data-linea="1">
+						<label for="observacion">Observacion: </label>No existe una planificación habilitada.
+					</div>
+					</fieldset>';
+
+		return $datos;
+
+	}
+
 	public function obtenerSolicitudesPlanificacionVacaciones() {
 
 		//TODO: Recibir os perfiles del funcionario y en base a eso aplicar filtros para la revisión de solicitudes

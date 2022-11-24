@@ -13,7 +13,10 @@
  namespace Agrodb\VacacionesPermisos\Controladores;
  use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
  use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesModelo;
-use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
+ use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
+ use Agrodb\Core\Constantes;
+ use Agrodb\Core\Mensajes;
+
 
 class ConfiguracionCronogramaVacacionesControlador extends BaseControlador 
 {
@@ -55,14 +58,17 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 		public function guardar()
 		{
 
+			$identificadorConfiguracionCronogramaVacacion = $this->identificador;
 			$anioConfiguracionCronogramaVacacion = $_POST['anio_configuracion_cronograma_vacacion'];
 
+			$_POST['identificador_configuracion_cronograma_vacacion'] = $identificadorConfiguracionCronogramaVacacion;
 			//print_r($_POST);
 
 			$datos = ['anio_configuracion_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion];
 
 			$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
 
+<<<<<<< HEAD
 			// if($datosConfiguracionCronogramaVacacion->count()){
 			// 	echo"existe";
 			// }else{
@@ -70,6 +76,18 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 			// } 
 
 			$this->lNegocioConfiguracionCronogramaVacaciones->guardar($_POST);
+=======
+			/*if($datosConfiguracionCronogramaVacacion->count()){
+				echo"existe";
+			}else{
+				echo "no existe";
+			} */
+
+			$this->lNegocioConfiguracionCronogramaVacaciones->guardar($_POST);
+
+			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
+
+>>>>>>> 822f95b73117c455f120ba8cb4aa162661148b2b
 		}	/**
 		*Obtenemos los datos del registro seleccionado para editar - Tabla: ConfiguracionCronogramaVacaciones
 		*/
@@ -155,8 +173,8 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 			</div>				
 	
 			<div data-linea="2">
-				<label for="descripcion_vacacion">Descripción: </label>
-				<input type="text" id="descripcion_vacacion" name="descripcion_vacacion" value="" placeholder="Coloque una descripción" maxlength="256" class="validacion"/>
+				<label for="descripcion_configuracion_vacacion">Descripción: </label>
+				<input type="text" id="descripcion_configuracion_vacacion" name="descripcion_configuracion_vacacion" value="" placeholder="Coloque una descripción" maxlength="256" class="validacion"/>
 			</div>
 	
 		</fieldset >

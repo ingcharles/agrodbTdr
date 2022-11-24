@@ -10,35 +10,7 @@
 
 <form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='cronogramavacaciones/guardarPlanificacion' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 	<?php echo $this->datosGenerales; ?>
-	<fieldset>
-		<legend>Datos planificación</legend>
-		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
-
-		<div data-linea="5">
-			<label for="identificador_backup">Funcionario reemplazo: </label>
-
-			<?php echo $this->datosFuncionarioBackup; ?>
-
-		</div>
-
-		<div data-linea="6">
-			<label for="numero_periodos">Número de periodos a planificar: </label>
-			<?php echo $this->numeroPeriodos; ?>
-		</div>
-
-
-
-	</fieldset>
-
-	<div id="dDatosPeriodo"></div>
-
-
-	<div id="datosPlanificarPeriodos"> </div>
-
-	<div data-linea="17">
-		<button type="submit" class="guardar">Guardar</button>
-	</div>
-
+	<?php echo $this->datosPeriodoCronograma; ?>
 </form>
 
 
