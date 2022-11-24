@@ -50,8 +50,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 	 */
 	public function index()
 	{
-
-		$modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacaciones();
+		$identificadorFuncionario = $this->identificador;
+		$modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador_funcionario' => $identificadorFuncionario));
 		$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
 		$this->tablaHtmlCronogramaVacaciones($modeloCronogramaVacaciones);
 		require APP . 'VacacionesPermisos/vistas/listaCronogramaVacacionesVista.php';
@@ -113,7 +113,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$lista = '';
 
 		$_POST['identificador_registro'] = $_SESSION['usuario'];
-		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador'=>$_POST['identificador_registro'],'anio_cronograma_vacacion'=>(integer)$_POST['anio_cronograma_vacacion']));
+		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador_funcionario'=>$_POST['identificador_registro'],'anio_cronograma_vacacion'=>(integer)$_POST['anio_cronograma_vacacion']));
 		
 		if(!$existe->count()){
 			$id = $this->lNegocioCronogramaVacaciones->guardarPlanificacionVacaciones($_POST);
@@ -456,14 +456,18 @@ class CronogramaVacacionesControlador extends BaseControlador
 		return $panelBusqueda;
 	}
 
-	public function listarSolicitudeCronogramaVacacion()
+	public function listarSolicitudesCronogramaVacacion()
     {
         $estado = 'EXITO';
         $mensaje = '';
         $contenido = '';
-      $filtro=  $_POST['estado_cronograma_vacacion'] ;
+		$identificadorFuncionario = $this->identificador;
+      	$estadoCronogramaVacacion =  $_POST['estado_cronograma_vacacion'];
 
-        $solicitudesModificacion = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacacionesFiltro($filtro);
+		$arrayParametros = ['identificador_funcionario'=> $identificadorFuncionario
+							, 'estado_cronograma_vacacion'=> $estadoCronogramaVacacion];
+
+        $solicitudesModificacion = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacacionesFiltro($arrayParametros);
 
         if ($solicitudesModificacion->count()) {
             $this->tablaHtmlCronogramaVacaciones($solicitudesModificacion);

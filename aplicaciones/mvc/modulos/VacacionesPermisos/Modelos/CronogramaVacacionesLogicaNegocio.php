@@ -99,17 +99,24 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 	 */
 	public function buscarCronogramaVacaciones()
 	{
-		
-		 $consulta = "SELECT * FROM " . $this->modeloCronogramaVacaciones->getEsquema() . ". cronograma_vacaciones";
+		$consulta = "SELECT * FROM " . $this->modeloCronogramaVacaciones->getEsquema() . ". cronograma_vacaciones";
 		return $this->modeloCronogramaVacaciones->ejecutarSqlNativo($consulta);
 	}
 
-	public function buscarCronogramaVacacionesFiltro($filtroEstado)
-	{
-		
-		$filtro = $filtroEstado;
-	    $estado = $filtro != "" ? "'" . $filtro . "'" : "null";	
-		$consulta = "SELECT * FROM " . $this->modeloCronogramaVacaciones->getEsquema() . ". cronograma_vacaciones where  ($estado is NULL or estado_cronograma_vacacion = $estado)";
+	public function buscarCronogramaVacacionesFiltro($arrayParametros)
+	{		
+		$estadoCronogramaVacacion = $arrayParametros['estado_cronograma_vacacion'];
+		$identificadorFuncionario = $arrayParametros['identificador_funcionario'];
+	    $estadoCronogramaVacacion = $estadoCronogramaVacacion != "" ? "'" . $estadoCronogramaVacacion . "'" : "null";
+
+		$consulta = "SELECT
+						* 
+					FROM 
+						g_vacaciones. cronograma_vacaciones 
+					WHERE
+						identificador_funcionario = '" . $identificadorFuncionario . "'
+						and ($estadoCronogramaVacacion is NULL or estado_cronograma_vacacion = $estadoCronogramaVacacion)";
+
 		return $this->modeloCronogramaVacaciones->ejecutarSqlNativo($consulta);
 	}
 
@@ -272,7 +279,7 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 			} else {
 				//unset($datosBd["id_cronograma_vacacion"]);
 				$arrayParametros = array(
-					'identificador' =>  $_POST['identificador_registro'],
+					'identificador_funcionario' =>  $_POST['identificador_registro'],
 					'fecha_ingreso_institucion' =>  $_POST['fecha_ingreso_institucion'],
 					'id_puesto' =>  $_POST['id_puesto'],
 					'identificador_backup' =>  $_POST['identificador_backup'],
@@ -391,4 +398,64 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 			return 0;
 		}
 	}
+
+	/**
+	 * Ejecuta una consulta(SQL) personalizada .
+	 *
+	 * @return array|ResultSet
+	 */
+	public function obtenerResumenConsolidadoCronogramaVacaciones()
+	{
+		$consulta = "(SELECT 
+							CASE WHEN estado_cronograma_vacacion='EnviadoDe' THEN 'Revisión Director Ejecutivo'  
+							WHEN estado_cronograma_vacacion='EnviadoTthh' THEN 'Revisión Talento Humano'
+							WHEN estado_cronograma_vacacion='EnviadoJefe' THEN 'Revisión Jefe Inmediato' 
+							WHEN estado_cronograma_vacacion='Rechazado' THEN 'Rechazado' ELSE 
+							'Otro' END descripcion
+							, COUNT(estado_cronograma_vacacion) cantidad
+						FROM 
+							g_vacaciones.cronograma_vacaciones
+						GROUP BY 1 
+						ORDER BY 1 ASC
+						)
+						UNION ALL 
+						(
+						SELECT 'Total solicitudes generadas' descripcion
+							, COUNT(estado_cronograma_vacacion) cantidad
+						FROM 
+							g_vacaciones.cronograma_vacaciones
+						)
+						UNION ALL 
+						(
+						SELECT 
+							'Total solicitudes por generar' descripcion
+							, t2.cantidad_generar - t1.cantidad_generada AS cantidad  
+						FROM 
+							(SELECT 
+								COUNT(estado_cronograma_vacacion) cantidad_generada 
+							FROM 
+								g_vacaciones.cronograma_vacaciones) t1, 
+							(SELECT 
+								COUNT(*) cantidad_generar 
+							FROM 
+								g_uath.datos_contrato dc 
+							WHERE 
+							dc.estado = 1 
+							AND dc.tipo_contrato != 'Contrato de Servicios Profesionales') t2
+						)
+						UNION ALL 
+						(
+						SELECT 
+							'Total de funcionarios' descripcion
+							, COUNT(*)cantidad 
+						FROM 
+							g_uath.datos_contrato dc 
+						WHERE 
+							dc.estado = 1 
+							AND dc.tipo_contrato != 'Contrato de Servicios Profesionales'
+						);";
+
+		return $this->modeloCronogramaVacaciones->ejecutarSqlNativo($consulta);
+	}
+
 }

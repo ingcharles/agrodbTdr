@@ -325,7 +325,7 @@ class CertificadoFitosanitarioControlador extends BaseControlador
      */
     public function reimpresion()
     {
-        
+        echo "XXXX";
         $solicitudesSeleccionadas = $_POST['elementos'];
         
         if(!empty($solicitudesSeleccionadas)){
