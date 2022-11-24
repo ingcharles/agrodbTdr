@@ -202,7 +202,7 @@
 						valorMaximo = 10;
 					break;
 					case "4":
-						valorMaximo = 7;
+						valorMaximo = 9;
 					break;
 					default:
 						valorMaximo = 30;

@@ -95,7 +95,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			// }
 		} else {
 			$estado = 'FALLO';
-			$mensaje = 'Error al guardar el registro !!';
+			$mensaje = 'Error al actualizar el registro !!';
 		}
 		echo json_encode(array(
 			'estado' => $estado,
@@ -113,9 +113,9 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$lista = '';
 
 		$_POST['identificador_registro'] = $_SESSION['usuario'];
-		$existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador'=>$_POST['identificador_registro'],'anio_cronograma_vacacion'=>(integer)$_POST['anio_cronograma_vacacion']));
+		// $existe = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador'=>$_POST['identificador_registro'],'anio_cronograma_vacacion'=>(integer)$_POST['anio_cronograma_vacacion']));
 		
-		if(!$existe->count()){
+		// if(!$existe->count()){
 			$id = $this->lNegocioCronogramaVacaciones->guardarPlanificacionVacaciones($_POST);
 			if ($id != 0) {
 				$contenido = $id;
@@ -134,13 +134,13 @@ class CronogramaVacacionesControlador extends BaseControlador
 				'lista' => $lista,
 				'contenido' => $contenido
 			));
-		}else{
+		// }else{
 			
-			echo json_encode(array(
-				'estado' => 'Error',
-				'mensaje' => 'Ya existe una planificación en este año.'
-			));
-		}
+		// 	echo json_encode(array(
+		// 		'estado' => 'Error',
+		// 		'mensaje' => 'Ya existe una planificación en este año.'
+		// 	));
+		// }
 	}
 	/**
 	 *Obtenemos los datos del registro seleccionado para editar - Tabla: CronogramaVacaciones
