@@ -117,7 +117,7 @@ class ConfiguracionCronogramaVacacionesModelo extends ModeloBase
 	/**
 	*Secuencia
 */
-		 private $secuencial = 'g_vacaciones"."ConfiguracionCronogramaVacaciones_id_configuracion_cronograma_vacacion_seq'; 
+		 private $secuencial = 'g_vacaciones"."configuracion_cronograma_vaca_id_configuracion_cronograma_v_seq'; 
 
 
 

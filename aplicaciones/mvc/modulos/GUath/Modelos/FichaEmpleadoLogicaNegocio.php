@@ -200,7 +200,7 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 						FROM
 						g_uath.datos_contrato dc
 						INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = dc.identificador
-						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador = fe.identificador
+						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador_funcionario = fe.identificador
 						WHERE
 							dc.estado = 1
 							and cv.estado_cronograma_vacacion = '" . $estadoCronogramaVacacion . "'

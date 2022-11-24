@@ -22,6 +22,7 @@ use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesModelo;
 
 use Agrodb\Core\Constantes;
 use Agrodb\Core\Mensajes;
+use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
 
 class CronogramaVacacionesControlador extends BaseControlador
 {
@@ -33,7 +34,9 @@ class CronogramaVacacionesControlador extends BaseControlador
 	private $datosGenerales = null;
 	private $numeroPeriodos = null;
 	private $lNegocioPeriodoCronogramaVacaciones = null;
+	private $lNegocioConfiguracionCronogramaVacaciones = null;
 	private $datosFuncionarioBackup = null;
+	private $datosPeriodoCronograma = null;
 	private $lNegocioDatosContrato = null;
 	private $panelBusqueda = null;
 	/**
@@ -46,6 +49,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$this->modeloCronogramaVacaciones = new CronogramaVacacionesModelo();
 		$this->lNegocioDatosContrato = new DatosContratoLogicaNegocio();
 		$this->lNegocioPeriodoCronogramaVacaciones = new PeriodoCronogramaVacacionesLogicaNegocio();
+		$this->lNegocioConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesLogicaNegocio();
 		set_exception_handler(array($this, 'manejadorExcepciones'));
 	}
 	/**
@@ -64,12 +68,24 @@ class CronogramaVacacionesControlador extends BaseControlador
 	 */
 	public function nuevo()
 	{
-		$anioPlanificacion = (date('Y') + 1);
-		$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
-		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
-		$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null, true);
-		$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, null, true);
-		$this->anioPlanificacion = $anioPlanificacion;
+
+		$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+
+		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
+
+		if($verificarConfiguracionCronograma->count()){
+
+			$anioPlanificacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
+			$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
+			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
+			$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null, true);
+			$this->datosPeriodoCronograma = $this->construirDatosPlanificacionCronograma($anioPlanificacion);
+			$this->anioPlanificacion = $anioPlanificacion;
+		}else{
+			$this->accion = "Nueva solicitud de planificación año.";
+			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
+		}
+		
 		require APP . 'VacacionesPermisos/vistas/formularioCronogramaVacacionesVista.php';
 	}
 	/**
@@ -501,4 +517,32 @@ class CronogramaVacacionesControlador extends BaseControlador
 			require APP . 'VacacionesPermisos/vistas/formularioReprogramarCronogramaVacacionesVista.php';
 		}
 	}
+
+	public function construirDatosPlanificacionCronograma($anioPlanificacion) {
+
+		$funcionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, null, true);
+		
+		$datos = '<fieldset>
+					<legend>Datos planificación</legend>
+					<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="' . $anioPlanificacion . '" />
+
+					<div data-linea="5">
+						<label for="identificador_backup">Funcionario reemplazo: </label>
+						' . $funcionarioBackup . '
+					</div>
+					<div data-linea="6">
+						<label for="numero_periodos">Número de periodos a planificar: </label>
+						' . $this->numeroPeriodos . '
+					</div>
+				</fieldset>
+				<div id="dDatosPeriodo"></div>
+				<div id="datosPlanificarPeriodos"> </div>
+				<div data-linea="17">
+					<button type="submit" class="guardar">Guardar</button>
+				</div>';
+		
+		return $datos;
+				
+	}
+
 }
