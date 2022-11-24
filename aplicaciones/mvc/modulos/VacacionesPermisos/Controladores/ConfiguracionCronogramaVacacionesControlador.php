@@ -67,7 +67,7 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 				echo"existe";
 			}else{
 				echo "no existe";
-			}
+			} 
 
 			//$this->lNegocioConfiguracionCronogramaVacaciones->guardar($_POST);
 		}	/**
