@@ -64,12 +64,33 @@ class CronogramaVacacionesControlador extends BaseControlador
 	 */
 	public function nuevo()
 	{
+<<<<<<< HEAD
 		$anioPlanificacion = (date('Y') + 1);
 		$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
 		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
 		$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null, true);
 		$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, null, true);
 		$this->anioPlanificacion = $anioPlanificacion;
+=======
+
+		$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+
+		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
+
+		if($verificarConfiguracionCronograma->count()){
+
+			$anioPlanificacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
+			$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
+			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
+			$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null, true);
+			$this->datosPeriodoCronograma = $this->construirDatosPlanificacionCronograma($anioPlanificacion);
+			$this->anioPlanificacion = $anioPlanificacion;     
+		}else{
+			$this->accion = "Nueva solicitud de planificación año.";
+			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
+		}
+		
+>>>>>>> rama-revision-de
 		require APP . 'VacacionesPermisos/vistas/formularioCronogramaVacacionesVista.php';
 	}
 	/**
@@ -493,7 +514,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			switch ($estadoCronogramaRegistro) {
 				case 'RechazadoJefe':
 					$estado = true;
-					break;
+					break;   
 			}
 			$this->numeroPeriodos = $this->obtenerNumeroPeriodos($this->modeloCronogramaVacaciones->getNumeroPeriodos(), $estado);
 			$this->datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, $this->modeloCronogramaVacaciones->getIdentificadorBackup(), $estado);
