@@ -34,10 +34,36 @@
 	$("#tablaItems").click(function() {});
 
 
+<<<<<<< HEAD
 	//Funciones quer permiten filtrar
 	$("#btnFiltrar").click(function() {
 
 			fn_filtrar();
+=======
+		//Funciones quer permiten filtrar
+		$("#btnFiltrar").click(function () {
+			fn_filtrar();
+		}
+
+		);
+
+function fn_filtrar() {
+
+$("#paginacion").html("<div id='cargando'>Cargando...</div>");
+$("#detalleItem").html('<div class="mensajeInicial">Arrastre aqui un item para revisarlo.</div>');
+
+$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/listarSolicitudesCronogramaVacacion",
+	{
+		estado_cronograma_vacacion: $('#estado_cronograma_vacacion').val()	
+	},
+
+	function (data) {
+		if (data.estado === 'FALLO') {
+			construirPaginacion($("#paginacion"), JSON.parse(data.contenido));
+			mostrarMensaje(data.mensaje, "FALLO");
+		} else {
+			construirPaginacion($("#paginacion"), JSON.parse(data.contenido));
+>>>>>>> rama-aprobacion-cronograma
 		}
 
 	);
