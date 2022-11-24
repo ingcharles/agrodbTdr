@@ -2,24 +2,40 @@
 	<nav><?php echo $this->panelBusqueda; ?></nav>
 	<nav><?php echo $this->crearAccionBotones(); ?></nav>
 </header>
+
 <div id="paginacion" class="normal"></div>
-<table id="tablaItems">
-	<thead>
-		<tr>
-			<th>#</th>
-			<th>Identificador</th>
-			<th>Nombre</th>
-			<th>Dirección/Gestión</th>
-			<th>Fecha creación</th>
-		</tr>
-	</thead>
-	<tbody></tbody>
-</table>
+	<?php
+	if ($this->perfilUsuarioDirector == 'PFL_DE_PROG_VAC') {
+			echo '<div id="article">' . $this->article . '</div>';
+	} else {
+		echo '<table id="tablaItems">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Identificador</th>
+					<th>Nombre</th>
+					<th>Dirección/Gestión</th>
+					<th>Fecha creación</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+			</table>';
+	}
+	?>
+
 
 <script>
+	var perfilUsuarioDirector = "<?php echo $this->perfilUsuarioDirector; ?>";
+
 	$(document).ready(function() {
-		construirPaginacion($("#paginacion"), <?php print_r(json_encode($this->itemsFiltrados, JSON_UNESCAPED_UNICODE)); ?>);
-		$("#listadoItems").removeClass("comunes");
+		if(perfilUsuarioDirector == 'PFL_DE_PROG_VAC'){
+			$("#listadoItems").addClass("comunes");
+			
+		}else{
+			construirPaginacion($("#paginacion"), <?php print_r(json_encode($this->itemsFiltrados, JSON_UNESCAPED_UNICODE)); ?>);
+			
+			$("#listadoItems").removeClass("comunes");
+		}
 		$("#detalleItem").html('<div class="mensajeInicial">Arrastre aqui un item para revisarlo.</div>');
 	});
 	$("#_eliminar").click(function() {
@@ -28,7 +44,6 @@
 			return false;
 		}
 	});
-
 	$("#btnFiltrar").click(function(event) {
 		event.preventDefault();
 		fn_filtrar();
@@ -64,4 +79,5 @@
 	$("#bFechaFin").datepicker({
 		dateFormat: 'yy-mm-dd',
 	});
+	
 </script>

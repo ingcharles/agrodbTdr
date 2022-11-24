@@ -89,6 +89,11 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 		return $this->modeloConfiguracionCronogramaVacaciones->buscarLista($where, $order, $count, $offset);
 	}
 
+	public function buscarEstadosConfiguracionCronogramaVacaciones()
+	{
+		$consulta = "SELECT DISTINCT estado_configuracion_cronograma_vacacion as estado FROM ".$this->modeloConfiguracionCronogramaVacaciones->getEsquema().". configuracion_cronograma_vacaciones";
+		 return $this->modeloConfiguracionCronogramaVacaciones->ejecutarSqlNativo($consulta);
+	}
 	/**
 	* Ejecuta una consulta(SQL) personalizada .
 	*
