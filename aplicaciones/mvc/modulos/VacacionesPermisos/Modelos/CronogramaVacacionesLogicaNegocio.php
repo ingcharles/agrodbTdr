@@ -129,14 +129,12 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 				arr.nombre AS nombre_unidad_administrativa,
 				--ar.id_area, 
 				ar.nombre AS nombre_gestion_administrativa, 
-				pu.id_puesto, 
-				pu.nombre_puesto AS puesto_institucional
+				dc.nombre_puesto AS puesto_institucional
 		FROM
 				g_estructura.area ar 
 				INNER JOIN g_estructura.area arr ON arr.id_area = ar.id_area_padre AND arr.estado = 1
 				INNER JOIN g_uath.datos_contrato dc ON ar.id_area = dc.id_gestion AND dc.estado = 1
-				INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = dc.identificador AND fe.estado_empleado = 'activo'
-				LEFT JOIN g_catalogos.puestos pu ON ar.id_area = pu.id_area AND pu.estado = 1 AND dc.nombre_puesto = pu.nombre_puesto,
+				INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = dc.identificador AND fe.estado_empleado = 'activo',
 				(SELECT dc1.fecha_inicio FROM g_uath.datos_contrato dc1 WHERE dc1.id_datos_contrato = (SELECT MIN(dcc.id_datos_contrato) id_datos_contrato FROM g_uath.datos_contrato dcc WHERE dcc.identificador = '" . $identificador . "') 
 				) mdc 
 		WHERE
@@ -274,7 +272,7 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 				$arrayParametros = array(
 					'identificador' =>  $_POST['identificador_registro'],
 					'fecha_ingreso_institucion' =>  $_POST['fecha_ingreso_institucion'],
-					'id_puesto' =>  $_POST['id_puesto'],
+					'nombre_puesto' =>  $_POST['nombre_puesto'],
 					'identificador_backup' =>  $_POST['identificador_backup'],
 					'total_dias_planificados' =>  $_POST['total_dias_planificados'],
 					'usuario_creacion' =>  $_POST['identificador_registro'],

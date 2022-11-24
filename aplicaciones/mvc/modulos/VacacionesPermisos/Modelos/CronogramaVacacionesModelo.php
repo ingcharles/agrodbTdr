@@ -47,12 +47,12 @@ class CronogramaVacacionesModelo extends ModeloBase
 		*/
 		protected $fechaIngresoInstitucion;
 		/**
-		* @var Integer
+		* @var String
 		* Campo requerido
 		* Campo visible en el formulario
 		* identificador unico de la tabla g_catalogos.puestos
 		*/
-		protected $idPuesto;
+		protected $nombrePuesto;
 		/**
 		* @var String
 		* Campo requerido
@@ -381,27 +381,27 @@ class CronogramaVacacionesModelo extends ModeloBase
 	}
 
 	/**
-	* Set idPuesto
+	* Set nombrePuesto
 	*
 	*identificador unico de la tabla g_catalogos.puestos
 	*
 	* @parámetro Integer $idPuesto
 	* @return IdPuesto
 	*/
-	public function setIdPuesto($idPuesto)
+	public function setIdPuesto($nombrePuesto)
 	{
-	  $this->idPuesto = (Integer) $idPuesto;
+	  $this->nombrePuesto = (String) $nombrePuesto;
 	    return $this;
 	}
 
 	/**
-	* Get idPuesto
+	* Get nombrePuesto
 	*
-	* @return null|Integer
+	* @return null|String
 	*/
-	public function getIdPuesto()
+	public function getNombrePuesto()
 	{
-		return $this->idPuesto;
+		return $this->nombrePuesto;
 	}
 
 	/**
