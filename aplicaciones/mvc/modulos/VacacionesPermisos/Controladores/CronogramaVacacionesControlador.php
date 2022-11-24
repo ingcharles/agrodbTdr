@@ -80,7 +80,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
 			$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null, true);
 			$this->datosPeriodoCronograma = $this->construirDatosPlanificacionCronograma($anioPlanificacion);
-			$this->anioPlanificacion = $anioPlanificacion;
+			$this->anioPlanificacion = $anioPlanificacion;     
 		}else{
 			$this->accion = "Nueva solicitud de planificación año.";
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
