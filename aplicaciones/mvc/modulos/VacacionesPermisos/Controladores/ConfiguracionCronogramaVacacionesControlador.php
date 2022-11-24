@@ -68,15 +68,6 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 
 			$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
 
-<<<<<<< HEAD
-			// if($datosConfiguracionCronogramaVacacion->count()){
-			// 	echo"existe";
-			// }else{
-			// 	echo "no existe";
-			// } 
-
-			$this->lNegocioConfiguracionCronogramaVacaciones->guardar($_POST);
-=======
 			/*if($datosConfiguracionCronogramaVacacion->count()){
 				echo"existe";
 			}else{
@@ -87,7 +78,6 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 
 			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
 
->>>>>>> 822f95b73117c455f120ba8cb4aa162661148b2b
 		}	/**
 		*Obtenemos los datos del registro seleccionado para editar - Tabla: ConfiguracionCronogramaVacaciones
 		*/

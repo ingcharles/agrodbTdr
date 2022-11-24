@@ -170,13 +170,8 @@
 						valorMaximo = 10;
 						break;
 					case "4":
-<<<<<<< HEAD
 						valorMaximo = 9;
 					break;
-=======
-						valorMaximo = 7;
-						break;
->>>>>>> 453a47a60ea05dbfcac87d837646bc0f04e450ed
 					default:
 						valorMaximo = 30;
 						break;
