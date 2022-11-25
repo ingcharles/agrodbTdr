@@ -22,6 +22,7 @@ use Agrodb\VacacionesPermisos\Modelos\RevisionCronogramaVacacionesModelo;
 use Agrodb\Core\Constantes;
 use Agrodb\Core\Mensajes;
 use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
+use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesModelo;
 
 class RevisionCronogramaVacacionesControlador extends BaseControlador
 {
@@ -31,7 +32,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	private $lNegocioCronogramaVacaciones = null;
 	private $lNegocioUsuariosPerfiles = null;
 	private $lNegocioFichaEmpleado = null;
-	private $lNegocioConfiguracionCronogramaVacaciones=null;
+	private $lNegocioConfiguracionCronogramaVacaciones = null;
+	private $descripcionConfiguracionCronogramaVacaciones = null;
 	private $accion = null;
 	private $article = null;
 	private $datosGenerales = null;
@@ -47,7 +49,6 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		parent::__construct();
 		$this->lNegocioRevisionCronogramaVacaciones = new RevisionCronogramaVacacionesLogicaNegocio();
 		$this->modeloRevisionCronogramaVacaciones = new RevisionCronogramaVacacionesModelo();
-		$this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
 		$this->lNegocioUsuariosPerfiles = new UsuariosPerfilesLogicaNegocio();
 		$this->lNegocioFichaEmpleado = new FichaEmpleadoLogicaNegocio();
 		$this->lNegocioConfiguracionCronogramaVacaciones=new ConfiguracionCronogramaVacacionesLogicaNegocio();
@@ -298,13 +299,13 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		 switch ($estado['estado']) {
 			
 					case 'Activo':
-						$this->article .= "<h2>Cronograma Habilitado </h2>";
-						$estadoMostrado = "Asignado Documental";
-						$pagina = "abrirSolicitudEnviada";
+						$this->article .= "<h2>Cronograma Periodo Actual </h2>";
+						$estadoMostrado = "Habilitado";
+						$pagina = "aprobarConfiguracionCronogramaVacaciones";
 					break;
 	
 					case 'Inactivo':
-						$this->article .= "<h2> Cronogramas Inhabilitados </h2>";
+						$this->article .= "<h2> Cronograma Periodos Cerrados </h2>";
 						$estadoMostrado = "Inhabilitado";
 						$pagina = "abrirSolicitudEnviada";
 					break;
@@ -318,7 +319,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 					foreach ($consulta as $fila){
 			
 					$this->article .= '<article id="' . $fila['anio_configuracion_cronograma_vacacion'] . '" class="item"
-			    								data-rutaAplicacion="' . URL_MVC_FOLDER . 'ProveedoresExterior\ProveedorExterior"
+			    								data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\RevisionCronogramaVacaciones"
 			    								data-opcion="' . $pagina . '" ondragstart="drag(event)"
 			    								draggable="true" data-destino="detalleItem">
 			    								<span><small><b>' . ($fila["descripcion_configuracion_vacacion"] ? $fila["descripcion_configuracion_vacacion"] : 'TEMPORAL') . '</b> </small></span><br/>
@@ -328,45 +329,83 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 					}
 			
         }
-		// foreach ($qEstado->current()->estado_configuracion_cronograma_vacacion as $estado){
 
-		// 	switch ($estado['estado_configuracion_cronograma_vacacion']) {
-			
-		// 		case 'Habilitado':
-		// 			$this->article .= "<h2> Solicitudes Asignadas a Revisión Documental </h2>";
-		// 			$estadoMostrado = "Asignado Documental";
-		// 			$pagina = "abrirSolicitudEnviada";
-		// 		break;
+	}
 
-		// 		case 'Inhabilitado':
-		// 			$this->article .= "<h2> Solicitudes Inhabilitadas </h2>";
-		// 			$estadoMostrado = "Inhabilitado";
-		// 			$pagina = "abrirSolicitudEnviada";
-		// 		break;
+	/**
+	 * Método para abrir la solicitud en estado de revision documental
+	 */
+	public function aprobarConfiguracionCronogramaVacaciones(){
 
-			
-		// 	}
+		
+		$arrayParametros = array('anio' => $_POST["id"]);
 
-		// 	$query = "identificador_operador = '" . $_SESSION['usuario'] . "' and estado_solicitud = '" . $estado['estado_solicitud'] . "' ";
+		$query = "identificador_director_ejecutivo = '" . $_SESSION['usuario'] . "' and anio_configuracion_cronograma_vacacion = ". $arrayParametros['anio'] ;
 
-		// 	$consulta = $this->lNegocioProveedorExterior->buscarLista($query);
+		$qDatoConfiguracion = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($query);
+	
+		$this->descripcionConfiguracionCronogramaVacaciones ='
+		<form id="frmVistaPreviaSolicitud" data-rutaAplicacion="dossierFertilizante" data-opcion="" >
+			<input type="hidden" name="id_configuracion_cronograma_vacacion" value="'. $qDatoConfiguracion->current()->id_configuracion_cronograma_vacacion .'" />
+			<fieldset>
+				<legend>Cronograma de planificación año '. $qDatoConfiguracion->current()->anio_configuracion_cronograma_vacacion .'</legend>
+				
+				<div data-linea="1">
+					<label for="descripcion_configuracion_vacacion">Descripción: </label>
+					'. $qDatoConfiguracion->current()->descripcion_configuracion_vacacion .'
+				</div>
 
-		// 	foreach ($consulta as $fila){
+				<div data-linea="2">
+					<label for="comentario_configuracion_vacacion">Comentario: </label>
+					falta poner variable de base
+				</div>
+				<hr/>
+				<div data-linea="3">
+				<label>Archivo Excel: </label>
+					<a id="verReporteSolicitud" href="'. $qDatoConfiguracion->current()->ruta_consolidado_excel .'" target="_blank"> Descargar </a>
+				</div>
 
-		// 		$this->solicitudesProvedorExterior = $this->lNegocioOperadores->obtenerInformacionOperadorPorIdentificador($fila['identificador_operador']);
+				<div data-linea="4">
+				<label>Archivo Pdf: </label>
+					<a id="verReporteSolicitud" href="'. $qDatoConfiguracion->current()->ruta_consolidado_pdf .'" target="_blank" > Descargar </a>
+				</div>
+				<hr/>
+				<div data-linea="5">
+					<label>Resultado: </label>
+					<select id="estado_configuracion_cronograma_vacacion" name="estado_configuracion_cronograma_vacacion">
+						<option value="">Seleccione....</option>
+						<option value="Inactivo">Aprobado</option>
+						<option value="EnviadoDe">Rechazado</option>
+					</select>
+				</div>	
+			</fieldset>
 
-		// 		$this->article .= '<article id="' . $fila['id_proveedor_exterior'] . '" class="item"
-        //     								data-rutaAplicacion="' . URL_MVC_FOLDER . 'ProveedoresExterior\ProveedorExterior"
-        //     								data-opcion="' . $pagina . '" ondragstart="drag(event)"
-        //     								draggable="true" data-destino="detalleItem">
-        //     								<span><small><b>' . ($fila["codigo_creacion_solicitud"] ? $fila["codigo_creacion_solicitud"] : 'TEMPORAL') . '</b> </small></span><br/>
-        //                                     <span><small><b>Razón social: </b>' . $this->solicitudesProvedorExterior->current()->nombre_operador . '</small></span><br/>
-        //                                     <span><small><b>Provincia: </b>' . $fila["nombre_provincia_operador"] . '</small></span><br/>
-        //     					 			<span class="ordinal">' . $contador ++ . '</span>
-        //     								<aside><small><b>Estado: </b>' . $estadoMostrado . '</small></aside>
-    	// 							</article>';
-		// 	}
+			<button id="btnVistaPreviaSolicitud" type="button" class="documento btnVistaPreviaSolicitud">Enviar</button>
+		</form>';
+
+		// $this->modeloProveedorExterior = $this->lNegocioProveedorExterior->buscar($arrayParametros['id_proveedor_exterior']);
+		// $estadoSolicitud = $this->modeloProveedorExterior->getEstadoSolicitud();
+		// $nombreProvinciaOperador = $this->modeloProveedorExterior->getNombreProvinciaOperador();
+
+		// switch ($estadoSolicitud) {
+		// 	case "AsignadoDocumental":
+
+		// 		$arrayRevisorAsignado = array(
+		// 			'id_solicitud' => $arrayParametros['id_proveedor_exterior'],
+		// 			'tipo_solicitud' => 'proveedorExterior',
+		// 			'tipo_inspector' => 'Documental');
+
+		// 		$this->construirTecnicoRevisionDocumentalAsignado($arrayRevisorAsignado);
+		// 	break;
 		// }
+
+		// $this->construirDatosOperador($_SESSION['usuario'], $nombreProvinciaOperador);
+		// $this->desplegarDocumentosAdjuntos($arrayParametros);
+		// $this->construirDetalleProductosProveedor($arrayParametros, false);
+
+		// $this->accion = "Solicitud de habilitación";
+		require APP . 'VacacionesPermisos/vistas/formularioAprobarConfiguracionCronogramaVacacionesVista.php';
+		// require APP . 'VacacionesPermisos/vistas/formularioRevisionCronogramaVacacionesVista.php';
 	}
 
 }

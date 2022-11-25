@@ -73,11 +73,11 @@
 	}
 
 	$("#bFechaInicio").datepicker({
-		dateFormat: 'yy-mm-dd',
+		dateFormat: 'yy/mm/dd',
 	});
 
 	$("#bFechaFin").datepicker({
-		dateFormat: 'yy-mm-dd',
+		dateFormat: 'yy/mm/dd',
 	});
 	
 </script>
