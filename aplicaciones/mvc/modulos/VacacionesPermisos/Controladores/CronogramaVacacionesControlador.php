@@ -215,7 +215,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		  <td style="white - space:nowrap; "><b>' . $fila['id_cronograma_vacacion'] . '</b></td>
 <td>'
 						. $fila['identificador_funcionario'] . '</td>
-<td>' . $fila['fecha_ingreso_institucion']
+<td>' . 	date('Y/m/d',strtotime($fila['fecha_ingreso_institucion']))
 						. '</td>
 <td>' . $fila['identificador_backup'] . '</td>
 <td>' . $fila['total_dias_planificados'] . '</td>
