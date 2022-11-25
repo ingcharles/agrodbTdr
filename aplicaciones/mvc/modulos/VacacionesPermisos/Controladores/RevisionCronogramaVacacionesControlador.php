@@ -19,7 +19,8 @@ use Agrodb\VacacionesPermisos\Modelos\RevisionCronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\RevisionCronogramaVacacionesModelo;
 use Agrodb\Core\Constantes;
 use Agrodb\Core\Mensajes;
- 
+use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
+
 class RevisionCronogramaVacacionesControlador extends BaseControlador 
 {
 
@@ -28,6 +29,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		 private $lNegocioCronogramaVacaciones = null;
 		 private $lNegocioUsuariosPerfiles = null;
 		 private $lNegocioFichaEmpleado = null;
+		 private $lNegocioConfiguracionCronogramaVacaciones = null;
 		 private $accion = null;
 		 private $datosGenerales = null;
 		 private $periodoCronograma = null;
@@ -44,6 +46,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		 $this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
 		 $this->lNegocioUsuariosPerfiles = new UsuariosPerfilesLogicaNegocio();
 		 $this->lNegocioFichaEmpleado = new FichaEmpleadoLogicaNegocio();
+		 $this->lNegocioConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesLogicaNegocio();
 
 		 set_exception_handler(array($this, 'manejadorExcepciones'));
 		}	/**
@@ -132,8 +135,9 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		*/
 		public function editar()
 		{
+			$idCronogramaVacacion = $_POST['id'];
 			$this->accion = "Revisión de cronograma de vacaciones";
-			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
+			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
 			$this->periodoCronograma = $this->construirDetallePeriodosCronograma(array('id_cronograma_vacacion' => $_POST["id"]));	
 			$this->resultadoRevision = $this->construirResultadoRevision();
 
@@ -278,5 +282,128 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 								'contenido' => $contenido)
 						);
 	}
+
+/**
+	* Método para desplegar el formulario vacio
+	*/
+	public function enviarDirectorEjecutivo()
+	{
+
+		$arrayParametros = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametros);
+
+		if ($verificarConfiguracionCronograma->count()){
+
+			$idConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->id_configuracion_cronograma_vacacion;
+			$anioConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
+			$descripcionConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->descripcion_configuracion_vacacion;
+			
+			$arrayParametros = ['anio_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion];
+			
+			$verificarRegistrosCronograma = $this->lNegocioCronogramaVacaciones->buscarLista($arrayParametros);
+
+			if($verificarRegistrosCronograma->count()){
+				$this->accion = "Envío cronograma vacaciones DE";					 
+				$arrayResumenCronograma = ['id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion
+											, 'anio_configuracion_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion
+											, 'descripcion_configuracion_vacacion' => $descripcionConfiguracionCronogramaVacacion];
+				
+				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacaciones($arrayResumenCronograma);
+			}else{
+				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacacionesNoCreado();
+			}
+
+		}else{
+			$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacacionesNoCreado();
+		}
+
+		require APP . 'VacacionesPermisos/vistas/formularioResumenEnvioCronogramaVacacionesVista.php';
+	}
+
+	/**
+	* Método para construir resumen de consolidado de cronograma de vacaciones
+	*/
+	public function construirResumenCronogramaVacaciones($arrayResumenCronograma)
+	{
+		$resumenConsolidado = "";
+		$idConfiguracionCronogramaVacacion = $arrayResumenCronograma['id_configuracion_cronograma_vacacion'];
+		$anioConfiguracionCronogramaVacacion = $arrayResumenCronograma['anio_configuracion_cronograma_vacacion'];
+		$descripcionConfiguracionCronogramaVacacion = $arrayResumenCronograma['descripcion_configuracion_vacacion'];
+		
+		$resumenConsolidadoCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->obtenerResumenConsolidadoCronogramaVacaciones();
+	
+		$resumenConsolidado .= '
+		<input type="hidden" name="id_configuracion_cronograma_vacacion" id="id_configuracion_cronograma_vacacion" value="' . $idConfiguracionCronogramaVacacion .'" >
+		<fieldset>
+		<legend>Datos generales</legend>
+		<div data-linea="1">
+			<label>Año cronograma: </label>' . $anioConfiguracionCronogramaVacacion . '
+		</div>
+		<div data-linea="2">
+			<label>Descripción: </label>' . $descripcionConfiguracionCronogramaVacacion . '
+		</div>		
+		</fieldset>
+		<fieldset>
+		<legend>Resumen cronograma vacaciones</legend>
+		<table style="width: 100%">
+		<thead>
+		<tr>
+		<th>Descripción</th>
+		<th>Cantidad</th>
+		</tr>
+		</thead>
+		<tbody>';		
+
+		foreach($resumenConsolidadoCronogramaVacaciones as $item){
+			$resumenConsolidado .= '<tr>
+										<td>' . $item['descripcion'] . '</td>
+										<td style="text-align: right;">' . $item['cantidad'] . '</td>
+									</tr>';
+		}
+		
+		$resumenConsolidado .= '</tbody></table></fieldset>
+		<div data-linea="10">
+			<button type="submit" class="guardar">Enviar a Director Ejecutivo</button>
+		</div>';
+
+		return $resumenConsolidado;
+
+	}
+
+	/**
+	* Método para construir resumen de consolidado de cronograma de vacaciones
+	*/
+	public function construirResumenCronogramaVacacionesNoCreado()
+	{
+		$resumenConsolidado = "";
+		$resumenConsolidadoCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->obtenerResumenConsolidadoCronogramaVacaciones();
+	
+		$resumenConsolidado .= '<fieldset>
+		<legend>Resumen cronograma vacaciones</legend>
+		<div data-linea="1">
+			<label>Resultado: </label> No se han generado registros para el año o no se a configurado una planificación.
+		<div>
+		</fieldset>';		
+
+		return $resumenConsolidado;
+
+	}	
+
+	/**
+		*Obtenemos los datos del registro seleccionado para editar - Tabla: RevisionCronogramaVacaciones
+		*/
+		public function guardarEnviarDirectorEjecutivo()
+		{			
+			$_POST['estado_configuracion_cronograma_vacacion'] = 'EnviadoDe';
+			//print_r($_POST);
+
+			//Verificar que no existan revisiones pendentes en estado "EnviadoTtthh", si existen
+			//enviar mesaje que diga que aun existen solicitudes para revision de talento humano
+
+			//Que va a pasar con las solicitudes que quedan pendientes??? que el jefe no autorizó
+
+			$this->lNegocioConfiguracionCronogramaVacaciones->guardar($_POST);
+			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
+		}	
 
 }

@@ -26,12 +26,19 @@ class CronogramaVacacionesModelo extends ModeloBase
 		*/
 		protected $idCronogramaVacacion;
 		/**
+		* @var Integer
+		* Campo requerido
+		* Campo visible en el formulario
+		* Identificador unico de la tabla g_vacaciones.configuracion_cronograma_vacaciones
+		*/
+		protected $idConfiguracionCronogramaVacacion;
+		/**
 		* @var String
 		* Campo requerido
 		* Campo visible en el formulario
 		* Cedula de funcionario que planifica las vacaciones
 		*/
-		protected $identificador;
+		protected $identificadorFuncionario;
 		/**
 		* @var String
 		* Campo requerido
@@ -166,7 +173,7 @@ class CronogramaVacacionesModelo extends ModeloBase
 	/**
 	*Secuencia
 */
-		 private $secuencial = 'g_vacaciones"."cronograma_vacaciones_id_cronograma_vacacion_seq'; 
+	private $secuencial = 'g_vacaciones"."cronograma_vacaciones_id_cronograma_vacacion_seq'; 
 
 
 
@@ -309,27 +316,51 @@ class CronogramaVacacionesModelo extends ModeloBase
 	}
 
 	/**
-	* Set identificador
+	* Set idConfiguracionCronogramaVacacion
 	*
-	*Cedula de funcionario que planifica las vacaciones
+	*Identificador unico de la tabla g_vacaciones.configuracion_cronograma_vacaciones
 	*
-	* @parámetro String $identificador
-	* @return Identificador
+	* @parámetro Integer $idConfiguracionCronogramaVacacion
+	* @return IdConfiguracionCronogramaVacacion
 	*/
-	public function setIdentificador($identificador)
+	public function setIdConfiguracionCronogramaVacacion($idConfiguracionCronogramaVacacion)
 	{
-	  $this->identificador = (String) $identificador;
+	  $this->idConfiguracionCronogramaVacacion = (Integer) $idConfiguracionCronogramaVacacion;
 	    return $this;
 	}
 
 	/**
-	* Get identificador
+	* Get idConfiguracionCronogramaVacacion
+	*
+	* @return null|Integer
+	*/
+	public function getIdConfiguracionCronogramaVacacion()
+	{
+		return $this->idConfiguracionCronogramaVacacion;
+	}
+
+	/**
+	* Set identificadorFuncionario
+	*
+	*Cedula de funcionario que planifica las vacaciones
+	*
+	* @parámetro String $identificadorFuncionario
+	* @return IdentificadorFuncionario
+	*/
+	public function setIdentificadorFuncionario($identificadorFuncionario)
+	{
+	  $this->identificadorFuncionario = (String) $identificadorFuncionario;
+	    return $this;
+	}
+
+	/**
+	* Get identificadorFuncionario
 	*
 	* @return null|String
 	*/
-	public function getIdentificador()
+	public function getIdentificadorFuncionario()
 	{
-		return $this->identificador;
+		return $this->identificadorFuncionario;
 	}
 
 	/**
@@ -385,10 +416,10 @@ class CronogramaVacacionesModelo extends ModeloBase
 	*
 	*identificador unico de la tabla g_catalogos.puestos
 	*
-	* @parámetro Integer $idPuesto
-	* @return IdPuesto
+	* @parámetro String $nombrePuesto
+	* @return NombrePuesto
 	*/
-	public function setIdPuesto($nombrePuesto)
+	public function setNombrePuesto($nombrePuesto)
 	{
 	  $this->nombrePuesto = (String) $nombrePuesto;
 	    return $this;

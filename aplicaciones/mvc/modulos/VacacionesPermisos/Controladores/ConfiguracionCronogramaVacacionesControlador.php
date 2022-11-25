@@ -93,34 +93,7 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 		{
 		  $this->lNegocioConfiguracionCronogramaVacaciones->borrar($_POST['elementos']);
 		}	
-		
-		/**
-		* Método para desplegar el formulario vacio
-		*/
-		public function enviarDirectorEjecutivo()
-		{
-
-			//veriicar si existen regitros con el anio en cronograma
-			//Si o exisen debe decir que no se han creado registros
-			//Se debe construir una iterface para seleccionarel anio que se desea enviar al director ejecutivo
-
-			$anioCronogramaVacacion = date("Y") + 1 ; //Este dato debe venir como parámetro
-
-			$arrayParametros = ['anio_cronograma_vacacion' => $anioCronogramaVacacion];
 			
-			$verificarRegistrosCronograma = $this->lNegocioCronogramaVacaciones->buscarLista($arrayParametros);
-
-			if($verificarRegistrosCronograma->count()){
-				$this->accion = "Envío cronograma vacaciones DE";
-				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacaciones();
-			}else{
-				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacacionesNoCreado();
-			}
-
-			require APP . 'VacacionesPermisos/vistas/formularioResumenEnvioCronogramaVacacionesVista.php';
-		}
-		
-		
 		/**
 		* Construye el código HTML para desplegar la lista de - ConfiguracionCronogramaVacaciones
 		*/
@@ -210,57 +183,5 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 		return $configuracionCronograma;
 
 	}
-
-	/**
-	* Método para construir resumen de consolidado de cronograma de vacaciones
-	*/
-	public function construirResumenCronogramaVacaciones()
-	{
-		$resumenConsolidado = "";
-		$resumenConsolidadoCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->obtenerResumenConsolidadoCronogramaVacaciones();
-	
-		$resumenConsolidado .= '<fieldset>
-		<legend>Resumen cronograma vacaciones</legend>
-		<table style="width: 100%">
-		<thead>
-		<tr>
-		<th>Descripción</th>
-		<th>Cantidad</th>
-		</tr>
-		</thead>
-		<tbody>';		
-
-		foreach($resumenConsolidadoCronogramaVacaciones as $item){
-			$resumenConsolidado .= '<tr>
-										<td>' . $item['descripcion'] . '</td>
-										<td style="text-align: right;">' . $item['cantidad'] . '</td>
-									</tr>';
-		}
-		
-		$resumenConsolidado .= '</tbody></table></fieldset>';
-
-		return $resumenConsolidado;
-
-	}
-
-	/**
-	* Método para construir resumen de consolidado de cronograma de vacaciones
-	*/
-	public function construirResumenCronogramaVacacionesNoCreado()
-	{
-		$resumenConsolidado = "";
-		$resumenConsolidadoCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->obtenerResumenConsolidadoCronogramaVacaciones();
-	
-		$resumenConsolidado .= '<fieldset>
-		<legend>Resumen cronograma vacaciones</legend>
-		<div data-linea="1">
-			<label>Resultado: </label> No se han generado registros del año
-		<div>
-		</fieldset>';
-		
-
-		return $resumenConsolidado;
-
-	}	
 
 }

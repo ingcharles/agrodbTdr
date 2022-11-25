@@ -73,7 +73,6 @@ class CronogramaVacacionesControlador extends BaseControlador
 	public function nuevo()
 	{
 
-
 		$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
 
 		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
@@ -84,7 +83,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
 			$this->numeroPeriodos = $this->obtenerNumeroPeriodos(null, true);
-			$this->datosPeriodoCronograma = $this->construirDatosPlanificacionCronograma();
+			$this->datosPeriodoCronograma = $this->construirDatosPlanificacionCronograma($anioPlanificacion);
 			$this->anioPlanificacion = $anioPlanificacion;
 			
 		}else{
@@ -164,14 +163,24 @@ class CronogramaVacacionesControlador extends BaseControlador
 	 */
 	public function editar()
 	{
-		$anioPlanificacion = (date('Y') + 1);
-		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
+		
+		$idCronogramaVacacion = $_POST['id'];		
+		
+		$this->modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscar($idCronogramaVacacion);
+
+		$idConfiguracionCronogramaVacacion = $this->modeloCronogramaVacaciones->getIdConfiguracionCronogramaVacacion();
+
+		$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscar($idConfiguracionCronogramaVacacion);
+		$anioPlanificacion = $datosConfiguracionCronogramaVacacion->getAnioConfiguracionCronogramaVacacion();
+
+		$this->anioPlanificacion = $anioPlanificacion;
+		$this->accion = "Editar solicitud de planificación " . $anioPlanificacion;
+
+		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
 
 		//lamar al backup del usuario 
 		//buscar en la tabla
-		$this->anioPlanificacion = $anioPlanificacion;
-		$this->accion = "Editar CronogramaVacaciones";
-		$this->modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscar($_POST["id"]);
+		
 		$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
 		$estado = false;
 		switch ($estadoCronogramaRegistro) {
@@ -511,8 +520,20 @@ class CronogramaVacacionesControlador extends BaseControlador
 	 */
 	public function reprogramar()
 	{
-		$anioPlanificacion = (date('Y') + 1);
-		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
+		$idCronogramaVacacion = $_POST['id'];		
+		
+		$this->modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscar($idCronogramaVacacion);
+
+		$idConfiguracionCronogramaVacacion = $this->modeloCronogramaVacaciones->getIdConfiguracionCronogramaVacacion();
+
+		$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscar($idConfiguracionCronogramaVacacion);
+		$anioPlanificacion = $datosConfiguracionCronogramaVacacion->getAnioConfiguracionCronogramaVacacion();
+
+		$this->anioPlanificacion = $anioPlanificacion;
+		$this->accion = "Editar solicitud de planificación " . $anioPlanificacion;
+
+		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
+
 		$idSolicitud = $_POST['elementos'];
 		if ($idSolicitud != '') {
 			//lamar al backup del usuario 
@@ -533,8 +554,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 		}
 	}
 
-	public function construirDatosPlanificacionCronograma() {
-		$anioPlanificacion = (date('Y') + 1);
+	public function construirDatosPlanificacionCronograma($anioPlanificacion) {
+		
 		$funcionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, null, true);
 		
 		$datos = '<fieldset>
