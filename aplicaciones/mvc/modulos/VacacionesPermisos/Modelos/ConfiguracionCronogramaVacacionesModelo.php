@@ -75,6 +75,13 @@ class ConfiguracionCronogramaVacacionesModelo extends ModeloBase
 		*/
 		protected $rutaConsolidadoPdf;
 		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Almacena la observación registrada por el director ejecutivo cuando aprueba o rechaza una planificacion
+		*/
+		protected $observacion;
+		/**
 		* @var Date
 		* Campo requerido
 		* Campo visible en el formulario
@@ -425,6 +432,30 @@ class ConfiguracionCronogramaVacacionesModelo extends ModeloBase
 	public function getRutaConsolidadoPdf()
 	{
 		return $this->rutaConsolidadoPdf;
+	}
+
+	/**
+	* Set observacion
+	*
+	*Almacena la observación registrada por el director ejecutivo cuando aprueba o rechaza una planificacion
+	*
+	* @parámetro String $observacion
+	* @return Observacion
+	*/
+	public function setObservacion($observacion)
+	{
+	  $this->observacion = (String) $observacion;
+	    return $this;
+	}
+
+	/**
+	* Get observacion
+	*
+	* @return null|String
+	*/
+	public function getObservacion()
+	{
+		return $this->observacion;
 	}
 
 	/**

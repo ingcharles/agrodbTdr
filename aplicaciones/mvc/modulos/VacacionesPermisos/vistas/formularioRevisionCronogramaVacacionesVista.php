@@ -17,6 +17,8 @@
 </form >
 <script type ="text/javascript">
 	$(document).ready(function() {
+		event.preventDefault();
+		mostrarMensaje("", "");
 		construirValidador();
 		distribuirLineas();
 	 });

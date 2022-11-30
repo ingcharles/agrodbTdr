@@ -6,9 +6,11 @@
 </form >
 <script type ="text/javascript">
 	$(document).ready(function() {
+		mostrarMensaje("", "");
+		$(".alertaCombo").removeClass("alertaCombo");
 		construirValidador();
 		distribuirLineas();
-	 });
+	});
 
 	$("#formulario").submit(function (event) {
 		event.preventDefault();

@@ -51,8 +51,8 @@ class BaseControlador extends Comun
 		$cronogramaVacacionesLogicaNegocio = new CronogramaVacacionesLogicaNegocio();
 		$configuracionCronogramaVacacionLogicaNegocio = new ConfiguracionCronogramaVacacionesLogicaNegocio();
 
-		//$datos = ['estado_configuracion_cronograma_vacacion' => " in ('Activo', 'EnviadoDe')"];
-		$datos = "estado_configuracion_cronograma_vacacion in ('Activo', 'EnviadoDe')";
+		$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		
 		$verificarConfiguracionCronograma = $configuracionCronogramaVacacionLogicaNegocio->buscarLista($datos);
 		
 		$idConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->id_configuracion_cronograma_vacacion;

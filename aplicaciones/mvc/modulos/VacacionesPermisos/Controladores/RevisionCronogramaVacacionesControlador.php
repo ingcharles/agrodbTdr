@@ -51,6 +51,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$this->modeloRevisionCronogramaVacaciones = new RevisionCronogramaVacacionesModelo();
 		$this->lNegocioUsuariosPerfiles = new UsuariosPerfilesLogicaNegocio();
 		$this->lNegocioFichaEmpleado = new FichaEmpleadoLogicaNegocio();
+		$this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
 		$this->lNegocioConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesLogicaNegocio();
 		//set_exception_handler(array($this, 'manejadorExcepciones'));
 	}
@@ -443,7 +444,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			$descripcionConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->descripcion_configuracion_vacacion;
 			
 			$arrayParametros = ['anio_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion];
-			
+
 			$verificarRegistrosCronograma = $this->lNegocioCronogramaVacaciones->buscarLista($arrayParametros);
 
 			if($verificarRegistrosCronograma->count()){
@@ -539,15 +540,22 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		public function guardarEnviarDirectorEjecutivo()
 		{			
 			$_POST['estado_configuracion_cronograma_vacacion'] = 'EnviadoDe';
-			//print_r($_POST);
 
-			//Verificar que no existan revisiones pendentes en estado "EnviadoTtthh", si existen
-			//enviar mesaje que diga que aun existen solicitudes para revision de talento humano
+			//Verifica que no existan revisiones pendentes en estado "EnviadoTtthh"
+			$datos = ['estado_cronograma_vacacion' => 'EnviadoTthh'];
+			$verificarEstadoCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarLista($datos);
+			
+			if($verificarEstadoCronogramaVacaciones->count()){
+				Mensajes::fallo("Aún existen solicitudes para revisión por parte de Talento Humano.");
+			}else{
+				$proceso = $this->lNegocioConfiguracionCronogramaVacaciones->guardarEnviarDirectorEjecutivo($_POST);
 
-			//Que va a pasar con las solicitudes que quedan pendientes??? que el jefe no autorizó
-
-			$this->lNegocioConfiguracionCronogramaVacaciones->guardar($_POST);
-			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
+				if($proceso){
+					Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
+				}else{
+					Mensajes::fallo("A ocurrido un error, por favor comunicar con Dtics.");
+				}
+			}
 		}	
 
 }
