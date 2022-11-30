@@ -287,7 +287,7 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 					'usuario_creacion' =>  $_POST['identificador_registro'],
 					'anio_cronograma_vacacion' =>  $_POST['anio_cronograma_vacacion'],
 					'numero_periodos' => $_POST['numero_periodos'],
-					'estado_cronograma_vacacion' =>  'RevisionJefe'
+					'estado_cronograma_vacacion' =>  'EnviadoJefe'
 
 				);
 

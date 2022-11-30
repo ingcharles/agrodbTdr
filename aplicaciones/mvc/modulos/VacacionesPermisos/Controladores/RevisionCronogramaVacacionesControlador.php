@@ -541,7 +541,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			if($verificarEstadoCronogramaVacaciones->count()){
 				Mensajes::fallo("Aún existen solicitudes para revisión por parte de Talento Humano.");
 			}else{
-				$proceso = $this->lNegocioConfiguracionCronogramaVacaciones->guardarEnviarDirectorEjecutivo($_POST);
+				$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardarEnviarDirectorEjecutivo($_POST);
 
 				if($proceso){
 					Mensajes::exito(Constantes::GUARDADO_CON_EXITO);

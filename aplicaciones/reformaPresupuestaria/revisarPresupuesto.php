@@ -58,7 +58,7 @@ try{
 						$identificador, $idAreaFuncionario, 'Revisión de presupuesto por Jefe Directo', $detalleGasto,
 						 $idUnidadMedida, $unidadMedida, $costo, $iva, $costoIva, $cuatrimestre,
 						$idRevisor, $idAreaRevisor, $estado, $observaciones,
-						'revisionJefe');
+						'enviadoJefe');
 				
 				//verificar cambio de estado final para Planificacion Anual
 				

@@ -14,7 +14,7 @@
 		<legend>Datos planificación</legend>
 		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
 		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
-		<input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="RevisionJefe" />
+		<input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="EnviadoJefe" />
 
 		<div data-linea="5">
 			<label for="identificador_backup">Funcionario reemplazo: </label>
@@ -60,7 +60,7 @@
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "RechazadoJefe" || estadoCronograma == "RevisionJefe") {
+		if (estadoCronograma == "RechazadoJefe" || estadoCronograma == "EnviadoJefe") {
 
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
 				numero_periodos_planificar: $('#numero_periodos').val(),
@@ -113,7 +113,7 @@
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
-					if (estadoCronograma == "RevisionJefe") {
+					if (estadoCronograma == "EnviadoJefe") {
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
 							$(elem).attr('disabled', true);
 						})

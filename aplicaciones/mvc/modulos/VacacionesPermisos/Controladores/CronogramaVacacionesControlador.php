@@ -468,8 +468,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 												<select id="estado_cronograma_vacacion" name="estado_cronograma_vacacion"  style="width: 100%" class="validacion">
 												<option value="">Seleccione...</option>
 												<option value="Creado">Creado</option>
-												<option value="RevisionJefe">Revisión Jefe</option>
-												<option value="RechazadoJefe">Rechazado Jefe</option>
+												<option value="EnviadoJefe">Revisión Jefe</option>
+												<option value="Rechazado">Rechazado Jefe</option>
 												<option value="Aprobado">Aprobado</option>
 												</select>
                         						</td>
