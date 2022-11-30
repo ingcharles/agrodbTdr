@@ -474,7 +474,7 @@ class PeriodoCronogramaVacacionesModelo extends ModeloBase
 	*/
 	public function buscarLista($where=null, $order=null, $count=null, $offset=null)
 	{
-		return parent::buscarLista($where);
+		return parent::buscarLista($where,$order,$count,$offset);
 	}
 
 	/**

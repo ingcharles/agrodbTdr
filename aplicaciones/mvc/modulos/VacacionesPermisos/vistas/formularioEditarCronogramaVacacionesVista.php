@@ -90,7 +90,20 @@
 					});
 					var valorComboPeriodo = $("#numero_periodos option:selected").val();
 
-					var valorMaximo = 0;
+					
+					if (estadoCronograma == "EnviadoJefe") {
+						var valorMaximo = 0
+						$('.piNumeroDias').each(function(index) {
+							valorMaximo=	parseInt( $(this).val())+ valorMaximo;
+						});
+						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
+							$(elem).attr('disabled', true);
+						});
+						
+						$('#total_dias').html(valorMaximo);
+					    $('#total_dias_planificados').val(valorMaximo);
+					}else{
+						var valorMaximo = 0;
 					switch (valorComboPeriodo) {
 						case "2":
 							valorMaximo = 15;
@@ -108,16 +121,11 @@
 					}
 					$(".piNumeroDias").val(valorMaximo);
 					$(".piNumeroDias").numeric();
-					//$(".piNumeroDias").attr("maxlength", 2);
+					$(".piNumeroDias").attr("maxlength", 2);
 
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
-					if (estadoCronograma == "EnviadoJefe") {
-						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
-							$(elem).attr('disabled', true);
-						})
-						console.log('siiiiiii')
 					}
 
 				}

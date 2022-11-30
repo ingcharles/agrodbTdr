@@ -283,7 +283,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$idCronograma = $_POST['id_cronograma_vacacion'];
 			$arrayEstados = ['Primer Periodo:','Segundo Periodo:','Tercer Periodo:','Cuarto Periodo:'];
 			
-			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => 'Activo'));
+			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => 'Activo'),'numero_periodo asc');
 			$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
 													<tr>
