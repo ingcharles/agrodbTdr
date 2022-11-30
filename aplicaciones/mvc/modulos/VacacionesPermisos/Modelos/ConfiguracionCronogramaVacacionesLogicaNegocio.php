@@ -74,6 +74,29 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 			unset($datosBd["id_configuracion_cronograma_vacacion"]);
 			return $this->modeloConfiguracionCronogramaVacaciones->guardar($datosBd);
 			}
+		// 	try {
+            
+		// 	 $procesoIngreso = $this->modeloCertificadoFitosanitario->getAdapter()
+        //     ->getDriver()
+        //     ->getConnection();
+        //     $procesoIngreso->beginTransaction();
+		// 	$statement = $this->modeloCertificadoFitosanitario->getAdapter()
+        //     ->getDriver()
+        //     ->createStatement();
+            
+        //     $sqlActualizar = $this->modeloCertificadoFitosanitario->actualizarSql('certificado_fitosanitario', $this->modeloCertificadoFitosanitario->getEsquema());
+        //     $sqlActualizar->set($arrayParametrosCertificado);
+        //     $sqlActualizar->where(array('id_certificado_fitosanitario' => $idCertificadoFitosanitario));
+        //     $sqlActualizar->prepareStatement($this->modeloCertificadoFitosanitario->getAdapter(), $statement);
+        //     $statement->execute();
+            
+        //     $procesoIngreso->commit();            
+          
+        //     return $idCertificadoFitosanitario;
+        // } catch (GuardarExcepcion $ex) {
+        //     $procesoIngreso->rollback();
+        //     throw new \Exception($ex->getMessage());
+        // }
 
 		}else{
 

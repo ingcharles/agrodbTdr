@@ -33,33 +33,33 @@
 		validarNumeros(elementoNumeroDias, expresion);
 	}
 
-	// function sumarDias(acumulador, dias, campoFechaInicio, campoFechaFin) {
-	// 	var acumuladorDias = 0;
-	// 	var input_hermanos = $('table').find(".piNumeroDias");
-	// 	$.each(input_hermanos, function(idx, x) {
-	// 		var num = parseInt($(x).val());
+	function sumarDias(acumulador, dias, campoFechaInicio, campoFechaFin) {
+		var acumuladorDias = 0;
+		var input_hermanos = $('table').find(".piNumeroDias");
+		$.each(input_hermanos, function(idx, x) {
+			var num = parseInt($(x).val());
 
-	// 		if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
-	// 			acumuladorDias += num;
-	// 	});
+			if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
+				acumuladorDias += num;
+		});
 
-	// 	var date = new Date(campoFechaInicio.datepicker('getDate'));
+		var date = new Date(campoFechaInicio.datepicker('getDate'));
 
-	// 	var num1 = parseInt(dias.val());
-	// 	if (!isNaN(num1) && num1 != undefined) //Validamos si está vacío o no es un número para acumular
-	// 		numeroDias = num1;
+		var num1 = parseInt(dias.val());
+		if (!isNaN(num1) && num1 != undefined) //Validamos si está vacío o no es un número para acumular
+			numeroDias = num1;
 
-	// 	if (date) {
-	// 		date.setDate(date.getDate() + numeroDias);
-	// 	}
+		if (date) {
+			date.setDate(date.getDate() + numeroDias);
+		}
 
-	// 	campoFechaFin.datepicker("setDate", date);
-	// 	campoFechaFin.datepicker('option', 'minDate', date);
-	// 	campoFechaFin.datepicker('option', 'maxDate', date);
-	// 	$('#total_dias').html(acumuladorDias);
-	// 	$('#total_dias_planificados').val(acumuladorDias);
+		campoFechaFin.datepicker("setDate", date);
+		campoFechaFin.datepicker('option', 'minDate', date);
+		campoFechaFin.datepicker('option', 'maxDate', date);
+		$('#total_dias').html(acumuladorDias);
+		$('#total_dias_planificados').val(acumuladorDias);
 
-	// }
+	}
 
 	// function sumarDiasFechaFin(acumulador, dias, campoFechaInicio, campoFechaFin) {
 	// 	var acumuladorDias = 0;
