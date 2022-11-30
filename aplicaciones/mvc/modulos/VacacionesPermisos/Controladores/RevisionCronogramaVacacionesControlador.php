@@ -81,7 +81,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			case 'PFL_DIR_PROG_VAC':
 				//echo "ES DIRECTOR";
 				$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioNivelInferiorFuncionarioPorIdentificadorPadre($arrayParametros);
-				$this->perfilUsuarioDirector=$perfilUsuario;
+				$this->perfilUsuarioDirector = $perfilUsuario;
 				$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
 				$this->tablaHtmlRevisionCronogramaVacaciones($solicitudesPlanificacionVacaciones);
 				break;
@@ -90,20 +90,20 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				$estadoCronogramaVacacion = "EnviadoTthh";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
-				$this->perfilUsuarioDirector=$perfilUsuario;
+				$this->perfilUsuarioDirector = $perfilUsuario;
 				$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
 				$this->tablaHtmlRevisionCronogramaVacaciones($solicitudesPlanificacionVacaciones);
 				break;
 			case 'PFL_DE_PROG_VAC':
 				//echo "ES DIRECTOR EJECUTIVO";
-				$this->perfilUsuarioDirector=$perfilUsuario;
+				$this->perfilUsuarioDirector = $perfilUsuario;
 				$estadoCronogramaVacacion = "EnviadoDe";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$this->articleHtmlCronogramaVacaciones();
 				break;
 		}
 
-		
+
 		require APP . 'VacacionesPermisos/vistas/listaRevisionCronogramaVacacionesVista.php';
 	}
 
@@ -136,12 +136,12 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		if ($proceso) {
 			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
 		}
-	}	
-		
-		/**
-		*Obtenemos los datos del registro seleccionado para editar - Tabla: RevisionCronogramaVacaciones
-		*/
-		/*public function editar()
+	}
+
+	/**
+	 *Obtenemos los datos del registro seleccionado para editar - Tabla: RevisionCronogramaVacaciones
+	 */
+	/*public function editar()
 		{
 			$idCronogramaVacacion = $_POST['id'];
 			$this->accion = "Revisión de cronograma de vacaciones";
@@ -164,7 +164,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$idCronogramaVacacion = $_POST['id'];
 		$this->accion = "Revisión de cronograma de vacaciones";
 		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
-		$this->periodoCronograma = $this->construirDetallePeriodosCronograma(array('id_cronograma_vacacion' => $_POST["id"]));	
+		$this->periodoCronograma = $this->construirDetallePeriodosCronograma(array('id_cronograma_vacacion' => $_POST["id"]));
 		$this->resultadoRevision = $this->construirResultadoRevision();
 
 		require APP . 'VacacionesPermisos/vistas/formularioRevisionCronogramaVacacionesVista.php';
@@ -309,70 +309,66 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		);
 	}
 
-	public function articleHtmlCronogramaVacaciones(){
-		$qEstado =$this->lNegocioConfiguracionCronogramaVacaciones->buscarEstadosConfiguracionCronogramaVacaciones();
+	public function articleHtmlCronogramaVacaciones()
+	{
+		$qEstado = $this->lNegocioConfiguracionCronogramaVacaciones->buscarEstadosConfiguracionCronogramaVacaciones();
 		$contador = 1;
 		$estadoMostrado = "";
 		$pagina = "";
 		foreach ($qEstado as $estado) {
-	     
-		 switch ($estado['estado']) {
-			
-					case 'Activo':
-						$this->article .= "<h2>Cronograma Periodo Actual </h2>";
-						$estadoMostrado = "Habilitado";
-						$pagina = "aprobarConfiguracionCronogramaVacaciones";
-					break;
-	
-					case 'Inactivo':
-						$this->article .= "<h2> Cronograma Periodos Cerrados </h2>";
-						$estadoMostrado = "Inhabilitado";
-						$pagina = "abrirSolicitudEnviada";
-					break;
-	
-				
-				}
-				$query = "identificador_director_ejecutivo = '" . $_SESSION['usuario'] . "' and estado_configuracion_cronograma_vacacion = '" . $estado['estado'] . "' ";
 
-				 	$consulta = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($query);
-		
-					foreach ($consulta as $fila){
-			
-					$this->article .= '<article id="' . $fila['anio_configuracion_cronograma_vacacion'] . '" class="item"
+			switch ($estado['estado']) {
+
+				case 'EnviadoDe':
+					$this->article .= "<h2>Cronograma Periodo Actual </h2>";
+					$estadoMostrado = "Habilitado";
+					$pagina = "aprobarConfiguracionCronogramaVacaciones";
+					break;
+
+				case 'Inactivo':
+					$this->article .= "<h2> Cronograma Periodos Cerrados </h2>";
+					$estadoMostrado = "Inhabilitado";
+					$pagina = "abrirSolicitudEnviada";
+					break;
+			}
+			$query = "estado_configuracion_cronograma_vacacion = '" . $estado['estado'] . "' ";
+
+			$consulta = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($query);
+			foreach ($consulta as $fila) {
+				$this->article .= '<article id="' . $fila['anio_configuracion_cronograma_vacacion'] . '" class="item"
 			    								data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\RevisionCronogramaVacaciones"
 			    								data-opcion="' . $pagina . '" ondragstart="drag(event)"
 			    								draggable="true" data-destino="detalleItem">
-			    								<span><small><b>' . ($fila["descripcion_configuracion_vacacion"] ? $fila["descripcion_configuracion_vacacion"] : 'TEMPORAL') . '</b> </small></span><br/>
+			    								<span><small><b>' . $fila["descripcion_configuracion_vacacion"]  . '</b> </small></span><br/>
 			    
 			    								<aside><small><b>Estado: </b>' . $estadoMostrado . '</small></aside>
 										</article>';
-					}
-			
-        }
-
+			}
+		}
 	}
 
 	/**
 	 * Método para abrir la solicitud en estado de revision documental
 	 */
-	public function aprobarConfiguracionCronogramaVacaciones(){
+	public function aprobarConfiguracionCronogramaVacaciones()
+	{
 
-		
+
 		$arrayParametros = array('anio' => $_POST["id"]);
 
-		$query = "identificador_director_ejecutivo = '" . $_SESSION['usuario'] . "' and anio_configuracion_cronograma_vacacion = ". $arrayParametros['anio'] ;
+		$query = "identificador_director_ejecutivo = '" . $_SESSION['usuario'] . "' and anio_configuracion_cronograma_vacacion = " . $arrayParametros['anio'];
 
 		$qDatoConfiguracion = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($query);
-	
-		$this->descripcionConfiguracionCronogramaVacaciones ='
+
+		$this->descripcionConfiguracionCronogramaVacaciones = '
 		<form id="frmVistaPreviaSolicitud" data-rutaAplicacion="dossierFertilizante" data-opcion="" >
-			<input type="hidden" name="id_configuracion_cronograma_vacacion" value="'. $qDatoConfiguracion->current()->id_configuracion_cronograma_vacacion .'" />
+			<input type="hidden" name="id_configuracion_cronograma_vacacion" value="' . $qDatoConfiguracion->current()->id_configuracion_cronograma_vacacion . '" />
 			<fieldset>
-				<legend>Cronograma de planificación año '. $qDatoConfiguracion->current()->anio_configuracion_cronograma_vacacion .'</legend>
+				<legend>Cronograma de planificación año ' . $qDatoConfiguracion->current()->anio_configuracion_cronograma_vacacion . '</legend>
 				
 				<div data-linea="1">
 					<label for="descripcion_configuracion_vacacion">Descripción: </label>
-					'. $qDatoConfiguracion->current()->descripcion_configuracion_vacacion .'
+					' . $qDatoConfiguracion->current()->descripcion_configuracion_vacacion . '
 				</div>
 
 				<div data-linea="2">
@@ -382,12 +378,12 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				<hr/>
 				<div data-linea="3">
 				<label>Archivo Excel: </label>
-					<a id="verReporteSolicitud" href="'. $qDatoConfiguracion->current()->ruta_consolidado_excel .'" target="_blank"> Descargar </a>
+					<a id="verReporteSolicitud" href="' . $qDatoConfiguracion->current()->ruta_consolidado_excel . '" target="_blank"> Descargar </a>
 				</div>
 
 				<div data-linea="4">
 				<label>Archivo Pdf: </label>
-					<a id="verReporteSolicitud" href="'. $qDatoConfiguracion->current()->ruta_consolidado_pdf .'" target="_blank" > Descargar </a>
+					<a id="verReporteSolicitud" href="' . $qDatoConfiguracion->current()->ruta_consolidado_pdf . '" target="_blank" > Descargar </a>
 				</div>
 				<hr/>
 				<div data-linea="5">
@@ -428,37 +424,36 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		// require APP . 'VacacionesPermisos/vistas/formularioRevisionCronogramaVacacionesVista.php';
 	}
 
-/**
-	* Método para desplegar el formulario vacio
-	*/
+	/**
+	 * Método para desplegar el formulario vacio
+	 */
 	public function enviarDirectorEjecutivo()
 	{
 
 		$arrayParametros = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
 		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametros);
 
-		if ($verificarConfiguracionCronograma->count()){
+		if ($verificarConfiguracionCronograma->count()) {
 
 			$idConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->id_configuracion_cronograma_vacacion;
 			$anioConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
 			$descripcionConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->descripcion_configuracion_vacacion;
-			
+
 			$arrayParametros = ['anio_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion];
 
 			$verificarRegistrosCronograma = $this->lNegocioCronogramaVacaciones->buscarLista($arrayParametros);
 
-			if($verificarRegistrosCronograma->count()){
-				$this->accion = "Envío cronograma vacaciones DE";					 
-				$arrayResumenCronograma = ['id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion
-											, 'anio_configuracion_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion
-											, 'descripcion_configuracion_vacacion' => $descripcionConfiguracionCronogramaVacacion];
-				
+			if ($verificarRegistrosCronograma->count()) {
+				$this->accion = "Envío cronograma vacaciones DE";
+				$arrayResumenCronograma = [
+					'id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion, 'anio_configuracion_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion, 'descripcion_configuracion_vacacion' => $descripcionConfiguracionCronogramaVacacion
+				];
+
 				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacaciones($arrayResumenCronograma);
-			}else{
+			} else {
 				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacacionesNoCreado();
 			}
-
-		}else{
+		} else {
 			$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacacionesNoCreado();
 		}
 
@@ -466,19 +461,19 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	}
 
 	/**
-	* Método para construir resumen de consolidado de cronograma de vacaciones
-	*/
+	 * Método para construir resumen de consolidado de cronograma de vacaciones
+	 */
 	public function construirResumenCronogramaVacaciones($arrayResumenCronograma)
 	{
 		$resumenConsolidado = "";
 		$idConfiguracionCronogramaVacacion = $arrayResumenCronograma['id_configuracion_cronograma_vacacion'];
 		$anioConfiguracionCronogramaVacacion = $arrayResumenCronograma['anio_configuracion_cronograma_vacacion'];
 		$descripcionConfiguracionCronogramaVacacion = $arrayResumenCronograma['descripcion_configuracion_vacacion'];
-		
+
 		$resumenConsolidadoCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->obtenerResumenConsolidadoCronogramaVacaciones();
-	
+
 		$resumenConsolidado .= '
-		<input type="hidden" name="id_configuracion_cronograma_vacacion" id="id_configuracion_cronograma_vacacion" value="' . $idConfiguracionCronogramaVacacion .'" >
+		<input type="hidden" name="id_configuracion_cronograma_vacacion" id="id_configuracion_cronograma_vacacion" value="' . $idConfiguracionCronogramaVacacion . '" >
 		<fieldset>
 		<legend>Datos generales</legend>
 		<div data-linea="1">
@@ -497,42 +492,40 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		<th>Cantidad</th>
 		</tr>
 		</thead>
-		<tbody>';		
+		<tbody>';
 
-		foreach($resumenConsolidadoCronogramaVacaciones as $item){
+		foreach ($resumenConsolidadoCronogramaVacaciones as $item) {
 			$resumenConsolidado .= '<tr>
 										<td>' . $item['descripcion'] . '</td>
 										<td style="text-align: right;">' . $item['cantidad'] . '</td>
 									</tr>';
 		}
-		
+
 		$resumenConsolidado .= '</tbody></table></fieldset>
 		<div data-linea="10">
 			<button type="submit" class="guardar">Enviar a Director Ejecutivo</button>
 		</div>';
 
 		return $resumenConsolidado;
-
 	}
 
 	/**
-	* Método para construir resumen de consolidado de cronograma de vacaciones
-	*/
+	 * Método para construir resumen de consolidado de cronograma de vacaciones
+	 */
 	public function construirResumenCronogramaVacacionesNoCreado()
 	{
 		$resumenConsolidado = "";
 		$resumenConsolidadoCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->obtenerResumenConsolidadoCronogramaVacaciones();
-	
+
 		$resumenConsolidado .= '<fieldset>
 		<legend>Resumen cronograma vacaciones</legend>
 		<div data-linea="1">
 			<label>Resultado: </label> No se han generado registros para el año o no se a configurado una planificación.
 		<div>
-		</fieldset>';		
+		</fieldset>';
 
 		return $resumenConsolidado;
-
-	}	
+	}
 
 	/**
 		*Obtenemos los datos del registro seleccionado para editar - Tabla: RevisionCronogramaVacaciones
