@@ -41,7 +41,7 @@
 	<div data-linea="17">
 		<?php
 
-		if ($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion() != "RechazadoJefe") {
+		if ($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion() != "Rechazado") {
 			"";
 		} else {
 			echo	'<button  type="submit" class="guardar">Guardar</button>';
@@ -60,7 +60,7 @@
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "RechazadoJefe" || estadoCronograma == "EnviadoJefe") {
+		if (estadoCronograma == "Rechazado" || estadoCronograma == "EnviadoJefe") {
 
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
 				numero_periodos_planificar: $('#numero_periodos').val(),

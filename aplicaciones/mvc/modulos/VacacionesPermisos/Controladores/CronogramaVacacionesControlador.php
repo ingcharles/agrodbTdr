@@ -184,7 +184,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
 		$estado = false;
 		switch ($estadoCronogramaRegistro) {
-			case 'RechazadoJefe':
+			case 'Rechazado':
 				$estado = true;
 				break;
 		}
@@ -544,7 +544,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
 			$estado = false;
 			switch ($estadoCronogramaRegistro) {
-				case 'RechazadoJefe':
+				case 'Rechazado':
 					$estado = true;
 					break;
 			}
