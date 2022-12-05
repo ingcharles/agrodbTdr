@@ -124,7 +124,6 @@
 					}
 					$(".piNumeroDias").val(valorMaximo);
 					$(".piNumeroDias").numeric();
-<<<<<<< HEAD
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
@@ -132,17 +131,11 @@
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
 							$(elem).attr('disabled', true);
 						})
-=======
-					$(".piNumeroDias").attr("maxlength", 2);
-
-					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
-					$('#total_dias').html(totalDias);
-					$('#total_dias_planificados').val(totalDias);
->>>>>>> 9478d1d300768b7033452fb6bdad4e1e71cd53d6
 					}
 
 				}
-			}, 'json');
+				}
+			});
 		}
 
 
