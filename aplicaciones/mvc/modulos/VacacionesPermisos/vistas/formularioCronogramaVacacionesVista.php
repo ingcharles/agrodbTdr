@@ -61,34 +61,6 @@
 
 	}
 
-	// function sumarDiasFechaFin(acumulador, dias, campoFechaInicio, campoFechaFin) {
-	// 	var acumuladorDias = 0;
-	// 	var input_hermanos = $('table').find(".piNumeroDias");
-	// 	$.each(input_hermanos, function(idx, x) {
-	// 		var num = parseInt($(x).val());
-
-	// 		if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
-	// 			acumuladorDias += num;
-	// 	});
-
-	// 	var date = new Date(campoFechaFin.datepicker('getDate'));
-
-	// 	var num1 = parseInt(dias.val());
-	// 	if (!isNaN(num1) && num1 != undefined) //Validamos si está vacío o no es un número para acumular
-	// 		numeroDias = num1;
-
-	// 	if (date) {
-	// 		date.setDate(date.getDate() - numeroDias);
-	// 	}
-
-	// 	campoFechaInicio.datepicker("setDate", date);
-	// 	// campoFechaFin.datepicker('option', 'minDate', date);
-	// 	// campoFechaFin.datepicker('option', 'maxDate', date);
-	// 	$('#total_dias').html(acumuladorDias);
-	// 	$('#total_dias_planificados').val(acumuladorDias);
-
-	// }
-
 	$("#numero_periodos").change(function(event) {
 		mostrarMensaje("", "EXITO");
 		if ($("#numero_periodos").val() != "") {
@@ -109,15 +81,6 @@
 						dateFormat: 'yy/mm/dd',
 						maxDate: 0,
 						minDate: new Date(anioPlanificacion + '/01/01'),
-						// onSelect: function(dateText, inst) {
-						// 	// var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
-						// 	// elementoFechaInicio.val("");
-						// 	// var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
-						// 	// var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
-						// 	// var elementoNumeroDias = $(this).parents("tr").find(".piNumeroDias");
-						// 	// elementoFechaInicio.removeClass("alerta");
-						// 	// sumarDiasFechaFin(this, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);
-						// }
 					});
 
 					$(".piFechaInicio").datepicker({
@@ -125,7 +88,7 @@
 						changeMonth: true,
 						changeYear: false,
 						dateFormat: 'yy/mm/dd',
-						minDate: new Date(anioPlanificacion + '/01/01'),//'0',
+						minDate: new Date(anioPlanificacion + '/01/01'),
 						
 						onSelect: function(dateText, inst) {
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
@@ -138,7 +101,6 @@
 
 							if(parseInt(anioPlanificacion) != parseInt(anioFin)){
 								elementoFechaFin.val('');
-								console.log("aaaaaaaaaaa");
 								elementoFechaFin.addClass("alerta"); 
 								$("#estado").html("La fecha de inicio + el Número de días, no puede superar el año "+ anioPlanificacion).addClass("alerta");
 							}else{

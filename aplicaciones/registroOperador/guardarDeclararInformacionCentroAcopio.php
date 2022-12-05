@@ -41,7 +41,10 @@ try {
 		$idFlujoActual = pg_fetch_assoc($cro->obtenerEstadoActualFlujoOperacion($conexion, $idflujoOperacion['id_flujo_operacion'], 'declararICentroAcopio'));
 		$estado = pg_fetch_assoc($cro->obtenerEstadoFlujoOperacion($conexion, $idflujoOperacion['id_flujo_operacion'], $idFlujoActual['predecesor']));
 		
-		$cro->guardarInformacionCentroAcopio($conexion, $idArea, $idTipoOperacion, $capacidadInstalada, $codigoUnidadMedida, $numeroTrabajadores, $idLaboratorio, $numeroProveedores, $idOperadorTipoOperacion, $horaRecoleccionManiana, $horaRecoleccionTarde, $perteneceMag);
+		$idCentroAcopio = $cro->guardarInformacionCentroAcopio($conexion, $idArea, $idTipoOperacion, $capacidadInstalada, $codigoUnidadMedida, $numeroTrabajadores, $idLaboratorio, $numeroProveedores, $idOperadorTipoOperacion, $horaRecoleccionManiana, $horaRecoleccionTarde, $perteneceMag);
+		$idCentroAcopio = pg_fetch_result($idCentroAcopio, 0, 'id_centro_acopio');
+		
+		$cro->inactivarCentroAcopio($conexion, $idCentroAcopio);
 		
 		//TODO: Preguntar Eddy
 		if($operacion['modulo_provee'] == 'moduloExterno' && $estado['estado'] == 'cargarProducto'){

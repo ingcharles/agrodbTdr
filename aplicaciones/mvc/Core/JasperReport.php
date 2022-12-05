@@ -48,8 +48,8 @@ class JasperReport{
 			)->execute();
 			
 			// Depuración de errores
-			/*exec($this->jasper->output().' 2>&1', $output);
-			 print_r($output);*/
+			// exec($this->jasper->output().' 2>&1', $output);
+			//  print_r($output);
 		
 	}
 }

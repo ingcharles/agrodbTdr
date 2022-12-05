@@ -1612,10 +1612,7 @@ try{
 				    //Cambiar de estado a los sitios de la solicitud
 				    $ccb->actualizarEstadoSitiosSolicitud($conexion, $idSolicitud, $resultadoDocumento);
 				}
-				/*else if($resultadoDocumento == 'subsanacion'){
-				    $fechaMaxRespuesta = $ccb->sumaDiaSemana(date("Y-m-d"),14);
-				    $ccb->actualizarFechaMaxRespuesta($conexion, $idSolicitud, $fechaMaxRespuesta);
-				}*/
+				
 			break;
 		}
 		

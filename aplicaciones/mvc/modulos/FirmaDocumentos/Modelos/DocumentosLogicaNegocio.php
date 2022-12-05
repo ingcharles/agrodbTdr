@@ -352,6 +352,22 @@ class DocumentosLogicaNegocio implements IModelo{
 			
 		return $resultado;
 	}
+
+	public function crearDocumentoParaFirmar($parametrosFirma){
+
+        $consulta = "INSERT INTO 
+						g_firma_documentos.documentos(
+							identificador, razon_documento, 
+							archivo_entrada, archivo_salida, 
+							tabla_origen, id_origen, 
+							campo_origen, estado)
+					VALUES ('".$parametrosFirma['identificador']."', '".$parametrosFirma['razon_documento']."', 
+							'".$parametrosFirma['archivo_entrada']."', '".$parametrosFirma['archivo_salida']."', 
+							'".$parametrosFirma['tabla_origen']."', ".$parametrosFirma['id_origen'].", 
+							'".$parametrosFirma['campo_origen']."', '".$parametrosFirma['estado']."');";
+        
+		return $this->modeloDocumentos->ejecutarSqlNativo($consulta);
+    }
 }
 
 class PDF extends TCPDI

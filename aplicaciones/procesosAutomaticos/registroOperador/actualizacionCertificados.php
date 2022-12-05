@@ -1,6 +1,6 @@
 <?php
-if($_SERVER['REMOTE_ADDR'] == ''){
-//if(1){
+// if($_SERVER['REMOTE_ADDR'] == ''){
+if(1){
 	
 	require_once '../../../clases/Conexion.php';
 	require_once '../../../clases/ControladorReportes.php';
@@ -10,6 +10,7 @@ if($_SERVER['REMOTE_ADDR'] == ''){
 	require_once '../../../clases/ControladorCatalogos.php';
 	require_once '../../../aplicaciones/general/PDFMerger.php';
 	require_once '../../../clases/ControladorFirmaDocumentos.php';
+	require_once '../../../clases/ControladorEstructuraFuncionarios.php';
 
 	$conexion = new Conexion();
 	$cr = new ControladorRegistroOperador();
@@ -28,8 +29,8 @@ if($_SERVER['REMOTE_ADDR'] == ''){
 	$numero = '1';
 	
 	$resultadoMonitoreo = $cm->obtenerCronPorCodigoEstado($conexion, 'CRON_ACTU_CERT_OPER');
-	if($resultadoMonitoreo){
-	//if(1){
+	// if($resultadoMonitoreo){
+	if(1){
 
     	echo IN_MSG .'<b>INICIO PROCESO DE ACTUALIZACIÓN DE CERTIFICADOS '.$fecha.'</b>';
     		
@@ -45,8 +46,11 @@ if($_SERVER['REMOTE_ADDR'] == ''){
     	    $idTipoOperacion = $operaciones['id_tipo_operacion'];
     	    $idArea = $operaciones['id_area'];
     	    $opcionArea = $operaciones['codigo'];
-			 $idOperacion = $operaciones['id_operacion'];
-    	    
+			$idOperacion = $operaciones['id_operacion'];
+    	    $codigoProvincia = $operaciones['codigo_provincia'];
+			$nombreProvincia = $operaciones['provincia'];
+			$idCodigoArea = $operaciones['id_codigo_area'];
+
     	    $generarDocumento = true;
     
     	    $qHistorialOperacion = $cr->obtenerMaximoIdentificadorHistoricoOperacion($conexion, $idOperadorTipoOperacion);
@@ -111,13 +115,13 @@ if($_SERVER['REMOTE_ADDR'] == ''){
     	                    	    $reporteUno = "PRO1";
     	                    	    $reporteDos = "PRO2";
     	                    	    $reporteTres = "PRO3";
-    	                    	    $codigoQr = 'http://181.112.155.173/' . $constg::RUTA_APLICACION . '/aplicaciones/registroOperador/certificados/certificadosPOA/PRO-' . $idOperador . '.pdf';
+    	                    	    $codigoQr = 'http://localhost/' . $constg::RUTA_APLICACION . '/aplicaciones/registroOperador/certificados/certificadosPOA/PRO-' . $idOperador . '.pdf';
     	                    	    $salidaArchivoPoa = 'aplicaciones/registroOperador/certificados/certificadosPOA/PRO-'.$idOperador.'.pdf';
     	                    	} else if ($opcionArea == "REC") {
     	                    	    $reporteUno = "REC1";
     	                    	    $reporteDos = "REC2";
     	                    	    $reporteTres = "REC3";
-    	                    	    $codigoQr = 'http://181.112.155.173/' . $constg::RUTA_APLICACION . '/aplicaciones/registroOperador/certificados/certificadosPOA/REC-' . $idOperador . '.pdf';
+    	                    	    $codigoQr = 'http://localhost/' . $constg::RUTA_APLICACION . '/aplicaciones/registroOperador/certificados/certificadosPOA/REC-' . $idOperador . '.pdf';
     	                    	    $salidaArchivoPoa = 'aplicaciones/registroOperador/certificados/certificadosPOA/REC-'.$idOperador.'.pdf';
     	                    	}
     	                    	
@@ -228,7 +232,142 @@ if($_SERVER['REMOTE_ADDR'] == ''){
     	                    }
     	                    
     	                    break;
-    	                    
+							case 'MDT':
+
+								$cef = new ControladorEstructuraFuncionarios();
+															
+								$qInspector = $cr->obtenerInspectorUltimaInspeccion($conexion, $idOperadorTipoOperacion, $idHistorialOperacion);
+								$inspector = pg_fetch_result($qInspector, 0 , 'identificador_inspector');
+																			   
+								$nombreInspector = pg_fetch_assoc($cu->buscarUsuarioSistema($conexion, $inspector));                            
+														
+								$resultadoResponsable = $cef->devolverResponsable($conexion, $inspector);
+								
+								$nombreInspector = pg_fetch_assoc($cu->buscarUsuarioSistema($conexion, $inspector));
+	
+								if($resultadoResponsable['usuario'] != '' && $resultadoResponsable['nombreArea'] != ''){
+									
+									$responsable = $resultadoResponsable['usuario'];
+									$areaResponsable = $resultadoResponsable['nombreArea'];
+									
+								}
+							
+								//GENERAR PDF
+								$secuencial = pg_fetch_assoc($cr->obtenerMaximoDocumentoOperador($conexion, $idOperador, 'registroOperadorLecheVehiculo'));
+								$secuencial = $secuencial['secuencial'];
+								
+								$codigoCertificadoLeche = $cr->crearCodigoOperadorLeche($conexion, $opcionArea, $codigoProvincia, $idCodigoArea, $idOperador);
+		
+								$ReporteJasper= '/aplicaciones/registroOperador/reportes/registroOperadorLeche/reporteRegistroOperadorLecheVehiculo.jrxml';
+								$salidaReporte= '/aplicaciones/registroOperador/certificadoRegistroOperadorLeche/'.$idOperador.'_'.$idOperadorTipoOperacion.'_'.date("Y-m-d-h-m-s").'.pdf';
+								$rutaArchivo= 'aplicaciones/registroOperador/certificadoRegistroOperadorLeche/'.$idOperador.'_'.$idOperadorTipoOperacion.'_'.date("Y-m-d-h-m-s").'.pdf';
+
+								// $parameters['parametrosReporte'] = array(
+								// 	'idOperadorTipoOperacion'=> (int)$idOperadorTipoOperacion,
+								// 	'codigoCertificadoLeche'=> $codigoCertificadoLeche,
+								// 	'nombreTecnico'=> $nombreInspector['apellido'] . ' ' . $nombreInspector['nombre'],
+								// 	'responsable'=> $responsable,
+								// 	'areaResponsable'=> $areaResponsable
+								// );
+								$parameters['parametrosReporte'] = array(
+									'idOperadorTipoOperacion'=> (int)$idOperadorTipoOperacion,
+									'codigoCertificadoLeche'=> $codigoCertificadoLeche,
+									'nombreTecnico'=> $nombreInspector['apellido'].' '.$nombreInspector['nombre']
+								);
+								
+								$jru->generarReporteJasper($ReporteJasper,$parameters,$conexion,$salidaReporte,'operadorLeche');
+								
+								$cr->actualizarEstadoDocumentoOperador($conexion, $idOperador, $idOperadorTipoOperacion, 'inactivo');
+								$cr->guardarDocumentoOperador($conexion, $idOperacion, $idOperadorTipoOperacion, $rutaArchivo, 'registroOperadorLecheVehiculo', $secuencial, $idOperador, 'Certificación de registro de operador de leche vehículo');
+								
+								//Tabla de firmas físicas
+								$firmaResponsable = pg_fetch_assoc($cc->obtenerFirmasResponsablePorProvincia($conexion, $nombreProvincia, 'AI'));
+								
+								$rutaArchivo = $constg::RUTA_SERVIDOR_OPT . '/' . $constg::RUTA_APLICACION . '/' .$rutaArchivo;
+								
+								//Firma Electrónica
+								$parametrosFirma = array(
+									'archivo_entrada'=>$rutaArchivo,
+									'archivo_salida'=>$rutaArchivo,
+									'identificador'=>$firmaResponsable['identificador'],
+									'razon_documento'=>'Certificación de registro de operador de leche vehículo',
+									'tabla_origen'=>'g_operadores.documentos_operador',
+									'campo_origen'=>'ruta_archivo',
+									'id_origen'=>$idOperacion,
+									'estado'=>'Por atender',
+									'proceso_firmado'=>'NO'
+								);
+								
+								//Guardar registro para firma
+								$cfd->ingresoFirmaDocumento($conexion, $parametrosFirma);                   
+							break;    
+							case 'ACO':
+																
+								// $modulosAgregados.="('PRG_AUM_CAP_INST'),";
+								// $perfilesAgregados.="('PFL_AUM_CAP_INST'),";
+								$cef = new ControladorEstructuraFuncionarios();
+															
+								$qInspector = $cr->obtenerInspectorUltimaInspeccion($conexion, $idOperadorTipoOperacion, $idHistorialOperacion);
+								$inspector = pg_fetch_result($qInspector, 0 , 'identificador_inspector');
+																			   
+								$nombreInspector = pg_fetch_assoc($cu->buscarUsuarioSistema($conexion, $inspector));                            
+														
+								$resultadoResponsable = $cef->devolverResponsable($conexion, $inspector);
+								
+								$nombreInspector = pg_fetch_assoc($cu->buscarUsuarioSistema($conexion, $inspector));
+								
+								if($resultadoResponsable['usuario'] != '' && $resultadoResponsable['nombreArea'] != ''){
+									
+									$responsable = $resultadoResponsable['usuario'];
+									$areaResponsable = $resultadoResponsable['nombreArea'];
+									
+								}
+								//GENERAR PDF															
+								$secuencial = pg_fetch_assoc($cr->obtenerMaximoDocumentoOperador($conexion, $idOperador, 'registroOperadorLeche'));
+								$secuencial = $secuencial['secuencial'];
+		
+								$codigoCertificadoLeche = $cr->crearCodigoOperadorLeche($conexion, $opcionArea, $codigoProvincia, $idCodigoArea, $idOperador);
+								
+								$ReporteJasper= '/aplicaciones/registroOperador/reportes/registroOperadorLeche/reporteRegistroOperadorLeche.jrxml';
+								$salidaReporte= '/aplicaciones/registroOperador/certificadoRegistroOperadorLeche/'.$idOperador.'_'.$idOperadorTipoOperacion.'_'.date("Y-m-d-h-m-s").'.pdf';
+								$rutaArchivo= 'aplicaciones/registroOperador/certificadoRegistroOperadorLeche/'.$idOperador.'_'.$idOperadorTipoOperacion.'_'.date("Y-m-d-h-m-s").'.pdf';
+									
+								$parameters['parametrosReporte'] = array(
+									'idOperadorTipoOperacion'=> (int)$idOperadorTipoOperacion,
+									'codigoCertificadoLeche'=> $codigoCertificadoLeche,
+									'nombreTecnico'=> $nombreInspector['apellido'].' '.$nombreInspector['nombre']
+								);
+								
+								$jru->generarReporteJasper($ReporteJasper,$parameters,$conexion,$salidaReporte,'operadorLeche');
+								
+								$cr->actualizarEstadoDocumentoOperador($conexion, $idOperador, $idOperadorTipoOperacion, 'inactivo');
+								$cr->guardarDocumentoOperador($conexion, $idOperacion, $idOperadorTipoOperacion, $rutaArchivo, 'registroOperadorLeche', $secuencial, $idOperador, 'Certificación de registro de operador de leche');
+								// $cr->actualizarCentrosAcopioInspeccion($conexion, $idOperadorTipoOperacion, $inspector, 'sistemaGUIA', 'generado');
+								
+								//Tabla de firmas físicas
+								
+								$firmaResponsable = pg_fetch_assoc($cc->obtenerFirmasResponsablePorProvincia($conexion, $nombreProvincia, 'AI'));
+								$rutaArchivo = $constg::RUTA_SERVIDOR_OPT . '/' . $constg::RUTA_APLICACION . '/' .$rutaArchivo;
+								
+								//Firma Electrónica
+								$parametrosFirma = array(
+									'archivo_entrada'=>$rutaArchivo,
+									'archivo_salida'=>$rutaArchivo,
+									'identificador'=>$firmaResponsable['identificador'],
+									'razon_documento'=>'Certificación de registro de operador de leche',
+									'tabla_origen'=>'g_operadores.documentos_operador',
+									'campo_origen'=>'ruta_archivo',
+									'id_origen'=>$idOperacion,
+									'estado'=>'Por atender',
+									'proceso_firmado'=>'NO'
+								);
+								
+								//Guardar registro para firma
+								$cfd->ingresoFirmaDocumento($conexion, $parametrosFirma);
+								
+							break;
+									
+							    
     	                case 'PRC':
     	                case 'COM':
     	                    
@@ -482,7 +621,7 @@ if($_SERVER['REMOTE_ADDR'] == ''){
 }else{
     $minutoS1=microtime(true);
     $minutoS2=microtime(true);
-    $tiempo=$minutoS2-minutoS1;
+    $tiempo=$minutoS2-$minutoS1;
     $xcadenota = "FECHA ".date("d/m/Y")." ".date("H:i:s");
     $xcadenota.= "; IP REMOTA ".$_SERVER['REMOTE_ADDR'];
     $xcadenota.= "; SERVIDOR HTTP ".$_SERVER['HTTP_REFERER'];
@@ -493,3 +632,7 @@ if($_SERVER['REMOTE_ADDR'] == ''){
     
 }
 ?>
+            
+    	            
+    	       	            
+    	           

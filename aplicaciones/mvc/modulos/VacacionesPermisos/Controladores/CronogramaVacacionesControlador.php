@@ -87,7 +87,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$this->anioPlanificacion = $anioPlanificacion;
 			
 		}else{
-			$this->accion = "Nueva solicitud de planificación año.";
+			$this->accion = "Nueva solicitud de planificación";
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
 		}
 		
@@ -465,7 +465,7 @@ class CronogramaVacacionesControlador extends BaseControlador
                         					<tr>
                         						<td colspan="1">Estado: </td>
                         						<td colspan="4">
-												<select id="estado_cronograma_vacacion" name="estado_cronograma_vacacion"  style="width: 100%" class="validacion">
+												<select id="estado_cronograma_vacacion" name="estado_cronograma_vacacion" style="width: 100%" class="validacion">
 												<option value="">Seleccione...</option>
 												<option value="Creado">Creado</option>
 												<option value="EnviadoJefe">Revisión Jefe</option>

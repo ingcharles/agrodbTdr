@@ -23,6 +23,20 @@ require_once '../../clases/ControladorAdministrarCatalogos.php';
 	$nombreArea = pg_fetch_result($cro->obtenerDatosAreaXIdOperacion($conexion, $idOperacion), 0, 'nombre_area');
 
 	$qLaboratoriosLeche = $cac -> listarItemsPorCodigo($conexion, 'COD-LABOR-IA', '1');
+	
+	$qOperacion = $cro->abrirOperacionXid($conexion, $idOperacion);
+	$operacion = pg_fetch_assoc($qOperacion);
+	
+	$qDatosCentroAcopio = $cro->obtenerDatosCentroAcopioXIdOperadorTipoOperacionPorEstado($conexion, $operacion['id_operador_tipo_operacion'], 'activo');
+	$datosCentroAcopio = pg_fetch_assoc($qDatosCentroAcopio);	
+	$capacidadCentroAcopio = $datosCentroAcopio['capacidad_instalada'];
+	$unidadMedidaCentroAcopio = $datosCentroAcopio['codigo_unidad_medida'];
+	$numeroTrabajadoresCentroAcopio = $datosCentroAcopio['numero_trabajadores'];
+	$laboratorioCentroAcopio = $datosCentroAcopio['id_laboratorio_leche'];
+	$numeroProveedoresCentroAcopio = $datosCentroAcopio['numero_proveedores'];
+	$perteneceMagCentroAcopio = $datosCentroAcopio['pertenece_mag'];
+	$horaRecoleccionManianaCentroAcopio = $datosCentroAcopio['hora_recoleccion_maniana'];
+	$horaRecoleccionTardeCentroAcopio = $datosCentroAcopio['hora_recoleccion_tarde'];
 		
 ?>
 
@@ -47,7 +61,7 @@ require_once '../../clases/ControladorAdministrarCatalogos.php';
 		</div>
 		<hr/>
 		<div data-linea="2">			
-			<label>*Capacidad instalada: </label><input type="text" id="capacidadInstalada" name="capacidadInstalada" onkeypress="ValidaSoloNumeros()" />
+			<label>*Capacidad instalada: </label><input type="text" id="capacidadInstalada" name="capacidadInstalada" onkeypress="ValidaSoloNumeros()" value="<?php echo $capacidadCentroAcopio; ?>" />
 		</div>
 		<div data-linea="2">
 			<label for="unidadMedida">*Unidad: </label>			
@@ -61,7 +75,7 @@ require_once '../../clases/ControladorAdministrarCatalogos.php';
             </select>
 		</div>
 		<div data-linea="3">			
-			<label>*Número de trabajadores: </label><input type="text" id="numeroTrabajadores" name="numeroTrabajadores" onkeypress="ValidaSoloNumeros()" />
+			<label>*Número de trabajadores: </label><input type="text" id="numeroTrabajadores" name="numeroTrabajadores" onkeypress="ValidaSoloNumeros()"  value="<?php echo $numeroTrabajadoresCentroAcopio; ?>" />
 		</div>
 		<div data-linea="4">			
 			<label for="laboratorio">*Laboratorio legalmente constituido: </label>
@@ -75,7 +89,7 @@ require_once '../../clases/ControladorAdministrarCatalogos.php';
             </select>
 		</div>
 		<div data-linea="5">			
-			<label>*Número de proveedores: </label><input type="text" id="numeroProveedores" name="numeroProveedores"onkeypress="ValidaSoloNumeros()" />
+			<label>*Número de proveedores: </label><input type="text" id="numeroProveedores" name="numeroProveedores"onkeypress="ValidaSoloNumeros()"  value="<?php echo $numeroProveedoresCentroAcopio; ?>" />
 		</div>
 		<div data-linea="5">
 		<label for="perteneceMag">*Pertenece al MAG: </label>
@@ -86,13 +100,13 @@ require_once '../../clases/ControladorAdministrarCatalogos.php';
             </select>
 		</div>
 		<div data-linea="6">
-			<label>Horario de recepción matutina:</label> <input type="text" id="horaRecoleccionManiana" name="horaRecoleccionManiana" placeholder="06:30" data-inputmask="'mask': '99:99'" disabled="disabled" />
+			<label>Horario de recepción matutina:</label> <input type="text" id="horaRecoleccionManiana" name="horaRecoleccionManiana" placeholder="06:30" data-inputmask="'mask': '99:99'" value="<?php echo $horaRecoleccionManianaCentroAcopio; ?>" <?php ($horaRecoleccionManianaCentroAcopio == "") ? 'disabled="disabled"' : ""; ?> />
 		</div>	
 		<div data-linea="6">
 			<input type="checkbox" name="validarManiana" id="validarManiana" value="">
 		</div>
 		<div data-linea="7">
-			<label>Horario de recepción vespertina:</label> <input type="text" id="horaRecoleccionTarde" name="horaRecoleccionTarde" placeholder="17:30" data-inputmask="'mask': '99:99'" disabled="disabled" />
+			<label>Horario de recepción vespertina:</label> <input type="text" id="horaRecoleccionTarde" name="horaRecoleccionTarde" placeholder="17:30" data-inputmask="'mask': '99:99'" value="<?php echo $horaRecoleccionTardeCentroAcopio; ?>" <?php ($horaRecoleccionTardeCentroAcopio == "") ? 'disabled="disabled"' : ""; ?> />
 		</div>	
 		<div data-linea="7">
 			<input type="checkbox" name="validarTarde" id="validarTarde" value="">
@@ -106,7 +120,20 @@ require_once '../../clases/ControladorAdministrarCatalogos.php';
 	$(document).ready(function(){
 		distribuirLineas();
 		construirValidador();
-		cargarValorDefecto("unidadMedida","L");
+		cargarValorDefecto("laboratorio","<?php echo $laboratorioCentroAcopio; ?>");
+		cargarValorDefecto("perteneceMag","<?php echo $perteneceMagCentroAcopio; ?>");
+		cargarValorDefecto("unidadMedida","<?php echo ($unidadMedidaCentroAcopio) != "" ? $unidadMedidaCentroAcopio : "L"; ?>");
+
+		var horarioManiana= <?php echo json_encode($horaRecoleccionManianaCentroAcopio); ?>;
+		var horarioTarde= <?php echo json_encode($horaRecoleccionTardeCentroAcopio); ?>;
+
+		if(horarioManiana != ""){
+			$("#validarManiana").prop('checked', true);
+		}
+
+		if(horarioTarde != ""){
+			$("#validarTarde").prop('checked', true);
+		}
 		
 		$("#validarManiana").click(function() {  
 			if($("#validarManiana").prop('checked')) {

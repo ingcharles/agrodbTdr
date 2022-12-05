@@ -55,7 +55,7 @@
 	var identificadorFuncionario = "<?php echo $this->identificador; ?>";
 	var idCronogramaVacacion = "<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>";
 	var estadoCronograma = "<?php echo $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion(); ?>";
-
+	var anioPlanificacion = "<?php echo $this->anioPlanificacion; ?>";
 	$(document).ready(function() {
 		construirValidador();
 		distribuirLineas();
@@ -69,17 +69,20 @@
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
 					$(".piFechaFin").datepicker({
+						yearRange: "c:c",
 						changeMonth: false,
 						changeYear: false,
 						dateFormat: 'yy/mm/dd',
+						maxDate: 0,
+						minDate: new Date(anioPlanificacion + '/01/01'),
 					});
 
 					$(".piFechaInicio").datepicker({
-						yearRange: "+0:+1",
+						yearRange: "+0:+0",
 						changeMonth: true,
-						changeYear: true,
+						changeYear: false,
 						dateFormat: 'yy/mm/dd',
-						minDate: '0',
+						minDate: new Date(anioPlanificacion + '/01/01'),
 						onSelect: function(dateText, inst) {
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
 							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
@@ -108,8 +111,6 @@
 					}
 					$(".piNumeroDias").val(valorMaximo);
 					$(".piNumeroDias").numeric();
-					//$(".piNumeroDias").attr("maxlength", 2);
-
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
@@ -117,7 +118,6 @@
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
 							$(elem).attr('disabled', true);
 						})
-						console.log('siiiiiii')
 					}
 
 				}

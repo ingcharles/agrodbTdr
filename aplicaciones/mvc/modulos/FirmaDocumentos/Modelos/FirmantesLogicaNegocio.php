@@ -17,7 +17,7 @@ use Agrodb\FirmaDocumentos\Modelos\IModelo;
 class FirmantesLogicaNegocio implements IModelo{
 
 	private $modeloFirmantes = null;
-
+	private $lNegocioDocumentosLogicaNegocio = null;
 	/**
 	 * Constructor
 	 *
@@ -25,6 +25,7 @@ class FirmantesLogicaNegocio implements IModelo{
 	 */
 	public function __construct(){
 		$this->modeloFirmantes = new FirmantesModelo();
+		$this->lNegocioDocumentosLogicaNegocio = new DocumentosLogicaNegocio();
 	}
 
 	/**
@@ -93,4 +94,17 @@ class FirmantesLogicaNegocio implements IModelo{
 		$consulta = "SELECT * FROM " . $this->modeloFirmantes->getEsquema() . ". firmantes";
 		return $this->modeloFirmantes->ejecutarSqlNativo($consulta);
 	}
+
+	
+	
+
+	public function ingresoFirmaDocumento($parametrosFirma) {
+
+		$arrayParametros = array('identificador' => $parametrosFirma['identificador']);
+    	$firma = $this->modeloFirmantes->buscarLista($arrayParametros);
+    	
+    	if(count($firma) > 0){
+    		$this->lNegocioDocumentosLogicaNegocio->crearDocumentoParaFirmar($parametrosFirma);
+    	}
+    }
 }
