@@ -157,7 +157,7 @@ class FirmasElectronicasLogicaNegocio implements IModelo
         fe.id_firma_electronica
         FROM
         " . $this->modelo->getEsquema() . ".firmas_electronicas fe
-        INNER JOIN g_uath.ficha_empleado emp ON emp.identificador = fe.identificador WHERE fe.estado='ACTIVO' AND  fe.identificador='" . $cedula . "'";
+        INNER JOIN g_uath.ficha_empleado emp ON emp.identificador = fe.identificador WHERE fe.estado='ACTIVO' AND fe.identificador='" . $cedula . "'";
         return $this->modelo->ejecutarSqlNativo($consulta);
     }
 
@@ -182,25 +182,5 @@ class FirmasElectronicasLogicaNegocio implements IModelo
         return $this->modelo->ejecutarConsulta($consulta);
     }
 
-    /**
-     * Busca al empleado que tiene la firma
-     * @param type $cedula
-     * @return type
-     */
-    public function buscarFirmante()
-    {
-        $consulta = "SELECT
-        fe.identificador,
-        per.nombre || ' ' || per.apellido as empleado,
-        fe.ruta,
-        fe.estado,
-        fe.id_firma_electronica,
-        fe.contrasenia,
-        fe.atributos
-        FROM
-        g_laboratorios.firmas_electronicas AS fe
-        INNER JOIN g_uath.ficha_empleado AS per ON per.identificador = fe.identificador ORDER BY fe.estado DESC";
-        return $this->modelo->ejecutarSqlNativo($consulta);
-    }
-
+   
 }

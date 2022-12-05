@@ -23,8 +23,11 @@ use Agrodb\RegistroOperador\Modelos\VehiculoTransporteAnimalesExpiradoModelo;
 
 use Agrodb\Catalogos\Modelos\TiposOperacionLogicaNegocio;
 use Agrodb\Catalogos\Modelos\TiposOperacionModelo;
-use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Date;
 
+use Agrodb\Core\Excepciones\BuscarExcepcion;
+use Agrodb\Token\Modelos\TokenLogicaNegocio;
+use Agrodb\Core\Excepciones\GuardarExcepcion;
+use Exception;
 class OperacionesLogicaNegocio implements IModelo
 {
 
@@ -41,6 +44,7 @@ class OperacionesLogicaNegocio implements IModelo
     private $lNegocioTiposOperacion = null;    
     private $modeloTiposOperacion = null;
 
+    private $lNegocioToken = null;
     /**
      * Constructor
      *
@@ -59,6 +63,8 @@ class OperacionesLogicaNegocio implements IModelo
         
         $this->modeloVehiculoTransporteAnimalesExprirado = new VehiculoTransporteAnimalesExpiradoModelo();
         $this->lNegocioVehiculoTransporteAnimalesExpirado = new VehiculoTransporteAnimalesExpiradoLogicaNegocio();
+
+        $this->lNegocioToken = new TokenLogicaNegocio();
     }
 
     /**
@@ -1149,5 +1155,834 @@ class OperacionesLogicaNegocio implements IModelo
 													and id_operador_tipo_operacion = $idOperadorTipoOperacion;";
 			return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
 		}
+
     
+    /**
+	 * obtener tipo de operaciones para realizar revision desde aliactivo movil
+	 */
+	public function obtenerOperacionesRegistroOperadorPorEstado($arrayParametros){
+
+	    $provincia = $arrayParametros['provincia'];
+	    $idAreaTematica = $arrayParametros['idAreaTematica'];
+	    $codigoTipoOperacion = $arrayParametros['codigoTipoOperacion'];
+	   $estado = $arrayParametros['estado'];
+	    $condicion = "";
+
+	    $arrayToken = $this->lNegocioToken->validarToken(RUTA_PUBLIC_KEY_AGROSERVICIOS);
+
+	    if ($arrayToken['estado'] == 'exito') {
+	        $res = null;
+	        $campos = "";
+	        $consulta = "";
+	        $condicion = "";
+	        $agrupar = "";
+
+    	    switch($idAreaTematica){
+
+    	        case 'AI':
+    	            
+    	            switch($codigoTipoOperacion){
+    	                
+    	                case 'MDT':
+    	                    
+    	                    $campos = ", dv.id_dato_vehiculo
+                                        , cttt.nombre AS tipo_tanque
+                                        , UPPER(dv.placa_vehiculo) AS placa_vehiculo
+                                        , dv.capacidad_vehiculo || ' ' || dv.codigo_unidad_medida AS capacidad_vehiculo
+                                        , dv.fecha_creacion
+                                        , dv.id_operador_tipo_operacion
+                                        , dv.hora_inicio_recoleccion
+                                        , dv.hora_fin_recoleccion";
+    	                    $consulta = " INNER JOIN g_operadores.datos_vehiculos dv ON op.id_operador_tipo_operacion = dv.id_operador_tipo_operacion
+                                        INNER JOIN (SELECT ic.* FROM g_administracion_catalogos.items_catalogo ic
+                                        INNER JOIN g_administracion_catalogos.catalogos_negocio cn ON ic.id_catalogo_negocios = cn.id_catalogo_negocios) AS cttt ON cttt.id_item = dv.id_tipo_tanque_vehiculo";
+    	                    $condicion = " and dv.estado_dato_vehiculo = 'activo'";
+    	                    $agrupar = ", dv.id_dato_vehiculo, placa_vehiculo, tipo_tanque ";
+    	                    
+    	                break;
+    	                
+    	                case 'ACO':
+    	                    $campos = ", ca.id_centro_acopio
+                                        , ca.capacidad_instalada || ' ' || ca.codigo_unidad_medida AS capacidad_instalada
+                                        , ca.codigo_unidad_medida
+                                        , ca.numero_trabajadores
+                                        , ctlab.nombre AS nombre_laboratorio
+                                        , ca.numero_proveedores
+                                        , ca.fecha_creacion
+                                        , ca.id_operador_tipo_operacion
+                                        , ca.estado_centro_acopio
+                                        , ca.hora_recoleccion_maniana
+                                        , ca.hora_recoleccion_tarde
+                                        , ca.pertenece_mag";
+    	                    $consulta = "INNER JOIN g_operadores.centros_acopio ca ON op.id_operador_tipo_operacion = ca.id_operador_tipo_operacion
+                                         INNER JOIN (SELECT ic.* FROM g_administracion_catalogos.items_catalogo ic
+                                                     INNER JOIN g_administracion_catalogos.catalogos_negocio cn ON ic.id_catalogo_negocios = cn.id_catalogo_negocios) AS ctlab ON ctlab.id_item = ca.id_laboratorio_leche";
+    	                    $condicion = " and ca.estado_centro_acopio = 'activo'";
+    	                    $agrupar = ", ca.id_centro_acopio, ctlab.nombre ";
+    	                break;
+    	                
+    	            }
+    	            
+    	        break;
+    	            	        
+    	    }
+
+    	   $consulta = "SELECT row_to_json (res) as res FROM ( SELECT array_to_json(array_agg(row_to_json(listado))) as cuerpo FROM (
+                                SELECT
+                                	operaciones.* ,
+                                    (
+                                    	SELECT jsonb_agg(tvd)
+                                    	FROM (
+                            	        	SELECT
+                            						vd.id_vigencia_declarada
+                            						, cvd.id_vigencia_documento
+                            						, vd.valor_tiempo_vigencia_declarada
+                            						, vd.tipo_tiempo_vigencia_declarada
+                            						, CASE WHEN valor_tiempo_vigencia_declarada = 1 
+                            						THEN 'Aprobado por ' || valor_tiempo_vigencia_declarada || 
+                            							CASE WHEN tipo_tiempo_vigencia_declarada = 'anio' THEN ' año' WHEN tipo_tiempo_vigencia_declarada = 'mes' THEN ' mes' WHEN tipo_tiempo_vigencia_declarada = ' dia' THEN 'día'END
+                            						WHEN valor_tiempo_vigencia_declarada != 1
+                            						THEN 'Aprobado por ' || valor_tiempo_vigencia_declarada || 
+                            							CASE WHEN tipo_tiempo_vigencia_declarada = 'anio' THEN ' años' WHEN tipo_tiempo_vigencia_declarada = 'mes' THEN ' meses' WHEN tipo_tiempo_vigencia_declarada = ' dia' THEN 'días'END
+                            						END AS descripcion_vigencia
+                            				FROM
+                            					g_vigencia_documento.cabecera_vigencia_documento cvd,
+                            					g_vigencia_documento.vigencia_declarada vd
+                            				WHERE
+                            					cvd.id_vigencia_documento = vd.id_vigencia_documento
+                            					and cvd.etapa_vigencia = 'inspeccion'
+                            				and operaciones.id_vigencia_documento = cvd.id_vigencia_documento ORDER BY 1 
+                                    	) AS tvd
+                                    ) AS vigencia
+                                FROM (SELECT  
+                                            op.id_operador_tipo_operacion 
+                                        	,op.identificador_operador
+                                        	, UPPER(COALESCE (o.razon_social, o.nombre_representante ||' '|| o.apellido_representante)) nombre_operador
+                                        	, o.nombre_representante ||' '|| o.apellido_representante as representante_legal
+                                        	, s.nombre_lugar AS nombre_sitio
+                                            , s.provincia || ' - ' || s.canton || ' - ' || s.parroquia  AS ubicacion_sitio
+                                            , o.telefono_uno || ' - ' || o.celular_uno || ' - ' || o.correo  AS contacto_operador
+											, s.direccion AS direccion_sitio
+                                        	, a.nombre_area
+                                        	, top.nombre AS nombre_tipo_operacion
+                                        	, op.estado
+                                            , MIN(op.id_operacion) AS id_solicitud
+                                        	, string_agg(DISTINCT(stp.nombre), ', ') as nombre_subtipo_producto
+                                        	, string_agg(DISTINCT(p.nombre_comun), ', ') as nombre_productos
+                                            , op.id_vigencia_documento
+                                            " . $campos . "
+                                        FROM 
+                                            g_operadores.sitios s 
+                                            INNER JOIN g_operadores.areas a ON s.id_sitio = a.id_sitio 
+                                            INNER JOIN g_operadores.productos_areas_operacion pao ON a.id_area = pao.id_area 
+                                            INNER JOIN g_operadores.operaciones op ON pao.id_operacion = op.id_operacion 
+                                            INNER JOIN g_operadores.operadores o ON op.identificador_operador = o.identificador 
+                                            INNER JOIN g_catalogos.tipos_operacion top ON op.id_tipo_operacion = top.id_tipo_operacion 
+                                            INNER JOIN g_catalogos.productos p ON p.id_producto = op.id_producto 
+                                            INNER JOIN g_catalogos.subtipo_productos stp ON stp.id_subtipo_producto = p.id_subtipo_producto
+                                            INNER JOIN g_catalogos.localizacion l ON UPPER(s.provincia) = UPPER(l.nombre) and categoria = 1 
+                                            " . $consulta . "
+                                        WHERE 
+                                            top.id_area || top.codigo in ('" . $idAreaTematica . $codigoTipoOperacion . "')
+                                            AND op.estado IN (" . $estado . ")" . $condicion . "
+                                            AND l.id_localizacion = " . $provincia . "
+                                        GROUP BY 
+                                            op.id_operador_tipo_operacion, op.identificador_operador, nombre_operador, representante_legal, nombre_sitio,
+                                            ubicacion_sitio, direccion_sitio,
+                                            a.nombre_area,
+                                        	nombre_tipo_operacion,
+                                            contacto_operador,
+                                            op.estado, op.id_vigencia_documento" 
+                                            . $agrupar . "
+                                        ORDER BY op.identificador_operador ASC)	operaciones
+                            ) as listado ) AS res;";
+									
+    	    $array = array();
+    	    
+    	    try {
+    	        $res = $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+				
+    	        $array['estado'] = 'exito';
+    	        $array['mensaje'] = "Los datos han sido obtenidos satisfactoriamente";
+    	        $cuerpo = json_decode($res->current()->res, true);
+    	        $array['cuerpo'] = $cuerpo['cuerpo'] != null ? $cuerpo['cuerpo'] : [];
+    	        echo json_encode($array);
+    	    } catch (Exception $ex) {
+    	        $array['estado'] = 'error';
+    	        $array['mensaje'] = 'Error al obtener datos: ' . $ex;
+    	        http_response_code(400);
+    	        echo json_encode($array);
+    	        throw new BuscarExcepcion($ex, array('archivo' => 'OperacionesLogicaNegocio', 'metodo' => 'buscarOperacionesPorProvinciaPorTipoOperacionPorEstado', 'consulta' => $consulta));
+    	    }
+ 	    } else{
+ 	        echo json_encode($arrayToken);
+ 	    }
+	}
+	
+	public function guardarResultadoInspeccion(Array $resultadoInspeccion){
+
+	    try{
+	        
+	        $procesoIngreso = $this->modeloOperaciones->getAdapter()
+	        ->getDriver()
+	        ->getConnection();
+	        $procesoIngreso->beginTransaction();
+	    
+    	    $resultado = $resultadoInspeccion['estado'];
+    	    $fechaActual = date("Y-m-d h:m:s");
+    	    $actualizacionFechas = true;	    
+    	    $arrayResultados = array('noHabilitado','subsanacion', 'subsanacionRepresentanteTecnico','subsanacionProducto');//Verificar si existe subsanacion
+    	    	    
+    	    if (!in_array($resultado, $arrayResultados)) {
+    	        
+    	        if($resultado == 'registrado'){
+    	            //TODO:VERIFICAR LAS VIGENCIAS QUE VIENEN
+    	            
+    	            $idVigenciaDeclarada = null;
+    	        }else{
+    	            $idVigenciaDeclarada = $resultado;
+    	            $resultado = 'registrado';
+    	        }
+    	    }
+    	             
+			$tipoSolicitud = "";
+
+    	    $modulosAgregados = "";
+    	    $perfilesAgregados = "";
+    	    
+    	    $idOperacion = $resultadoInspeccion['id_operacion'];
+    	    
+    	    $qOperacion = $this->buscar($idOperacion);
+    	    $idOperadorTipoOperacion = $qOperacion->getIdOperadorTipoOperacion();
+    	    $identificadorOperador = $qOperacion->getIdentificadorOperador();
+    	    $idTipoOperacion = $qOperacion->getIdTipoOperacion();
+    	    
+    	    $qAreasOperador = $this->obtenerOperadorOperacionAreaInspeccion($idOperacion);
+    	    $idArea = $qAreasOperador->current()->id_area;
+    	    
+    	    $qHistorialOperacion = $this->obtenerMaximoIdentificadorHistoricoOperacion($idOperadorTipoOperacion);
+    	    $idHistorialOperacion = $qHistorialOperacion->current()->id_historial_operacion;
+    	    
+    	    
+    	    if($resultado == 'registrado'){      
+    	       
+    	        $idflujoOperacion = $this->obtenerIdFlujoXOperacion($idOperacion);
+    	        $idFlujoActual = $this->obtenerEstadoActualFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, 'inspeccion');
+				if($idFlujoActual->count()){
+					$estado = $this->obtenerEstadoFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, $idFlujoActual->current()->predecesor);
+					
+					if($qOperacion->getModuloProvee() == 'moduloExterno' && $estado->current()->estado == 'cargarProducto'){
+						$estado = $this->obtenerEstadoFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, $idFlujoActual->current()->predecesor + 1);
+					}
+				}else{
+					$estado = $this->obtenerEstadoActualFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, 'registrado');
+					
+				}
+    	        	        
+    	        $idVigenciaDocumento = null;
+    	        
+    	        if($qOperacion->getProcesoModificacion() != 't'){
+    	            
+    	            $valorVigencia = null;
+    	            $tipoTiempoVigencia = null;
+    	            if($idVigenciaDeclarada != null){
+    	                $qVigenciaDeclarada = $this->obtenerVigenciaDeclaradaPorIdVigenciaDeclarada($idVigenciaDeclarada);
+    	                $valorVigencia = $qVigenciaDeclarada->current()->valor_tiempo_vigencia_declarada;
+    	                $idVigenciaDocumento = $qVigenciaDeclarada->current()->id_vigencia_documento;
+    	                $tipoTiempoVigenciaDocumento = $qVigenciaDeclarada->current()->tipo_tiempo_vigencia_declarada;
+    	                $tipoTiempoVigencia = $this->transformarvalorTipoVigencia($tipoTiempoVigenciaDocumento);
+    	            }
+    	            
+    	            $arrayVerificarOperaciones = array('identificador_operador' => $identificadorOperador
+    	                                                , 'id_tipo_operacion' => $idTipoOperacion
+    	                                                , 'id_area' => $idArea
+                                                        , 'estado' => 'porCaducar'
+                                                        , 'id_vigencia_documento' => $idVigenciaDocumento
+                                                        );
+    	            
+    	            $qExistenciaOperacion = $this->verificarExistenciaOperaciones($arrayVerificarOperaciones);
+    	            
+    	            $arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
+                                            , 'id_historial_operacion' => $idHistorialOperacion
+                                            , 'valor_vigencia' => $valorVigencia
+                                            , 'tipo_tiempo_vigencia' => $tipoTiempoVigencia
+                                            , 'id_vigencia_documento' => $idVigenciaDocumento	               
+                                            );
+                        	            
+    	            if(!isset($qExistenciaOperacion->current->id_operacion)){
+    	                $this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametros);
+    	                if($idVigenciaDocumento != null){
+    	                    $this->actualizarFechaFinalizacionOperaciones($arrayParametros);
+    	                }
+    	                
+    	            }else{
+    	                
+    	                $arrayParametrosOperacionExistente = array('id_operador_tipo_operacion' => $qExistenciaOperacion->current()->id_operador_tipo_operacion
+                                                                    , 'id_historial_operacion' => $qExistenciaOperacion->current()->id_historial_operacion
+                                                                    , 'id_vigencia_documento' => $idVigenciaDocumento
+                                            	                    , 'valor_vigencia' => $valorVigencia
+                                            	                    , 'tipo_tiempo_vigencia' => $tipoTiempoVigencia
+                                            	                    , 'id_vigencia_documento' => $idVigenciaDocumento
+                                                                    );
+    	                
+    	                $this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametrosOperacionExistente);
+    	                if($idVigenciaDocumento != null){
+    	                    $this->actualizarFechaFinalizacionOperaciones($arrayParametrosOperacionExistente);
+    	                }
+    	                
+    	                $arrayParametrosOperacionActualizar = array('id_operador_tipo_operacion' => $qExistenciaOperacion->current()->id_operador_tipo_operacion
+    	                                                           , 'id_historial_operacion' => $qExistenciaOperacion->current()->id_historial_operacion
+    	                                                           , 'estado' => 'noHabilitado'
+    	                                                           , 'observacion' => 'Cambio de estado no habilitado por registro de nueva operación ' . $fechaActual
+    	                                                           , 'id_vigencia_documento' => $idVigenciaDocumento
+    	                                                           );
+    	                
+    	                $this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
+    	                $this->cambiarEstadoAreaOperacionPorPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
+    	                $this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametrosOperacionActualizar);
+    	            
+    	            }
+    	            
+    	        }else{
+    	            
+    	            $actualizacionFechas = false;
+    	            
+    	        }
+    	        
+    	        $qcodigoTipoOperacion = $this->obtenerCodigoTipoOperacion($idOperacion);
+    	        $codigoArea = $qcodigoTipoOperacion->current()->codigo;
+    	        $idArea = $qcodigoTipoOperacion->current()->id_area;
+    	        
+    	        switch ($estado->current()->estado){
+    	        
+    	            case 'registrado':
+    	                
+    	                $arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
+                                                	                , 'id_historial_operacion' => $idHistorialOperacion
+                                                	                , 'estado' => $estado->current()->estado
+                                                	                , 'observacion' => 'Solicitud aprobada ' . $fechaActual
+                                                	                , 'id_vigencia_documento' => $idVigenciaDocumento
+                                                	                , 'actualizar_certificado' => 'SI'
+                                                	                , 'proceso_modificacion' => ''
+                                                	                );
+    	                
+    	                $this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametros);
+    	                
+    	                if($actualizacionFechas){
+    	                    $this->actualizarFechaAprobacionOperaciones($arrayParametros);
+    	                }else{
+    	                    $this->actualizarFechaAprobacionOperacionesProcesoModificacion($arrayParametros);
+    	                }
+    	                $this->cambiarEstadoAreaOperacionPorPorOperadorTipoOperacionHistorial($arrayParametros);
+    	                $this->actualizarProcesoActualizacionOperacion($arrayParametros);
+    	                          
+            	        switch ($idArea){
+            	            
+            	            case 'AI':
+            	                
+            	                switch ($codigoArea){
+            	                    
+            	                    case 'MDT':
+            	                    case 'ACO':
+            	                        $tipoSolicitud = "Operadores";
+            	                        $modulosAgregados .= "('PRG_AUM_CAP_INST'),('PRG_DOSSIER_PEC'),";
+            	                        $perfilesAgregados .= "('PFL_AUM_CAP_INST'),";
+            	                          
+            	                        $this->cambiarEstadoActualizarCertificado($arrayParametros);
+            	                        
+            	                    break;
+									case 'PRO':
+            	                        $tipoSolicitud = "certificacionBPA";
+            	                        
+            	                    break;
+            	                             	                              	                    
+            	                }
+            	               
+            	            break;
+            	                
+            	        }
+            	        
+            	    break;
+        	        
+    	        }
+    	        
+    	        $this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametros);
+    	        /*
+    	        if(strlen($modulosAgregados) == 0){
+    	            $modulosAgregados = "''";
+    	        }
+    	        
+    	        if(strlen($perfilesAgregados) == 0){
+    	            $perfilesAgregados = "''";
+    	        }
+    	        
+    	        $arrayParametrosAplicacion = array('codificacion_aplicacion' => '(' . rtrim($modulosAgregados, ',') . ')');
+    	            	        
+    	        $qGrupoAplicacion = $this->lNegocioAplicaciones->obtenerGrupoAplicacion($arrayParametrosAplicacion);
+    	        
+	            foreach ($qGrupoAplicacion as $grupoAplicacion) {
+	               
+	                $arrayParametrosAplicacionRegistrada = array('identificador' => $identificadorOperador, 'id_aplicacion' => $grupoAplicacion['id_aplicacion']);
+	                
+	                //$qAplicacionRegistrada = $this->lNegocioAplicacionesRegistradas->buscarLista($arrayParametrosAplicacionRegistrada);
+	                	 
+	                $qAplicacionRegistrada = true;
+	                
+	                if(isset($qAplicacionRegistrada)){
+	                    
+	                    $arrayParametrosRegistrarAplicacion = array('identificador' => $identificadorOperador, 'id_aplicacion' => $grupoAplicacion['id_aplicacion']);
+	                    
+	                    $statement = $this->modeloOperaciones->getAdapter()->getDriver()->createStatement();
+	                    $sqlInsertar = $this->modeloOperaciones->guardarSql('aplicaciones', $this->modeloAplicacionesRegistradas->getEsquema());
+	                    $sqlInsertar->columns($this->modeloAplicacionesRegistradas->getColumns());
+	                    $sqlInsertar->values($arrayParametrosRegistrarAplicacion, $sqlInsertar::VALUES_MERGE);
+	                    $sqlInsertar->prepareStatement($this->modeloOperaciones->getAdapter(), $statement);
+	                    $statement->execute();
+	                    
+	                    
+	                    //$qAplicacionVacunacion=$cgap->guardarGestionAplicacion($conexion, $idOperador,$filaAplicacion['codificacion_aplicacion']);
+	                    //$qGrupoPerfiles=$cgap->obtenerGrupoPerfilXAplicacion($conexion, $filaAplicacion['id_aplicacion'], '('.rtrim($perfilesAgregados,',').')' );
+	                    //while($filaPerfil=pg_fetch_assoc($qGrupoPerfiles)){
+	                    //    $cgap->guardarGestionPerfil($conexion, $idOperador,$filaPerfil['codificacion_perfil']);
+	                    //}
+	                    
+	                }else{
+	                    
+	                    
+	                }
+	                
+	            }*/
+    	        
+    	        
+    	        /*
+    	        $qGrupoAplicacion=$cgap->obtenerGrupoAplicacion($conexion,'('.rtrim($modulosAgregados,',').')' );
+    	        if(pg_num_rows($qGrupoAplicacion)>0){
+    	            
+    	            while($filaAplicacion=pg_fetch_assoc($qGrupoAplicacion)){
+    	                if(pg_num_rows($ca->obtenerAplicacionPerfil($conexion, $filaAplicacion['id_aplicacion'] , $idOperador))==0){
+    	                    $qAplicacionVacunacion=$cgap->guardarGestionAplicacion($conexion, $idOperador,$filaAplicacion['codificacion_aplicacion']);
+    	                    $qGrupoPerfiles=$cgap->obtenerGrupoPerfilXAplicacion($conexion, $filaAplicacion['id_aplicacion'], '('.rtrim($perfilesAgregados,',').')' );
+    	                    while($filaPerfil=pg_fetch_assoc($qGrupoPerfiles)){
+    	                        $cgap->guardarGestionPerfil($conexion, $idOperador,$filaPerfil['codificacion_perfil']);
+    	                    }
+    	                }else{
+    	                    $qGrupoPerfiles=$cgap->obtenerGrupoPerfilXAplicacion($conexion, $filaAplicacion['id_aplicacion'], '('.rtrim($perfilesAgregados,',').')' );
+    	                    while($filaPerfil=pg_fetch_assoc($qGrupoPerfiles)){
+    	                        $qPerfil = $cu-> obtenerPerfilUsuario($conexion, $filaPerfil['id_perfil'], $idOperador);
+    	                        if (pg_num_rows($qPerfil) == 0)
+    	                            $cgap->guardarGestionPerfil($conexion, $idOperador,$filaPerfil['codificacion_perfil']);
+    	                    }
+    	                }
+    	            }
+    	        }*/
+    	        
+    	    }else{
+    	        $idVigenciaDocumento = '';
+    	           
+    	        $qHistorialOperacion = $this->obtenerMaximoIdentificadorHistoricoOperacion($idOperadorTipoOperacion);
+    	        $idHistorialOperacion = $qHistorialOperacion->current()->id_historial_operacion;
+    	        
+    	        $arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
+    	            , 'id_historial_operacion' => $idHistorialOperacion, 'id_vigencia_documento' => $idVigenciaDocumento
+    	            
+    	        );
+    	        
+    	        $this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametros);
+
+    	        $arrayParametrosOperacionActualizar = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
+    	            , 'id_historial_operacion' => $idHistorialOperacion
+    	            , 'estado' => $resultado
+    	            , 'observacion' => $resultadoInspeccion['observacion_revision']
+    	            , 'id_vigencia_documento' => ''
+    	        );
+    	        
+    	        $this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
+    
+    	        $this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametrosOperacionActualizar);
+
+    	    }
+    	
+    	    // Construye el array para el registro de informacion en tablas de revision de solicitudes
+    	    $arrayDatosRevisor = array(
+    	        'identificador_inspector' => $resultadoInspeccion['identificador_revisor'],
+    	        'fecha_asignacion' => 'now()',
+    	        'identificador_asignante' => $resultadoInspeccion['identificador_revisor'],
+    	        'tipo_solicitud' => $tipoSolicitud,
+    	        'tipo_inspector' => 'Técnico',
+    	        'id_operador_tipo_operacion' => $idOperadorTipoOperacion,
+    	        'id_historial_operacion' => $idHistorialOperacion,
+    	        'id_solicitud' => $resultadoInspeccion['id_solicitud'],
+    	        'estado' => 'Técnico',
+    	        'fecha_inspeccion' => 'now()',
+    	        'observacion' => $resultadoInspeccion['observacion_revision'],
+    	        'estado_siguiente' => $resultado,
+    	        'orden' => 1
+    	    );
+    
+    	    $this->lNegocioAsignacionInspector->guardar($arrayDatosRevisor);
+
+    	    $procesoIngreso->commit();
+    	    
+	    }catch (GuardarExcepcion $ex){
+	        $procesoIngreso->rollback();
+	        throw new \Exception($ex->getMessage());
+	    }
+	    
+	}
+	
+	public function obtenerMaximoIdentificadorHistoricoOperacion($idOperadorTipoOperacion){
+	    
+	    $consulta = "SELECT
+							max(id_historial_operacion) as id_historial_operacion
+						FROM
+							g_operadores.historial_operaciones
+						WHERE
+							 id_operador_tipo_operacion = $idOperadorTipoOperacion;";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	//TODO:Verificar si se hace logica de negocio
+	public function obtenerIdFlujoXOperacion($idOperacion){
+	    
+	    $consulta = "SELECT
+	        			top.id_flujo_operacion
+	        		FROM
+	        			g_operadores.operaciones op,
+						g_catalogos.tipos_operacion top
+	        		WHERE
+						op.id_tipo_operacion = top.id_tipo_operacion
+						and op.id_operacion = " . $idOperacion . ";";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	//TODO:Verificar si se hace logica de negocio
+	public function obtenerEstadoActualFlujoOperacion($idFlujo, $estado){
+	    
+	    $consulta = "SELECT
+	        			*
+	        		FROM
+	        			g_operadores.flujos_operaciones
+	        		WHERE
+	        			id_flujo = " . $idFlujo . " 
+	        			and estado = '" . $estado . "';";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	//TODO:Verificar si se hace logica de negocio
+	public function obtenerEstadoFlujoOperacion($idFlujo, $idFase){
+	    
+	    $consulta = "SELECT
+	        			*
+	        		FROM
+	        			g_operadores.flujos_operaciones
+	        		WHERE
+	        			id_flujo = " . $idFlujo . "
+                        and id_fase = " . $idFase . ";";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	//TODO:Verificar si se hace logica de negocio
+	public function obtenerVigenciaDeclaradaPorIdVigenciaDeclarada($idVigenciaDeclarada){
+	    
+	    $consulta = "SELECT
+						*
+					FROM
+						g_vigencia_documento.vigencia_declarada
+					WHERE
+						id_vigencia_declarada = " . $idVigenciaDeclarada . ";";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	//TODO:Verificar si se hace logica de negocio
+	public function transformarvalorTipoVigencia($tipoTiempoVigencia){
+	    
+	    switch ($tipoTiempoVigencia){
+	        
+	        case 'anio':
+	            $tipoTiempo = 'year';
+	            break;
+	            
+	        case 'mes':
+	            $tipoTiempo = 'month';
+	            break;
+	            
+	        case 'dia':
+	            $tipoTiempo = 'day';
+	            break;
+	            
+	    }
+	    
+	    return $tipoTiempo;
+	}
+	
+	public function verificarExistenciaOperaciones($arrayParametros){
+	    
+	    $identificadorOperador = $arrayParametros['identificador_operador'];
+	    $idTipoOperacion = $arrayParametros['id_tipo_operacion'];
+	    $idArea = $arrayParametros['id_area'];
+	    $estado = $arrayParametros['estado'];
+	    $idVigenciaDocumento = $arrayParametros['id_vigencia_documento'] != "" ? "'" . $arrayParametros['id_vigencia_documento'] . "'" : "NULL";
+	    
+	    $consulta = "SELECT
+							*
+						FROM
+							g_operadores.operaciones op,
+							g_operadores.productos_areas_operacion pao
+						WHERE
+							op.id_operacion = pao.id_operacion 
+                            and	op.id_tipo_operacion = " . $idTipoOperacion . " 
+                            and	pao.id_area = " . $idArea . " 
+                            and op.identificador_operador = '" . $identificadorOperador . "' 
+                            and op.estado = '" . $estado . "' 
+                            and (" . $idVigenciaDocumento . " is NULL or op.id_vigencia_documento = " . $idVigenciaDocumento. ")
+                        ORDER BY 1
+                        LIMIT 1;";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $idHistorialOperacion = $arrayParametros['id_historial_operacion'];
+	    $idVigenciaDocumento = $arrayParametros['id_vigencia_documento'] != "" ? "'" . $arrayParametros['id_vigencia_documento'] . "'" : "NULL";
+	    
+																	  
+  
+	    $consulta = "UPDATE
+						g_operadores.operaciones o
+					SET
+						estado_anterior = op.estado
+					FROM
+						g_operadores.operaciones op
+					WHERE
+						o.id_operacion = op.id_operacion
+						and op.id_operador_tipo_operacion = " . $idOperadorTipoOperacion . " 
+						and op.id_historial_operacion = " . $idHistorialOperacion . "
+                        and (" . $idVigenciaDocumento . " is NULL or op.id_vigencia_documento = " . $idVigenciaDocumento. ")
+						and op.estado not in ('noHabilitado');";
+													 
+															
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function actualizarFechaFinalizacionOperaciones($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $idHistorialOperacion = $arrayParametros['id_historial_operacion'];
+	    $valorVigencia = $arrayParametros['valor_vigencia'];
+	    $tipoTiempoVigencia = $arrayParametros['tipo_tiempo_vigencia'];
+	    $idVigenciaDocumento = $arrayParametros['id_vigencia_documento'] != "" ? "'" . $arrayParametros['id_vigencia_documento'] . "'" : "NULL";
+	    
+	    $consulta = "UPDATE
+						g_operadores.operaciones
+					SET
+						fecha_finalizacion = now() + interval '" . $valorVigencia . "' " . $tipoTiempoVigencia . "
+					WHERE
+						id_operador_tipo_operacion = " . $idOperadorTipoOperacion . "
+                        and id_historial_operacion = " . $idHistorialOperacion . "
+                        and	(" . $idVigenciaDocumento . " is NULL or id_vigencia_documento = " . $idVigenciaDocumento . ");";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $idHistorialOperacion = $arrayParametros['id_historial_operacion'];
+	    $estado = $arrayParametros['estado'];
+	    $observacion = $arrayParametros['observacion'];
+	    $idVigenciaDocumento = $arrayParametros['id_vigencia_documento'] != "" ? "'" . $arrayParametros['id_vigencia_documento'] . "'" : "NULL";
+	    
+	    $consulta = "UPDATE
+						g_operadores.operaciones
+					SET
+						estado = '" . $estado . "',
+						observacion = '" . $observacion . "',
+                        fecha_modificacion = now()
+					WHERE
+						id_operador_tipo_operacion = " . $idOperadorTipoOperacion . "
+						and	id_historial_operacion = " . $idHistorialOperacion . "
+                        and (" . $idVigenciaDocumento . " is NULL or id_vigencia_documento = " . $idVigenciaDocumento . ")
+						and estado not in ('noHabilitado');";
+	  
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function cambiarEstadoAreaOperacionPorPorOperadorTipoOperacionHistorial ($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $idHistorialOperacion = $arrayParametros['id_historial_operacion'];
+	    $idVigenciaDocumento = $arrayParametros['id_vigencia_documento'] != "" ? "'" . $arrayParametros['id_vigencia_documento'] . "'" : "NULL";
+	    
+	    $consulta = "UPDATE
+													g_operadores.productos_areas_operacion as pao
+												SET
+													estado = o.estado,
+													observacion = o.observacion
+												FROM
+													g_operadores.operaciones o
+												WHERE
+													pao.id_operacion = o.id_operacion
+													and id_operador_tipo_operacion = " . $idOperadorTipoOperacion . "
+													and id_historial_operacion = " . $idHistorialOperacion . "
+													and	(" . $idVigenciaDocumento . " is NULL or id_vigencia_documento = " . $idVigenciaDocumento . ")
+													and o.estado not in ('noHabilitado');";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $estado = $arrayParametros['estado'];
+	    
+	    $consulta = "UPDATE
+							g_operadores.operadores_tipo_operaciones
+						SET
+							estado = '" . $estado . "',
+							fecha_modificacion = 'now()'
+						WHERE
+							id_operador_tipo_operacion = " . $idOperadorTipoOperacion . ";";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function obtenerCodigoTipoOperacion($idOperacion){
+	   	    
+	    $consulta = "SELECT
+						top.codigo,
+						top.id_tipo_operacion,
+						top.id_area,
+						top.nombre
+					FROM
+						g_operadores.operaciones op,
+						g_catalogos.tipos_operacion top
+					WHERE
+						op.id_tipo_operacion= top.id_tipo_operacion
+						and op.id_operacion = " . $idOperacion . ";";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function actualizarFechaAprobacionOperaciones($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $idHistorialOperacion = $arrayParametros['id_historial_operacion'];
+	    $idVigenciaDocumento = $arrayParametros['id_vigencia_documento'] != "" ? "'" . $arrayParametros['id_vigencia_documento'] . "'" : "NULL";
+	    
+	    $consulta = "UPDATE
+						g_operadores.operaciones
+					SET
+						fecha_aprobacion = now()
+					WHERE
+						id_operador_tipo_operacion = " . $idOperadorTipoOperacion . "
+                        and id_historial_operacion = " . $idHistorialOperacion . "
+                        and (" . $idVigenciaDocumento . " is NULL or id_vigencia_documento = " . $idVigenciaDocumento . ")
+						and estado not in ('noHabilitado');";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function actualizarFechaAprobacionOperacionesProcesoModificacion($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $idHistorialOperacion = $arrayParametros['id_historial_operacion'];
+	    $idVigenciaDocumento = $arrayParametros['id_vigencia_documento'] != "" ? "'" . $arrayParametros['id_vigencia_documento'] . "'" : "NULL";
+	    
+	    $consulta = "UPDATE
+						g_operadores.operaciones
+					SET
+						fecha_aprobacion = now()
+					WHERE
+						id_operador_tipo_operacion = " . $idOperadorTipoOperacion . " 
+                        and id_historial_operacion = " . $idHistorialOperacion . " 
+                        and (" . $idVigenciaDocumento . " is NULL or id_vigencia_documento = " . $idVigenciaDocumento . ")
+						and estado not in ('noHabilitado')
+						and fecha_aprobacion is null;";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function actualizarProcesoActualizacionOperacion($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $idHistorialOperacion = $arrayParametros['id_historial_operacion'];
+	    $procesoModiciacion = $arrayParametros['proceso_modificacion'] != "" ? "'" . $arrayParametros['proceso_modificacion'] . "'" : "null";
+	    
+	    $consulta = "UPDATE
+                            g_operadores.operaciones
+                    SET
+                            proceso_modificacion = " . $procesoModiciacion . "
+                    WHERE
+                            id_operador_tipo_operacion = " . $idOperadorTipoOperacion . " 
+                            and id_historial_operacion = " . $idHistorialOperacion . "
+							and estado not in ('noHabilitado');";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function cambiarEstadoActualizarCertificado($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $idHistorialOperacion = $arrayParametros['id_historial_operacion'];
+	    $actualizarCertificado = $arrayParametros['actualizar_certificado'];
+	    
+	    $consulta = "UPDATE
+                        g_operadores.operaciones
+                     SET
+                        actualizar_certificado = '" . $actualizarCertificado . "'
+                     WHERE
+                        id_operador_tipo_operacion = " . $idOperadorTipoOperacion . "
+                        and id_historial_operacion = " . $idHistorialOperacion . ";";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	    
+	}
+	
+	public function obtenerOperadorOperacionAreaInspeccion($idOperacion){
+	    
+	    $consulta = "SELECT
+						a.nombre_area,
+						a.tipo_area,
+						tp.nombre as nombre_operacion,
+                        tp.id_area as area_operacion,
+						a.id_area,
+						a.superficie_utilizada,
+						op.id_operacion
+					FROM
+						g_operadores.operaciones op,
+						g_operadores.productos_areas_operacion pao,
+						g_operadores.areas a,
+						g_catalogos.tipos_operacion tp
+					WHERE
+						op.id_operacion = pao.id_operacion and
+						pao.id_area = a.id_area and
+						op.id_tipo_operacion = tp.id_tipo_operacion and
+						op.id_operacion = " . $idOperacion . ";";
+	    
+	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
+	
+	}
 }

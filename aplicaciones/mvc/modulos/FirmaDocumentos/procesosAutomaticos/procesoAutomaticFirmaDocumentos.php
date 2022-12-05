@@ -4,7 +4,7 @@
  * Archivo de inicio de los módulos con arquitectura MVC para funcionar en ambiente de consola
  */
 // Definimos el directorio raíz de la aplicación
-define('ROOT', '/var/www/html/agrodbPrueba/aplicaciones/'); //***definir ruta de la aplicacion***
+define('ROOT', 'C:/xampp/htdocs/agrodbTdr/aplicaciones/'); //***definir ruta de la aplicacion***
 //define('ROOT', 'D://xampp/htdocs/agrodb/aplicaciones/'); // ***definir ruta de la aplicacion***
                                                          // Definimos la variable de la aplicación
 define('MVC', ROOT . 'mvc' . DIRECTORY_SEPARATOR);

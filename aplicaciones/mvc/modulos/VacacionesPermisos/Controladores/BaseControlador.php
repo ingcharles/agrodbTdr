@@ -1,6 +1,6 @@
 <?php
 
- /**
+/**
  * Controlador Base
  *
  * Este archivo contiene métodos comunes para todos los controladores 
@@ -12,6 +12,7 @@
  * @package   VacacionesPermisos
  * @subpackage Controladores
  */
+
 namespace Agrodb\VacacionesPermisos\Controladores;
 
 session_start();
@@ -27,14 +28,16 @@ class BaseControlador extends Comun
 	public $codigoJS = null;
 	private $lNegocioConfiguracionCronogramaVacaciones = null;
 	/**
-	* Constructor
-	*/
-	function __construct() {
+	 * Constructor
+	 */
+	function __construct()
+	{
 		parent::usuarioActivo();
 		//Si se requiere agregar código concatenar la nueva cadena con  ejemplo $this->codigoJS.=alert('hola');
 		$this->codigoJS = \Agrodb\Core\Mensajes::limpiar();
 	}
-	public function crearTabla() {
+	public function crearTabla()
+	{
 		$tabla = "//No existen datos para mostrar...";
 		if (count($this->itemsFiltrados) > 0) {
 			$tabla = '$(document).ready(function() {
@@ -43,47 +46,48 @@ class BaseControlador extends Comun
 			});';
 		}
 
-	return $tabla;
+		return $tabla;
 	}
 
-	public function construirDatosGeneralesCronogramaVacaciones() {
+	public function construirDatosGeneralesCronogramaVacaciones()
+	{
 
 		$cronogramaVacacionesLogicaNegocio = new CronogramaVacacionesLogicaNegocio();
 		$configuracionCronogramaVacacionLogicaNegocio = new ConfiguracionCronogramaVacacionesLogicaNegocio();
 
 		$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
-		
+
 		$verificarConfiguracionCronograma = $configuracionCronogramaVacacionLogicaNegocio->buscarLista($datos);
-		
+
 		$idConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->id_configuracion_cronograma_vacacion;
 		$qDatosFuncionario = $cronogramaVacacionesLogicaNegocio->obtenerDatosEmpleadoFechaIngresoInstitucion($this->identificador);
 		$nombre = $qDatosFuncionario->current()->nombre;
 		$fechaIngreso = $qDatosFuncionario->current()->fecha_ingreso_institucion;
 		$unidadAdministrativa = $qDatosFuncionario->current()->nombre_unidad_administrativa;
 		$gestionAdministrativa = $qDatosFuncionario->current()->nombre_gestion_administrativa;
-		
+
 		$puestoInstitucional = $qDatosFuncionario->current()->puesto_institucional;
-		
+
 		$qSaldoFuncionario = $cronogramaVacacionesLogicaNegocio->consultarSaldoFuncionario($this->identificador);
-		
-		if($qSaldoFuncionario->count()){
+
+		if ($qSaldoFuncionario->count()) {
 			$minutos = $qSaldoFuncionario->current()->minutos_disponibles;
-		}else{
+		} else {
 			$minutos = 0;
 		}
-		
+
 		$qSaldoFuncionarioNuevo = $cronogramaVacacionesLogicaNegocio->consultarSaldoFuncionarioNuevo($this->identificador);
-		
-		if($qSaldoFuncionarioNuevo->count()){
+
+		if ($qSaldoFuncionarioNuevo->count()) {
 			$minutosNuevo = $qSaldoFuncionarioNuevo->current()->minutos_disponibles;
-		}else{
+		} else {
 			$minutosNuevo = 0;
 		}
 
 		$minutos = $minutos + $minutosNuevo;
 
 		$diasDisponibles = $cronogramaVacacionesLogicaNegocio->devolverFormatoDiasDisponibles($minutos);
-		
+
 		$datos = '
 		<input type="hidden" name="fecha_ingreso_institucion" id="fecha_ingreso_institucion" value="' . $fechaIngreso . '"/>
 		<input type="hidden" name="nombre_puesto" id="nombre_puesto" value="' . $puestoInstitucional . '"/>
@@ -92,46 +96,46 @@ class BaseControlador extends Comun
 		<fieldset>
 		<legend>Cronograma de planificación</legend>
 		<div data-linea="1">
-			<label for="identificador">Identificador: </label>' 
+			<label for="identificador">Identificador: </label>'
 			. $this->identificador .
-		'</div>	
+			'</div>	
 		
 		<div data-linea="2">
 			<label for="identificador">Apellidos y nombres: </label>'
-			 . $nombre .
-		'</div>	
+			. $nombre .
+			'</div>	
 
 		<div data-linea="3">
 			<label for="fecha_ingreso_institucion">Fecha de ingreso: </label>'
-			. $fechaIngreso . 
-		'</div>				
+			. $fechaIngreso .
+			'</div>				
 
 		<div data-linea="4">
 			<label for="unidad_administrativa">Unidad administrativa: </label>'
 			. $unidadAdministrativa .
-		'</div>
+			'</div>
 
 		<div data-linea="5">
 			<label for="gestion_administrativa">Gestión administrativa: </label>'
 			. $gestionAdministrativa .
-		'</div>
+			'</div>
 
 		<div data-linea="6">
 			<label for="puesto_institucional">Puesto institucional: </label>'
 			. $puestoInstitucional .
-		'</div>
+			'</div>
 		<hr/>
 		<div data-linea="7">
 			<label for="dias_disponibles">Días disponibles: </label>'
-			. $diasDisponibles .    
-		'</div>
-		</fieldset>';		
+			. $diasDisponibles .
+			'</div>
+		</fieldset>';
 
 		return $datos;
-
 	}
 
-	public function construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion) {
+	public function construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion)
+	{
 
 		$cronogramaVacacionesLogicaNegocio = new CronogramaVacacionesLogicaNegocio();
 
@@ -141,35 +145,35 @@ class BaseControlador extends Comun
 		$identificadorFuncionario = $datosCronogramaVacacion->getIdentificadorFuncionario();
 
 		$datos = ['id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion];
-		
+
 		$qDatosFuncionario = $cronogramaVacacionesLogicaNegocio->obtenerDatosEmpleadoFechaIngresoInstitucion($identificadorFuncionario);
 		$nombre = $qDatosFuncionario->current()->nombre;
 		$fechaIngreso = $qDatosFuncionario->current()->fecha_ingreso_institucion;
 		$unidadAdministrativa = $qDatosFuncionario->current()->nombre_unidad_administrativa;
 		$gestionAdministrativa = $qDatosFuncionario->current()->nombre_gestion_administrativa;
-		
+
 		$puestoInstitucional = $qDatosFuncionario->current()->puesto_institucional;
-		
+
 		$qSaldoFuncionario = $cronogramaVacacionesLogicaNegocio->consultarSaldoFuncionario($identificadorFuncionario);
-		
-		if($qSaldoFuncionario->count()){
+
+		if ($qSaldoFuncionario->count()) {
 			$minutos = $qSaldoFuncionario->current()->minutos_disponibles;
-		}else{
+		} else {
 			$minutos = 0;
 		}
-		
+
 		$qSaldoFuncionarioNuevo = $cronogramaVacacionesLogicaNegocio->consultarSaldoFuncionarioNuevo($identificadorFuncionario);
-		
-		if($qSaldoFuncionarioNuevo->count()){
+
+		if ($qSaldoFuncionarioNuevo->count()) {
 			$minutosNuevo = $qSaldoFuncionarioNuevo->current()->minutos_disponibles;
-		}else{
+		} else {
 			$minutosNuevo = 0;
 		}
 
 		$minutos = $minutos + $minutosNuevo;
 
 		$diasDisponibles = $cronogramaVacacionesLogicaNegocio->devolverFormatoDiasDisponibles($minutos);
-		
+
 		$datos = '
 		<input type="hidden" name="fecha_ingreso_institucion" id="fecha_ingreso_institucion" value="' . $fechaIngreso . '"/>
 		<input type="hidden" name="nombre_puesto" id="nombre_puesto" value="' . $puestoInstitucional . '"/>
@@ -178,46 +182,46 @@ class BaseControlador extends Comun
 		<fieldset>
 		<legend>Cronograma de planificación</legend>
 		<div data-linea="1">
-			<label for="identificador">Identificador: </label>' 
+			<label for="identificador">Identificador: </label>'
 			. $identificadorFuncionario .
-		'</div>	
+			'</div>	
 		
 		<div data-linea="2">
 			<label for="identificador">Apellidos y nombres: </label>'
-			 . $nombre .
-		'</div>	
+			. $nombre .
+			'</div>	
 
 		<div data-linea="3">
 			<label for="fecha_ingreso_institucion">Fecha de ingreso: </label>'
-			. $fechaIngreso . 
-		'</div>				
+			. $fechaIngreso .
+			'</div>				
 
 		<div data-linea="4">
 			<label for="unidad_administrativa">Unidad administrativa: </label>'
 			. $unidadAdministrativa .
-		'</div>
+			'</div>
 
 		<div data-linea="5">
 			<label for="gestion_administrativa">Gestión administrativa: </label>'
 			. $gestionAdministrativa .
-		'</div>
+			'</div>
 
 		<div data-linea="6">
 			<label for="puesto_institucional">Puesto institucional: </label>'
 			. $puestoInstitucional .
-		'</div>
+			'</div>
 		<hr/>
 		<div data-linea="7">
 			<label for="dias_disponibles">Días disponibles: </label>'
-			. $diasDisponibles .    
-		'</div>
-		</fieldset>';		
+			. $diasDisponibles .
+			'</div>
+		</fieldset>';
 
 		return $datos;
-
 	}
 
-	public function construirDatosGeneralesCronogramaVacacionesNoConfigurado() {
+	public function construirDatosGeneralesCronogramaVacacionesNoConfigurado()
+	{
 
 		$datos = '<fieldset>
 					<legend>Cronograma de planificación</legend>
@@ -227,10 +231,10 @@ class BaseControlador extends Comun
 					</fieldset>';
 
 		return $datos;
-
 	}
 
-	public function obtenerSolicitudesPlanificacionVacaciones() {
+	public function obtenerSolicitudesPlanificacionVacaciones()
+	{
 
 		//TODO: Recibir os perfiles del funcionario y en base a eso aplicar filtros para la revisión de solicitudes
 		//y la creación de los filtros de busqueda
@@ -240,7 +244,6 @@ class BaseControlador extends Comun
 		$qCronogramaVacacion = $cronogramaVacacionesLogicaNegocio->buscarLista();
 
 		return $qCronogramaVacacion;
-		
 	}
 
 	public function construirDetallePeriodosCronograma($arrayParametros)
@@ -251,13 +254,13 @@ class BaseControlador extends Comun
 		$periodoCronogramaVacacionesLogicaNegocio = new PeriodoCronogramaVacacionesLogicaNegocio();
 
 		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion];
-		
+
 		$qCronogramaVacacion = $periodoCronogramaVacacionesLogicaNegocio->buscarLista($datos);
 
 		$datosPlanificarPeriodos = '<fieldset>
 										<legend>Detalle de periodos</legend>';
 		$totalDias = 0;
-					
+
 		$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 										<thead>
 											<tr>
@@ -269,16 +272,15 @@ class BaseControlador extends Comun
 										</thead>
 										<tbody>';
 
-		foreach($qCronogramaVacacion as $item){
+		foreach ($qCronogramaVacacion as $item) {
 
 			$totalDias = $totalDias + $item->total_dias;
 
 			$datosPlanificarPeriodos .= '<tr>	
 			<td>Periodo ' . $item->numero_periodo . '</td>
-			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y',strtotime($item->fecha_inicio))) . '</td>
-			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y',strtotime($item->fecha_fin))) . '</td>
+			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y', strtotime($item->fecha_inicio))) . '</td>
+			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y', strtotime($item->fecha_fin))) . '</td>
 			<td style="text-align: center;">' . $item->total_dias . '</td><tr>';
-
 		}
 
 		$datosPlanificarPeriodos .= '<tr>>
@@ -292,18 +294,17 @@ class BaseControlador extends Comun
 									</fieldset>';
 
 		return $datosPlanificarPeriodos;
-
 	}
 
- 	/**
-     * Construye el código HTML para desplegar panel de búsqueda
-     */
-    public function cargarPanelBusquedaSolicitud()
-    {
+	/**
+	 * Construye el código HTML para desplegar panel de búsqueda
+	 */
+	public function cargarPanelBusquedaSolicitud()
+	{
 
 		//TODO: Recibir el perfil para mostrar mas filtros
 
-        $panelBusqueda = '<table id="fBusqueda" class="filtro" style="width: 400px;">
+		$panelBusqueda = '<table id="fBusqueda" class="filtro" style="width: 400px;">
                         				<tbody>
 											<tr>
 												<th colspan="5">Buscar:</th>
@@ -338,10 +339,11 @@ class BaseControlador extends Comun
                         				</tbody>
                         			</table>';
 
-			return $panelBusqueda;
-    }
+		return $panelBusqueda;
+	}
 
-	public function fechaEs($fecha) {
+	public function fechaEs($fecha)
+	{
 		$fecha = substr($fecha, 0, 10);
 		$numeroDia = date('d', strtotime($fecha));
 		$dia = date('l', strtotime($fecha));
@@ -353,7 +355,6 @@ class BaseControlador extends Comun
 		$meses_ES = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 		$meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 		$nombreMes = str_replace($meses_EN, $meses_ES, $mes);
-		return $nombredia.", ".$numeroDia." de ".$nombreMes." de ".$anio;
-		}
-
+		return $nombredia . ", " . $numeroDia . " de " . $nombreMes . " de " . $anio;
+	}
 }

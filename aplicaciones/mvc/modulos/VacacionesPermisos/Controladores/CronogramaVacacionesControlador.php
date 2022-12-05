@@ -87,7 +87,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$this->anioPlanificacion = $anioPlanificacion;
 			
 		}else{
-			$this->accion = "Nueva solicitud de planificación año.";
+			$this->accion = "Nueva solicitud de planificación";
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
 		}
 		
@@ -184,7 +184,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
 		$estado = false;
 		switch ($estadoCronogramaRegistro) {
-			case 'RechazadoJefe':
+			case 'Rechazado':
 				$estado = true;
 				break;
 		}
@@ -283,7 +283,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$idCronograma = $_POST['id_cronograma_vacacion'];
 			$arrayEstados = ['Primer Periodo:','Segundo Periodo:','Tercer Periodo:','Cuarto Periodo:'];
 			
-			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => 'Activo'));
+			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => 'Activo'),'numero_periodo asc');
 			$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
 													<tr>
@@ -465,11 +465,11 @@ class CronogramaVacacionesControlador extends BaseControlador
                         					<tr>
                         						<td colspan="1">Estado: </td>
                         						<td colspan="4">
-												<select id="estado_cronograma_vacacion" name="estado_cronograma_vacacion"  style="width: 100%" class="validacion">
+												<select id="estado_cronograma_vacacion" name="estado_cronograma_vacacion" style="width: 100%" class="validacion">
 												<option value="">Seleccione...</option>
 												<option value="Creado">Creado</option>
-												<option value="RevisionJefe">Revisión Jefe</option>
-												<option value="RechazadoJefe">Rechazado Jefe</option>
+												<option value="EnviadoJefe">Revisión Jefe</option>
+												<option value="Rechazado">Rechazado Jefe</option>
 												<option value="Aprobado">Aprobado</option>
 												</select>
                         						</td>
@@ -544,7 +544,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
 			$estado = false;
 			switch ($estadoCronogramaRegistro) {
-				case 'RechazadoJefe':
+				case 'Rechazado':
 					$estado = true;
 					break;
 			}

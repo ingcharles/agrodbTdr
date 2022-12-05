@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="checkListsBpa" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5560c001-b8fb-49eb-b504-595295879181">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="localhost"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="ncm">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[(!$F{criterio_cumplimiento}.equals("NA") && $F{tipo_solicitud_color}.equals( "Rojo" ))]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FFC8C7"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[(!$F{criterio_cumplimiento}.equals("NA") && $F{tipo_solicitud_color}.equals( "Amarillo" ))]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FFF875"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[(!$F{criterio_cumplimiento}.equals("NA") && $F{tipo_solicitud_color}.equals( "Verde" ))]]></conditionExpression>
+			<style mode="Opaque" backcolor="#51D360"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Empty Dataset1" uuid="94bb9ca0-a024-4644-aa3c-3d1294a2cc02">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="localhost"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idSolicitud" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT 
+	id
+	, puntuacion_maxima
+	, puntuacion_obtenida
+	, cantidad_cumple
+	, cantidad_no_cumple
+	, cantidad_no_aplica
+	, cantidad_no_aplica_definida
+	, porcentaje_final
+	, estado
+	, observacion
+FROM 
+	f_inspeccion.mdtf01
+WHERE
+id = 1
+and estado = 'activo']]>
+		</queryString>
+		<field name="id" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="puntuacion_maxima" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="puntuacion_maxima"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="puntuacion_obtenida" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="puntuacion_obtenida"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="cantidad_cumple" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cantidad_cumple"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="cantidad_no_cumple" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cantidad_no_cumple"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="cantidad_no_aplica" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cantidad_no_aplica"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="cantidad_no_aplica_definida" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="cantidad_no_aplica_definida"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="porcentaje_final" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="porcentaje_final"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="estado" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="estado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+		<field name="observacion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="observacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="mdtf01"/>
+		</field>
+	</subDataset>
+	<parameter name="idSolicitud" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT 
+	DISTINCT 
+	acof01d.id
+	, acof01d.id_padre
+	, acof01d.numero
+	, acof01d.tema
+	, acof01d.criterio_cumplimiento
+	, CASE WHEN acof01.tipo_solicitud = 'Mayor10' THEN '> 10.000 lt/día'::text 
+			WHEN acof01.tipo_solicitud = 'Mayor2' THEN '> 2.000 lt/día'::text 
+			ELSE '< 2.000 lt/día'::text END AS titulo_tipo_solicitud_valor
+	, CASE WHEN acof01.tipo_solicitud = 'Mayor10' THEN acof01d.mayor10
+			WHEN acof01.tipo_solicitud = 'Mayor2' THEN acof01d.mayor2
+			ELSE acof01d.menor2 END AS tipo_solicitud_valor 
+	, CASE WHEN acof01.tipo_solicitud = 'Mayor10' THEN acof01d.color_mayor10
+			WHEN acof01.tipo_solicitud = 'Mayor2' THEN acof01d.color_mayor2
+			ELSE acof01d.color_menor2 END AS tipo_solicitud_color
+	, acof01d.observacion
+	, acof01.fecha_registro_tablet
+	, acof01.identificador_usuario
+	, acof01.id_solicitud
+	, acof01.id_operador_tipo_operacion
+	, acof01.observacion
+	, acof01.puntuacion_maxima
+	, acof01.puntuacion_obtenida
+	, acof01.cantidad_cumple
+	, acof01.cantidad_no_cumple
+	, acof01.cantidad_no_aplica
+	, acof01.cantidad_no_aplica_definida
+	, acof01.porcentaje_final
+	, acof01.estado
+	, ca.id_centro_acopio
+	, ctl.nombre as nombre_laboratorio
+	, ca.capacidad_instalada
+	, o.identificador
+	, COALESCE(o.razon_social, o.nombre_representante ||' '|| o.apellido_representante) as nombre_operador
+	, s.nombre_lugar as nombre_sitio
+	, s.provincia as provincia_sitio
+	, s.canton as canton_sitio
+	, s.parroquia as parroquia_sitio
+	, o.direccion
+	, COALESCE (o.telefono_uno, o.telefono_dos) as telefono
+	, a.nombre_area
+FROM 
+	f_inspeccion.acof01_detalle acof01d
+	INNER JOIN f_inspeccion.acof01 acof01 ON acof01d.id_padre = acof01.id
+	INNER JOIN g_operadores.centros_acopio ca ON acof01.id_operador_tipo_operacion = ca.id_operador_tipo_operacion
+	INNER JOIN (SELECT ic.* FROM g_administracion_catalogos.items_catalogo ic
+                INNER JOIN g_administracion_catalogos.catalogos_negocio cn ON ic.id_catalogo_negocios = cn.id_catalogo_negocios) AS ctl ON ctl.id_item = ca.id_laboratorio_leche	INNER JOIN g_operadores.operaciones op ON op.id_operacion = acof01.id_solicitud
+	INNER JOIN g_operadores.productos_areas_operacion pao ON op.id_operacion = pao.id_operacion
+	INNER JOIN g_operadores.areas a ON pao.id_area = a.id_area
+	INNER JOIN g_operadores.sitios s ON a.id_sitio = s.id_sitio
+	INNER JOIN g_operadores.operadores o ON op.identificador_operador = o.identificador
+WHERE
+	ca.id_centro_acopio =  $P{idSolicitud} 
+	and ca.estado_centro_acopio = 'activo'
+	and acof01.estado_generar_checklist = 'activo']]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01_detalle"/>
+	</field>
+	<field name="id_padre" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_padre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01_detalle"/>
+	</field>
+	<field name="numero" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01_detalle"/>
+	</field>
+	<field name="tema" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tema"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01_detalle"/>
+	</field>
+	<field name="criterio_cumplimiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="criterio_cumplimiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01_detalle"/>
+	</field>
+	<field name="titulo_tipo_solicitud_valor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="titulo_tipo_solicitud_valor"/>
+	</field>
+	<field name="tipo_solicitud_valor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_solicitud_valor"/>
+	</field>
+	<field name="tipo_solicitud_color" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_solicitud_color"/>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="observacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01_detalle"/>
+	</field>
+	<field name="fecha_registro_tablet" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_registro_tablet"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="identificador_usuario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador_usuario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="id_solicitud" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_solicitud"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="id_operador_tipo_operacion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_operador_tipo_operacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="COLUMN_14" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="observacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="puntuacion_maxima" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="puntuacion_maxima"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="puntuacion_obtenida" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="puntuacion_obtenida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="cantidad_cumple" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad_cumple"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="cantidad_no_cumple" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad_no_cumple"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="cantidad_no_aplica" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad_no_aplica"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="cantidad_no_aplica_definida" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cantidad_no_aplica_definida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="porcentaje_final" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="porcentaje_final"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="acof01"/>
+	</field>
+	<field name="id_centro_acopio" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_centro_acopio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="centros_acopio"/>
+	</field>
+	<field name="nombre_laboratorio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_laboratorio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="items_catalogo"/>
+	</field>
+	<field name="capacidad_instalada" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="capacidad_instalada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="centros_acopio"/>
+	</field>
+	<field name="identificador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="identificador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="nombre_operador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_operador"/>
+	</field>
+	<field name="nombre_sitio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_sitio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="provincia_sitio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="provincia_sitio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="canton_sitio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="canton_sitio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="parroquia_sitio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="parroquia_sitio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sitios"/>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
+	</field>
+	<field name="nombre_area" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_area"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="areas"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="156" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="190" y="32" width="354" height="17" uuid="1ba06e8f-262a-44d7-b89e-c32a2779afc7">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="58" y="32" width="72" height="17" uuid="88edd336-5eff-40be-ab4c-4ce1e1a0bbd2"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="58" y="49" width="202" height="17" uuid="0e3312f8-6836-4015-8ece-fb91b265c418"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{provincia_sitio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="320" y="49" width="224" height="17" uuid="98a0f024-f1f5-4225-a939-aea9c0919e24"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{canton_sitio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="320" y="66" width="90" height="17" uuid="631ccb2f-bf5a-4f60-8305-ddb4b7342230"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="58" y="83" width="130" height="17" uuid="ac34d52c-5d07-42ca-906d-ce0d6c457535"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_registro_tablet}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="440" y="66" width="104" height="17" uuid="dba60311-f66d-4249-9341-f99e82694777"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="58" y="66" width="202" height="17" uuid="2ed5709a-7233-43e7-8cdb-bc9340cafd22"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parroquia_sitio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="32" width="48" height="17" backcolor="#B8D9F6" uuid="0e5b40f6-2a62-4569-90d7-c31228cce14a"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identificador:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="49" width="48" height="17" backcolor="#B8D9F6" uuid="cc412c80-d2a7-4c92-9df9-531c042fcdcc"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="260" y="49" width="60" height="17" backcolor="#B8D9F6" uuid="cae7188e-3cf8-449f-b8db-2e0eb2f66737"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="66" width="48" height="17" backcolor="#B8D9F6" uuid="4ab2e510-430d-45f2-a38a-c32b1de97d15"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="130" y="32" width="60" height="17" backcolor="#B8D9F6" uuid="ba8565e7-3e3e-4360-8746-1280b58de0ed"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="260" y="66" width="60" height="17" backcolor="#B8D9F6" uuid="da6a29a5-94e9-4ea8-a906-c7bd4db0efe1"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="410" y="66" width="30" height="17" backcolor="#B8D9F6" uuid="38613468-38d4-4675-bfc9-1314bb4bfe43"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-mail:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="83" width="48" height="17" backcolor="#B8D9F6" uuid="8c7873e4-fee9-44db-b6a3-1e90ffe7da1b"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="188" y="83" width="48" height="17" backcolor="#B8D9F6" uuid="418888cf-f77d-49c6-a9c6-649ed765c8f3"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inspector:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="367" y="83" width="48" height="17" backcolor="#B8D9F6" uuid="c74656af-6aeb-465c-a015-c5fbefef9bd4"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Capacidad instalada (litro):]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="236" y="83" width="131" height="17" uuid="b045e667-c2dd-42a5-bf54-9488a8e6a98c"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identificador_usuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="100" width="534" height="17" backcolor="#B8D9F6" uuid="1af0f02b-f3f4-4cde-9207-1194d6dbcab7"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="117" width="534" height="31" uuid="04bd825b-24b7-4e62-bdfa-2fd5921aae62"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="415" y="83" width="129" height="17" uuid="cde2fa86-bb58-4102-bc6f-2ea19340bba7"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{capacidad_instalada}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="10" y="2" width="533" height="30" uuid="c140059c-44ff-4e9b-9da0-00641d70611c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lista de Verificación "Requisitos del Centros de Acopio de Leche Cruda"]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="35" y="10" width="242" height="20" backcolor="#B8D9F6" uuid="40f9d84d-b79d-4edd-8ef4-f2b80a5ac52f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Requisito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="277" y="10" width="53" height="20" backcolor="#B8D9F6" uuid="0fca6463-3177-4578-a46e-c9a78f6943ef">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Criterio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="400" y="10" width="145" height="20" backcolor="#B8D9F6" uuid="287895e3-51ce-4bf4-a882-5644acb4101d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="10" width="25" height="20" backcolor="#B8D9F6" uuid="6f2dd740-92be-4a21-a302-2b310fa712e7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="330" y="10" width="70" height="20" backcolor="#B8D9F6" uuid="9c1635bf-3703-4898-8333-1a7f83c89f9d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{titulo_tipo_solicitud_valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="35" y="0" width="242" height="25" uuid="8831d504-c099-433c-b7df-cb58fbee6fbf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1f9da998-4cf6-4df8-badd-3d030c2b64d4"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tema}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="10" y="0" width="25" height="25" uuid="b9b6bcb5-1580-4712-9c93-9c9f66b3f0ba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="33ff3657-a0a8-4d19-b1ab-da662c626c90"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="277" y="0" width="53" height="25" uuid="a6948f86-5719-4c27-87ee-074f6ba1d1ac">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2f876cbe-faa7-4a5d-927c-b5f224bb13a2"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{criterio_cumplimiento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ContainerHeight" x="400" y="0" width="145" height="25" uuid="082277a8-131d-4e56-a64b-dd2c458bb82d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="57567ecc-e9f5-43f6-8a66-bf345019d739"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="ncm" stretchType="ContainerHeight" x="330" y="0" width="70" height="25" uuid="01fab588-ec8b-4d44-8912-c2d9ade7f2bf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2f876cbe-faa7-4a5d-927c-b5f224bb13a2"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_solicitud_valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="209" splitType="Stretch">
+			<textField>
+				<reportElement x="140" y="20" width="110" height="20" uuid="ec088d42-15ce-4c48-bbd6-e5c833f37a10"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{puntuacion_maxima}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="40" width="110" height="20" uuid="3a424ee9-477c-4680-bea3-51db67f283ea"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{puntuacion_obtenida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="60" width="110" height="20" uuid="0a0508b9-4949-4c95-8343-9f11f277ef1d"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad_cumple}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="80" width="110" height="20" uuid="e74e6737-d5c7-4594-918b-d7e91c333fe6"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad_no_cumple}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="100" width="110" height="20" uuid="c8b7978f-3061-4f99-943e-8777ee3fa624"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad_no_aplica}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="120" width="110" height="20" uuid="4414c621-6839-4dfd-96c4-1e3767036ecd"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{porcentaje_final}  + " %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="140" width="110" height="20" uuid="7dacd8cd-a6c9-417c-9d03-dd7ca389cb72"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="20" width="130" height="20" uuid="7f2afca3-26da-4ab0-b63d-a64e3bfd54cd"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Puntuación máxima]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="40" width="130" height="20" uuid="449e2cca-acff-4667-8c3c-5f413bc50ad8"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Puntuación máxima obtenida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="60" width="130" height="20" uuid="2c3831fb-810b-44d8-adca-ad7070d99cf0"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Cantidad cumple]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="80" width="130" height="20" uuid="141ad8e1-12a0-45d6-941a-cb6e8851441c"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Cantidad no cumple]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="100" width="130" height="20" uuid="c88de565-8fe0-417d-b437-3d576d723c58"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Cantidad no aplica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="120" width="130" height="20" uuid="5733de0a-809a-4eaf-b6d4-1157e35264ce"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Porcentaje final]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="140" width="130" height="20" uuid="6403b607-7a66-43bb-91d8-63ae6b1352a1"/>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -107,4 +107,29 @@ class GruposSolicitudesLogicaNegocio implements IModelo{
 		
 		return $columnas;
 	}
+/**
+	 * Ejecuta una consulta(SQL) personalizada .
+	 *
+	 * @return array|ResultSet
+	 */
+	public function obtenerMaximoInspeccionGrupoSolicitud($arrayParametros){
+	    
+	    $idOperadorTipoOperacion = $arrayParametros['id_operador_tipo_operacion'];
+	    $estado = $arrayParametros['estado'];
+	    
+	    $consulta = "SELECT 
+                    	i.id_inspeccion
+                    FROM
+                    	g_revision_solicitudes.inspeccion i
+                    INNER JOIN (SELECT 
+                    				MAX(ai.id_grupo) AS id_grupo
+                    			FROM 
+                    				g_revision_solicitudes.asignacion_inspector ai
+                    			WHERE 
+                    				ai.id_operador_tipo_operacion = " . $idOperadorTipoOperacion . "
+                    				and tipo_inspector = '" . $estado . "') rs ON i.id_grupo = rs.id_grupo";
+	    
+	    return $this->modeloGruposSolicitudes->ejecutarSqlNativo($consulta);
+	}
+	
 }

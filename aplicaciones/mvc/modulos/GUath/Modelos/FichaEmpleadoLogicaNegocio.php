@@ -169,7 +169,7 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 							and ($fechaInicio is NULL or fecha_creacion >= $fechaInicio)
 							and ($fechaFin is NULL or fecha_creacion <= $fechaFin)
 							and dc.estado = 1
-							and cv.estado_cronograma_vacacion = 'RevisionJefe';";
+							and cv.estado_cronograma_vacacion = 'EnviadoJefe';";
 
 		return $this->modelo->ejecutarSqlNativo($consulta);
 

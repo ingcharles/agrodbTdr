@@ -14,7 +14,7 @@
 		<legend>Datos planificación</legend>
 		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
 		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
-		<input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="RevisionJefe" />
+		<input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="EnviadoJefe" />
 
 		<div data-linea="5">
 			<label for="identificador_backup">Funcionario reemplazo: </label>
@@ -41,7 +41,7 @@
 	<div data-linea="17">
 		<?php
 
-		if ($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion() != "RechazadoJefe") {
+		if ($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion() != "Rechazado") {
 			"";
 		} else {
 			echo	'<button  type="submit" class="guardar">Guardar</button>';
@@ -55,12 +55,12 @@
 	var identificadorFuncionario = "<?php echo $this->identificador; ?>";
 	var idCronogramaVacacion = "<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>";
 	var estadoCronograma = "<?php echo $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion(); ?>";
-
+	var anioPlanificacion = "<?php echo $this->anioPlanificacion; ?>";
 	$(document).ready(function() {
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "RechazadoJefe" || estadoCronograma == "RevisionJefe") {
+		if (estadoCronograma == "Rechazado" || estadoCronograma == "EnviadoJefe") {
 
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
 				numero_periodos_planificar: $('#numero_periodos').val(),
@@ -69,17 +69,20 @@
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
 					$(".piFechaFin").datepicker({
+						yearRange: "c:c",
 						changeMonth: false,
 						changeYear: false,
 						dateFormat: 'yy/mm/dd',
+						maxDate: 0,
+						minDate: new Date(anioPlanificacion + '/01/01'),
 					});
 
 					$(".piFechaInicio").datepicker({
-						yearRange: "+0:+1",
+						yearRange: "+0:+0",
 						changeMonth: true,
-						changeYear: true,
+						changeYear: false,
 						dateFormat: 'yy/mm/dd',
-						minDate: '0',
+						minDate: new Date(anioPlanificacion + '/01/01'),
 						onSelect: function(dateText, inst) {
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
 							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
@@ -90,7 +93,20 @@
 					});
 					var valorComboPeriodo = $("#numero_periodos option:selected").val();
 
-					var valorMaximo = 0;
+					
+					if (estadoCronograma == "EnviadoJefe") {
+						var valorMaximo = 0
+						$('.piNumeroDias').each(function(index) {
+							valorMaximo=	parseInt( $(this).val())+ valorMaximo;
+						});
+						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
+							$(elem).attr('disabled', true);
+						});
+						
+						$('#total_dias').html(valorMaximo);
+					    $('#total_dias_planificados').val(valorMaximo);
+					}else{
+						var valorMaximo = 0;
 					switch (valorComboPeriodo) {
 						case "2":
 							valorMaximo = 15;
@@ -108,20 +124,18 @@
 					}
 					$(".piNumeroDias").val(valorMaximo);
 					$(".piNumeroDias").numeric();
-					//$(".piNumeroDias").attr("maxlength", 2);
-
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
-					if (estadoCronograma == "RevisionJefe") {
+					if (estadoCronograma == "EnviadoJefe") {
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
 							$(elem).attr('disabled', true);
 						})
-						console.log('siiiiiii')
 					}
 
 				}
-			}, 'json');
+				}
+			});
 		}
 
 

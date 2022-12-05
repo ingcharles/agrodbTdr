@@ -472,6 +472,20 @@ class SolicitudesModelo extends ModeloBase
      *      Ruta a documento anexo para solicitudes nacionales
      */
     protected $anexoNacional;
+    /**
+     * @var String
+     * Campo requerido
+     * Campo visible en el formulario
+     * Campo que almacena el origen de la inspeccion (GUIA, aplicativoMovil)
+     */
+    protected $origenInspeccion;
+    /**
+     * @var String
+     * Campo requerido
+     * Campo visible en el formulario
+     * Campo que identifica si debe generarse el checklist (generar, generado)
+     */
+    protected $estadoChecklist;
     
     /**
      * Campos del formulario
@@ -1930,6 +1944,54 @@ class SolicitudesModelo extends ModeloBase
     {
         return $this->anexoNacional;
     }
+    
+    /**
+     * Set origenInspeccion
+     *
+     *Campo que almacena el origen de la inspeccion (GUIA, aplicativoMovil)
+     *
+     * @parámetro String $origenInspeccion
+     * @return OrigenInspeccion
+     */
+    public function setOrigenInspeccion($origenInspeccion)
+    {
+        $this->origenInspeccion = (String) $origenInspeccion;
+        return $this;
+    }
+    
+    /**
+     * Get origenInspeccion
+     *
+     * @return null|String
+     */
+    public function getOrigenInspeccion()
+    {
+        return $this->origenInspeccion;
+    }
+    
+    /**
+     * Set estadoChecklist
+     *
+     *Campo que identifica si debe generarse el checklist (generar, generado)
+     *
+     * @parámetro String $estadoChecklist
+     * @return EstadoChecklist
+     */
+    public function setEstadoChecklist($estadoChecklist)
+    {
+        $this->estadoChecklist = (String) $estadoChecklist;
+        return $this;
+    }
+    
+    /**
+     * Get estadoChecklist
+     *
+     * @return null|String
+     */
+    public function getEstadoChecklist()
+    {
+        return $this->estadoChecklist;
+    }    
     
     /**
      * Guarda el registro actual

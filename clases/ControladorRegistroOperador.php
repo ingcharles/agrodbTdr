@@ -8254,21 +8254,26 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 	
 	public function obtenerOperacionesActualizarCertificadoPorEstado($conexion, $estado){
 	    
-	    $consulta = "SELECT
-                    	DISTINCT
-						min(id_operacion) as id_operacion,
-						op.identificador_operador
-                    	, op.id_operador_tipo_operacion
-                    	, top.id_area
-                    	, top.codigo
-                        , top.id_tipo_operacion
-                    FROM
-                    	g_operadores.operaciones op
-                    INNER JOIN g_catalogos.tipos_operacion top ON op.id_tipo_operacion = top.id_tipo_operacion
-                    WHERE
-                    	actualizar_certificado = '" . $estado . "'
-					GROUP BY op.identificador_operador, op.id_operador_tipo_operacion, top.id_area, top.codigo, top.id_tipo_operacion
-                    ORDER BY op.id_operador_tipo_operacion;";
+	    $consulta = "SELECT 
+                                DISTINCT min(op.id_operacion) as id_operacion
+										
+                                , op.identificador_operador
+                                , op.id_operador_tipo_operacion
+                                , top.id_area
+                                , top.codigo
+                                , top.id_tipo_operacion
+                                , s.codigo_provincia
+                                , a.id_area as id_codigo_area
+                                , s.provincia
+                           FROM g_operadores.operaciones op 
+                                INNER JOIN g_catalogos.tipos_operacion top ON op.id_tipo_operacion = top.id_tipo_operacion
+                                INNER JOIN g_operadores.productos_areas_operacion pao ON op.id_operacion = pao.id_operacion
+                                INNER JOIN g_operadores.areas a ON pao.id_area = a.id_area
+                                INNER JOIN g_operadores.sitios s ON a.id_sitio = s.id_sitio
+                           WHERE
+                                actualizar_certificado = '" . $estado . "'
+                                GROUP BY op.identificador_operador, op.id_operador_tipo_operacion, top.id_area, top.codigo, top.id_tipo_operacion, s.codigo_provincia, a.id_area, s.provincia
+                                ORDER BY op.id_operador_tipo_operacion;";
 	    
 	    $res = $conexion->ejecutarConsulta($consulta);
 	    
@@ -8891,5 +8896,59 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 		
 		$res = $conexion->ejecutarConsulta($consulta);
 		return $res;
+	}
+
+	public function actualizarCentrosAcopioInspeccion($conexion, $idOperadorTipoOperacion, $identificadorRevisor, $origenInspeccion, $estadoChecklist){
+	    
+	    $consulta = "UPDATE
+                        g_operadores.centros_acopio
+                    SET
+                        origen_inspeccion = '" . $origenInspeccion . "'
+                        , estado_checklist = '" . $estadoChecklist . "'
+                    WHERE
+                        id_operador_tipo_operacion = '" . $idOperadorTipoOperacion . "'
+                        and estado_centro_acopio = 'activo' RETURNING id_centro_acopio;";
+	    
+	    $res = $conexion->ejecutarConsulta($consulta);
+	    
+	    return $res;
+	}
+
+	public function actualizarDatosVehiculoInspeccion($conexion, $idOperadorTipoOperacion, $identificadorRevisor, $origenInspeccion, $estadoChecklist){
+	    
+	    $consulta = "UPDATE
+                        g_operadores.datos_vehiculos
+                    SET
+                        origen_inspeccion = '" . $origenInspeccion . "'
+                        , estado_checklist = '" . $estadoChecklist . "'
+                    WHERE
+                        id_operador_tipo_operacion = '" . $idOperadorTipoOperacion . "'
+                        and estado_dato_vehiculo = 'activo' RETURNING id_dato_vehiculo;";
+	    
+	    $res = $conexion->ejecutarConsulta($consulta);
+	    
+	    return $res;
+	}
+
+	public function obtenerInspectorUltimaInspeccion($conexion, $idOperadorTipoOperacion, $idHistorialOperacion){
+	    
+	    $consulta = "SELECT
+                       i.identificador_inspector
+                    FROM
+                    g_revision_solicitudes.inspeccion i
+                    INNER JOIN (SELECT
+                    				max(id_grupo) as id_grupo
+                    			FROM
+                    				g_revision_solicitudes.asignacion_inspector ai
+                    			WHERE
+									id_operador_tipo_operacion = '" . $idOperadorTipoOperacion . "'
+									and id_historial_operacion = '" . $idHistorialOperacion . "'
+                    				and tipo_solicitud = 'Operadores'
+                    				and tipo_inspector ='Técnico') as re_so
+                    				ON i.id_grupo = re_so.id_grupo;";
+  
+	    $res = $conexion->ejecutarConsulta($consulta);
+	    
+	    return $res;
 	}
 }

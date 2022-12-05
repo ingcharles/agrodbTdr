@@ -132,9 +132,7 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 				fe.identificador,
 				fe.apellido || ' ' || fe.nombre AS nombre, 
 				mdc.fecha_inicio AS fecha_ingreso_institucion,
-				--ar.id_area_padre, 
 				arr.nombre AS nombre_unidad_administrativa,
-				--ar.id_area, 
 				ar.nombre AS nombre_gestion_administrativa, 
 				dc.nombre_puesto AS puesto_institucional
 		FROM
@@ -287,7 +285,7 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 					'usuario_creacion' =>  $_POST['identificador_registro'],
 					'anio_cronograma_vacacion' =>  $_POST['anio_cronograma_vacacion'],
 					'numero_periodos' => $_POST['numero_periodos'],
-					'estado_cronograma_vacacion' =>  'RevisionJefe'
+					'estado_cronograma_vacacion' =>  'EnviadoJefe'
 
 				);
 
