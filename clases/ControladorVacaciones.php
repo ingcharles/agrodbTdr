@@ -1772,4 +1772,79 @@ class ControladorVacaciones
 			$res = $conexion->ejecutarConsulta($sql);
 			return $res;
 	}
+
+	public function filtroObtenerReporteHistoricoCronogramavacacion($conexion, $anio, $identificador, $nombre)
+	{
+
+		$identificador = $identificador != "" ? "'" . $identificador . "'" : "NULL";
+		$nombre = $nombre != "" ? "'%" . $nombre . "%'" : "NULL";
+
+		$consulta =	"SELECT 
+					tcv.id_cronograma_vacacion
+					, tfe.identificador
+					, tfe.nombres_completos
+					, tfe.provincia
+					, tfe.canton
+					, tfe.oficina
+					, tfe.nombre_area_padre as nombre_unidad_administrativa
+					, tfe.nombre_area as nombre_gestion_administrativa
+					, tfe.nombre_puesto as puesto_institucional
+					, COALESCE (tcv.anio_cronograma_vacacion::text, 'N/A') anio_cronograma_vacacion
+					, CASE
+							WHEN tcv.estado_cronograma_vacacion='RevisionJefe' THEN 
+							'Revisión jefe'
+							WHEN tcv.estado_cronograma_vacacion='EnviadoTthh' THEN 
+							'Enviado talento humano'
+							WHEN tcv.estado_cronograma_vacacion='EnviadoDe' THEN 
+							'Enviado director ejecutivo'
+							WHEN tcv.estado_cronograma_vacacion='Rechazado' THEN 
+							'Rechazado'
+							WHEN tcv.estado_cronograma_vacacion='RechazadoDe' THEN 
+							'Rechazado director ejecutivo'
+							WHEN tcv.estado_cronograma_vacacion='Aprobado' THEN 
+							'Aprobado'
+							ELSE 'No planificado'
+							END AS estado
+				FROM
+					(SELECT 
+						fe.identificador
+						, CONCAT(fe.apellido,' ',fe.nombre) as nombres_completos
+						, dc.nombre_puesto
+						, dc.provincia
+						, dc.canton
+						, dc.oficina
+						, a.nombre as nombre_area
+						, ap.nombre as nombre_area_padre
+					FROM 
+						g_uath.datos_contrato dc 
+					INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = dc.identificador
+					INNER JOIN g_estructura.area a ON a.id_area = dc.id_gestion
+					INNER JOIN g_estructura.area ap ON ap.id_area = a.id_area_padre
+					WHERE 
+						dc.estado = 1 
+						and dc.tipo_contrato <> 'Contrato de Servicios Profesionales') tfe
+				LEFT JOIN 
+					(SELECT
+						cv.id_cronograma_vacacion
+						, cv.identificador_funcionario
+						, cv.nombre_funcionario
+						, cv.nombre_puesto
+						, cv.estado_cronograma_vacacion
+						, cv.anio_cronograma_vacacion 
+					FROM 
+						g_vacaciones.cronograma_vacaciones cv
+					INNER JOIN g_vacaciones.periodo_cronograma_vacaciones pcv ON pcv.id_cronograma_vacacion = cv.id_cronograma_vacacion
+					WHERE
+						cv.anio_cronograma_vacacion = " . $anio . "
+					) tcv ON tcv.identificador_funcionario = tfe.identificador
+				WHERE 
+					($identificador is NULL or tfe.identificador = " . $identificador. ")
+					and ($nombre is NULL or tfe.nombres_completos ilike " . $nombre. ")
+				ORDER BY tfe.provincia, tfe.canton, tfe.oficina, tfe.nombre_area_padre ASC";
+
+			$res = $conexion->ejecutarConsulta($consulta);
+			return $res;
+	}
+
+
 }

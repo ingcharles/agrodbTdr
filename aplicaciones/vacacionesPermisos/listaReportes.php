@@ -25,6 +25,13 @@ $cu = new ControladorUsuarios();
 		<span class="ordinal">2</span>
 		<aside></aside>
 	</article>
+
+	<article id="2" class="item" data-rutaAplicacion="vacacionesPermisos"	data-opcion="filtroHistoricoCronogramaVacaciones" draggable="true" data-destino="listadoItems">
+		<div></div>
+		<span>Historico cronograma vacaciones</span>
+		<span class="ordinal">3</span>
+		<aside></aside>
+	</article>
 	
 <script type="text/javascript">
 

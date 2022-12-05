@@ -309,6 +309,19 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		);
 	}
 
+	/**
+	 * Método para dare de baja periodo de vacaciones - RevisionCronogramaVacaciones
+	 */
+	public function darBajaPeriodo()
+	{
+
+		$idCronogramaVacacion = $_POST['elementos'];
+
+		$this->accion = "Dar de baja periodo de cranograma";
+		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
+		require APP . 'VacacionesPermisos/vistas/formularioDarBajaPeriodoCronogramaVacaciones.php';		
+	}
+
 	public function articleHtmlCronogramaVacaciones()
 	{
 		$qEstado = $this->lNegocioConfiguracionCronogramaVacaciones->buscarEstadosConfiguracionCronogramaVacaciones();

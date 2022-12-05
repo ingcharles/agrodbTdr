@@ -14,17 +14,11 @@
 	$conexion = new Conexion();
 	$cv = new ControladorVacaciones();
 		
+	$anio = $_POST['anio'];
 	$identificador = $_POST['identificador'];
-	$estadoVacacion = $_POST['estadoVacacion'];
-	$apellido = $_POST['apellido'];
 	$nombre = $_POST['nombre'];
-	$fechaInicio = $_POST['fechaInicio'];
-	$fechaFin = $_POST['fechaFin'];
-	$tipoPermiso = $_POST['tipoPermiso'];
-	$subtipoPermiso = $_POST['subtipoPermiso'];
-	$area = $_POST['area'];
 	
-	$listaReporte = $cv->filtroObtenerReporteHistoricoUsuario($conexion, $identificador, $apellido, $nombre, $fechaInicio, $fechaFin, $tipoPermiso, $subtipoPermiso, $estadoVacacion,$area);
+	$listaReporte = $cv->filtroObtenerReporteHistoricoCronogramavacacion($conexion, $anio, $identificador, $nombre);
 	
 ?>
 
@@ -91,44 +85,31 @@ color:#ffffff;
 		<tr>
 		    <th>Cédula</th>
 			<th>Nombre</th>
-			<th>Subtipo permiso</th>
-			<th>Tiempo utilizado</th>
-			<th>Fecha inicio</th>
-			<th>Fecha fin</th>
+			<th>Provincia</th>
+			<th>Cantón</th>
+			<th>Oficina</th>
+			<th>Unidad administrativa</th>
+			<th>Gestión administrativa</th>
+			<th>Puesto</th>
+			<th>Anio cronograma</th>
 			<th>Estado</th>
-			<th>Observación</th>
 		</tr>
 	</thead>
 	<tbody>
 	 <?php
 	 	 
 	 While($fila = pg_fetch_assoc($listaReporte)) {
-
-		$dias=floor(intval($fila['minutos_utilizados'])/480);
-		$horas=floor((intval($fila['minutos_utilizados'])-$dias*480)/60);
-		$minutos=(intval($fila['minutos_utilizados'])-$dias*480)-$horas*60;
-		
-		$minutosUtilizados=$dias.' días '. $horas .' horas '. $minutos .' minutos';
-		//$minutosUtilizados=$cv->devolverFormatoDiasDisponibles($fila['minutos_utilizados']);
-		$tiempoActual='';
-		if(($fila['codigo'] == 'PE-PIV' || $fila['codigo'] == 'VA-VA' || $fila['codigo'] == 'PE-PIVF' || $fila['codigo'] == 'PE-DA') and $fila['minutos_actuales'] != ''){
-			//$dias=floor(intval($fila['minutos_actuales'])/480);
-			//$horas=floor((intval($fila['minutos_actuales'])-$dias*480)/60);
-			//$minutos=(intval($fila['minutos_actuales'])-$dias*480)-$horas*60;
-		
-			$tiempoActual="Tiempo a la fecha ".$cv->devolverFormatoDiasDisponibles($fila['minutos_actuales']);
-			//$tiempoActual ="Tiempo a la fecha ". $dias." días ". $horas ." horas ". $minutos ." minutos";
-		}
-
 				echo '<tr>
 					<td class="formato">'.$fila['identificador'].'</td>
-					<td>'.$fila['nombre'].'</td>
-					<td>'.$fila['descripcion_subtipo'].'</td>
-					<td>'.$minutosUtilizados.' </td>
-					<td>'. date('Y-m-d H:i',strtotime($fila['fecha_inicio'])).'</td>
-					<td>'. date('Y-m-d H:i',strtotime($fila['fecha_fin'])).'</td>
+					<td>'.$fila['nombres_completos'].'</td>
+					<td>'.$fila['provincia'].'</td>
+					<td>'.$fila['canton'].'</td>
+					<td>'.$fila['oficina'].'</td>
+					<td>'.$fila['nombre_unidad_administrativa'].'</td>
+					<td>'.$fila['nombre_gestion_administrativa'].'</td>
+					<td>'.$fila['puesto_institucional'].'</td>
+					<td>'.$fila['anio_cronograma_vacacion'].'</td>
 					<td>'.$fila['estado'].'</td>
-					<td>'.$tiempoActual.'</td>
 				</tr>';
         
 	 }

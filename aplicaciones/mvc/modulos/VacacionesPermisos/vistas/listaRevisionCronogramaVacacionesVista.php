@@ -37,7 +37,19 @@
 			$("#listadoItems").removeClass("comunes");
 		}
 		$("#detalleItem").html('<div class="mensajeInicial">Arrastre aqui un item para revisarlo.</div>');
+
+		$("#_bajaperiodo").click(function(){
+			if($("#cantidadItemsSeleccionados").text() == 0){
+				$("#detalleItem").html('<div class="mensajeInicial">Seleccione una solicitud y presione el botón Dar baja periodo.</div>');	
+				return false;
+			}else if($("#cantidadItemsSeleccionados").text() > 1){
+				$("#detalleItem").html('<div class="mensajeInicial">Seleccione una solicitud a la vez.</div>');	
+				return false;
+			}
+		});	
+
 	});
+
 	$("#_eliminar").click(function() {
 		if ($("#cantidadItemsSeleccionados").text() > 1) {
 			alert('Por favor seleccione un registro a la vez');
