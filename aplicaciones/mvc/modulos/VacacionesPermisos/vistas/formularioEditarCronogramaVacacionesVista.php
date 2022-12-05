@@ -41,7 +41,7 @@
 	<div data-linea="17">
 		<?php
 
-		if ($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion() != "RechazadoJefe") {
+		if ($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion() != "Rechazado") {
 			"";
 		} else {
 			echo	'<button  type="submit" class="guardar">Guardar</button>';
@@ -60,7 +60,7 @@
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "RechazadoJefe" || estadoCronograma == "EnviadoJefe") {
+		if (estadoCronograma == "Rechazado" || estadoCronograma == "EnviadoJefe") {
 
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
 				numero_periodos_planificar: $('#numero_periodos').val(),
@@ -93,7 +93,20 @@
 					});
 					var valorComboPeriodo = $("#numero_periodos option:selected").val();
 
-					var valorMaximo = 0;
+					
+					if (estadoCronograma == "EnviadoJefe") {
+						var valorMaximo = 0
+						$('.piNumeroDias').each(function(index) {
+							valorMaximo=	parseInt( $(this).val())+ valorMaximo;
+						});
+						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
+							$(elem).attr('disabled', true);
+						});
+						
+						$('#total_dias').html(valorMaximo);
+					    $('#total_dias_planificados').val(valorMaximo);
+					}else{
+						var valorMaximo = 0;
 					switch (valorComboPeriodo) {
 						case "2":
 							valorMaximo = 15;
@@ -111,6 +124,7 @@
 					}
 					$(".piNumeroDias").val(valorMaximo);
 					$(".piNumeroDias").numeric();
+<<<<<<< HEAD
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
@@ -118,6 +132,13 @@
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
 							$(elem).attr('disabled', true);
 						})
+=======
+					$(".piNumeroDias").attr("maxlength", 2);
+
+					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
+					$('#total_dias').html(totalDias);
+					$('#total_dias_planificados').val(totalDias);
+>>>>>>> 9478d1d300768b7033452fb6bdad4e1e71cd53d6
 					}
 
 				}

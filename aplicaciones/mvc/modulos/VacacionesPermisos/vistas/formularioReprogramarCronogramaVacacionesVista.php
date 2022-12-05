@@ -41,7 +41,7 @@
 	<div data-linea="17">
 	<?php 
 
-	 if($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion()!="RechazadoJefe"){
+	 if($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion()!="Rechazado"){
       "";
 	}else{
 	echo	'<button  type="submit" class="guardar">Guardar</button>';
