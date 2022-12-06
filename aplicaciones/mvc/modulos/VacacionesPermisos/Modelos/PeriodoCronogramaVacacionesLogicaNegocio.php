@@ -13,6 +13,7 @@
   namespace Agrodb\VacacionesPermisos\Modelos;
   
   use Agrodb\VacacionesPermisos\Modelos\IModelo;
+  use Agrodb\Core\Excepciones\GuardarExcepcion;
  
 class PeriodoCronogramaVacacionesLogicaNegocio implements IModelo 
 {
@@ -46,6 +47,69 @@ class PeriodoCronogramaVacacionesLogicaNegocio implements IModelo
 		return $this->modeloPeriodoCronogramaVacaciones->guardar($datosBd);
 	}
 	}
+
+	/**
+	* Actualiza el estado de los periodos validados
+	* @param array $datos
+	* @return int
+	*/
+	public function guardarValidarPeriodo(Array $datos)
+	{
+		//print_r($datos);
+
+		try {
+		
+			
+			$procesoIngreso = $this->modeloPeriodoCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->getConnection();
+			$procesoIngreso->beginTransaction();
+			
+
+			$statement = $this->modeloPeriodoCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->createStatement();
+
+			$idCronogramaVacacion = $datos['id_cronograma_vacacion'];
+
+			for ($i = 0; $i < count($datos['hNumeroPeriodo']); $i++) {
+
+				if(isset($datos['hCerrarPeriodo'][$i]) && $datos['hCerrarPeriodo'][$i] == "Cerrado"){
+
+					$numeroPeriodo = $datos['hNumeroPeriodo'][$i];
+					$estadoPeriodo = $datos['hCerrarPeriodo'][$i];
+
+					$datosCronogramaVacacion = array('numero_periodo' => $numeroPeriodo
+													, 'estado_registro' => $estadoPeriodo);
+
+					$sqlActualizar = $this->modeloPeriodoCronogramaVacaciones->actualizarSql('periodo_cronograma_vacaciones', $this->modeloPeriodoCronogramaVacaciones->getEsquema());
+					$sqlActualizar->set($datosCronogramaVacacion);
+					$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'numero_periodo' => $numeroPeriodo));
+					$sqlActualizar->prepareStatement($this->modeloPeriodoCronogramaVacaciones->getAdapter(), $statement);
+					$statement->execute();
+
+				}
+				
+			}
+
+			$procesoIngreso->commit();
+
+			return $idCronogramaVacacion;
+		} catch (GuardarExcepcion $ex) {
+			$procesoIngreso->rollback();
+			throw new \Exception($ex->getMessage());
+		}
+
+		/*$tablaModelo = new PeriodoCronogramaVacacionesModelo($datos);
+		$datosBd = $tablaModelo->getPrepararDatos();
+		if ($tablaModelo->getIdPeriodoCronogramaVacacion() != null && $tablaModelo->getIdPeriodoCronogramaVacacion() > 0) {
+		return $this->modeloPeriodoCronogramaVacaciones->actualizar($datosBd, $tablaModelo->getIdPeriodoCronogramaVacacion());
+		} else {
+		unset($datosBd["id_periodo_cronograma_vacacion"]);
+		return $this->modeloPeriodoCronogramaVacaciones->guardar($datosBd);
+		}*/
+	}
+
 
 	/**
 	* Borra el registro actual

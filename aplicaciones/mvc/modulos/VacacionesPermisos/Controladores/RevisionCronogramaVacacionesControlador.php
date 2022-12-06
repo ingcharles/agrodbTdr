@@ -23,6 +23,7 @@ use Agrodb\Core\Constantes;
 use Agrodb\Core\Mensajes;
 use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesModelo;
+use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesLogicaNegocio;
 
 class RevisionCronogramaVacacionesControlador extends BaseControlador
 {
@@ -32,7 +33,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	private $lNegocioCronogramaVacaciones = null;
 	private $lNegocioUsuariosPerfiles = null;
 	private $lNegocioFichaEmpleado = null;
-	private $lNegocioConfiguracionCronogramaVacaciones = null;
+	private $lNegocioConfiguracionCronogramaVacaciones = null;	
+	private $lNegocioPeriodoCronogramaVacaciones = null;
 	private $descripcionConfiguracionCronogramaVacaciones = null;
 	private $accion = null;
 	private $article = null;
@@ -53,6 +55,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$this->lNegocioFichaEmpleado = new FichaEmpleadoLogicaNegocio();
 		$this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
 		$this->lNegocioConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesLogicaNegocio();
+		$this->lNegocioPeriodoCronogramaVacaciones = new PeriodoCronogramaVacacionesLogicaNegocio();
+
 		//set_exception_handler(array($this, 'manejadorExcepciones'));
 	}
 	/**
@@ -187,8 +191,31 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			foreach ($tabla as $fila) {
 				$this->itemsFiltrados[] = array(
 					'<tr id="' . $fila['id_cronograma_vacacion'] . '"
-		  class="item" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\RevisionCronogramavacaciones"
+		  class="item" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos/RevisionCronogramavacaciones"
 		  data-opcion="editar" ondragstart="drag(event)" draggable="true"
+		  data-destino="detalleItem">
+		  <td>' . ++$contador . '</td>
+		  <td style="white - space:nowrap; "><b>' . $fila['identificador'] . '</b></td>
+		<td>' . $fila['nombre'] . '</td>
+		<td>' . $fila['direccion'] . '</td>
+		<td>' . date('Y-m-d', strtotime($fila['fecha_creacion'])) . '</td>
+		</tr>'
+				);
+			}
+		}
+	}
+
+	/**
+	 * Construye el código HTML para desplegar la lista de - RevisionCronogramaVacaciones
+	 */
+	public function tablaHtmlValidacionPlanificacionPeriodo($tabla)
+	{ {
+			$contador = 0;
+			foreach ($tabla as $fila) {
+				$this->itemsFiltrados[] = array(
+					'<tr id="' . $fila['id_cronograma_vacacion'] . '"
+		  class="item" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos/RevisionCronogramavacaciones"
+		  data-opcion="validarPeriodo" ondragstart="drag(event)" draggable="true"
 		  data-destino="detalleItem">
 		  <td>' . ++$contador . '</td>
 		  <td style="white - space:nowrap; "><b>' . $fila['identificador'] . '</b></td>
@@ -281,16 +308,13 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 				break;
 			case 'PFL_DE_PROG_VAC':
-				echo "ES DIRECTOR EJECUTIVO";
+				//echo "ES DIRECTOR EJECUTIVO";
 				$estadoCronogramaVacacion = "EnviadoDe";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
+			break;
 
-				break;
 		}
-
-
-		//$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioNivelInferiorFuncionarioPorIdentificadorPadre($arrayParametros);
 
 		if ($revisionCronogramaVacaciones->count() == 0) {
 			$estado = 'FALLO';
@@ -309,17 +333,78 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		);
 	}
 
+	public function filtrarInformacionValidarPlanificacionPeriodo()
+	{
+		$estado = 'EXITO';
+		$mensaje = '';
+		$contenido = '';
+		$revisionCronogramaVacaciones = array();
+		$identificadorFuncionario = $this->identificador;
+		$perfil = "('PFL_DIR_PROG_VAC', 'PFL_DIR_VAC_TTHH', 'PFL_DE_PROG_VAC')";
+
+		$arrayParametros = array(
+			'identificador' => $identificadorFuncionario, 'codigo_perfil' => $perfil
+		);
+
+		$qObtenerPerfilFuncionario = $this->lNegocioUsuariosPerfiles->buscarUsuariosPorIdentificadorPorPerfil($arrayParametros);
+		$perfilUsuario = $qObtenerPerfilFuncionario->current()->codificacion_perfil;
+
+		$arrayParametros = array(
+			'identificador' => $identificadorFuncionario, 'identificador_funcionario_inferior' => $_POST['identificadorFuncionarioInferior'], 'nombre_funcionario' => $_POST['nombreFuncionario'], 'fecha_inicio' => $_POST['fechaInicio'], 'fecha_fin' => $_POST['fechaFin']
+		);
+
+		switch ($perfilUsuario) {
+
+			case 'PFL_DIR_VAC_TTHH':
+				$estadoCronogramaVacacion = "Aprobado";
+				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
+				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
+			break;
+
+		}
+
+		if ($revisionCronogramaVacaciones->count() == 0) {
+			$estado = 'FALLO';
+			$mensaje = 'No existen registros para la busqueda..!!';
+		}
+
+		$this->tablaHtmlValidacionPlanificacionPeriodo($revisionCronogramaVacaciones);
+
+		$contenido = \Zend\Json\Json::encode($this->itemsFiltrados);
+		echo json_encode(
+			array(
+				'estado' => $estado,
+				'mensaje' => $mensaje,
+				'contenido' => $contenido
+			)
+		);
+	}
+
 	/**
 	 * Método para dare de baja periodo de vacaciones - RevisionCronogramaVacaciones
 	 */
-	public function darBajaPeriodo()
+	public function validarPeriodo()
 	{
+		$idCronogramaVacacion = $_POST['id'];
 
-		$idCronogramaVacacion = $_POST['elementos'];
+		$this->accion = "Dar de baja periodo de cronograma";
 
-		$this->accion = "Dar de baja periodo de cranograma";
-		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
-		require APP . 'VacacionesPermisos/vistas/formularioDarBajaPeriodoCronogramaVacaciones.php';		
+		$validarEstadoCronogramaVacacion = $this->lNegocioCronogramaVacaciones->buscar($idCronogramaVacacion);
+		$estadoCronogramaVacacion = $validarEstadoCronogramaVacacion->getEstadoCronogramaVacacion();
+
+		switch($estadoCronogramaVacacion){
+			case 'Aprobado':
+				$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
+				$this->periodoCronograma = $this->construirValidarPeriodo(array('id_cronograma_vacacion' => $idCronogramaVacacion));
+			break;
+			default:
+				$datos = ['titulo' => 'Cronograma de planificación'
+							, 'mensaje' => 'La solicitud no se encuentra en estado "Aprobado".'];
+				$this->datosGenerales = $this->construirDatosProcesoNoPermitido($datos);
+			break;
+		}
+
+		require APP . 'VacacionesPermisos/vistas/formularioValidarPeriodoCronogramaVacaciones.php';		
 	}
 
 	public function articleHtmlCronogramaVacaciones()
@@ -471,7 +556,9 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacaciones($arrayResumenCronograma);
 			} else {
-				$this->resumenCronogramaVacacion = $this->construirConfiguracionCronogramaVacacionesNoCreado();
+				$datos = ['titulo' => 'Cronograma de planificación'
+							, 'mensaje' => 'No existe un cronograma registrado para el año.'];
+				$this->resumenCronogramaVacacion = $this->construirDatosProcesoNoPermitido();
 			}
 		} else {
 			$this->resumenCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
@@ -481,17 +568,39 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	}
 
 	// /**
+	//  * Método para construir lista de validar periodo planificacion
+	//  */
+	public function validarPlanificacionPeriodo(){
+
+		$estadoCronogramaVacacion = "Aprobado";
+		$arrayParametros = ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
+
+		$arrayParametros += [
+			'identificador_funcionario_inferior' => '', 'nombre_funcionario' => '', 'fecha_inicio' => '', 'fecha_fin' => ''
+		];
+
+		$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
+		$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
+		$this->tablaHtmlValidacionPlanificacionPeriodo($solicitudesPlanificacionVacaciones);
+
+		//require APP . 'VacacionesPermisos/vistas/listaRevisionCronogramaVacacionesVista.php';
+		require APP . 'VacacionesPermisos/vistas/listaValidacionPlanificacionPeriodoVista.php';
+		
+	}
+	
+
+	// /**
 	//  * Método para construir resumen de consolidado de cronograma de vacaciones
 	//  */
-	public function construirConfiguracionCronogramaVacacionesNoCreado()
+	public function construirDatosProcesoNoPermitido($arrayParametros)
 	{
-		//$resumenConsolidado = "";
-		//$resumenConsolidadoCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->obtenerResumenConsolidadoCronogramaVacaciones();
-
+		$titulo = $arrayParametros['titulo'];
+		$mensaje= $arrayParametros['mensaje'];
+		
 		$resumenConsolidado = '<fieldset>
-		<legend>Resumen cronograma vacaciones</legend>
+		<legend>' . $titulo . '</legend>
 		<div data-linea="1">
-			<label>Resultado: </label> No se han generado registros para el año.
+			<label>Resultado: </label> ' . $mensaje . '
 		<div>
 		</fieldset>';
 
@@ -545,8 +654,20 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 		return $resumenConsolidado;
 	}
-
 	
+	/**
+	 *Metodo para guardar el proceso de validacion de peroiodo
+	 */
+	public function guardarValidarPeriodo()
+	{
+		$proceso = $this->lNegocioPeriodoCronogramaVacaciones->guardarValidarPeriodo($_POST);
+
+		if($proceso){
+			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
+		}
+
+	} 
+
 	/**
 	 *Obtenemos los datos del registro seleccionado para editar - Tabla: RevisionCronogramaVacaciones
 	 */
@@ -569,5 +690,68 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				Mensajes::fallo("A ocurrido un error, por favor comunicar con Dtics.");
 			}
 		}
+	}
+
+	/**
+	 *Construye el detalle de periodos de cronograma para cerrar un periodo
+	 */
+	public function construirValidarPeriodo($arrayParametros)
+	{
+
+		$idCronogramaVacacion = $arrayParametros['id_cronograma_vacacion'];
+		$datosPlanificarPeriodos = "";
+		
+		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion];
+
+		$qCronogramaVacacion = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista($datos, 'numero_periodo ASC');
+
+		$datosPlanificarPeriodos = '<fieldset>
+										<legend>Detalle de periodos</legend>
+										<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="' . $idCronogramaVacacion . '">';
+		$totalDias = 0;
+
+		$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
+										<thead>
+											<tr>
+												<th>Periodo</th>
+												<th>Fecha inicio</th>
+												<th>Fecha fin</th>
+												<th>Número días</th>
+												<th>Cerrar periodo</th>
+											</tr>
+										</thead>
+										<tbody>';
+
+		foreach ($qCronogramaVacacion as $item) {
+
+			$totalDias = $totalDias + $item->total_dias;
+			
+			$estadoPeriodo = $item['estado_registro'];
+			$propiedadPeriodo = "";
+
+			($estadoPeriodo == "Cerrado") ? $propiedadPeriodo = ' disabled="disabled" checked' : $propiedadPeriodo = ' class="activo"';
+
+			$datosPlanificarPeriodos .= '<tr>	
+			<td><input type="hidden" name="hNumeroPeriodo[]" value="' . $item->numero_periodo . '" ' . $propiedadPeriodo . '>Periodo ' . $item->numero_periodo . '</td>
+			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y', strtotime($item->fecha_inicio))) . '</td>
+			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y', strtotime($item->fecha_fin))) . '</td>
+			<td style="text-align: center;">' . $item->total_dias . '</td>
+			<td style="text-align: center;"><input type="checkbox" name="hCerrarPeriodo[]" value="Cerrado" ' . $propiedadPeriodo . '></td><tr>';
+		}
+
+		$datosPlanificarPeriodos .= '<tr>
+										<td>Total días</td>
+										<td></td>
+										<td></td>
+										<td style="text-align: center;">' . $totalDias . '</td>
+									</td>
+									</tbody>
+									</table>
+									</fieldset>									
+									<div data-linea="9">
+										<button type="submit" class="guardar">Guardar</button>
+									</div>';
+
+		return $datosPlanificarPeriodos;
 	}
 }

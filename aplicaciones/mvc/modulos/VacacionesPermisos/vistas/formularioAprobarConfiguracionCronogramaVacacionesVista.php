@@ -23,7 +23,6 @@
 			$("#cargarMensajeTemporal").html("<div id='cargando' style='position :fixed'>Cargando...</div>").fadeIn();
 			setTimeout(function() {
 				var respuesta = JSON.parse(ejecutarJson($("#formEnviarDe")).responseText);
-				console.log(respuesta);
 			}, 1000);
 
 		} else {

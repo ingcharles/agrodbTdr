@@ -5,9 +5,6 @@
 
 <div id="paginacion" class="normal"></div>
 	<?php
-	if ($this->perfilUsuarioDirector == 'PFL_DE_PROG_VAC') {
-			echo '<div id="article">' . $this->article . '</div>';
-	} else {
 		echo '<table id="tablaItems">
 			<thead>
 				<tr>
@@ -20,7 +17,6 @@
 			</thead>
 			<tbody></tbody>
 			</table>';
-	}
 	?>
 
 
@@ -28,22 +24,12 @@
 	var perfilUsuarioDirector = "<?php echo $this->perfilUsuarioDirector; ?>";
 
 	$(document).ready(function() {
-		if(perfilUsuarioDirector == 'PFL_DE_PROG_VAC'){
-			$("#listadoItems").addClass("comunes");
-			
-		}else{
-			construirPaginacion($("#paginacion"), <?php print_r(json_encode($this->itemsFiltrados, JSON_UNESCAPED_UNICODE)); ?>);
-			
-			$("#listadoItems").removeClass("comunes");
-		}
+		
+		construirPaginacion($("#paginacion"), <?php print_r(json_encode($this->itemsFiltrados, JSON_UNESCAPED_UNICODE)); ?>);
+		$("#listadoItems").removeClass("comunes");
+		
 		$("#detalleItem").html('<div class="mensajeInicial">Arrastre aqui un item para revisarlo.</div>');
-	});
 
-	$("#_eliminar").click(function() {
-		if ($("#cantidadItemsSeleccionados").text() > 1) {
-			alert('Por favor seleccione un registro a la vez');
-			return false;
-		}
 	});
 	
 	$("#btnFiltrar").click(function(event) {
@@ -54,8 +40,7 @@
 	// Función para filtrar
 
 	function fn_filtrar() {
-		//$("#paginacion").html("<div id='cargando'>Cargando...</div>");
-		$.post("<?php echo URL ?>VacacionesPermisos/RevisionCronogramaVacaciones/filtrarInformacion", {
+		$.post("<?php echo URL ?>VacacionesPermisos/RevisionCronogramaVacaciones/filtrarInformacionValidarPlanificacionPeriodo", {
 				identificadorFuncionarioInferior: $("#bIdentificadorFuncionario").val(),
 				nombreFuncionario: $("#bNombreFuncionario").val(),
 				fechaInicio: $("#bFechaInicio").val(),
