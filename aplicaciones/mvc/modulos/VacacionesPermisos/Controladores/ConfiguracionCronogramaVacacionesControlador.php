@@ -59,24 +59,8 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 
 		if ($verificarConfiguracionCronograma->count()) {
 
-			//$idConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->id_configuracion_cronograma_vacacion;
 			$anioConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
-			// $descripcionConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->descripcion_configuracion_vacacion;
 
-			// $arrayParametros = ['anio_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion];
-
-			// $verificarRegistrosCronograma = $this->lNegocioCronogramaVacaciones->buscarLista($arrayParametros);
-
-			// if ($verificarRegistrosCronograma->count()) {
-			// 	$this->accion = "Envío cronograma vacaciones DE";
-			// 	$arrayResumenCronograma = [
-			// 		'id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion, 'anio_configuracion_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion, 'descripcion_configuracion_vacacion' => $descripcionConfiguracionCronogramaVacacion
-			// 	];
-
-			// 	$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacaciones($arrayResumenCronograma);
-			// } else {
-			// 	$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacacionesNoCreado();
-			// }
 			$this->configuracionCronogramaVacacion = $this->construirIngresoConfiguracionCronogramaVacaciones($anioConfiguracionCronogramaVacacion);
 		} else {
 			$this->configuracionCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();

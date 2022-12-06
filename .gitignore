@@ -10,5 +10,6 @@
 *.svn-base
 clases/Constantes.php
 clases/Conexion.php
+clases/mvc/Core/Constantes.php
 aplicaciones/mvc/config/config.php
 *.db

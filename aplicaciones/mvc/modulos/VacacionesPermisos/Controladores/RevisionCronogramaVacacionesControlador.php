@@ -187,15 +187,15 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			foreach ($tabla as $fila) {
 				$this->itemsFiltrados[] = array(
 					'<tr id="' . $fila['id_cronograma_vacacion'] . '"
-		  class="item" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\RevisionCronogramavacaciones"
-		  data-opcion="editar" ondragstart="drag(event)" draggable="true"
-		  data-destino="detalleItem">
-		  <td>' . ++$contador . '</td>
-		  <td style="white - space:nowrap; "><b>' . $fila['identificador'] . '</b></td>
-		<td>' . $fila['nombre'] . '</td>
-		<td>' . $fila['direccion'] . '</td>
-		<td>' . date('Y-m-d', strtotime($fila['fecha_creacion'])) . '</td>
-		</tr>'
+				class="item" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\RevisionCronogramavacaciones"
+				data-opcion="editar" ondragstart="drag(event)" draggable="true"
+				data-destino="detalleItem">
+				<td>' . ++$contador . '</td>
+				<td style="white - space:nowrap; "><b>' . $fila['identificador'] . '</b></td>
+				<td>' . $fila['nombre'] . '</td>
+				<td>' . $fila['direccion'] . '</td>
+				<td>' . date('Y-m-d', strtotime($fila['fecha_creacion'])) . '</td>
+				</tr>'
 				);
 			}
 		}

@@ -72,23 +72,21 @@
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
 
-
-
 					$(".piFechaFin").datepicker({
 						yearRange: "c:c",
 						changeMonth: false,
 						changeYear: false,
-						dateFormat: 'yy/mm/dd',
+						dateFormat: 'yy-mm-dd',
 						maxDate: 0,
-						minDate: new Date(anioPlanificacion + '/01/01'),
+						minDate: new Date(anioPlanificacion + '-01-01'),
 					});
 
 					$(".piFechaInicio").datepicker({
 						yearRange: "+0:+0",
 						changeMonth: true,
 						changeYear: false,
-						dateFormat: 'yy/mm/dd',
-						minDate: new Date(anioPlanificacion + '/01/01'),
+						dateFormat: 'yy-mm-dd',
+						minDate: new Date(anioPlanificacion + '-01-01'),
 						
 						onSelect: function(dateText, inst) {
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
@@ -113,6 +111,7 @@
 					var valorComboPeriodo = $("#numero_periodos option:selected").val();
 
 					var valorMaximo = 0;
+					var maxLength = 2;
 					switch (valorComboPeriodo) {
 						case "2":
 							valorMaximo = 15;
@@ -130,7 +129,7 @@
 					}
 					$(".piNumeroDias").val(valorMaximo);
 					$(".piNumeroDias").numeric();
-					//$(".piNumeroDias").attr("maxlength", 2);
+					$(".piNumeroDias").attr("maxlength", maxLength);
 
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
@@ -143,14 +142,7 @@
 	});
 
 	function validarNumeros(campo, expresion) {
-		//let patron = new RegExp('^([1-9]|[1]?[1-9]?|[2][0-4]|10)$');
-		//let patron = new RegExp('^(1[0-2]|[1-9])$');
-		//let patron = new RegExp('^(3[0]|[1-9])$'); // 1-30
-		//let patron = new RegExp('^(3[0]{0,1})$'); // 0-30
-		//let patron = new RegExp('^(1[5]{0,1})$'); // 1-15
-		//let patron = new RegExp('^(1[0]{0,1})$'); // 1-10
-		//let patron = new RegExp('^([7-9])$'); // 7-9
-
+		
 		let patron = new RegExp(expresion);
 		$(campo).bind('input', function() {
 			var node = $(campo);
@@ -202,7 +194,7 @@
 							banderaTablaVacia = false;
 							return false;
 						}
-						console.log(indexx + "------------");
+	
 						if ($(this).find('.piFechaInicio').val()) {
 							fechaInicio = $(this).find('.piFechaInicio').val();
 						}
@@ -213,7 +205,6 @@
 							var anioFin = date.getFullYear();
 
 							if(parseInt(anioPlanificacion) != parseInt(anioFin)){
-								console.log("esta mal fecha anio siguiente");
 								banderaSuperaAnioPlanificacion = false;
 								return false;
 							}
@@ -235,9 +226,8 @@
 					var fechaFin1 = new Date(element.fecha_fin);
 					if (fechaInicio1 <= fechaFin1) {
 						banderaTablaFechas = false;
-						console.log("esta mal");
-						$('.piFechaInicio').eq(index + 1).addClass("alerta"); //.css({color:'red'});
-						//break;
+						$('.piFechaInicio').eq(index + 1).addClass("alerta");
+
 					}
 					
 
@@ -246,7 +236,7 @@
 				$.each(input_hermanos, function(idx, x) {
 					var num = parseInt($(x).val());
 
-					if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
+					if (!isNaN(num) && num != undefined)
 						if (num > valorMaximo) {
 							valorSuperado = true;
 							return false;
@@ -265,7 +255,6 @@
 							if (!banderaSuperaAnioPlanificacion) {
 								$("#estado").html("La fecha de inicio + el Número de días, no puede superar el año " + anioPlanificacion).addClass("alerta");
 							} else {
-								//console.log(ejecutarJson($("#formulario")).responseText);
 								JSON.parse(ejecutarJson($("#formulario")).responseText);
 							}
 						}

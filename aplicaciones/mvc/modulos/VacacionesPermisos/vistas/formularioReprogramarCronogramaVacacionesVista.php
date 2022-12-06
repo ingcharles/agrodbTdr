@@ -8,26 +8,26 @@
 </style>
 
 
-<form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='cronogramavacaciones/actualizarPlanificacion' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
+<form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='PeriodoCronogramaVacaciones/guardarReprogramacionPeriodo' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 	<?php echo $this->datosGenerales; ?>
 	<fieldset>
 		<legend>Datos planificación</legend>
 		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
 		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
-		<input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="EnviadoJefe" />
+		<!-- <input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="EnviadoJefe" /> -->
 
 		<div data-linea="5">
 			<label for="identificador_backup">Funcionario reemplazo: </label>
-			
-				<?php echo $this->datosFuncionarioBackup; ?>
-			
+
+			<?php echo $this->datosFuncionarioBackup; ?>
+
 		</div>
 
 		<div data-linea="6">
 			<label for="numero_periodos_planificar">Número de periodos a planificar: </label>
-			
-				<?php echo $this->numeroPeriodos; ?>
-		
+
+			<?php echo $this->numeroPeriodos; ?>
+
 		</div>
 
 
@@ -38,15 +38,16 @@
 
 	<div id="datosPlanificarPeriodos"> </div>
 
-	<div data-linea="17">
-	<?php 
+	<!-- <div data-linea="17">
+	<?php
 
-	 if($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion()!="Rechazado"){
-      "";
-	}else{
-	echo	'<button  type="submit" class="guardar">Guardar</button>';
-	} ?>
-	</div>
+	//  if($this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion()!="Rechazado"){
+	//   "";
+	// }else{
+	// echo	'<button  type="submit" class="guardar">Guardar</button>';
+	//} 
+	?> 
+	</div>  -->
 
 </form>
 
@@ -55,31 +56,35 @@
 	var identificadorFuncionario = "<?php echo $this->identificador; ?>";
 	var idCronogramaVacacion = "<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>";
 	var estadoCronograma = "<?php echo $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion(); ?>";
-
+	var numeroPeriodos = "<?php echo $this->modeloCronogramaVacaciones->getNumeroPeriodos(); ?>";
+	var anioPlanificacion = "<?php echo $this->anioPlanificacion; ?>";
 	$(document).ready(function() {
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "Rechazado" || estadoCronograma == "EnviadoJefe") {
+		if (estadoCronograma == "Aprobado") {
 
-			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
-				numero_periodos_planificar: $('#numero_periodos').val(),
-				id_cronograma_vacacion: idCronogramaVacacion
+			$.post("<?php echo URL ?>VacacionesPermisos/PeriodoCronogramaVacaciones/construirReprogramarPeriodos", {
+				id_cronograma_vacacion: idCronogramaVacacion,
+				numero_periodos: numeroPeriodos,
 			}, function(data) {
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
 					$(".piFechaFin").datepicker({
+						yearRange: "c:c",
 						changeMonth: false,
 						changeYear: false,
-						dateFormat: 'yy/mm/dd',
+						dateFormat: 'yy-mm-dd',
+						maxDate: 0,
+						minDate: new Date(anioPlanificacion + '-01-01'),
 					});
 
 					$(".piFechaInicio").datepicker({
-						yearRange: "+0:+1",
+						yearRange: "+0:+0",
 						changeMonth: true,
-						changeYear: true,
-						dateFormat: 'yy/mm/dd',
-						minDate: '0',
+						changeYear: false,
+						dateFormat: 'yy-mm-dd',
+						minDate: new Date(anioPlanificacion + '-01-01'),
 						onSelect: function(dateText, inst) {
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
 							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
@@ -88,9 +93,16 @@
 							sumarDias(this, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);
 						}
 					});
-					var valorComboPeriodo = $("#numero_periodos option:selected").val();
+					var valorMaximo = 0
+					$('.piNumeroDias').each(function(index) {
+						valorMaximo = parseInt($(this).val()) + valorMaximo;
+					});
 
-					var valorMaximo = 0;
+					$('#total_dias').html(valorMaximo);
+					$('#total_dias_planificados').val(valorMaximo);
+					 var valorComboPeriodo = $("#numero_periodos option:selected").val();
+
+					 var valorMaximo = 0;
 					switch (valorComboPeriodo) {
 						case "2":
 							valorMaximo = 15;
@@ -100,17 +112,14 @@
 							break;
 						case "4":
 							valorMaximo = 7;
-							maxLength = 1;
 							break;
 						default:
 							valorMaximo = 30;
 							break;
 					}
-					$(".piNumeroDias").val(valorMaximo);
+
 					$(".piNumeroDias").numeric();
-					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
-					$('#total_dias').html(totalDias);
-					$('#total_dias_planificados').val(totalDias);
+
 
 				}
 			}, 'json');
@@ -159,80 +168,9 @@
 	}
 
 
-	$("#numero_periodos").change(function(event) {
-		mostrarMensaje("", "EXITO");
-		if ($("#numero_periodos").val() != "") {
-			var numeroPeriodosPlanificar = $("#numero_periodos").val();
 
-			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
-				numero_periodos_planificar: numeroPeriodosPlanificar
-			}, function(data) {
-				if (data.estado === 'EXITO') {
-					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
-
-
-
-					$(".piFechaFin").datepicker({
-						changeMonth: false,
-						changeYear: false,
-						dateFormat: 'yy/mm/dd',
-					});
-
-					$(".piFechaInicio").datepicker({
-						yearRange: "+0:+1",
-						changeMonth: true,
-						changeYear: true,
-						dateFormat: 'yy/mm/dd',
-						minDate: '0',
-						onSelect: function(dateText, inst) {
-							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
-							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
-							var elementoNumeroDias = $(this).parents("tr").find(".piNumeroDias");
-							elementoFechaInicio.removeClass("alerta");
-							sumarDias(this, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);
-						}
-					});
-
-					var valorComboPeriodo = $("#numero_periodos option:selected").val();
-
-					var valorMaximo = 0;
-					switch (valorComboPeriodo) {
-						case "2":
-							valorMaximo = 15;
-							break;
-						case "3":
-							valorMaximo = 10;
-							break;
-						case "4":
-							valorMaximo = 7;
-							maxLength = 1;
-							break;
-						default:
-							valorMaximo = 30;
-							break;
-					}
-					$(".piNumeroDias").val(valorMaximo);
-					$(".piNumeroDias").numeric();
-					//$(".piNumeroDias").attr("maxlength", 2);
-
-					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
-					$('#total_dias').html(totalDias);
-					$('#total_dias_planificados').val(totalDias);
-				}
-			}, 'json');
-		} else {
-			$("#dDatosPeriodo").html("");
-		}
-	});
 
 	function validarNumeros(campo, expresion) {
-		//let patron = new RegExp('^([1-9]|[1]?[1-9]?|[2][0-4]|10)$');
-		//let patron = new RegExp('^(1[0-2]|[1-9])$');
-		//let patron = new RegExp('^(3[0]|[1-9])$'); // 1-30
-		//let patron = new RegExp('^(3[0]{0,1})$'); // 0-30
-		//let patron = new RegExp('^(1[5]{0,1})$'); // 1-15
-		//let patron = new RegExp('^(1[0]{0,1})$'); // 1-10
-		//let patron = new RegExp('^([7-9])$'); // 7-9
 
 		let patron = new RegExp(expresion);
 		$(campo).bind('input', function() {
@@ -247,6 +185,12 @@
 	$("#formulario").submit(function(event) {
 		event.preventDefault();
 		var error = false;
+
+		if ($('input.reprogramar:checked').length == 0){       
+					$('input.reprogramar').addClass("alertaCombo");
+					var error = true;
+		}
+
 		if (!error) {
 			if ($('#total_dias_planificados').val() > 30) {
 				$("#estado").html("El total de días planificados no debe ser mayor a 30.").addClass("alerta");
@@ -284,7 +228,7 @@
 							banderaTablaVacia = false;
 							return false;
 						}
-						console.log(indexx + "------------");
+
 						if ($(this).find('.piFechaInicio').val()) {
 							fechaInicio = $(this).find('.piFechaInicio').val();
 						}
@@ -301,32 +245,27 @@
 				});
 
 				for (let index = 0; index < arrayFechas.length - 1; index++) {
-
 					const element = arrayFechas[index];
 					const elementNext = arrayFechas[index + 1];
-
 					var fechaInicio1 = new Date(elementNext.fecha_inicio);
 					var fechaFin1 = new Date(element.fecha_fin);
-					console.log(fechaInicio1);
-					console.log(fechaFin1);
 					if (fechaInicio1 <= fechaFin1) {
 						banderaTablaFechas = false;
-						console.log("esta mal");
-						$('.piFechaInicio').eq(index + 1).addClass("alerta"); //.css({color:'red'});
+						$('.piFechaInicio').eq(index + 1).addClass("alerta");
 					}
-
 				}
 
 				$.each(input_hermanos, function(idx, x) {
 					var num = parseInt($(x).val());
 
-					if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
+					if (!isNaN(num) && num != undefined) 
 						if (num > valorMaximo) {
 							valorSuperado = true;
 							return false;
 						}
 				});
 
+				
 				if (valorSuperado) {
 					$("#estado").html(valorMaximoMensaje).addClass("alerta");
 				} else {

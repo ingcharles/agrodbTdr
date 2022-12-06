@@ -18,6 +18,7 @@ namespace Agrodb\VacacionesPermisos\Controladores;
 session_start();
 
 use Agrodb\Core\Comun;
+use Agrodb\GUath\Modelos\DatosContratoLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesLogicaNegocio;
@@ -27,6 +28,7 @@ class BaseControlador extends Comun
 	public $itemsFiltrados = array();
 	public $codigoJS = null;
 	private $lNegocioConfiguracionCronogramaVacaciones = null;
+	private $lNegocioDatosContrato = null;
 	/**
 	 * Constructor
 	 */
@@ -35,6 +37,7 @@ class BaseControlador extends Comun
 		parent::usuarioActivo();
 		//Si se requiere agregar código concatenar la nueva cadena con  ejemplo $this->codigoJS.=alert('hola');
 		$this->codigoJS = \Agrodb\Core\Mensajes::limpiar();
+		$this->lNegocioDatosContrato = new DatosContratoLogicaNegocio();
 	}
 	public function crearTabla()
 	{
@@ -233,6 +236,20 @@ class BaseControlador extends Comun
 		return $datos;
 	}
 
+	// public function construirDatosPeriodoCronogramaVacacionesNoReprogramacion()
+	// {
+
+	// 	$datos = '<fieldset>
+	// 				<legend>Ingresar periodo</legend>
+	// 				<div data-linea="1">
+	// 					<label for="observacion">Observacion: </label>No existen registro de periodos para reprogramar.
+	// 				</div>
+	// 				</fieldset>';
+
+	// 	return $datos;
+	// }
+
+
 	public function obtenerSolicitudesPlanificacionVacaciones()
 	{
 
@@ -341,6 +358,29 @@ class BaseControlador extends Comun
 
 		return $panelBusqueda;
 	}
+
+	public function obtenerDatosFuncionarioBackup($identificadorFuncionario, $identificadorFuncionarioBackup = null, $habilitar = false)
+	{
+		$readOnly = "disabled";
+		if ($habilitar) {
+			$readOnly = "";
+		}
+		$comboFuncionarioBackup = '<select ' . $readOnly . ' name="identificador_backup" id="identificador_backup" class="validacion">';
+		$comboFuncionarioBackup .= '<option value="">Seleccionar....</option>';
+
+		$funcionarioBackup = $this->lNegocioDatosContrato->obtenerDatosFuncionarioBackup($identificadorFuncionario);
+
+		foreach ($funcionarioBackup as $item) {
+			if ($item->identificador == $identificadorFuncionarioBackup) {
+				$comboFuncionarioBackup .= '<option selected value="' . $item->identificador . '">' . $item->nombre . '</option>';
+			} else {
+				$comboFuncionarioBackup .= '<option value="' . $item->identificador . '">' . $item->nombre . '</option>';
+			}
+		}
+		$comboFuncionarioBackup .= '</select>';
+		return $comboFuncionarioBackup;
+	}
+
 
 	public function fechaEs($fecha)
 	{

@@ -72,17 +72,17 @@
 						yearRange: "c:c",
 						changeMonth: false,
 						changeYear: false,
-						dateFormat: 'yy/mm/dd',
+						dateFormat: 'yy-mm-dd',
 						maxDate: 0,
-						minDate: new Date(anioPlanificacion + '/01/01'),
+						minDate: new Date(anioPlanificacion + '-01-01'),
 					});
 
 					$(".piFechaInicio").datepicker({
 						yearRange: "+0:+0",
 						changeMonth: true,
 						changeYear: false,
-						dateFormat: 'yy/mm/dd',
-						minDate: new Date(anioPlanificacion + '/01/01'),
+						dateFormat: 'yy-mm-dd',
+						minDate: new Date(anioPlanificacion + '-01-01'),
 						onSelect: function(dateText, inst) {
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
 							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
@@ -97,7 +97,7 @@
 					if (estadoCronograma == "EnviadoJefe") {
 						var valorMaximo = 0
 						$('.piNumeroDias').each(function(index) {
-							valorMaximo=	parseInt( $(this).val())+ valorMaximo;
+							valorMaximo = parseInt( $(this).val())+ valorMaximo;
 						});
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
 							$(elem).attr('disabled', true);
@@ -107,6 +107,7 @@
 					    $('#total_dias_planificados').val(valorMaximo);
 					}else{
 						var valorMaximo = 0;
+						var maxLength = 2;
 					switch (valorComboPeriodo) {
 						case "2":
 							valorMaximo = 15;
@@ -124,6 +125,7 @@
 					}
 					$(".piNumeroDias").val(valorMaximo);
 					$(".piNumeroDias").numeric();
+					$(".piNumeroDias").attr("maxlength", maxLength);
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
@@ -192,20 +194,21 @@
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
 
-
-
 					$(".piFechaFin").datepicker({
+						yearRange: "c:c",
 						changeMonth: false,
 						changeYear: false,
-						dateFormat: 'yy/mm/dd',
+						dateFormat: 'yy-mm-dd',
+						maxDate: 0,
+						minDate: new Date(anioPlanificacion + '-01-01'),
 					});
 
 					$(".piFechaInicio").datepicker({
-						yearRange: "+0:+1",
+						yearRange: "+0:+0",
 						changeMonth: true,
-						changeYear: true,
-						dateFormat: 'yy/mm/dd',
-						minDate: '0',
+						changeYear: false,
+						dateFormat: 'yy-mm-dd',
+						minDate: new Date(anioPlanificacion + '-01-01'),
 						onSelect: function(dateText, inst) {
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
 							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
@@ -227,7 +230,6 @@
 							break;
 						case "4":
 							valorMaximo = 7;
-							maxLength = 1;
 							break;
 						default:
 							valorMaximo = 30;
@@ -235,7 +237,6 @@
 					}
 					$(".piNumeroDias").val(valorMaximo);
 					$(".piNumeroDias").numeric();
-					//$(".piNumeroDias").attr("maxlength", 2);
 
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
