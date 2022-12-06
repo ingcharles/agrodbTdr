@@ -12,4 +12,5 @@ clases/Constantes.php
 clases/Conexion.php
 clases/mvc/Core/Constantes.php
 aplicaciones/mvc/config/config.php
+aplicaciones/mvc/Core/Constantes.php
 *.db

@@ -236,20 +236,6 @@ class BaseControlador extends Comun
 		return $datos;
 	}
 
-	// public function construirDatosPeriodoCronogramaVacacionesNoReprogramacion()
-	// {
-
-	// 	$datos = '<fieldset>
-	// 				<legend>Ingresar periodo</legend>
-	// 				<div data-linea="1">
-	// 					<label for="observacion">Observacion: </label>No existen registro de periodos para reprogramar.
-	// 				</div>
-	// 				</fieldset>';
-
-	// 	return $datos;
-	// }
-
-
 	public function obtenerSolicitudesPlanificacionVacaciones()
 	{
 
