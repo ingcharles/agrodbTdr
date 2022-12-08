@@ -472,7 +472,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			$comboNumeroPeriodos = '
 			<option value="">Seleccione....</option>
 			<option value="Finalizado">Aprobado</option>
-			<option value="Rechazado">Rechazado</option>';
+			<option value="RechazadoDe">Rechazado</option>';
 		} else {
 			$muestraGuardar = '';
 			$disabled = 'disabled';
@@ -549,7 +549,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			$verificarRegistrosCronograma = $this->lNegocioCronogramaVacaciones->buscarLista($arrayParametros);
 
 			if ($verificarRegistrosCronograma->count()) {
-				$this->accion = "Envío cronograma vacaciones DE";
+				$this->accion = "Envíar cronograma de vacaciones al Director Ejecutivo";
 				$arrayResumenCronograma = [
 					'id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion, 'anio_configuracion_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion, 'descripcion_configuracion_vacacion' => $descripcionConfiguracionCronogramaVacacion
 				];
@@ -583,7 +583,6 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
 		$this->tablaHtmlValidacionPlanificacionPeriodo($solicitudesPlanificacionVacaciones);
 
-		//require APP . 'VacacionesPermisos/vistas/listaRevisionCronogramaVacacionesVista.php';
 		require APP . 'VacacionesPermisos/vistas/listaValidacionPlanificacionPeriodoVista.php';
 		
 	}
@@ -673,6 +672,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	 */
 	public function guardarEnviarDirectorEjecutivo()
 	{
+		
 		$_POST['estado_configuracion_cronograma_vacacion'] = 'EnviadoDe';
 
 		//Verifica que no existan revisiones pendentes en estado "EnviadoTtthh"
@@ -687,7 +687,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			if ($proceso) {
 				Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
 			} else {
-				Mensajes::fallo("A ocurrido un error, por favor comunicar con Dtics.");
+				Mensajes::fallo("No existen planificaciones aprobadas por Talento Humano.");
 			}
 		}
 	}

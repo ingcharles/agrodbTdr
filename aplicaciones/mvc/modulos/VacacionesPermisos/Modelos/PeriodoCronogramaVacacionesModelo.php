@@ -74,6 +74,20 @@ class PeriodoCronogramaVacacionesModelo extends ModeloBase
 		* Estado de la reprogracion SI/NO caso contratio si es NULL es planificacion
 		*/
 		protected $estadoReprogramacion;
+		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Identifica los ultimos regitros reprogramados por el funcionario
+		*/
+		protected $ultimaReprogramacion;
+		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Se guarda la ruta del archivo con la que se reprogramo el periodo de vacaciones
+		*/
+		protected $rutaArchivoReprogramacion;
 
 	/**
 	* Campos del formulario 
@@ -411,6 +425,53 @@ class PeriodoCronogramaVacacionesModelo extends ModeloBase
 	public function getEstadoReprogramacion()
 	{
 		return $this->estadoReprogramacion;
+	}
+	/**
+	* Set ultimaReprogramacion
+	*
+	*Identifica los ultimos regitros reprogramados por el funcionario
+	*
+	* @parámetro String $ultimaReprogramacion
+	* @return UltimaReprogramacion
+	*/
+	public function setUltimaReprogramacion($ultimaReprogramacion)
+	{
+	  $this->ultimaReprogramacion = (String) $ultimaReprogramacion;
+	    return $this;
+	}
+
+	/**
+	* Get ultimaReprogramacion
+	*
+	* @return null|String
+	*/
+	public function getUltimaReprogramacion()
+	{
+		return $this->ultimaReprogramacion;
+	}
+
+	/**
+	* Set rutaArchivoReprogramacion
+	*
+	*Se guarda la ruta del archivo con la que se reprogramo el periodo de vacaciones
+	*
+	* @parámetro String $rutaArchivoReprogramacion
+	* @return RutaArchivoReprogramacion
+	*/
+	public function setRutaArchivoReprogramacion($rutaArchivoReprogramacion)
+	{
+	  $this->rutaArchivoReprogramacion = (String) $rutaArchivoReprogramacion;
+	    return $this;
+	}
+
+	/**
+	* Get rutaArchivoReprogramacion
+	*
+	* @return null|String
+	*/
+	public function getRutaArchivoReprogramacion()
+	{
+		return $this->rutaArchivoReprogramacion;
 	}
 
 	/**

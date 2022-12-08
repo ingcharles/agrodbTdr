@@ -128,7 +128,7 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 
 
 	/**
-	 * Método para abrir el formulario de reporgramamacion de vacaciones
+	 * Método para abrir el formulario de reprogramamacion de vacaciones
 	 */
 	public function reprogramarPeriodo()
 	{
@@ -142,15 +142,13 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 
 			$idConfiguracionCronogramaVacacion = $this->modeloCronogramaVacaciones->getIdConfiguracionCronogramaVacacion();
 			$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
-			//$numeroPeriodos = $this->modeloCronogramaVacaciones->getNumeroPeriodos();
-
+			
 			$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscar($idConfiguracionCronogramaVacacion);
 			$anioPlanificacion = $datosConfiguracionCronogramaVacacion->getAnioConfiguracionCronogramaVacacion();
 
-
 			$this->anioPlanificacion = $anioPlanificacion;
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
-			$this->accion = "Reprogramar Vacaciones";
+			$this->accion = "Reprogramar vacaciones de la planificacion ". $anioPlanificacion;
 
 
 			$estado = false;
@@ -167,7 +165,7 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 	}
 
 	/**
-	 * Método para contruir los periodos de reporgramamacion de vacaciones
+	 * Método para contruir los periodos de reprogramamacion de vacaciones
 	 */
 	public function construirReprogramarPeriodos()
 	{
@@ -214,13 +212,13 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 				foreach ($periodos as $item) {
 					$datosPlanificarPeriodos .= '<tbody>
 					<tr>	
-						<td style="font-weight: bold;">' . $arrayEstados[($item->numero_periodo - 1)] . '<input type="hidden" name="hPeriodo[]" value="1"></td>
-						<td><input value=' . $item->numero_periodo . ' type="hidden" class="piNumeroPeriodo" name="hNumeroPeriodo[]" readonly="readonly">
-						<input value=' . $item->id_periodo_cronograma_vacacion . ' type="hidden" class="piPeriodoCronogramaVacacion" name="hIdPeriodoCronogramaVacacion[]" readonly="readonly">
-						<input value=' . $item->fecha_inicio . ' type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-						<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias[]" ' . $validacion . '></td>
-						<td><input value=' . $item->fecha_fin . ' type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
-						<td style="text-align: center;"><input type="checkbox" name="hReprogramado[]" value="Si" class="reprogramar"></td>;
+						<td style="font-weight: bold;">' . $arrayEstados[($item->numero_periodo - 1)] . '<input type="hidden" name="hPeriodo['.$item->numero_periodo.']" value="1"></td>
+						<td><input value=' . $item->numero_periodo . ' type="hidden" class="piNumeroPeriodo" name="hNumeroPeriodo['.$item->numero_periodo.']" readonly="readonly">
+						<input value=' . $item->id_periodo_cronograma_vacacion . ' type="hidden" class="piPeriodoCronogramaVacacion" name="hIdPeriodoCronogramaVacacion['.$item->numero_periodo.']" readonly="readonly">
+						<input value=' . $item->fecha_inicio . ' type="text" class="piFechaInicio" name="hFechaInicio['.$item->numero_periodo.']" readonly="readonly"></td>
+						<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias['.$item->numero_periodo.']" ' . $validacion . '></td>
+						<td><input value=' . $item->fecha_fin . ' type="text" class="piFechaFin" name="hFechaFin['.$item->numero_periodo.']" readonly="readonly"></td>
+						<td style="text-align: center;"><input type="checkbox" name="hReprogramado['.$item->numero_periodo.']" value="Si" class="reprogramar"></td>;
 					</tr>
 				</tbody>';
 				}

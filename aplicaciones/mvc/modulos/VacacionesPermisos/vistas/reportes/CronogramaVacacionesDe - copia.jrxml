@@ -12,9 +12,8 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<parameter name="idConfiguracionCronogramaVacacion" class="java.lang.Integer"/>
-	<parameter name="fondoReporte" class="java.lang.String"/>
 	<parameter name="anio" class="java.lang.Integer"/>
+	<parameter name="fondoReporte" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT DISTINCT  fe.identificador,CONCAT(fe.apellido,' ',fe.nombre) as nombres_completos,
 	cv.estado_cronograma_vacacion,pv.fecha_inicio,pv.fecha_fin,pv.total_dias,
@@ -46,7 +45,7 @@
 	INNER JOIN g_estructura.area ar ON ar.id_area = arr.id_area_padre AND ar.estado = 1
 	INNER JOIN g_vacaciones.periodo_cronograma_vacaciones pv 
 	ON pv.id_cronograma_vacacion=cv.id_cronograma_vacacion AND  pv.estado_registro='Activo'
-	WHERE cv.id_configuracion_cronograma_vacacion = $P{idConfiguracionCronogramaVacacion}
+	WHERE cv.anio_cronograma_vacacion = $P{anio}
 	ORDER BY 
 	ar.nombre,
 	arr.nombre,

@@ -140,9 +140,10 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 				->getDriver()
 				->getConnection();
 
-				
+
 
 			$procesoIngreso->beginTransaction();
+			//Aprueba la configuración cronograma pasa a Finalizado
 			if ($estado == 'Finalizado') {
 
 
@@ -167,32 +168,31 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 
 				//Guardar registro para firma
 				$this->lNegocioFirmantesLogicaNegocio->ingresoFirmaDocumento($parametrosFirma);
-			} else {
-				$statement = $this->modeloConfiguracionCronogramaVacaciones->getAdapter()
-				->getDriver()
-				->createStatement();
-				//TODO: PREGUNTAR SI FALTA UN CAMPO DE OBSERVACION AL RECHAZAR Y AGREGAR EN BASE Y AQUI AL ACTUALZIAR
-				$arrayParametrosCronograma = array(
-					//'id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion,
-					  'estado_cronograma_vacacion' => $estado
-				);
-				
-			$sqlActualizar = $this->modeloConfiguracionCronogramaVacaciones->actualizarSql('cronograma_vacaciones', $this->modeloCronogramaVacaciones->getEsquema());
-            $sqlActualizar->set($arrayParametrosCronograma);
-            $sqlActualizar->where(array('id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion));
-            $sqlActualizar->prepareStatement($this->modeloConfiguracionCronogramaVacaciones->getAdapter(), $statement);
-            $statement->execute();
-
-			// 
 			}
 			$statement = $this->modeloConfiguracionCronogramaVacaciones->getAdapter()
 				->getDriver()
 				->createStatement();
+			
+			$arrayParametrosCronograma = array(
+				'estado_cronograma_vacacion' => $estado
+			);
+
+			// Actualizo los registros del Cronograma de cacaciones con estado = 'Aprobado'
+			$sqlActualizar = $this->modeloConfiguracionCronogramaVacaciones->actualizarSql('cronograma_vacaciones', $this->modeloCronogramaVacaciones->getEsquema());
+			$sqlActualizar->set($arrayParametrosCronograma);
+			$sqlActualizar->where(array('id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion));
+			$sqlActualizar->prepareStatement($this->modeloConfiguracionCronogramaVacaciones->getAdapter(), $statement);
+			$statement->execute();
+
+
+
+			$statement = $this->modeloConfiguracionCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->createStatement();
 			$arrayParametrosConfiguracion = array(
-				//'id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion,  
 				'estado_configuracion_cronograma_vacacion' => $estado, 'observacion' => $observacion
 			);
-			
+
 			$sqlActualizar = $this->modeloConfiguracionCronogramaVacaciones->actualizarSql('configuracion_cronograma_vacaciones', $this->modeloConfiguracionCronogramaVacaciones->getEsquema());
 			$sqlActualizar->set($arrayParametrosConfiguracion);
 			$sqlActualizar->where(array('id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion));

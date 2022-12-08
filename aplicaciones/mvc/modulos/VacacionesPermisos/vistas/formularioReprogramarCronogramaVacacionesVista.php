@@ -62,7 +62,7 @@
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "Aprobado") {
+		if (estadoCronograma == "Finalizado") {
 
 			$.post("<?php echo URL ?>VacacionesPermisos/PeriodoCronogramaVacaciones/construirReprogramarPeriodos", {
 				id_cronograma_vacacion: idCronogramaVacacion,

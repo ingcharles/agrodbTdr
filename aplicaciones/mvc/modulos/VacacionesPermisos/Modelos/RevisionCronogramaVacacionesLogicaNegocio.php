@@ -157,7 +157,7 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 	 * @return array
 	 */
 
-	public function consultarPlanificacionPorEstadoAnio($estado, $anio)
+	public function consultarPlanificacionPorEstadoAnio($estado, $idConfiguracionCronogramaVacacion)
 	{
 		$sqlScript = "SELECT cv.id_cronograma_vacacion,
 							fe.identificador,
@@ -179,7 +179,7 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 								(SELECT dci.fecha_inicio, dci.identificador, tdc.id_datos_contrato FROM g_uath.datos_contrato dci INNER JOIN 
 								(SELECT MIN(dcc.id_datos_contrato) id_datos_contrato, dcc.identificador FROM g_uath.datos_contrato dcc group by 2 order by 2) tdc ON dci.identificador = tdc.identificador and dci.id_datos_contrato=tdc.id_datos_contrato)
 							) mdc ON mdc.identificador = fe.identificador
-						WHERE cv.estado_cronograma_vacacion = '" . $estado . "' AND cv.anio_cronograma_vacacion = " . $anio . "
+						WHERE cv.estado_cronograma_vacacion = '" . $estado . "' AND cv.id_configuracion_cronograma_vacacion = " . $idConfiguracionCronogramaVacacion . "
 							ORDER BY 
 							ar.nombre,
 							arr.nombre,
@@ -197,32 +197,45 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 
 		//TODO_: Generar el archivo de excel y el archivo de pdf
 		//generamos la cosulta personalizada y devolvemos en una variable
-		$anio = 2023;
+		// $anio = 2023;
 		$estado = 'EnviadoDe';
-		$idConfiguracionCronogramaVacacion = 1;
-		$qDatoPlanificacion = $this->consultarPlanificacionPorEstadoAnio('EnviadoDe', $anio);
+		$idConfiguracionCronogramaVacacion = $datos["id_configuracion_cronograma_vacacion"];
+		$qDatosConfiguracionCronograma = $this->modeloConfiguracionCronogramaVacaciones->buscar($idConfiguracionCronogramaVacacion);
+		
+		 $anio = $qDatosConfiguracionCronograma->getAnioConfiguracionCronogramaVacacion();
+		
 
-		//  print_r($object);
+
+		$qDatoPlanificacion = $this->consultarPlanificacionPorEstadoAnio($estado, $idConfiguracionCronogramaVacacion);
+
+		
 		if (count($qDatoPlanificacion)) {
 			$nombreArchivo = $anio . '_' . date('Y-m-d_H-i-s');
-			$rutaArchivoExcel = VACA_PER_DOC_ADJ . 'excel/' . $nombreArchivo . '.xlsx';
-			$rutaArchivoPdf = VACA_PER_DOC_ADJ . 'pdf/' . $nombreArchivo . '.pdf';
+			$rutaArchivoExcel = VACA_PER_DOC_ADJ . 'excel/cronograma/' . $nombreArchivo . '.xlsx';
+			$rutaArchivoPdf = VACA_PER_DOC_ADJ . 'pdf/cronograma/' . $nombreArchivo . '.pdf';
 			try {
 				$generarPdf = true;			
 				$jasper = new JasperReport();
 				$datosReporte = array();
 
-				$ruta = VACA_PER_URL_TCPDF . 'pdf/';
+				$ruta = VACA_PER_URL_TCPDF . 'pdf/cronograma/';
 
 				if (!file_exists($ruta)) {
 					mkdir($ruta, 0777, true);
 				}
 
+				$ruta = VACA_PER_URL_TCPDF . 'excel/cronograma/';
+
+				if (!file_exists($ruta)) {
+					mkdir($ruta, 0777, true);
+				}
+				
 				$datosReporte = array(
-					'rutaReporte' => 'VacacionesPermisos/vistas/reportes/CronogramaVacacionesDe.jasper',
-					'rutaSalidaReporte' => 'VacacionesPermisos/archivos/pdf/' . $nombreArchivo,
+					'rutaReporte' => 'VacacionesPermisos/vistas/reportes/cronogramaVacacionesDe.jasper',
+					'rutaSalidaReporte' => 'VacacionesPermisos/archivos/pdf/cronograma/' . $nombreArchivo,
 					'tipoSalidaReporte' => array('pdf'),
 					'parametrosReporte' => array(
+						'idConfiguracionCronogramaVacacion' => (int)$idConfiguracionCronogramaVacacion,
 						'anio' => (int)$anio,
 						'fondoReporte' => RUTA_IMG_GENE . 'fondoCertificadoBlanco.png'
 					),
