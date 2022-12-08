@@ -1,14 +1,12 @@
 <?php
 	session_start();
 	require_once '../../clases/Conexion.php';
-	require_once '../../clases/ControladorVacaciones.php';
+	require_once '../../clases/ControladorCronogramaVacaciones.php';
 
-	
 	$conexion = new Conexion();
-	$cv = new ControladorVacaciones();
-	
-	$anioInicial = 2022;
-	$anioActual = date('Y') + 1;
+	$ccv = new ControladorCronogramaVacaciones();
+
+	$qConfiguracionCronograma = $ccv->obtenerConfiguracionCronogramaVacaciones($conexion);
 		
 ?>
 
@@ -28,8 +26,8 @@
 						<select id="bAnio" name="bAnio" style="width: 100%;">
 							<option value="" selected="selected">Seleccione....</option>
 							<?php 
-								for ($i = $anioInicial; $i <= $anioActual ; $i++) {
-									echo '<option value="'.$i.'">'.$i.'</option>';
+								while($configuracionCronograma = pg_fetch_assoc($qConfiguracionCronograma)){
+									echo '<option value="' . $configuracionCronograma['anio_configuracion_cronograma_vacacion'] . '">' . $configuracionCronograma['anio_configuracion_cronograma_vacacion'] . '</option>';
 								}		
 							?>
 						</select>

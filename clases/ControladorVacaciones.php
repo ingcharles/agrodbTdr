@@ -1825,7 +1825,7 @@ class ControladorVacaciones
 						and dc.tipo_contrato <> 'Contrato de Servicios Profesionales') tfe
 				LEFT JOIN 
 					(SELECT
-						cv.id_cronograma_vacacion
+						DISTINCT cv.id_cronograma_vacacion
 						, cv.identificador_funcionario
 						, cv.nombre_funcionario
 						, cv.nombre_puesto

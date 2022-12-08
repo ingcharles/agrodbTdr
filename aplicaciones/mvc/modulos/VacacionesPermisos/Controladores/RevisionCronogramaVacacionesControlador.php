@@ -91,7 +91,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				break;
 			case 'PFL_DIR_VAC_TTHH':
 				//echo "ES DE TALENTO HUMANO";
-				$estadoCronogramaVacacion = "EnviadoTthh";
+				$estadoCronogramaVacacion = "('EnviadoTthh', 'ReprogramadoTthh')";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 				$this->perfilUsuarioDirector = $perfilUsuario;
@@ -303,13 +303,13 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				break;
 			case 'PFL_DIR_VAC_TTHH':
 				//echo "ES DE TALENTO HUMANO";
-				$estadoCronogramaVacacion = "EnviadoTthh";
+				$estadoCronogramaVacacion = "('EnviadoTthh', 'ReplanificadoTthh')";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 				break;
 			case 'PFL_DE_PROG_VAC':
-				//echo "ES DIRECTOR EJECUTIVO";
-				$estadoCronogramaVacacion = "EnviadoDe";
+				//echo " DIRECTOR EJECUTIVO";
+				$estadoCronogramaVacacion = "('EnviadoDe')";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 			break;
@@ -356,7 +356,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		switch ($perfilUsuario) {
 
 			case 'PFL_DIR_VAC_TTHH':
-				$estadoCronogramaVacacion = "Aprobado";
+				$estadoCronogramaVacacion = "('Aprobado')";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 			break;
@@ -572,7 +572,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	//  */
 	public function validarPlanificacionPeriodo(){
 
-		$estadoCronogramaVacacion = "Aprobado";
+		$estadoCronogramaVacacion = "('Aprobado')";
 		$arrayParametros = ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 
 		$arrayParametros += [
@@ -700,6 +700,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 		$idCronogramaVacacion = $arrayParametros['id_cronograma_vacacion'];
 		$datosPlanificarPeriodos = "";
+		$banderaMostrarBotonGuardar = false;
 		
 		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_reprogramacion' => null];
 
@@ -727,7 +728,13 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			$totalDias = $totalDias + $item->total_dias;
 			
 			$estadoPeriodo = $item['estado_registro'];
+			$estadoReprogramacion = $item['estado_reprogramacion'];
 			$propiedadPeriodo = "";
+
+			//Valida si existe almenos un registro en estado_periodo -> activo y estado-reprogramacion -> null y permite guardar el registro
+			if($estadoPeriodo == 'Activo' && !isset($estadoReprogramacion)){
+				$banderaMostrarBotonGuardar = true;
+			}
 
 			($estadoPeriodo == "Cerrado") ? $propiedadPeriodo = ' disabled="disabled" checked' : $propiedadPeriodo = ' class="activo"';
 
@@ -747,10 +754,13 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 									</td>
 									</tbody>
 									</table>
-									</fieldset>									
-									<div data-linea="9">
+									</fieldset>';
+									
+		if ($banderaMostrarBotonGuardar){								
+			$datosPlanificarPeriodos .= '<div data-linea="9">
 										<button type="submit" class="guardar">Guardar</button>
-									</div>';
+										</div>'; 
+		}
 
 		return $datosPlanificarPeriodos;
 	}
