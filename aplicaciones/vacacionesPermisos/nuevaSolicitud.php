@@ -542,8 +542,8 @@ $("#fechaRetorno").datepicker({
 	        	$("#subTipoSolicitud").html("");
 	        }
     	}else if($("#subTipoSolicitud option:selected").attr('data-codigo') == "PE-PIV" || $("#subTipoSolicitud option:selected").attr('data-codigo')=="PE-PIVF"){
-	    	if(diferencia >= 15){
-	        	alert("Por favor seleccione una licencia de Vacaciones para solicitudes a partir de 15 días.");
+	    	if(diferencia >= 7){
+	        	alert("Por favor seleccione una licencia de Vacaciones para solicitudes a partir de 7 días.");
 	        	cargarValorDefecto("tipoSolicitud","");
 	        	$("#subTipoSolicitud").html("");
 	        }
