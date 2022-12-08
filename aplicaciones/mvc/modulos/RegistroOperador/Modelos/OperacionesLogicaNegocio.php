@@ -23,7 +23,7 @@ use Agrodb\RegistroOperador\Modelos\VehiculoTransporteAnimalesExpiradoModelo;
 
 use Agrodb\Catalogos\Modelos\TiposOperacionLogicaNegocio;
 use Agrodb\Catalogos\Modelos\TiposOperacionModelo;
-
+use Agrodb\CertificacionBPA\Modelos\SolicitudesLogicaNegocio;
 use Agrodb\Core\Excepciones\BuscarExcepcion;
 use Agrodb\Token\Modelos\TokenLogicaNegocio;
 use Agrodb\Core\Excepciones\GuardarExcepcion;
@@ -35,11 +35,14 @@ class OperacionesLogicaNegocio implements IModelo
 
     private $lNegocioAsignacionInspector = null;
     
-    private $modeloDatosVehiculoTransporteAnimales = null;    
+ 
     private $lNegocioDatosVehiculoTransporteAnimales = null;
     
-    private $modeloVehiculoTransporteAnimalesExprirado = null;    
+   
     private $lNegocioVehiculoTransporteAnimalesExpirado = null;
+
+
+    private $lNegocioSolicitudes = null;
     
     private $lNegocioTiposOperacion = null;    
     private $modeloTiposOperacion = null;
@@ -58,11 +61,14 @@ class OperacionesLogicaNegocio implements IModelo
         $this->lNegocioTiposOperacion = new TiposOperacionLogicaNegocio();
         $this->modeloTiposOperacion = new TiposOperacionModelo();
         
-        $this->lNegocioDatosVehiculoTransporteAnimales = new DatosVehiculoTransporteAnimalesLogicaNegocio();
+
         $this->modeloVehiculoTransporteAnimales = new DatosVehiculoTransporteAnimalesModelo();
         
-        $this->modeloVehiculoTransporteAnimalesExprirado = new VehiculoTransporteAnimalesExpiradoModelo();
+
         $this->lNegocioVehiculoTransporteAnimalesExpirado = new VehiculoTransporteAnimalesExpiradoLogicaNegocio();
+
+
+        $this->lNegocioSolicitudes = new SolicitudesLogicaNegocio();
 
         $this->lNegocioToken = new TokenLogicaNegocio();
     }
@@ -1327,30 +1333,14 @@ class OperacionesLogicaNegocio implements IModelo
 	        ->getDriver()
 	        ->getConnection();
 	        $procesoIngreso->beginTransaction();
-	    
-    	    $resultado = $resultadoInspeccion['estado'];
-    	    $fechaActual = date("Y-m-d h:m:s");
-    	    $actualizacionFechas = true;	    
-    	    $arrayResultados = array('noHabilitado','subsanacion', 'subsanacionRepresentanteTecnico','subsanacionProducto');//Verificar si existe subsanacion
-    	    	    
-    	    if (!in_array($resultado, $arrayResultados)) {
-    	        
-    	        if($resultado == 'registrado'){
-    	            //TODO:VERIFICAR LAS VIGENCIAS QUE VIENEN
-    	            
-    	            $idVigenciaDeclarada = null;
-    	        }else{
-    	            $idVigenciaDeclarada = $resultado;
-    	            $resultado = 'registrado';
-    	        }
-    	    }
-    	             
-			$tipoSolicitud = "";
 
-    	    $modulosAgregados = "";
+			$resultado = $resultadoInspeccion['estado'];
+			$tipoSolicitud = $resultadoInspeccion['tipo_solicitud'];
+			$idOperacion = $resultadoInspeccion['id_operacion'];
+    	    $fechaActual = date("Y-m-d h:m:s");
+
+			$modulosAgregados = "";
     	    $perfilesAgregados = "";
-    	    
-    	    $idOperacion = $resultadoInspeccion['id_operacion'];
     	    
     	    $qOperacion = $this->buscar($idOperacion);
     	    $idOperadorTipoOperacion = $qOperacion->getIdOperadorTipoOperacion();
@@ -1362,245 +1352,322 @@ class OperacionesLogicaNegocio implements IModelo
     	    
     	    $qHistorialOperacion = $this->obtenerMaximoIdentificadorHistoricoOperacion($idOperadorTipoOperacion);
     	    $idHistorialOperacion = $qHistorialOperacion->current()->id_historial_operacion;
-    	    
-    	    
-    	    if($resultado == 'registrado'){      
-    	       
-    	        $idflujoOperacion = $this->obtenerIdFlujoXOperacion($idOperacion);
-    	        $idFlujoActual = $this->obtenerEstadoActualFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, 'inspeccion');
-				if($idFlujoActual->count()){
-					$estado = $this->obtenerEstadoFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, $idFlujoActual->current()->predecesor);
-					
-					if($qOperacion->getModuloProvee() == 'moduloExterno' && $estado->current()->estado == 'cargarProducto'){
-						$estado = $this->obtenerEstadoFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, $idFlujoActual->current()->predecesor + 1);
+
+			switch ($tipoSolicitud){
+				case 'Operadores' :{
+					$actualizacionFechas = true;	    
+					$arrayResultados = array('noHabilitado','subsanacion', 'subsanacionRepresentanteTecnico','subsanacionProducto');//Verificar si existe subsanacion
+							
+					if (!in_array($resultado, $arrayResultados)) {
+						
+						if($resultado == 'registrado'){
+							//TODO:VERIFICAR LAS VIGENCIAS QUE VIENEN
+							
+							$idVigenciaDeclarada = null;
+						}else{
+							$idVigenciaDeclarada = $resultado;
+							$resultado = 'registrado';
+						}
 					}
-				}else{
-					$estado = $this->obtenerEstadoActualFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, 'registrado');
+
+					if($resultado == 'registrado'){      
+    	       
+						$idflujoOperacion = $this->obtenerIdFlujoXOperacion($idOperacion);
+						$idFlujoActual = $this->obtenerEstadoActualFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, 'inspeccion');
+						if($idFlujoActual->count()){
+							$estado = $this->obtenerEstadoFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, $idFlujoActual->current()->predecesor);
+							
+							if($qOperacion->getModuloProvee() == 'moduloExterno' && $estado->current()->estado == 'cargarProducto'){
+								$estado = $this->obtenerEstadoFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, $idFlujoActual->current()->predecesor + 1);
+							}
+						}else{
+							$estado = $this->obtenerEstadoActualFlujoOperacion($idflujoOperacion->current()->id_flujo_operacion, 'registrado');
+							
+						}
+									
+						$idVigenciaDocumento = null;
+						
+						if($qOperacion->getProcesoModificacion() != 't'){
+							
+							$valorVigencia = null;
+							$tipoTiempoVigencia = null;
+							if($idVigenciaDeclarada != null){
+								$qVigenciaDeclarada = $this->obtenerVigenciaDeclaradaPorIdVigenciaDeclarada($idVigenciaDeclarada);
+								$valorVigencia = $qVigenciaDeclarada->current()->valor_tiempo_vigencia_declarada;
+								$idVigenciaDocumento = $qVigenciaDeclarada->current()->id_vigencia_documento;
+								$tipoTiempoVigenciaDocumento = $qVigenciaDeclarada->current()->tipo_tiempo_vigencia_declarada;
+								$tipoTiempoVigencia = $this->transformarvalorTipoVigencia($tipoTiempoVigenciaDocumento);
+							}
+							
+							$arrayVerificarOperaciones = array('identificador_operador' => $identificadorOperador
+																, 'id_tipo_operacion' => $idTipoOperacion
+																, 'id_area' => $idArea
+																, 'estado' => 'porCaducar'
+																, 'id_vigencia_documento' => $idVigenciaDocumento
+																);
+							
+							$qExistenciaOperacion = $this->verificarExistenciaOperaciones($arrayVerificarOperaciones);
+							
+							$arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
+													, 'id_historial_operacion' => $idHistorialOperacion
+													, 'valor_vigencia' => $valorVigencia
+													, 'tipo_tiempo_vigencia' => $tipoTiempoVigencia
+													, 'id_vigencia_documento' => $idVigenciaDocumento	               
+													);
+												
+							if(!isset($qExistenciaOperacion->current->id_operacion)){
+								$this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametros);
+								if($idVigenciaDocumento != null){
+									$this->actualizarFechaFinalizacionOperaciones($arrayParametros);
+								}
+								
+							}else{
+								
+								$arrayParametrosOperacionExistente = array('id_operador_tipo_operacion' => $qExistenciaOperacion->current()->id_operador_tipo_operacion
+																			, 'id_historial_operacion' => $qExistenciaOperacion->current()->id_historial_operacion
+																			, 'id_vigencia_documento' => $idVigenciaDocumento
+																			, 'valor_vigencia' => $valorVigencia
+																			, 'tipo_tiempo_vigencia' => $tipoTiempoVigencia
+																			, 'id_vigencia_documento' => $idVigenciaDocumento
+																			);
+								
+								$this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametrosOperacionExistente);
+								if($idVigenciaDocumento != null){
+									$this->actualizarFechaFinalizacionOperaciones($arrayParametrosOperacionExistente);
+								}
+								
+								$arrayParametrosOperacionActualizar = array('id_operador_tipo_operacion' => $qExistenciaOperacion->current()->id_operador_tipo_operacion
+																		   , 'id_historial_operacion' => $qExistenciaOperacion->current()->id_historial_operacion
+																		   , 'estado' => 'noHabilitado'
+																		   , 'observacion' => 'Cambio de estado no habilitado por registro de nueva operación ' . $fechaActual
+																		   , 'id_vigencia_documento' => $idVigenciaDocumento
+																		   );
+								
+								$this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
+								$this->cambiarEstadoAreaOperacionPorPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
+								$this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametrosOperacionActualizar);
+							
+							}
+							
+						}else{
+							
+							$actualizacionFechas = false;
+							
+						}
+						
+						$qcodigoTipoOperacion = $this->obtenerCodigoTipoOperacion($idOperacion);
+						$codigoArea = $qcodigoTipoOperacion->current()->codigo;
+						$idArea = $qcodigoTipoOperacion->current()->id_area;
+					  
+						switch ($estado->current()->estado){
+						
+							case 'registrado':
+								
+								$arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
+																			, 'id_historial_operacion' => $idHistorialOperacion
+																			, 'estado' => $estado->current()->estado
+																			, 'observacion' => 'Solicitud aprobada ' . $fechaActual
+																			, 'id_vigencia_documento' => $idVigenciaDocumento
+																			, 'actualizar_certificado' => 'SI'
+																			, 'proceso_modificacion' => ''
+																			);
+								
+								$this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametros);
+								
+								if($actualizacionFechas){
+									$this->actualizarFechaAprobacionOperaciones($arrayParametros);
+								}else{
+									$this->actualizarFechaAprobacionOperacionesProcesoModificacion($arrayParametros);
+								}
+								$this->cambiarEstadoAreaOperacionPorPorOperadorTipoOperacionHistorial($arrayParametros);
+								$this->actualizarProcesoActualizacionOperacion($arrayParametros);
+								
+										switch ($idArea){
+									
+											case 'AI':
+												
+												switch ($codigoArea){
+													
+													case 'MDT':
+													case 'ACO':
+													
+														$modulosAgregados .= "('PRG_AUM_CAP_INST'),('PRG_DOSSIER_PEC'),";
+														$perfilesAgregados .= "('PFL_AUM_CAP_INST'),";
+														  
+														$this->cambiarEstadoActualizarCertificado($arrayParametros);
+														
+													break;
+																										   
+												}
+											   
+											break;
+												
+										}
+								  
+							 
+								
+							break;
+							
+						}
+						
+						$this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametros);
+						
+						
+					}else{
+						$idVigenciaDocumento = '';
+						   
+						$qHistorialOperacion = $this->obtenerMaximoIdentificadorHistoricoOperacion($idOperadorTipoOperacion);
+						$idHistorialOperacion = $qHistorialOperacion->current()->id_historial_operacion;
+						
+						$arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
+							, 'id_historial_operacion' => $idHistorialOperacion, 'id_vigencia_documento' => $idVigenciaDocumento
+							
+						);
+						
+						$this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametros);
+		
+						$arrayParametrosOperacionActualizar = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
+							, 'id_historial_operacion' => $idHistorialOperacion
+							, 'estado' => $resultado
+							, 'observacion' => $resultadoInspeccion['observacion_revision']
+							, 'id_vigencia_documento' => ''
+						);
+						
+						$this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
+			
+						$this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametrosOperacionActualizar);
+		
+					}
+					   
+
 					
 				}
-    	        	        
-    	        $idVigenciaDocumento = null;
-    	        
-    	        if($qOperacion->getProcesoModificacion() != 't'){
-    	            
-    	            $valorVigencia = null;
-    	            $tipoTiempoVigencia = null;
-    	            if($idVigenciaDeclarada != null){
-    	                $qVigenciaDeclarada = $this->obtenerVigenciaDeclaradaPorIdVigenciaDeclarada($idVigenciaDeclarada);
-    	                $valorVigencia = $qVigenciaDeclarada->current()->valor_tiempo_vigencia_declarada;
-    	                $idVigenciaDocumento = $qVigenciaDeclarada->current()->id_vigencia_documento;
-    	                $tipoTiempoVigenciaDocumento = $qVigenciaDeclarada->current()->tipo_tiempo_vigencia_declarada;
-    	                $tipoTiempoVigencia = $this->transformarvalorTipoVigencia($tipoTiempoVigenciaDocumento);
-    	            }
-    	            
-    	            $arrayVerificarOperaciones = array('identificador_operador' => $identificadorOperador
-    	                                                , 'id_tipo_operacion' => $idTipoOperacion
-    	                                                , 'id_area' => $idArea
-                                                        , 'estado' => 'porCaducar'
-                                                        , 'id_vigencia_documento' => $idVigenciaDocumento
-                                                        );
-    	            
-    	            $qExistenciaOperacion = $this->verificarExistenciaOperaciones($arrayVerificarOperaciones);
-    	            
-    	            $arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
-                                            , 'id_historial_operacion' => $idHistorialOperacion
-                                            , 'valor_vigencia' => $valorVigencia
-                                            , 'tipo_tiempo_vigencia' => $tipoTiempoVigencia
-                                            , 'id_vigencia_documento' => $idVigenciaDocumento	               
-                                            );
-                        	            
-    	            if(!isset($qExistenciaOperacion->current->id_operacion)){
-    	                $this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametros);
-    	                if($idVigenciaDocumento != null){
-    	                    $this->actualizarFechaFinalizacionOperaciones($arrayParametros);
-    	                }
-    	                
-    	            }else{
-    	                
-    	                $arrayParametrosOperacionExistente = array('id_operador_tipo_operacion' => $qExistenciaOperacion->current()->id_operador_tipo_operacion
-                                                                    , 'id_historial_operacion' => $qExistenciaOperacion->current()->id_historial_operacion
-                                                                    , 'id_vigencia_documento' => $idVigenciaDocumento
-                                            	                    , 'valor_vigencia' => $valorVigencia
-                                            	                    , 'tipo_tiempo_vigencia' => $tipoTiempoVigencia
-                                            	                    , 'id_vigencia_documento' => $idVigenciaDocumento
-                                                                    );
-    	                
-    	                $this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametrosOperacionExistente);
-    	                if($idVigenciaDocumento != null){
-    	                    $this->actualizarFechaFinalizacionOperaciones($arrayParametrosOperacionExistente);
-    	                }
-    	                
-    	                $arrayParametrosOperacionActualizar = array('id_operador_tipo_operacion' => $qExistenciaOperacion->current()->id_operador_tipo_operacion
-    	                                                           , 'id_historial_operacion' => $qExistenciaOperacion->current()->id_historial_operacion
-    	                                                           , 'estado' => 'noHabilitado'
-    	                                                           , 'observacion' => 'Cambio de estado no habilitado por registro de nueva operación ' . $fechaActual
-    	                                                           , 'id_vigencia_documento' => $idVigenciaDocumento
-    	                                                           );
-    	                
-    	                $this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
-    	                $this->cambiarEstadoAreaOperacionPorPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
-    	                $this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametrosOperacionActualizar);
-    	            
-    	            }
-    	            
-    	        }else{
-    	            
-    	            $actualizacionFechas = false;
-    	            
-    	        }
-    	        
-    	        $qcodigoTipoOperacion = $this->obtenerCodigoTipoOperacion($idOperacion);
-    	        $codigoArea = $qcodigoTipoOperacion->current()->codigo;
-    	        $idArea = $qcodigoTipoOperacion->current()->id_area;
-    	        
-    	        switch ($estado->current()->estado){
-    	        
-    	            case 'registrado':
-    	                
-    	                $arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
-                                                	                , 'id_historial_operacion' => $idHistorialOperacion
-                                                	                , 'estado' => $estado->current()->estado
-                                                	                , 'observacion' => 'Solicitud aprobada ' . $fechaActual
-                                                	                , 'id_vigencia_documento' => $idVigenciaDocumento
-                                                	                , 'actualizar_certificado' => 'SI'
-                                                	                , 'proceso_modificacion' => ''
-                                                	                );
-    	                
-    	                $this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametros);
-    	                
-    	                if($actualizacionFechas){
-    	                    $this->actualizarFechaAprobacionOperaciones($arrayParametros);
-    	                }else{
-    	                    $this->actualizarFechaAprobacionOperacionesProcesoModificacion($arrayParametros);
-    	                }
-    	                $this->cambiarEstadoAreaOperacionPorPorOperadorTipoOperacionHistorial($arrayParametros);
-    	                $this->actualizarProcesoActualizacionOperacion($arrayParametros);
-    	                          
-            	        switch ($idArea){
-            	            
-            	            case 'AI':
-            	                
-            	                switch ($codigoArea){
-            	                    
-            	                    case 'MDT':
-            	                    case 'ACO':
-            	                        $tipoSolicitud = "Operadores";
-            	                        $modulosAgregados .= "('PRG_AUM_CAP_INST'),('PRG_DOSSIER_PEC'),";
-            	                        $perfilesAgregados .= "('PFL_AUM_CAP_INST'),";
-            	                          
-            	                        $this->cambiarEstadoActualizarCertificado($arrayParametros);
-            	                        
-            	                    break;
-									case 'PRO':
-            	                        $tipoSolicitud = "certificacionBPA";
-            	                        
-            	                    break;
-            	                             	                              	                    
-            	                }
-            	               
-            	            break;
-            	                
-            	        }
-            	        
-            	    break;
-        	        
-    	        }
-    	        
-    	        $this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametros);
-    	        /*
-    	        if(strlen($modulosAgregados) == 0){
-    	            $modulosAgregados = "''";
-    	        }
-    	        
-    	        if(strlen($perfilesAgregados) == 0){
-    	            $perfilesAgregados = "''";
-    	        }
-    	        
-    	        $arrayParametrosAplicacion = array('codificacion_aplicacion' => '(' . rtrim($modulosAgregados, ',') . ')');
-    	            	        
-    	        $qGrupoAplicacion = $this->lNegocioAplicaciones->obtenerGrupoAplicacion($arrayParametrosAplicacion);
-    	        
-	            foreach ($qGrupoAplicacion as $grupoAplicacion) {
-	               
-	                $arrayParametrosAplicacionRegistrada = array('identificador' => $identificadorOperador, 'id_aplicacion' => $grupoAplicacion['id_aplicacion']);
-	                
-	                //$qAplicacionRegistrada = $this->lNegocioAplicacionesRegistradas->buscarLista($arrayParametrosAplicacionRegistrada);
-	                	 
-	                $qAplicacionRegistrada = true;
-	                
-	                if(isset($qAplicacionRegistrada)){
-	                    
-	                    $arrayParametrosRegistrarAplicacion = array('identificador' => $identificadorOperador, 'id_aplicacion' => $grupoAplicacion['id_aplicacion']);
-	                    
-	                    $statement = $this->modeloOperaciones->getAdapter()->getDriver()->createStatement();
-	                    $sqlInsertar = $this->modeloOperaciones->guardarSql('aplicaciones', $this->modeloAplicacionesRegistradas->getEsquema());
-	                    $sqlInsertar->columns($this->modeloAplicacionesRegistradas->getColumns());
-	                    $sqlInsertar->values($arrayParametrosRegistrarAplicacion, $sqlInsertar::VALUES_MERGE);
-	                    $sqlInsertar->prepareStatement($this->modeloOperaciones->getAdapter(), $statement);
-	                    $statement->execute();
-	                    
-	                    
-	                    //$qAplicacionVacunacion=$cgap->guardarGestionAplicacion($conexion, $idOperador,$filaAplicacion['codificacion_aplicacion']);
-	                    //$qGrupoPerfiles=$cgap->obtenerGrupoPerfilXAplicacion($conexion, $filaAplicacion['id_aplicacion'], '('.rtrim($perfilesAgregados,',').')' );
-	                    //while($filaPerfil=pg_fetch_assoc($qGrupoPerfiles)){
-	                    //    $cgap->guardarGestionPerfil($conexion, $idOperador,$filaPerfil['codificacion_perfil']);
-	                    //}
-	                    
-	                }else{
-	                    
-	                    
-	                }
-	                
-	            }*/
-    	        
-    	        
-    	        /*
-    	        $qGrupoAplicacion=$cgap->obtenerGrupoAplicacion($conexion,'('.rtrim($modulosAgregados,',').')' );
-    	        if(pg_num_rows($qGrupoAplicacion)>0){
-    	            
-    	            while($filaAplicacion=pg_fetch_assoc($qGrupoAplicacion)){
-    	                if(pg_num_rows($ca->obtenerAplicacionPerfil($conexion, $filaAplicacion['id_aplicacion'] , $idOperador))==0){
-    	                    $qAplicacionVacunacion=$cgap->guardarGestionAplicacion($conexion, $idOperador,$filaAplicacion['codificacion_aplicacion']);
-    	                    $qGrupoPerfiles=$cgap->obtenerGrupoPerfilXAplicacion($conexion, $filaAplicacion['id_aplicacion'], '('.rtrim($perfilesAgregados,',').')' );
-    	                    while($filaPerfil=pg_fetch_assoc($qGrupoPerfiles)){
-    	                        $cgap->guardarGestionPerfil($conexion, $idOperador,$filaPerfil['codificacion_perfil']);
-    	                    }
-    	                }else{
-    	                    $qGrupoPerfiles=$cgap->obtenerGrupoPerfilXAplicacion($conexion, $filaAplicacion['id_aplicacion'], '('.rtrim($perfilesAgregados,',').')' );
-    	                    while($filaPerfil=pg_fetch_assoc($qGrupoPerfiles)){
-    	                        $qPerfil = $cu-> obtenerPerfilUsuario($conexion, $filaPerfil['id_perfil'], $idOperador);
-    	                        if (pg_num_rows($qPerfil) == 0)
-    	                            $cgap->guardarGestionPerfil($conexion, $idOperador,$filaPerfil['codificacion_perfil']);
-    	                    }
-    	                }
-    	            }
-    	        }*/
-    	        
-    	    }else{
-    	        $idVigenciaDocumento = '';
-    	           
-    	        $qHistorialOperacion = $this->obtenerMaximoIdentificadorHistoricoOperacion($idOperadorTipoOperacion);
-    	        $idHistorialOperacion = $qHistorialOperacion->current()->id_historial_operacion;
-    	        
-    	        $arrayParametros = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
-    	            , 'id_historial_operacion' => $idHistorialOperacion, 'id_vigencia_documento' => $idVigenciaDocumento
-    	            
-    	        );
-    	        
-    	        $this->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($arrayParametros);
+				break;
+				case 'CertificacionBPA' :{
+					if($resultado == 'Aprobado'){				
+						
+						$qSolicitud = $this->lNegocioSolicitudes->buscar($idSolicitud);
+						$qOperacion->getIdOperadorTipoOperacion();
+						$tipoExplotacion = $qSolicitud->getTipoExplotacion();
+						$identificador = $qSolicitud->getIdentificadorOperador();
+						
+						$solicitudBPA = THIS lNegocioSolicitudes $ccb->abrirSolicitud($conexion, $idSolicitud);
+						
+						$fechaAuditoriaReal = pg_fetch_result($solicitudBPA, 0, 'fecha_auditoria');
+						$fechaAuditoriaComplementaria = pg_fetch_result($solicitudBPA, 0, 'fecha_auditoria_complementaria');
+						
+						if($fechaAuditoriaComplementaria != null){
+							$fechaAuditoria = $fechaAuditoriaComplementaria;
+						}else{
+							$fechaAuditoria = $fechaAuditoriaReal;
+						}
+						
+						//Cambiar de estado a los sitios de la solicitud
+						$ccb->actualizarEstadoSitiosSolicitud($conexion, $idSolicitud, $resultado);
+						
+						//poner las fechas de aprobacion de inicio y fin (3 años)
+						$ccb->generarFechasVigencia($conexion, $idSolicitud, $_POST['tipo_solicitud'], $fechaAuditoria);
+						
+						//crear el numero de certificado y guardar en el registro (crear funcion de numero certificado y de actualizar en registro
+						$certificado = '';
+						
+						
+						
+						
+						switch($tipoExplotacion){
+							case 'SA':
+								$area= 'PP';
+								break;
+							case 'SV':
+								$area= 'PA';
+								break;
+							case 'AI':
+								$area= 'PO';
+								break;
+						}
+						
+						//verificar la provincia del tecnico y buscar en localizacion el nombre de la provincia y ubicar el numero de zona
+						//aumentar a dos digitos con ceros
+						$localizacion = pg_fetch_result($cc->obtenerZonaLocalizacion($conexion, $_SESSION['idProvincia'], 1), 0, 'zona');
+						$codigoLocalizacion = str_pad($localizacion, 2, "0", STR_PAD_LEFT);
+						
+						//buscar la combinacion del codigo hasta antes de la provincia y ver el numero para crear un secuencial
+						$anio = date("Y");
+						$formato = 'AGRO-CBPA-'.$area.'-'.$identificador;//.$anio.'-'
+						$secuencial = $ccb->generarNumeroCertificado($conexion, $formato);
+						
+						//generarNumeroCertificado
+						//AGRO-CBPA-PO-2020-05-00001
+						//$certificado = $formato . $codigoLocalizacion . '-' . $secuencial;
+						$certificado = $formato;
+						
+						//guardar el código del certificado y el secuencial
+						$ccb->actualizarSecuencialCertificado($conexion, $idSolicitud, $secuencial, $certificado);
+						
+						//Creación de Certificado PDF
+						$jru = new ControladorReportes();
+						
+						//mandar las rutas al mvc para jrxml
+						$ReporteJasper= '/aplicaciones/mvc/modulos/CertificacionBPA/vistas/reportes/CertificadoNacional.jrxml';
+						$salidaReporte= '/aplicaciones/mvc/modulos/CertificacionBPA/archivos/certificados/bpa_'.$idSolicitud.'.pdf';
+						$rutaArchivo= 'aplicaciones/mvc/modulos/CertificacionBPA/archivos/certificados/bpa_'.$idSolicitud.'.pdf';
+						
+						$firmaResponsable = pg_fetch_assoc($cc->obtenerFirmasResponsablePorProvincia($conexion, $_SESSION['nombreProvincia'], 'AI'));
+						
+						$parameters['parametrosReporte'] = array(
+							'idSolicitud'=>(int)$idSolicitud,
+							'identificador'=>$firmaResponsable['identificador']
+						);
+						
+						$jru->generarReporteJasper($ReporteJasper,$parameters,$conexion,$salidaReporte,'CertificacionBPA');
+						$ccb->guardarRutaCertificado($conexion, $idSolicitud, $rutaArchivo);
+						
+						$rutaArchivo = $constg::RUTA_SERVIDOR_OPT . '/' . $constg::RUTA_APLICACION . '/' .$rutaArchivo;
+						
+						//Firma Electrónica
+						$parametrosFirma = array(
+							'archivo_entrada'=>$rutaArchivo,
+							'archivo_salida'=>$rutaArchivo,
+							'identificador'=>$firmaResponsable['identificador'],
+							'razon_documento'=>'Certificado BPA',
+							'tabla_origen'=>'g_certificacion_bpa.solicitudes',
+							'campo_origen'=>'ruta_certificado',
+							'id_origen'=>$idSolicitud,
+							'estado'=>'Por atender',
+							'proceso_firmado'=>'NO'
+						);
+						
+						//Guardar registro para firma
+						$cfd->ingresoFirmaDocumento($conexion, $parametrosFirma);
+					
+					}else if($resultado == 'Rechazado'){
+						//Cambiar de estado a los sitios de la solicitud
+						$ccb->actualizarEstadoSitiosSolicitud($conexion, $idSolicitud, $resultado);
+					}
 
-    	        $arrayParametrosOperacionActualizar = array('id_operador_tipo_operacion' => $idOperadorTipoOperacion
-    	            , 'id_historial_operacion' => $idHistorialOperacion
-    	            , 'estado' => $resultado
-    	            , 'observacion' => $resultadoInspeccion['observacion_revision']
-    	            , 'id_vigencia_documento' => ''
-    	        );
-    	        
-    	        $this->actualizarEstadoPorOperadorTipoOperacionHistorial($arrayParametrosOperacionActualizar);
-    
-    	        $this->actualizarEstadoTipoOperacionPorIndentificadorSitio($arrayParametrosOperacionActualizar);
+				}
+				break;
+			}
 
-    	    }
+
+
+
+
+
+
+
+
+
+
+	    
+    	   
+    	         
+		
+
+  
+    	    
+    	    
+    	   
     	
     	    // Construye el array para el registro de informacion en tablas de revision de solicitudes
     	    $arrayDatosRevisor = array(
@@ -1985,4 +2052,8 @@ class OperacionesLogicaNegocio implements IModelo
 	    return $this->modeloOperaciones->ejecutarSqlNativo($consulta);
 	
 	}
+
+
+
+	
 }

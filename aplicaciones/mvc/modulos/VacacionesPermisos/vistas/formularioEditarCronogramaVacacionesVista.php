@@ -74,11 +74,11 @@
 						changeYear: false,
 						dateFormat: 'yy-mm-dd',
 						maxDate: 0,
-						minDate: new Date(anioPlanificacion + '-01-01'),
+						minDate: new Date(anioPlanificacion + '-01-31'),
 					});
 
 					$(".piFechaInicio").datepicker({
-						yearRange: "+0:+0",
+						yearRange: "+0:+1",
 						changeMonth: true,
 						changeYear: false,
 						dateFormat: 'yy-mm-dd',
@@ -200,11 +200,11 @@
 						changeYear: false,
 						dateFormat: 'yy-mm-dd',
 						maxDate: 0,
-						minDate: new Date(anioPlanificacion + '-01-01'),
+						minDate: new Date(anioPlanificacion + '-01-31'),
 					});
 
 					$(".piFechaInicio").datepicker({
-						yearRange: "+0:+0",
+						yearRange: "+0:+1",
 						changeMonth: true,
 						changeYear: false,
 						dateFormat: 'yy-mm-dd',

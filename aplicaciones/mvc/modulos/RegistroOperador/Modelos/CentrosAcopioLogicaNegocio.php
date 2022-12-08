@@ -227,6 +227,7 @@ class CentrosAcopioLogicaNegocio implements IModelo
 							$statement->execute();
 						}
 						$arrayResultadoInspeccion['id_operacion'] = $arrayResultadoInspeccion['id_solicitud'];
+						$arrayResultadoInspeccion['tipo_solicitud'] = "Operadores";
 						$this->lNegocioOperaciones->guardarResultadoInspeccion($arrayResultadoInspeccion);
 
 						//TODO: Hacer que se actualicen el estado de las operaciones por id_operador_tipo_operacion
