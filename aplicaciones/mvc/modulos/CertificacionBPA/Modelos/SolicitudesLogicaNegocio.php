@@ -226,7 +226,7 @@ class SolicitudesLogicaNegocio implements IModelo
                     ->getDriver()
                     ->getConnection();
                 $procesoIngreso->beginTransaction();
-
+                
 
                 foreach ($arrayParametros['inspeccion'] as $value) {
 
@@ -260,13 +260,17 @@ class SolicitudesLogicaNegocio implements IModelo
                             ];
                         }
                     }
-
+                    
                     // Registra la fecha máxima en la que el usuario debe dar respuesta a la subsanación solicitada
+                    $estado = $arrayResultadoInspeccion['estado'];
+                    $idSolicitud  = $arrayResultadoInspeccion['id_solicitud'];
                     if ($arrayResultadoInspeccion['estado'] == 'subsanacion') {
                         $fechaMaxRespuesta = $this->sumaDiaSemana(date("Y-m-d"), 15);
                         $arrayResultadoInspeccion += [
                             'fecha_max_respuesta' => $fechaMaxRespuesta
                         ];
+                    }else{
+                        $this->actualizarEstadoSitiosSolicitud($idSolicitud,$estado);
                     }
 
                     //                 // Realiza la actualizacion de los campos de la tabla de solicitud
@@ -275,7 +279,7 @@ class SolicitudesLogicaNegocio implements IModelo
                     if ($idDatoInspeccionMovil) {
 
                         //Actualiza los resumenes de inspecciones anteriores
-                        $this->lNegocioBpaf01Logica->actualizarEstadoInspeccionBpaPorIdSolicitud($arrayResultadoInspeccion['id_solicitud']);
+                        $this->lNegocioBpaf01Logica->actualizarEstadoInspeccionBpaPorIdSolicitud($idSolicitud);
 
                         foreach ($value->checklist_resumen as $resumenChecklistLlave => $resumenChecklistValor) {
 
@@ -302,6 +306,7 @@ class SolicitudesLogicaNegocio implements IModelo
 
                         foreach ($solicitudes as $fila) {
                             $arrayResultadoInspeccion['id_operacion'] = $fila['id_operacion'];
+                            $arrayResultadoInspeccion['tipo_solicitud'] = "certificacionBPA";
                             $this->lNegocioOperaciones->guardarResultadoInspeccion($arrayResultadoInspeccion);
                         }
 
@@ -460,5 +465,19 @@ class SolicitudesLogicaNegocio implements IModelo
                         group by id_solicitud, id_operador_tipo_operacion;";
 
         return $this->modeloSolicitudes->ejecutarSqlNativo($consulta);
+    }
+
+
+    public function actualizarEstadoSitiosSolicitud($idSolicitud, $estado){
+        
+        $consulta = "UPDATE
+                        g_certificacion_bpa.sitios_areas_productos
+                    SET
+                        estado = '$estado'
+                    WHERE
+                        id_solicitud = $idSolicitud;";
+        
+        return $this->modeloSolicitudes->ejecutarSqlNativo($consulta);
+        
     }
 }

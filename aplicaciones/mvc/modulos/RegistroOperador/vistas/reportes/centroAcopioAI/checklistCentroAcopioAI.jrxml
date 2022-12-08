@@ -130,6 +130,7 @@ FROM (SELECT
 	, s.canton as canton_sitio
 	, s.parroquia as parroquia_sitio
 	, o.direccion
+	, ca.numero_proveedores
 	, COALESCE (o.telefono_uno, o.telefono_dos) as telefono
 	, o.correo
 	, a.nombre_area
@@ -307,6 +308,10 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="operadores"/>
 	</field>
+	<field name="numero_proveedores" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="numero_proveedores"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="centros_acopio"/>
+	</field>
 	<field name="telefono" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
 	</field>
@@ -340,9 +345,9 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="160" splitType="Stretch">
+		<band height="190" splitType="Stretch">
 			<textField>
-				<reportElement mode="Transparent" x="236" y="36" width="308" height="20" uuid="1ba06e8f-262a-44d7-b89e-c32a2779afc7">
+				<reportElement mode="Transparent" x="258" y="36" width="286" height="20" uuid="1ba06e8f-262a-44d7-b89e-c32a2779afc7">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -358,7 +363,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="50" y="36" width="138" height="20" uuid="88edd336-5eff-40be-ab4c-4ce1e1a0bbd2"/>
+				<reportElement mode="Transparent" x="50" y="36" width="160" height="20" uuid="88edd336-5eff-40be-ab4c-4ce1e1a0bbd2"/>
 				<box padding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -371,7 +376,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{identificador}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="50" y="56" width="138" height="17" uuid="0e3312f8-6836-4015-8ece-fb91b265c418">
+				<reportElement mode="Transparent" x="50" y="56" width="160" height="17" uuid="0e3312f8-6836-4015-8ece-fb91b265c418">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="4">
@@ -386,7 +391,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{provincia_sitio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="236" y="56" width="97" height="17" uuid="98a0f024-f1f5-4225-a939-aea9c0919e24">
+				<reportElement mode="Transparent" x="258" y="56" width="97" height="17" uuid="98a0f024-f1f5-4225-a939-aea9c0919e24">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="4">
@@ -401,7 +406,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{canton_sitio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="236" y="73" width="97" height="17" uuid="631ccb2f-bf5a-4f60-8305-ddb4b7342230"/>
+				<reportElement mode="Transparent" x="258" y="73" width="97" height="17" uuid="631ccb2f-bf5a-4f60-8305-ddb4b7342230"/>
 				<box padding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -414,7 +419,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="378" y="73" width="166" height="17" uuid="ac34d52c-5d07-42ca-906d-ce0d6c457535">
+				<reportElement mode="Transparent" x="400" y="73" width="144" height="17" uuid="ac34d52c-5d07-42ca-906d-ce0d6c457535">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="4">
@@ -429,7 +434,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{fecha_registro_tablet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="378" y="56" width="166" height="17" uuid="dba60311-f66d-4249-9341-f99e82694777">
+				<reportElement mode="Transparent" x="400" y="56" width="144" height="17" uuid="dba60311-f66d-4249-9341-f99e82694777">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="4">
@@ -444,7 +449,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="50" y="73" width="138" height="17" uuid="2ed5709a-7233-43e7-8cdb-bc9340cafd22"/>
+				<reportElement mode="Transparent" x="50" y="73" width="160" height="17" uuid="2ed5709a-7233-43e7-8cdb-bc9340cafd22"/>
 				<box padding="4">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -466,7 +471,7 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Identificación del operador:]]></text>
@@ -479,20 +484,20 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Provincia:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="188" y="56" width="48" height="17" backcolor="#B8D9F6" uuid="cae7188e-3cf8-449f-b8db-2e0eb2f66737"/>
+				<reportElement mode="Transparent" x="210" y="56" width="48" height="17" backcolor="#B8D9F6" uuid="cae7188e-3cf8-449f-b8db-2e0eb2f66737"/>
 				<box padding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cantón:]]></text>
@@ -505,13 +510,13 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Parroquia:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="188" y="36" width="48" height="20" backcolor="#B8D9F6" uuid="ba8565e7-3e3e-4360-8746-1280b58de0ed">
+				<reportElement mode="Transparent" x="210" y="36" width="48" height="20" backcolor="#B8D9F6" uuid="ba8565e7-3e3e-4360-8746-1280b58de0ed">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="2">
@@ -520,26 +525,26 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Razón social:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="188" y="73" width="48" height="17" backcolor="#B8D9F6" uuid="da6a29a5-94e9-4ea8-a906-c7bd4db0efe1"/>
+				<reportElement mode="Transparent" x="210" y="73" width="48" height="17" backcolor="#B8D9F6" uuid="da6a29a5-94e9-4ea8-a906-c7bd4db0efe1"/>
 				<box padding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="333" y="56" width="45" height="17" backcolor="#B8D9F6" uuid="38613468-38d4-4675-bfc9-1314bb4bfe43">
+				<reportElement mode="Transparent" x="355" y="56" width="45" height="17" backcolor="#B8D9F6" uuid="38613468-38d4-4675-bfc9-1314bb4bfe43">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="2">
@@ -548,13 +553,13 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[E-mail:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="333" y="73" width="45" height="17" backcolor="#B8D9F6" uuid="8c7873e4-fee9-44db-b6a3-1e90ffe7da1b">
+				<reportElement mode="Transparent" x="355" y="73" width="45" height="17" backcolor="#B8D9F6" uuid="8c7873e4-fee9-44db-b6a3-1e90ffe7da1b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -564,13 +569,13 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="ContainerHeight" mode="Transparent" x="2" y="90" width="48" height="20" backcolor="#B8D9F6" uuid="c74656af-6aeb-465c-a015-c5fbefef9bd4">
+				<reportElement stretchType="ContainerHeight" mode="Transparent" x="210" y="90" width="48" height="20" backcolor="#B8D9F6" uuid="c74656af-6aeb-465c-a015-c5fbefef9bd4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -580,13 +585,13 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Capacidad instalada:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="2" y="110" width="542" height="15" backcolor="#B8D9F6" uuid="1af0f02b-f3f4-4cde-9207-1194d6dbcab7">
+				<reportElement mode="Transparent" x="2" y="130" width="542" height="15" backcolor="#B8D9F6" uuid="1af0f02b-f3f4-4cde-9207-1194d6dbcab7">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="2">
@@ -595,13 +600,13 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Observaciones:]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Transparent" x="2" y="125" width="542" height="25" uuid="04bd825b-24b7-4e62-bdfa-2fd5921aae62">
+				<reportElement mode="Transparent" x="2" y="145" width="542" height="25" uuid="04bd825b-24b7-4e62-bdfa-2fd5921aae62">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="4">
@@ -616,8 +621,9 @@ WHERE
 				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="50" y="90" width="138" height="20" uuid="cde2fa86-bb58-4102-bc6f-2ea19340bba7">
+				<reportElement mode="Transparent" x="258" y="90" width="97" height="20" uuid="cde2fa86-bb58-4102-bc6f-2ea19340bba7">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="4">
 					<topPen lineWidth="1.0"/>
@@ -679,7 +685,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{id_centro_acopio}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="ElementGroupBottom" mode="Transparent" x="188" y="90" width="48" height="20" backcolor="#B8D9F6" uuid="743e0703-1207-4424-9ba4-622deccf6a66">
+				<reportElement stretchType="ElementGroupBottom" mode="Transparent" x="2" y="110" width="48" height="20" backcolor="#B8D9F6" uuid="743e0703-1207-4424-9ba4-622deccf6a66">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="1" leftPadding="2" bottomPadding="1" rightPadding="1">
@@ -688,13 +694,13 @@ WHERE
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Identificación del Inspector:]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Transparent" x="236" y="90" width="97" height="20" uuid="f8a4e278-c5e7-454e-b485-15f03c1efd61"/>
+				<reportElement mode="Transparent" x="50" y="110" width="160" height="20" uuid="f8a4e278-c5e7-454e-b485-15f03c1efd61"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -707,7 +713,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{identificador_auditor}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="ElementGroupBottom" mode="Transparent" x="333" y="90" width="45" height="20" backcolor="#B8D9F6" uuid="945885d1-98b4-404b-b128-9196e30866f1">
+				<reportElement stretchType="ElementGroupBottom" mode="Transparent" x="210" y="110" width="48" height="20" backcolor="#B8D9F6" uuid="945885d1-98b4-404b-b128-9196e30866f1">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -717,13 +723,13 @@ WHERE
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre del Inspector:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement mode="Transparent" x="378" y="90" width="166" height="20" isPrintWhenDetailOverflows="true" uuid="b6996c58-6162-43a4-a30b-2c387fdeee23"/>
+				<reportElement mode="Transparent" x="258" y="110" width="286" height="20" isPrintWhenDetailOverflows="true" uuid="b6996c58-6162-43a4-a30b-2c387fdeee23"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -752,6 +758,68 @@ WHERE
 				</reportElement>
 				<imageExpression><![CDATA[$P{rutaLogoAgro}]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement stretchType="ContainerHeight" mode="Transparent" x="2" y="90" width="48" height="20" backcolor="#B8D9F6" uuid="ebf1eacc-9018-4c75-9d82-aaa98b22af84">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ContainerHeight" mode="Transparent" x="355" y="90" width="45" height="20" backcolor="#B8D9F6" uuid="0a705d7d-8330-4b05-8788-7bb2c3a07cef">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de Proveedores:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="90" width="160" height="20" uuid="4d0a8cf0-7007-4f46-8baf-93150e5b65c5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="400" y="90" width="144" height="20" uuid="3ef50fcd-bb7a-4edd-9a54-2deba6987176">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_proveedores}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
