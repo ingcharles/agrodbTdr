@@ -187,7 +187,7 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 		$nombreFuncionarioInferior = $arrayParametros['nombre_funcionario'] != "" ? "'" . $arrayParametros['nombre_funcionario'] . "'" : "NULL";
 		$fechaInicio = $arrayParametros['fecha_inicio'] != "" ? "'" . $arrayParametros['fecha_inicio'] . "'" : "NULL";
 		$fechaFin = $arrayParametros['fecha_fin'] != "" ? "'" . $arrayParametros['fecha_fin'] . "'" : "NULL";
-		$estadoCronogramaVacacion = $arrayParametros['estado_cronograma_vacacion'];
+		$estadoCronogramaVacacion = " IN " . $arrayParametros['estado_cronograma_vacacion'];
 
 		$consulta = "SELECT
 							fe.identificador
@@ -203,7 +203,7 @@ class FichaEmpleadoLogicaNegocio implements IModelo{
 						INNER JOIN g_vacaciones.cronograma_vacaciones cv ON cv.identificador_funcionario = fe.identificador
 						WHERE
 							dc.estado = 1
-							and cv.estado_cronograma_vacacion = '" . $estadoCronogramaVacacion . "'
+							and cv.estado_cronograma_vacacion " . $estadoCronogramaVacacion . "
 							and ($identificadorFuncionarioInferior is NULL or usuario_creacion = $identificadorFuncionarioInferior)
 							and ($fechaInicio is NULL or fecha_creacion >= $fechaInicio)
 							and ($fechaFin is NULL or fecha_creacion <= $fechaFin)";
