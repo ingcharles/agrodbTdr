@@ -59,11 +59,11 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 
 		if ($verificarConfiguracionCronograma->count()) {
 
+			$this->configuracionCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
+		} else {
 			$anioConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
 
 			$this->configuracionCronogramaVacacion = $this->construirIngresoConfiguracionCronogramaVacaciones($anioConfiguracionCronogramaVacacion);
-		} else {
-			$this->configuracionCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
 		}
 		
 		require APP . 'VacacionesPermisos/vistas/formularioConfiguracionCronogramaVacacionesVista.php';
