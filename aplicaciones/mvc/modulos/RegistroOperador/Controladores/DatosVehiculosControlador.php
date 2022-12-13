@@ -132,11 +132,12 @@ class DatosVehiculosControlador extends BaseControlador
         foreach ($solicitudes as $fila) {
 
             // Se genera el archivo .pdf del checklist
-            $nombreArchivo = md5(rand() . $fila['id_dato_vehiculo']);
-            $rutaChecklist = $this->lNegocioDatosVehiculos->generarChecklistInspeccionMedioTransporte($fila['id_dato_vehiculo'], $nombreArchivo);
+            $idSolicitud = $fila['id_dato_vehiculo'];
+            $nombreArchivo = md5(rand() . $idSolicitud);
+            $rutaChecklist = $this->lNegocioDatosVehiculos->generarChecklistInspeccionMedioTransporte($idSolicitud, $nombreArchivo);
 
             $arrayActualizarRutaChecklist = array(
-                'id_dato_vehiculo' => $fila['id_dato_vehiculo'],
+                'id_dato_vehiculo' => $idSolicitud,
                 'estado_checklist' => $estadoChecklist
             );
 
@@ -152,6 +153,7 @@ class DatosVehiculosControlador extends BaseControlador
             
             if(isset($idInspeccion)){
                 $this->lNegocioInspeccion->guardar(array('id_inspeccion' => $idInspeccion, 'ruta_archivo' => $rutaChecklist));
+                $this->lNegocioDatosVehiculos->enviarCorreoInspeccionMdt($idSolicitud, $rutaChecklist, $fila['id_operador_tipo_operacion']);
             }
             echo 'Se generó el checklist del medio de transporte ' . $fila['id_dato_vehiculo'] . "\n";
         }

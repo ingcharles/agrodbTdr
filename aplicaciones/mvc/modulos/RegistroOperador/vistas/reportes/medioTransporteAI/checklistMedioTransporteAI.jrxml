@@ -138,9 +138,18 @@ FROM (SELECT
 	, o.correo
 	, a.nombre_area
 	, mdtf01.numero_bidones
-	,sum( (CASE WHEN mdtf01d.tanquero != '' THEN mdtf01d.tanquero ELSE mdtf01d.bidon END)::integer ) FILTER (WHERE CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END='Rojo') OVER( PARTITION BY CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END) suma_rojo,
-	sum( CASE WHEN mdtf01d.tanquero != '' THEN mdtf01d.tanquero ELSE mdtf01d.bidon END::integer ) FILTER (WHERE CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END='Amarillo') OVER( PARTITION BY CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END) suma_amarillo,
-	sum( CASE WHEN mdtf01d.tanquero != '' THEN mdtf01d.tanquero ELSE mdtf01d.bidon END::integer ) FILTER (WHERE CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END='Verde') OVER( PARTITION BY CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END) suma_verde
+	,sum( (CASE WHEN mdtf01d.tanquero != '' THEN mdtf01d.tanquero ELSE 
+		   --mdtf01d.bidon 
+		   (CASE WHEN mdtf01d.bidon = 'NA' THEN '0' ELSE mdtf01d.bidon END)
+		   END)::integer ) FILTER (WHERE CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END='Rojo') OVER( PARTITION BY CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END) suma_rojo,
+	sum( CASE WHEN mdtf01d.tanquero != '' THEN mdtf01d.tanquero ELSE 
+		--mdtf01d.bidon 
+		(CASE WHEN mdtf01d.bidon = 'NA' THEN '0' ELSE mdtf01d.bidon END)
+		END::integer ) FILTER (WHERE CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END='Amarillo') OVER( PARTITION BY CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END) suma_amarillo,
+	sum( CASE WHEN mdtf01d.tanquero != '' THEN mdtf01d.tanquero ELSE 
+		--mdtf01d.bidon 
+		(CASE WHEN mdtf01d.bidon = 'NA' THEN '0' ELSE mdtf01d.bidon END)
+		END::integer ) FILTER (WHERE CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END='Verde') OVER( PARTITION BY CASE WHEN mdtf01d.color_tanquero != '' THEN mdtf01d.color_tanquero ELSE mdtf01d.color_bidon END) suma_verde
 	
 FROM 
 	f_inspeccion.mdtf01_detalle mdtf01d

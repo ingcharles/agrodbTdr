@@ -28,6 +28,8 @@ use Agrodb\Core\Excepciones\GuardarExcepcion;
 use Agrodb\Core\Excepciones\GuardarExcepcionConDatos;
 use Agrodb\Core\Excepciones\BuscarExcepcion;
 use Agrodb\Core\JasperReport;
+use Agrodb\Correos\Modelos\CorreosLogicaNegocio;
+use Agrodb\Core\Constantes;
 use Exception;
 
 class SolicitudesLogicaNegocio implements IModelo
@@ -39,6 +41,7 @@ class SolicitudesLogicaNegocio implements IModelo
     private $lNegocioBpaf01Logica = null;
     private $lNegocioAsignacionInspector = null;
     private $lNegocioOperaciones = null;
+    private $lNegocioCorreos = null;
 
     /* Constructor
      *
@@ -52,7 +55,7 @@ class SolicitudesLogicaNegocio implements IModelo
         $this->lNegocioBpaf01Logica = new Bpaf01LogicaNegocio();
         $this->lNegocioAsignacionInspector = new AsignacionInspectorLogicaNegocio();
         $this->lNegocioOperaciones = new OperacionesLogicaNegocio();
-
+        $this->lNegocioCorreos = new CorreosLogicaNegocio();
         $this->rutaFecha = date('Y') . '/' . date('m') . '/' . date('d');
     }
 
@@ -226,7 +229,7 @@ class SolicitudesLogicaNegocio implements IModelo
                     ->getDriver()
                     ->getConnection();
                 $procesoIngreso->beginTransaction();
-                
+
 
                 foreach ($arrayParametros['inspeccion'] as $value) {
 
@@ -260,22 +263,21 @@ class SolicitudesLogicaNegocio implements IModelo
                             ];
                         }
                     }
-                    
+
                     // Registra la fecha máxima en la que el usuario debe dar respuesta a la subsanación solicitada
                     $estado = $arrayResultadoInspeccion['estado'];
                     $idSolicitud  = $arrayResultadoInspeccion['id_solicitud'];
-                    if ($arrayResultadoInspeccion['estado'] == 'subsanacion') {
+                    if ($estado == 'subsanacion') {
                         $fechaMaxRespuesta = $this->sumaDiaSemana(date("Y-m-d"), 15);
                         $arrayResultadoInspeccion += [
                             'fecha_max_respuesta' => $fechaMaxRespuesta
                         ];
-                    }else{
-                        $this->actualizarEstadoSitiosSolicitud($idSolicitud,$estado);
+                    }else if ($estado == 'noHabilitado') {
+                        $arrayResultadoInspeccion['estado'] = "Rechazado";
                     }
-
                     //                 // Realiza la actualizacion de los campos de la tabla de solicitud
                     $idDatoInspeccionMovil = $this->guardar($arrayResultadoInspeccion);
-
+                    $arrayResultadoInspeccion['estado'] = $estado;
                     if ($idDatoInspeccionMovil) {
 
                         //Actualiza los resumenes de inspecciones anteriores
@@ -303,14 +305,111 @@ class SolicitudesLogicaNegocio implements IModelo
 
                         $idSitio = $solicitudBPA->getIdSitioUnidadProduccion();
                         $solicitudes = $this->obtenerSolicitudesPorAsignarInspector($idSitio);
-
+                        $arrayResultadoInspeccion['tipo_solicitud'] = "certificacionBPA";
                         foreach ($solicitudes as $fila) {
                             $arrayResultadoInspeccion['id_operacion'] = $fila['id_operacion'];
-                            $arrayResultadoInspeccion['tipo_solicitud'] = "certificacionBPA";
+
                             $this->lNegocioOperaciones->guardarResultadoInspeccion($arrayResultadoInspeccion);
                         }
 
-                   
+                        //En caso de que el certificado debiera de generarse en la etapa de inspeccion descomentar este codigo
+                        // if ($estado == 'Aprobado') {
+                        //     //$solicitudBpa = $this->buscar($idSolicitud);
+                        //     $tipoExplotacion = $solicitudBPA->getTipoExplotacion();
+                        //     $identificador = $solicitudBPA->getIdentificadorOperador();
+                        //     $fechaAuditoriaReal = $solicitudBPA->getFechaAuditoria();
+                        //     $fechaAuditoriaComplementaria = $solicitudBPA->getFechaAuditoriaComplementaria();
+                        //     $provinciaUnidadProduccion = $solicitudBPA->getProvinciaUnidadProduccion();
+                        //     if ($fechaAuditoriaComplementaria != null) {
+                        //         $fechaAuditoria = $fechaAuditoriaComplementaria;
+                        //     } else {
+                        //         $fechaAuditoria = $fechaAuditoriaReal;
+                        //     }
+
+                        //     //poner las fechas de aprobacion de inicio y fin (3 años)
+                        //     $this->generarFechasVigencia($idSolicitud, $solicitudBPA->getTipoSolicitud(), $fechaAuditoria);
+
+                        //     //crear el numero de certificado y guardar en el registro (crear funcion de numero certificado y de actualizar en registro
+                        //     $certificado = '';
+
+                        //     switch ($tipoExplotacion) {
+                        //         case 'SA':
+                        //             $area = 'PP';
+                        //             break;
+                        //         case 'SV':
+                        //             $area = 'PA';
+                        //             break;
+                        //         case 'AI':
+                        //             $area = 'PO';
+                        //             break;
+                        //     }
+
+
+                        //     //buscar la combinacion del codigo hasta antes de la provincia y ver el numero para crear un secuencial
+                        //     $anio = date("Y");
+                        //     $certificado = 'AGRO-CBPA-' . $area . '-' . $identificador;
+                        //     $secuencial = $this->generarNumeroCertificado($certificado);
+
+
+                        //     // //guardar el código del certificado y el secuencial
+                        //     // $this->lNegocioSolicitudes->actualizarEstadoSitiosSolicitud($idSolicitud, $secuencial, $certificado);
+
+
+                        //     //guardar el código del certificado y el secuencial
+                        //     $this->actualizarSecuencialCertificado($idSolicitud, $secuencial, $certificado);
+
+                        //     //Creación de Certificado PDF
+                        //     $nombreArchivo = 'bpa_' . $idSolicitud;
+
+                        //     $rutaArchivo = CERT_BPA_URL_CERT_ADJ . $nombreArchivo . '.pdf';
+
+                        //     $jasper = new JasperReport();
+                        //     $datosReporte = array();
+
+                        //     $ruta = CERT_BPA_URL_CERT;
+
+                        //     if (!file_exists($ruta)) {
+                        //         mkdir($ruta, 0777, true);
+                        //     }
+
+                        //     //Tabla de firmas físicas
+                        //     $firmaResponsable = $this->lNegocioResponsablesCertificadosNegocio->obtenerFirmasResponsablePorProvincia($provinciaUnidadProduccion, 'AI');
+
+
+                        //     $this->guardarRutaCertificado($idSolicitud, $rutaArchivo);
+
+                        //     //Firma Electrónica
+                        //     $parametrosFirma = array(
+                        //         'archivo_entrada' => $rutaArchivo,
+                        //         'archivo_salida' => $rutaArchivo,
+                        //         'identificador' => $firmaResponsable->current()->identificador,
+                        //         'razon_documento' => 'Certificado BPA',
+                        //         'tabla_origen' => 'g_certificacion_bpa.solicitudes',
+                        //         'campo_origen' => 'ruta_certificado',
+                        //         'id_origen' => $idSolicitud,
+                        //         'estado' => 'Por atender',
+                        //         'proceso_firmado' => 'NO'
+                        //     );
+
+                        //     //Guardar registro para firma
+                        //     $this->lNegocioFirmantesLogicaNegocio->ingresoFirmaDocumento($parametrosFirma);
+                        // }
+                        // if ($estado == "Aprobado") {
+                        //     $datosReporte = array(
+                        //         'rutaReporte' => 'CertificacionBPA/vistas/reportes/CertificadoNacional.jasper',
+                        //         'rutaSalidaReporte' => 'CertificacionBPA/archivos/certificados/' . $nombreArchivo,
+                        //         'tipoSalidaReporte' => array('pdf'),
+                        //         'parametrosReporte' => array(
+                        //             'idSolicitud' => (int)$idSolicitud,
+                        //             'identificador' => $firmaResponsable->current()->identificador,
+                        //             'rutaFondo' => RUTA_IMG_GENE . 'fondoCertificado.png'
+                        //         ),
+                        //         'conexionBase' => 'SI'
+                        //     );
+
+                        //     $jasper->generarArchivo($datosReporte);
+                        // }
+
 
                     }
                 }
@@ -324,16 +423,6 @@ class SolicitudesLogicaNegocio implements IModelo
         } else {
             echo json_encode($arrayToken);
         }
-
-        //             $procesoIngreso->commit();
-
-        //             return $idDatoInspeccionMovil;
-
-        //         } catch (GuardarExcepcion $ex) {
-        //             $procesoIngreso->rollback();
-        //             throw new \Exception($ex->getMessage());
-        //         }
-
     }
 
     public function buscarAuditoriasSolicitadas($arrayParametros)
@@ -429,7 +518,7 @@ class SolicitudesLogicaNegocio implements IModelo
 						INNER JOIN g_operadores.areas ar ON so.id_sitio_unidad_produccion = ar.id_sitio and ar.estado = 'creado'
 						INNER JOIN g_operadores.productos_areas_operacion pa ON pa.id_area = ar.id_area and pa.estado = 'registrado'
 						INNER JOIN g_operadores.operaciones op ON op.id_operacion = pa.id_operacion and op.estado = 'registrado'
-						INNER JOIN g_catalogos.tipos_operacion top ON top.id_tipo_operacion = op.id_tipo_operacion and	top.codigo || top.id_area IN ('PROAI')
+						INNER JOIN g_catalogos.tipos_operacion top ON top.id_tipo_operacion = op.id_tipo_operacion and	top.codigo || top.id_area IN ('PROAI','PROSA','PROSV')
                     WHERE
                     	origen_inspeccion = 'aplicativoMovil'
                     	and estado_checklist = 'generar';";
@@ -457,7 +546,7 @@ class SolicitudesLogicaNegocio implements IModelo
 						INNER JOIN g_operadores.areas ar ON so.id_sitio_unidad_produccion = ar.id_sitio and ar.estado = 'creado'
 						INNER JOIN g_operadores.productos_areas_operacion pa ON pa.id_area = ar.id_area and pa.estado = 'registrado'
 						INNER JOIN g_operadores.operaciones op ON op.id_operacion = pa.id_operacion and op.estado = 'registrado'
-						INNER JOIN g_catalogos.tipos_operacion top ON top.id_tipo_operacion = op.id_tipo_operacion and	top.codigo || top.id_area IN ('PROAI')
+						INNER JOIN g_catalogos.tipos_operacion top ON top.id_tipo_operacion = op.id_tipo_operacion and	top.codigo || top.id_area IN ('PROAI','PROSA','PROSV')
                     WHERE
                     	origen_inspeccion = 'aplicativoMovil'
                     	and estado_checklist = 'generar'
@@ -468,16 +557,126 @@ class SolicitudesLogicaNegocio implements IModelo
     }
 
 
-    public function actualizarEstadoSitiosSolicitud($idSolicitud, $estado){
-        
+    public function actualizarEstadoSitiosSolicitud($idSolicitud, $estado)
+    {
+
         $consulta = "UPDATE
                         g_certificacion_bpa.sitios_areas_productos
                     SET
                         estado = '$estado'
                     WHERE
                         id_solicitud = $idSolicitud;";
-        
+
         return $this->modeloSolicitudes->ejecutarSqlNativo($consulta);
-        
+    }
+
+    public function actualizarSecuencialCertificado($idSolicitud, $secuencial, $certificado)
+    {
+
+        $consulta = "UPDATE
+												g_certificacion_bpa.solicitudes
+											SET
+												numero_certificado = '$certificado',
+                                                numero_secuencial = '$secuencial'
+											WHERE
+												id_solicitud = $idSolicitud;";
+
+        return $this->modeloSolicitudes->ejecutarSqlNativo($consulta);
+    }
+
+    public function guardarRutaCertificado($idSolicitud, $certificado)
+    {
+
+        $consulta = "UPDATE
+												g_certificacion_bpa.solicitudes
+											SET
+												ruta_certificado = '$certificado'
+											WHERE
+												id_solicitud = $idSolicitud;";
+
+        return $this->modeloSolicitudes->ejecutarSqlNativo($consulta);;
+    }
+
+    public function generarNumeroCertificado($formato)
+    {
+
+        $consulta = "SELECT
+                                                max(numero_secuencial) as numero
+                                             FROM
+                                                g_certificacion_bpa.solicitudes
+                                             WHERE
+                                                numero_certificado like '%" . $formato . "%';";
+
+        $resultado = $this->modeloSolicitudes->ejecutarConsulta($consulta);
+        $codigo = 0;
+        foreach ($resultado  as $fila) {
+            $codigo  = $fila['numero'];
+        }
+        $incremento = $codigo + 1;
+        $secuencial = str_pad($incremento, 5, "0", STR_PAD_LEFT);
+
+        return $secuencial;
+    }
+
+    public function generarFechasVigencia($idSolicitud, $tipoSolicitud, $fechaAuditoria)
+    {
+
+        if ($tipoSolicitud == 'Nacional') {
+            //$fechaInicio = date('Y-m-d');
+            $fechaFin = date("Y-m-d", strtotime(date("Y-m-d", strtotime(date($fechaAuditoria))) . " + 3 years"));
+
+            $consulta = "UPDATE
+    												g_certificacion_bpa.solicitudes
+    											SET
+    												fecha_inicio_vigencia = '$fechaAuditoria',
+                                                    fecha_fin_vigencia = '$fechaFin'
+    											WHERE
+    												id_solicitud = $idSolicitud;";
+        } else {
+            $consulta = "UPDATE
+    												g_certificacion_bpa.solicitudes
+    											SET
+    												fecha_inicio_vigencia = fecha_inicio_equivalente,
+                                                    fecha_fin_vigencia = fecha_fin_equivalente
+    											WHERE
+    												id_solicitud = $idSolicitud;";
+        }
+
+        return $this->modeloSolicitudes->ejecutarSqlNativo($consulta);
+    }
+
+
+
+    /**
+     * Función para enviar correo electrónico
+     */
+    public function enviarCorreoInspeccionBpa($idSolicitud)
+    {
+        $solicitud = $this->buscar($idSolicitud);
+        $estadoSolicitud = $solicitud->getEstado();
+        $rutaChecklist =  Constantes::RUTA_SERVIDOR_OPT . '/' . Constantes::RUTA_APLICACION . '/' . $solicitud->getRutaChecklist();
+        $correo = $solicitud->getCorreo();
+        $nombreOperador = $solicitud->getNombreRepresentanteLegal();
+        if ($estadoSolicitud == 'aprobacion') {
+            $estadoSolicitud  = 'Aprobado';
+        }
+        $arrayCorreo = array(
+            'asunto' => 'Inspección de Buenas Prácticas Agropecuarias (BPA)',
+            'cuerpo' => 'El área de Inocuidad de los alimentos de la Agencia remite el día ' . $this->rutaFecha . ' el resultado ' . $estadoSolicitud . ' de la inspección Nº ' . $idSolicitud . ', remitido a ' . $nombreOperador . '.',
+            'estado' => 'Por enviar',
+            'codigo_modulo' => 'PRG_CERT_BPA',
+            'tabla_modulo' => 'g_certificacion_bpa.solicitudes',
+            'id_solicitud_tabla' => $idSolicitud
+        );
+
+        $arrayDestinatario = array(
+            $correo
+        );
+
+        $arrayAdjuntos = array(
+            $rutaChecklist
+        );
+
+        return $this->lNegocioCorreos->crearCorreoElectronico($arrayCorreo, $arrayDestinatario, $arrayAdjuntos);
     }
 }

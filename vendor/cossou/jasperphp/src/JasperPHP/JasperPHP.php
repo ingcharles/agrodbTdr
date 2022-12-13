@@ -184,7 +184,7 @@ class JasperPHP
         $return_var = 0;
 
         exec($this->the_command, $output, $return_var);
-        
+        //print_r($this->the_command);
         /*exec($this->output().' 2>&1', $output);
         print_r($output);*/
 

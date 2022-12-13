@@ -22,8 +22,10 @@ use Agrodb\FormulariosInspeccion\Modelos\Acof01DetalleModelo;
 use Agrodb\RegistroOperador\Modelos\OperacionesLogicaNegocio;
 use Agrodb\Token\Modelos\TokenLogicaNegocio;
 use Exception;
+use Agrodb\Core\Constantes;
 use Agrodb\Core\JasperReport;
 use Agrodb\Core\Excepciones\GuardarExcepcionConDatos;
+use Agrodb\Correos\Modelos\CorreosLogicaNegocio;
 
 class CentrosAcopioLogicaNegocio implements IModelo
 {
@@ -31,9 +33,10 @@ class CentrosAcopioLogicaNegocio implements IModelo
 	private $modeloCentrosAcopio = null;
 	private $lNegocioAcof01 = null;
 	private $modeloAcof01 = null;
-	private $lNegocioAcof01Detalle = null;
 	private $modeloAcof01Detalle = null;
 	private $lNegocioOperaciones = null;
+	private $lNegocioOperadores = null;
+	private $lNegocioCorreos = null;
 	private $lNegocioToken = null;
 	/**
 	 * Constructor
@@ -45,11 +48,11 @@ class CentrosAcopioLogicaNegocio implements IModelo
 		$this->modeloCentrosAcopio = new CentrosAcopioModelo();
 		$this->lNegocioAcof01 = new Acof01LogicaNegocio();
 		$this->modeloAcof01 = new Acof01Modelo();
-		$this->lNegocioAcof01Detalle = new Acof01DetalleLogicaNegocio();
 		$this->modeloAcof01Detalle = new Acof01DetalleModelo();
 		$this->lNegocioOperaciones = new OperacionesLogicaNegocio();
+		$this->lNegocioOperadores = new OperadoresLogicaNegocio();
+		$this->lNegocioCorreos = new CorreosLogicaNegocio();
 		$this->lNegocioToken = new TokenLogicaNegocio();
-
 		$this->rutaFecha = date('Y') . '/' . date('m') . '/' . date('d');
 	}
 
@@ -134,7 +137,7 @@ class CentrosAcopioLogicaNegocio implements IModelo
 		$arrayToken = $this->lNegocioToken->validarToken(RUTA_PUBLIC_KEY_AGROSERVICIOS);
 
 		if ($arrayToken['estado'] == 'exito') {
-
+		//if (1) {
 
 			try {
 
@@ -143,14 +146,10 @@ class CentrosAcopioLogicaNegocio implements IModelo
 					->getConnection();
 				$procesoIngreso->beginTransaction();
 
-				// 	    echo '<pre>';
-				// 	    print_r($arrayParametros);
-				// 	    echo '<pre>';
-
 				foreach ($arrayParametros['inspeccion'] as $value) {
 
-					$arrayResultadoInspeccion = array();
-					$arrayChecklistResumenInspeccion = array();
+				$arrayResultadoInspeccion = array();
+				$arrayChecklistResumenInspeccion = array();
 
 					foreach ($value->cabecera as $cabeceraLlave => $cabeceraValor) {
 						$arrayResultadoInspeccion += [
@@ -165,10 +164,11 @@ class CentrosAcopioLogicaNegocio implements IModelo
 					);
 
 					$solicitudCentroAcopio = $this->buscarLista($arrayParametrosCentroAcopio);
-	    
 
-					if (isset($solicitudCentroAcopio->current()->id_centro_acopio)) {
-						//Realiza la actualizacion de los campos de la tabla de datos_vehiculo
+
+				 	if (isset($solicitudCentroAcopio->current()->id_centro_acopio)) {
+				 		//Realiza la actualizacion de los campos de la tabla de datos_vehiculo
+						//$estadoCentroAcopio = $arrayResultadoInspeccion['estado_checklist'] == 'noHabilitado' ? 'Rechazado' : $arrayResultadoInspeccion['estado_checklist'] == 'noHabilitado' ;
 						$statement = $this->modeloCentrosAcopio->getAdapter()->getDriver()->createStatement();
 						$sqlActualizar = $this->modeloCentrosAcopio->actualizarSql('centros_acopio', $this->modeloCentrosAcopio->getEsquema());
 						$sqlActualizar->set(array('origen_inspeccion' => $arrayResultadoInspeccion['origen_inspeccion'], 'estado_checklist' => $arrayResultadoInspeccion['estado_checklist']));
@@ -176,10 +176,6 @@ class CentrosAcopioLogicaNegocio implements IModelo
 						$sqlActualizar->prepareStatement($this->modeloCentrosAcopio->getAdapter(), $statement);
 						$statement->execute();
 
-						
-						// 	            }
-
-						// 	            if(isset($solicitudCentroAcopio->current()->id_centro_acopio)){
 
 						//Actualiza los resumenes de inspecciones anteriores
 						$statement = $this->modeloCentrosAcopio->getAdapter()->getDriver()->createStatement();
@@ -190,7 +186,6 @@ class CentrosAcopioLogicaNegocio implements IModelo
 						$statement->execute();
 						$this->lNegocioAcof01->actualizarEstadoInspeccionAcoPorIdSolicitud($arrayResultadoInspeccion['id_solicitud']);
 
-						//foreach ($value['checklist_resumen'] as $checklistResumenLlave => $checklistResumenValor) {
 						foreach ($value->checklist_resumen as $checklistResumenLlave => $checklistResumenValor) {
 
 							if (!is_array($checklistResumenValor)) {
@@ -214,10 +209,6 @@ class CentrosAcopioLogicaNegocio implements IModelo
 							$item->id_padre = $idInspeccionAcof01;
 							$array = json_decode(json_encode($item), true);
 
-							// 	                    $item += [
-							// 	                        'id_padre' => $idInspeccionAcof01
-							// 	                    ];
-							// 	                    $array = $item;
 							unset($array['id_tablet']);
 							$statement = $this->modeloCentrosAcopio->getAdapter()->getDriver()->createStatement();
 							$sqlInsertar = $this->modeloCentrosAcopio->guardarSql('acof01_detalle', $this->modeloAcof01Detalle->getEsquema());
@@ -229,13 +220,8 @@ class CentrosAcopioLogicaNegocio implements IModelo
 						$arrayResultadoInspeccion['id_operacion'] = $arrayResultadoInspeccion['id_solicitud'];
 						$arrayResultadoInspeccion['tipo_solicitud'] = "Operadores";
 						$this->lNegocioOperaciones->guardarResultadoInspeccion($arrayResultadoInspeccion);
-
-						//TODO: Hacer que se actualicen el estado de las operaciones por id_operador_tipo_operacion
-						//, poner en el id_solicitud generar_certificado "SI" y hacer el proceso de generacion de certificado
-
-
-					}
-				}
+			 	}
+				 }
 
 
 				echo json_encode(array('estado' => 'exito', 'mensaje' => 'Registros almancenados en el Sistema GUIA exitosamente'));
@@ -249,22 +235,12 @@ class CentrosAcopioLogicaNegocio implements IModelo
 		} else {
 			echo json_encode($arrayToken);
 		}
-
-		//             $procesoIngreso->commit();
-
-		//             return $idDatoInspeccionMovil;
-
-		//         } catch (GuardarExcepcion $ex) {
-		//             $procesoIngreso->rollback();
-		//             throw new \Exception($ex->getMessage());
-		//         }
-
 	}
 
 	/**
 	 * Función para crear el PDF del checklist de inspeccion
 	 */
-	public function generarChecklistInspeccionMedioTransporte($idSolicitud, $nombreArchivo)
+	public function generarChecklistInspeccionCentroAcopio($idSolicitud, $nombreArchivo)
 	{
 		$jasper = new JasperReport();
 		$datosReporte = array();
@@ -281,7 +257,7 @@ class CentrosAcopioLogicaNegocio implements IModelo
 			'rutaReporte' => 'RegistroOperador/vistas/reportes/centroAcopioAI/checklistCentroAcopioAI.jasper',
 			'rutaSalidaReporte' => 'RegistroOperador/archivos/checkList/centroAcopioAI/' . $this->rutaFecha . '/' . $nombreArchivo,
 			'tipoSalidaReporte' => array('pdf'),
-			'parametrosReporte' => array('idSolicitud' => $idSolicitud, 'rutaLogoAgro' => RUTA_IMG_GENE.'agrocalidad.png'),
+			'parametrosReporte' => array('idSolicitud' => $idSolicitud, 'rutaLogoAgro' => RUTA_IMG_GENE . 'agrocalidad.png'),
 			'conexionBase' => 'SI'
 		);
 
@@ -290,5 +266,41 @@ class CentrosAcopioLogicaNegocio implements IModelo
 		$rutaChecklist = $rutaChecklistCentroAcopio . $nombreArchivo . '.pdf';
 
 		return $rutaChecklist;
+	}
+
+	/**
+	 * Función para enviar correo electrónico
+	 */
+	public function enviarCorreoInspeccionAco($idSolicitud, $rutaChecklist, $idOperadorTipoOperacion)
+	{
+
+		$qDatosOperacion = $this->lNegocioOperaciones->buscarLista(array('id_operador_tipo_operacion' => $idOperadorTipoOperacion));
+
+
+		$qDatosOperador = $this->lNegocioOperadores->buscar($qDatosOperacion->current()->identificador_operador);
+		$correo = $qDatosOperador->getCorreo();
+		$nombreOperador = ($qDatosOperador->getRazonSocial() == "") ? $qDatosOperador->getApellidoRepresentante() . ' ' . $qDatosOperador->getNombreRepresentante() : $qDatosOperador->getRazonSocial();
+		$estadoSolicitud = $qDatosOperacion->current()->estado;
+		if ($estadoSolicitud == 'registrado') {
+			$estadoSolicitud  = 'Aprobado';
+		}
+		$rutaChecklist =  Constantes::RUTA_SERVIDOR_OPT . '/' . Constantes::RUTA_APLICACION . '/' . $rutaChecklist;
+		$arrayCorreo = array(
+			'asunto' => 'Inspección de Centros de Acopio de Leche Cruda (CA)',
+			'cuerpo' => 'El área de Inocuidad de los alimentos de la Agencia remite el día ' . $this->rutaFecha . ' el resultado ' . $estadoSolicitud . ' de la inspección Nº ' . $idSolicitud . ', remitido a ' . $nombreOperador . '.',
+			'estado' => 'Por enviar',
+			'codigo_modulo' => 'PRG_REGISTROOPER',
+			'tabla_modulo' => 'g_operadores.centros_acopio',
+			'id_solicitud_tabla' => $idSolicitud
+		);
+
+		$arrayDestinatario = array(
+			$correo
+		);
+		$arrayAdjuntos = array(
+			$rutaChecklist
+		);
+
+		return $this->lNegocioCorreos->crearCorreoElectronico($arrayCorreo, $arrayDestinatario, $arrayAdjuntos);
 	}
 }

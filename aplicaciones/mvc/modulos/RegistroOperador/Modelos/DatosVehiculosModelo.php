@@ -1,12 +1,12 @@
 <?php
  /**
- * Modelo CodigosPoaModelo
+ * Modelo DatosVehiculosModelo
  *
- * Este archivo se complementa con el archivo   CodigosPoaLogicaNegocio.
+ * Este archivo se complementa con el archivo   DatosVehiculosLogicaNegocio.
  *
  * @author  AGROCALIDAD
- * @date    2022-01-10
- * @uses    CodigosPoaModelo
+ * @date    2022-04-05
+ * @uses    DatosVehiculosModelo
  * @package RegistroOperador
  * @subpackage Modelos
  */
@@ -40,40 +40,40 @@ class DatosVehiculosModelo extends ModeloBase
 		*/
 		protected $idTipoOperacion;
 		/**
-		* @var String
+		* @var Integer
 		* Campo requerido
 		* Campo visible en el formulario
-		* Campo que almacena el nombre de la marca del vehículo registrado
+		* Identificador de la tabla g_catalogos.marcas_vehiculos (llave foránea)
 		*/
-		protected $nombreMarcaVehiculo;
+		protected $idMarcaVehiculo;
 		/**
-		* @var String
+		* @var Integer
 		* Campo requerido
 		* Campo visible en el formulario
-		* Campo que almacena el nombre del modelo del vehículo registrado
+		* Identificador de la tabla g_catalogos.modelos_vehiculos (llave foránea)
 		*/
-		protected $nombreModeloVehiculo;
+		protected $idModeloVehiculo;
 		/**
-		* @var String
+		* @var Integer
 		* Campo requerido
 		* Campo visible en el formulario
-		* Campo que almacena el nombre del tipo del vehículo registrado
+		* Identificador de la tabla g_catalogos.tipos_vehiculos (llave foránea)
 		*/
-		protected $nombreTipoVehiculo;
+		protected $idTipoVehiculo;
 		/**
-		* @var String
+		* @var Integer
 		* Campo requerido
 		* Campo visible en el formulario
-		* Campo que almacena el nombre del color del vehículo registrado
+		* Identificador de la tabla g_catalogos.colores_vehiculos (llave foránea)
 		*/
-		protected $nombreColorVehiculo;
+		protected $idColorVehiculo;
 		/**
-		* @var String
+		* @var Integer
 		* Campo requerido
 		* Campo visible en el formulario
-		* Campo que almacena el nombre de la clase del vehículo registrado
+		* Identificador de la tabla g_catalogos.clases_vehiculos (llave foránea)
 		*/
-		protected $nombreClaseVehiculo;
+		protected $idClaseVehiculo;
 		/**
 		* @var String
 		* Campo requerido
@@ -81,13 +81,6 @@ class DatosVehiculosModelo extends ModeloBase
 		* Campo que almacena la placa del vehículo registrado
 		*/
 		protected $placaVehiculo;
-		/**
-		* @var String
-		* Campo requerido
-		* Campo visible en el formulario
-		* Campo que almacena el registro contenedor del vehículo registrado
-		*/
-		protected $registroContenedorVehiculo;
 		/**
 		* @var Integer
 		* Campo requerido
@@ -172,6 +165,27 @@ class DatosVehiculosModelo extends ModeloBase
 		* servicio que presta el vehiculo
 		*/
 		protected $servicio;
+		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Campo que almacena el identificador del tecnico que realiza la revision
+		*/
+		protected $identificadorRevisor;
+		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Campo que almacena el origen de la inspeccion (GUIA, aplicativoMovil)
+		*/
+		protected $origenInspeccion;
+		/**
+		* @var String
+		* Campo requerido
+		* Campo visible en el formulario
+		* Campo que identifica si debe generarse el checklist (generar, generado)
+		*/
+		protected $estadoChecklist;
 
 	/**
 	* Campos del formulario 
@@ -201,7 +215,7 @@ class DatosVehiculosModelo extends ModeloBase
 	/**
 	*Secuencia
 */
-		 private $secuencial = 'g_operadores"."DatosVehiculos_id_dato_vehiculo_seq'; 
+		 private $secuencial = 'g_operadores"."datos_vehiculos_id_dato_vehiculo_seq'; 
 
 
 
@@ -392,123 +406,123 @@ class DatosVehiculosModelo extends ModeloBase
 	}
 
 	/**
-	* Set nombreMarcaVehiculo
+	* Set idMarcaVehiculo
 	*
-	*Campo que almacena el nombre de la marca del vehículo registrado
+	*Identificador de la tabla g_catalogos.marcas_vehiculos (llave foránea)
 	*
-	* @parámetro String $nombreMarcaVehiculo
-	* @return NombreMarcaVehiculo
+	* @parámetro Integer $idMarcaVehiculo
+	* @return IdMarcaVehiculo
 	*/
-	public function setNombreMarcaVehiculo($nombreMarcaVehiculo)
+	public function setIdMarcaVehiculo($idMarcaVehiculo)
 	{
-	  $this->nombreMarcaVehiculo = (String) $nombreMarcaVehiculo;
+	  $this->idMarcaVehiculo = (Integer) $idMarcaVehiculo;
 	    return $this;
 	}
 
 	/**
-	* Get nombreMarcaVehiculo
+	* Get idMarcaVehiculo
 	*
-	* @return null|String
+	* @return null|Integer
 	*/
-	public function getNombreMarcaVehiculo()
+	public function getIdMarcaVehiculo()
 	{
-		return $this->nombreMarcaVehiculo;
+		return $this->idMarcaVehiculo;
 	}
 
 	/**
-	* Set nombreModeloVehiculo
+	* Set idModeloVehiculo
 	*
-	*Campo que almacena el nombre del modelo del vehículo registrado
+	*Identificador de la tabla g_catalogos.modelos_vehiculos (llave foránea)
 	*
-	* @parámetro String $nombreModeloVehiculo
-	* @return NombreModeloVehiculo
+	* @parámetro Integer $idModeloVehiculo
+	* @return IdModeloVehiculo
 	*/
-	public function setNombreModeloVehiculo($nombreModeloVehiculo)
+	public function setIdModeloVehiculo($idModeloVehiculo)
 	{
-	  $this->nombreModeloVehiculo = (String) $nombreModeloVehiculo;
+	  $this->idModeloVehiculo = (Integer) $idModeloVehiculo;
 	    return $this;
 	}
 
 	/**
-	* Get nombreModeloVehiculo
+	* Get idModeloVehiculo
 	*
-	* @return null|String
+	* @return null|Integer
 	*/
-	public function getNombreModeloVehiculo()
+	public function getIdModeloVehiculo()
 	{
-		return $this->nombreModeloVehiculo;
+		return $this->idModeloVehiculo;
 	}
 
 	/**
-	* Set nombreTipoVehiculo
+	* Set idTipoVehiculo
 	*
-	*Campo que almacena el nombre del tipo del vehículo registrado
+	*Identificador de la tabla g_catalogos.tipos_vehiculos (llave foránea)
 	*
-	* @parámetro String $nombreTipoVehiculo
-	* @return NombreTipoVehiculo
+	* @parámetro Integer $idTipoVehiculo
+	* @return IdTipoVehiculo
 	*/
-	public function setNombreTipoVehiculo($nombreTipoVehiculo)
+	public function setIdTipoVehiculo($idTipoVehiculo)
 	{
-	  $this->nombreTipoVehiculo = (String) $nombreTipoVehiculo;
+	  $this->idTipoVehiculo = (Integer) $idTipoVehiculo;
 	    return $this;
 	}
 
 	/**
-	* Get nombreTipoVehiculo
+	* Get idTipoVehiculo
 	*
-	* @return null|String
+	* @return null|Integer
 	*/
-	public function getNombreTipoVehiculo()
+	public function getIdTipoVehiculo()
 	{
-		return $this->nombreTipoVehiculo;
+		return $this->idTipoVehiculo;
 	}
 
 	/**
-	* Set nombreColorVehiculo
+	* Set idColorVehiculo
 	*
-	*Campo que almacena el nombre del color del vehículo registrado
+	*Identificador de la tabla g_catalogos.colores_vehiculos (llave foránea)
 	*
-	* @parámetro String $nombreColorVehiculo
-	* @return NombreColorVehiculo
+	* @parámetro Integer $idColorVehiculo
+	* @return IdColorVehiculo
 	*/
-	public function setNombreColorVehiculo($nombreColorVehiculo)
+	public function setIdColorVehiculo($idColorVehiculo)
 	{
-	  $this->nombreColorVehiculo = (String) $nombreColorVehiculo;
+	  $this->idColorVehiculo = (Integer) $idColorVehiculo;
 	    return $this;
 	}
 
 	/**
-	* Get nombreColorVehiculo
+	* Get idColorVehiculo
 	*
-	* @return null|String
+	* @return null|Integer
 	*/
-	public function getNombreColorVehiculo()
+	public function getIdColorVehiculo()
 	{
-		return $this->nombreColorVehiculo;
+		return $this->idColorVehiculo;
 	}
 
 	/**
-	* Set nombreClaseVehiculo
+	* Set idClaseVehiculo
 	*
-	*Campo que almacena el nombre de la clase del vehículo registrado
+	*Identificador de la tabla g_catalogos.clases_vehiculos (llave foránea)
 	*
-	* @parámetro String $nombreClaseVehiculo
-	* @return NombreClaseVehiculo
+	* @parámetro Integer $idClaseVehiculo
+	* @return IdClaseVehiculo
 	*/
-	public function setNombreClaseVehiculo($nombreClaseVehiculo)
+	public function setIdClaseVehiculo($idClaseVehiculo)
 	{
-	  $this->nombreClaseVehiculo = (String) $nombreClaseVehiculo;
+	  $this->idClaseVehiculo = (Integer) $idClaseVehiculo;
 	    return $this;
 	}
 
 	/**
-	* Get nombreClaseVehiculo
+	* Get idClaseVehiculo
 	*
-	* @return null|String
+	* @return null|Integer
 	*/
-	public function getNombreClaseVehiculo()
+	public function getIdClaseVehiculo()
 	{
-		return $this->nombreClaseVehiculo;
+		return $this->idClaseVehiculo;
 	}
 
 	/**
@@ -533,30 +547,6 @@ class DatosVehiculosModelo extends ModeloBase
 	public function getPlacaVehiculo()
 	{
 		return $this->placaVehiculo;
-	}
-
-	/**
-	* Set registroContenedorVehiculo
-	*
-	*Campo que almacena el registro contenedor del vehículo registrado
-	*
-	* @parámetro String $registroContenedorVehiculo
-	* @return RegistroContenedorVehiculo
-	*/
-	public function setRegistroContenedorVehiculo($registroContenedorVehiculo)
-	{
-	  $this->registroContenedorVehiculo = (String) $registroContenedorVehiculo;
-	    return $this;
-	}
-
-	/**
-	* Get registroContenedorVehiculo
-	*
-	* @return null|String
-	*/
-	public function getRegistroContenedorVehiculo()
-	{
-		return $this->registroContenedorVehiculo;
 	}
 
 	/**
@@ -845,6 +835,78 @@ class DatosVehiculosModelo extends ModeloBase
 	public function getServicio()
 	{
 		return $this->servicio;
+	}
+
+	/**
+	* Set identificadorRevisor
+	*
+	*Campo que almacena el identificador del tecnico que realiza la revision
+	*
+	* @parámetro String $identificadorRevisor
+	* @return IdentificadorRevisor
+	*/
+	public function setIdentificadorRevisor($identificadorRevisor)
+	{
+	  $this->identificadorRevisor = (String) $identificadorRevisor;
+	    return $this;
+	}
+
+	/**
+	* Get identificadorRevisor
+	*
+	* @return null|String
+	*/
+	public function getIdentificadorRevisor()
+	{
+		return $this->identificadorRevisor;
+	}
+
+	/**
+	* Set origenInspeccion
+	*
+	*Campo que almacena el origen de la inspeccion (GUIA, aplicativoMovil)
+	*
+	* @parámetro String $origenInspeccion
+	* @return OrigenInspeccion
+	*/
+	public function setOrigenInspeccion($origenInspeccion)
+	{
+	  $this->origenInspeccion = (String) $origenInspeccion;
+	    return $this;
+	}
+
+	/**
+	* Get origenInspeccion
+	*
+	* @return null|String
+	*/
+	public function getOrigenInspeccion()
+	{
+		return $this->origenInspeccion;
+	}
+
+	/**
+	* Set estadoChecklist
+	*
+	*Campo que identifica si debe generarse el checklist (generar, generado)
+	*
+	* @parámetro String $estadoChecklist
+	* @return EstadoChecklist
+	*/
+	public function setEstadoChecklist($estadoChecklist)
+	{
+	  $this->estadoChecklist = (String) $estadoChecklist;
+	    return $this;
+	}
+
+	/**
+	* Get estadoChecklist
+	*
+	* @return null|String
+	*/
+	public function getEstadoChecklist()
+	{
+		return $this->estadoChecklist;
 	}
 
 	/**

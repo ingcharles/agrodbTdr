@@ -345,7 +345,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="181" splitType="Stretch">
+		<band height="182" splitType="Stretch">
 			<textField>
 				<reportElement mode="Transparent" x="258" y="36" width="286" height="20" uuid="1ba06e8f-262a-44d7-b89e-c32a2779afc7">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>

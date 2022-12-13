@@ -131,11 +131,12 @@ class CentrosAcopioControlador extends BaseControlador
         foreach ($solicitudes as $fila) {
  
             // Se genera el archivo .pdf del checklist
-            $nombreArchivo = md5(rand() . $fila['id_centro_acopio']);
-            $rutaChecklist = $this->lNegocioCentrosAcopio->generarChecklistInspeccionMedioTransporte($fila['id_centro_acopio'], $nombreArchivo);
+            $idSolicitud = $fila['id_centro_acopio'];
+            $nombreArchivo = md5(rand() . $idSolicitud);
+            $rutaChecklist = $this->lNegocioCentrosAcopio->generarChecklistInspeccionCentroAcopio($fila['id_centro_acopio'], $nombreArchivo);
             
             $arrayActualizarEstadoChecklist = array(
-                'id_centro_acopio' => $fila['id_centro_acopio'],
+                'id_centro_acopio' => $idSolicitud,
                 'estado_checklist' => $estadoChecklist
             );
             
@@ -151,6 +152,7 @@ class CentrosAcopioControlador extends BaseControlador
             
             if(isset($idInspeccion)){
                 $this->lNegocioInspeccion->guardar(array('id_inspeccion' => $idInspeccion, 'ruta_archivo' => $rutaChecklist));
+                $this->lNegocioCentrosAcopio->enviarCorreoInspeccionAco($idSolicitud, $rutaChecklist, $fila['id_operador_tipo_operacion']);
             }
             
             echo 'Se generó el checklist del centro de acopio ' . $fila['id_centro_acopio'] . "\n";

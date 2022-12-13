@@ -1119,11 +1119,12 @@ class SolicitudesControlador extends BaseControlador
         foreach ($solicitudes as $fila) {
 
             // Se genera el archivo .pdf del checklist
-            $nombreArchivo = md5(rand() . $fila['id_solicitud']);
-            $rutaChecklist = $this->lNegocioSolicitudes->generarChecklistInspeccionBpa($fila['id_solicitud'], $nombreArchivo);
+            $idSolicitud = $fila['id_solicitud'];
+            $nombreArchivo = md5(rand() . $idSolicitud);
+            $rutaChecklist = $this->lNegocioSolicitudes->generarChecklistInspeccionBpa($idSolicitud, $nombreArchivo);
 
             $arrayActualizarRutaChecklist = array(
-                'id_solicitud' => $fila['id_solicitud'],
+                'id_solicitud' => $idSolicitud,
                 'ruta_checklist' => $rutaChecklist,
                 'estado_checklist' => $estadoChecklist
             );
@@ -1141,6 +1142,7 @@ class SolicitudesControlador extends BaseControlador
 
             if (isset($idInspeccion)) {
                 $this->lNegocioInspeccion->guardar(array('id_inspeccion' => $idInspeccion, 'ruta_archivo' => $rutaChecklist));
+                $this->lNegocioSolicitudes->enviarCorreoInspeccionBpa($idSolicitud);
             }
 
 

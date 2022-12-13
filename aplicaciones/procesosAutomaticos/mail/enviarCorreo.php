@@ -112,7 +112,7 @@ if(1){
 
 	$minutoS1=microtime(true);
 	$minutoS2=microtime(true);
-	$tiempo=$minutoS2-minutoS1;
+	$tiempo=$minutoS2-$minutoS1;
 	$xcadenota = "FECHA ".date("d/m/Y")." ".date("H:i:s");
 	$xcadenota.= "; IP REMOTA ".$_SERVER['REMOTE_ADDR'];
 	$xcadenota.= "; SERVIDOR HTTP ".$_SERVER['HTTP_REFERER'];
