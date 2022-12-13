@@ -2,8 +2,8 @@
 
 	<?php
 
-	if ($_SERVER['REMOTE_ADDR'] == '') {
-		//if(1){
+	// if ($_SERVER['REMOTE_ADDR'] == '') {
+	if (1) {
 		require_once '../../clases/Conexion.php';
 		require_once '../../clases/ControladorVacaciones.php';
 		require_once '../../clases/ControladorAreas.php';
@@ -17,8 +17,8 @@
 
 		$resultadoMonitoreo = $cm->obtenerCronPorCodigoEstado($conexion, 'CRON_VACAC_AUME');
 
-		if ($resultadoMonitoreo) {
-			//if(1){
+		// if ($resultadoMonitoreo) {
+		if (1) {
 			$contratos = $cv->obtenerContratosActivos($conexion);
 			echo IN_MSG . 'Gestion Minutos.';
 			while ($datos = pg_fetch_assoc($contratos)) {
@@ -29,6 +29,7 @@
 			$res = $cv->obtenerDiaIngresoEmpleado($conexion, date("d"));
 			//$res=$cv->obtenerDiaIngresoEmpleado($conexion, date("18"));
 			$anio = date('Y');
+		
 			while ($fila = pg_fetch_assoc($res)) {
 
 				switch ($fila['regimen_laboral']) {
@@ -45,13 +46,12 @@
 					if ($anioEmpleado['anio'] == $anio) {
 						$anio = $anioEmpleado['anio'];
 						$cv->incrementarSaldosFuncionario($conexion, $fila['identificador'], $cantidad, $anio);
-						
 					} else {
 						$anio = $anioEmpleado['anio'] + 1;
 						$cv->incrementarSaldosFuncionarioNuevoAnio($conexion, $fila['identificador'], $cantidad, $anio);
 					}
 				} else {
-					
+
 					$secuencial = pg_fetch_assoc($cv->obtenerSecuencialanio($conexion, $fila['identificador'], $anio));
 					if ($secuencial['secuencial'] == '') $secu = 1;
 					else $secu = $secuencial['secuencial'] + 1;
@@ -60,7 +60,12 @@
 			}
 			//Incrementar dias a funcionarios que cumplieron 5 o mas años bajo el codigo de trabajo
 			$cantidad = 480; //un dia 8 horas en minutos
-			$cv->incrementoDiaPasadoCincoAnios($conexion, $anio, $cantidad);
+			$anio = date('Y');
+		
+			$incrementoDia = $cv->incrementoDiaPasadoCincoAnios($conexion, $anio, $cantidad);
+			while ($fila = pg_fetch_assoc($incrementoDia)) {
+				echo IN_MSG . $fila['mensaje'];
+			}
 			$cv->verificarSaldosMayores60($conexion);
 		}
 	} else {

@@ -621,7 +621,7 @@ class ControladorVacaciones
 
 	public function  incrementoDiaPasadoCincoAnios($conexion, $anio, $minuto)
 	{
-		$res = $conexion->ejecutarConsulta("SELECT g_vacaciones.incrementodiapasadocincoanios(
+		$res = $conexion->ejecutarConsulta("SELECT * FROM g_vacaciones.incrementodiapasadocincoanios(
 			" . $anio . ",
 			" . $minuto . "
 		);");
