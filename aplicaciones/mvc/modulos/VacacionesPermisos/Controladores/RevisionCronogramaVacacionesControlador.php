@@ -43,6 +43,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	private $resultadoRevision = null;
 	private $panelBusqueda = null;
 	private $perfilUsuarioDirector = null;
+	private $esReprogramacion=null;
+	private $bloqueAprobacionReprogramacion=null;
 	/**
 	 * Constructor
 	 */
@@ -162,7 +164,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$_POST['id_area_revisor'] = $idAreaRevisor;
 		$_POST['estado_solicitud'] = $estadoSolicitud;
 		$_POST['estado_cronograma_vacacion'] = $estadoCronogramaVacacion;
-
+		$_POST['es_reprogramacion'];
 		$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
 
 		if ($proceso) {
@@ -194,11 +196,20 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	public function editar()
 	{
 		$idCronogramaVacacion = $_POST['id'];
-		$this->accion = "Revisión de cronograma de vacaciones";
+		$esReprogramacion=$this->lNegocioRevisionCronogramaVacaciones->obtenerCronogramaReprogramado(array('id_cronograma_vacacion' => $_POST["id"]));
 		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
+		$this->esReprogramacion=$esReprogramacion->current()->cantidad;
 		$this->periodoCronograma = $this->construirDetallePeriodosCronograma(array('id_cronograma_vacacion' => $_POST["id"]));
+	
+		if($esReprogramacion->current()->cantidad > 0){
+			$this->accion = "Revisión de reprogramación de vacaciones";
+			$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion,'estado_registro' => 'Activo','estado_reprogramacion'=>'Si'];
+		    $rutaArchivo = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista($datos)->current()->ruta_archivo_reprogramacion;
+			$this->bloqueAprobacionReprogramacion=$this->construirAprobacionReprogramacion($rutaArchivo);
+		}else{
+			$this->accion = "Revisión de cronograma de vacaciones";
+		}
 		$this->resultadoRevision = $this->construirResultadoRevision();
-
 		require APP . 'VacacionesPermisos/vistas/formularioRevisionCronogramaVacacionesVista.php';
 	}
 
@@ -810,5 +821,21 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		}
 
 		return $datosPlanificarPeriodos;
+	}
+
+	public function construirAprobacionReprogramacion($rutaArchivo){
+		// <a id="verReporteSolicitud" href="' . $qDatoConfiguracion->current()->ruta_consolidado_pdf . '" target="_blank"> Descargar </a>
+		// </div>
+		$archivoReprogramacion ='<fieldset>
+		<legend>Reprogamacion</legend>
+
+		<div data-linea="3">
+		<label>Archivo Pdf: </label>
+		<a id="verReporteSolicitud" href="' . $rutaArchivo . '" target="_blank"> Descargar </a>
+		</div>
+		<hr/>
+		
+	</fieldset>';
+	return $archivoReprogramacion;
 	}
 }

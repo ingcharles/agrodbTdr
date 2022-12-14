@@ -23,6 +23,7 @@ use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNeg
 use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\RevisionCronogramaVacacionesLogicaNegocio;
+use Zend\Filter\File\UpperCase;
 
 class BaseControlador extends Comun
 {
@@ -274,6 +275,7 @@ class BaseControlador extends Comun
 												<th>Fecha inicio</th>
 												<th>Fecha fin</th>
 												<th>Número días</th>
+												<th>Reprogramado</th>
 											</tr>
 										</thead>
 										<tbody>';
@@ -281,12 +283,13 @@ class BaseControlador extends Comun
 		foreach ($qCronogramaVacacion as $item) {
 
 			$totalDias = $totalDias + $item->total_dias;
-
+			$reprogramado=$item->estado_reprogramacion != null ? strtoupper($item->estado_reprogramacion)   : 'NO';
 			$datosPlanificarPeriodos .= '<tr>	
 			<td>Periodo ' . $item->numero_periodo . '</td>
 			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y', strtotime($item->fecha_inicio))) . '</td>
 			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y', strtotime($item->fecha_fin))) . '</td>
-			<td style="text-align: center;">' . $item->total_dias . '</td><tr>';
+			<td style="text-align: center;">' . $item->total_dias . '</td>
+			<td style="text-align: center;">' . $reprogramado. '</td><tr>';
 		}
 
 		$datosPlanificarPeriodos .= '<tr>

@@ -490,4 +490,15 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 		 $res = $this->modeloRevisionCronogramaVacaciones->ejecutarSqlNativo($sqlScript);
 		 return $res;
 	 }
+
+	 public function obtenerCronogramaReprogramado($arrayParametros)
+	 {
+
+		 $idCronogramaVacacion = $arrayParametros['id_cronograma_vacacion'];
+		 $sqlScript = "SELECT COUNT(*) AS cantidad FROM g_vacaciones.periodo_cronograma_vacaciones pv
+		 INNER JOIN g_vacaciones.cronograma_vacaciones  cv ON pv.id_cronograma_vacacion = cv.id_cronograma_vacacion
+		 WHERE pv.estado_registro='Activo' AND pv.estado_reprogramacion='Si' AND cv.id_cronograma_vacacion=" . $idCronogramaVacacion . ";";
+		 $res = $this->modeloRevisionCronogramaVacaciones->ejecutarSqlNativo($sqlScript);
+		 return $res;
+	 }
 }
