@@ -11,10 +11,9 @@
 <form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='PeriodoCronogramaVacaciones/guardarReprogramacionPeriodo' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 	<?php echo $this->datosGenerales; ?>
 	<fieldset>
-		<legend>Datos planificación</legend>
+		<legend>Datos de planificación</legend>
 		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
 		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
-		<!-- <input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="EnviadoJefe" /> -->
 
 		<div data-linea="5">
 			<label for="identificador_backup">Funcionario reemplazo: </label>
@@ -119,15 +118,9 @@
 					}
 
 					$(".piNumeroDias").numeric();
-
-
 				}
 			}, 'json');
 		}
-
-
-
-
 	});
 
 

@@ -223,13 +223,15 @@ class BaseControlador extends Comun
 		return $datos;
 	}
 
-	public function construirDatosGeneralesCronogramaVacacionesNoConfigurado()
+	public function construirDatosGeneralesCronogramaVacacionesNoConfigurado($arrayParametros)
 	{
-
+		$titulo = $arrayParametros['titulo'];
+		$mensaje= $arrayParametros['mensaje'];
+		
 		$datos = '<fieldset>
-					<legend>Cronograma de planificación</legend>
+					<legend>' . $titulo . '</legend>
 					<div data-linea="1">
-						<label for="observacion">Observacion: </label>No existe una planificación habilitada.
+						<label for="observacion">Observacion: </label>' . $mensaje . '
 					</div>
 					</fieldset>';
 
@@ -256,7 +258,7 @@ class BaseControlador extends Comun
 
 		$periodoCronogramaVacacionesLogicaNegocio = new PeriodoCronogramaVacacionesLogicaNegocio();
 
-		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion];
+		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion,'estado_registro' => 'Activo'];
 
 		$qCronogramaVacacion = $periodoCronogramaVacacionesLogicaNegocio->buscarLista($datos);
 
@@ -286,7 +288,7 @@ class BaseControlador extends Comun
 			<td style="text-align: center;">' . $item->total_dias . '</td><tr>';
 		}
 
-		$datosPlanificarPeriodos .= '<tr>>
+		$datosPlanificarPeriodos .= '<tr>
 										<td>Total días</td>
 										<td></td>
 										<td></td>
@@ -383,4 +385,19 @@ class BaseControlador extends Comun
 		$nombreMes = str_replace($meses_EN, $meses_ES, $mes);
 		return $nombredia . ", " . $numeroDia . " de " . $nombreMes . " de " . $anio;
 	}
+
+
+	public function obtenerEstadoPlanificacionCronogramaVacaciones($estado)
+	{
+		$array = [
+			"EnviadoJefe" => "Enviado inmediato superior",
+			"EnviadoTthh" => "Enviado a talento humano",
+			"Rechazado" => "Rechazado",
+			
+		];
+		return $array[$estado] ;
+	}
+
+
+	
 }

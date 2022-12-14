@@ -29,8 +29,18 @@
 		var elementoFechaInicio = $(campo).parents("tr").find(".piFechaInicio");
 		var elementoFechaFin = $(campo).parents("tr").find(".piFechaFin");
 		var elementoNumeroDias = $(campo).parents("tr").find(".piNumeroDias");
-		sumarDias(campo, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);
-		validarNumeros(elementoNumeroDias, expresion);
+		//console.log($(campo));
+		// debugger
+		// alert(elementoFechaInicio.val());
+		if(elementoFechaInicio.val() != ""){
+
+			sumarDias(campo, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);
+			validarNumeros(elementoNumeroDias, expresion);
+			$("#estado").html(""); 
+		}else{
+			validarNumeros(elementoNumeroDias, expresion);
+			$("#estado").html("Selecciona las fechas del periodo a planificar").addClass("alerta");
+		}
 	}
 
 	function sumarDias(acumulador, dias, campoFechaInicio, campoFechaFin) {
@@ -69,6 +79,7 @@
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
 				numero_periodos_planificar: numeroPeriodosPlanificar
 			}, function(data) {
+				
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
 
@@ -80,7 +91,7 @@
 						maxDate: 0,
 						minDate: new Date(anioPlanificacion + '-01-31'),
 					});
-					console.log(anioPlanificacion);
+
 					$(".piFechaInicio").datepicker({
 						yearRange: "+0:+1",
 						changeMonth: true,
@@ -94,17 +105,18 @@
 							var elementoNumeroDias = $(this).parents("tr").find(".piNumeroDias");
 							elementoFechaInicio.removeClass("alerta");
 							sumarDias(this, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);
-							var date = new Date(elementoFechaFin.datepicker('getDate'));
-    					    var anioFin = date.getFullYear();
+							// var date = new Date(elementoFechaFin.datepicker('getDate'));
+    					    // var anioFin = date.getFullYear();
 
-							if(parseInt(anioPlanificacion) != parseInt(anioFin)){
-								elementoFechaFin.val('');
-								elementoFechaFin.addClass("alerta"); 
-								$("#estado").html("La fecha de inicio + el Número de días, no puede superar el año "+ anioPlanificacion).addClass("alerta");
-							}else{
-								elementoFechaFin.removeClass("alerta");
-								$("#estado").html(""); 		
-							}
+							// if(parseInt(anioPlanificacion) != parseInt(anioFin)){
+							// 	elementoFechaFin.val('');
+							// 	elementoFechaFin.addClass("alerta"); 
+							// 	//$("#estado").html("La fecha de inicio + el Número de días, no puede superar el año "+ anioPlanificacion).addClass("alerta");
+							// 	$("#estado").html("La fechas seleccionadas debe estar dentro del año " + anioPlanificacion).addClass("alerta");
+							// }else{
+							// 	elementoFechaFin.removeClass("alerta");
+							// 	$("#estado").html(""); 		
+							// }
 						}
 					});
 
@@ -185,28 +197,37 @@
 						break;
 				}
 				valorMaximoMensaje = valorMaximoMensaje + valorMaximo + ".";
-
+				
 				$(filas).each(function(index) {
-					var fechaInicio;
-					var fechaFin;
+					let fechaInicio = null;
+					let fechaFin = null;
 					$(this).find('td').each(function(indexx) {
+						
 						if ($(this).find('input').val() == "") {
 							banderaTablaVacia = false;
-							return false;
+							//return false;
 						}
 	
 						if ($(this).find('.piFechaInicio').val()) {
 							fechaInicio = $(this).find('.piFechaInicio').val();
+							var date = new Date(fechaInicio);
+							var anioInicio = date.getUTCFullYear();
+							
+							if(parseInt(anioPlanificacion) != parseInt(anioInicio)){
+								banderaSuperaAnioPlanificacion = false;
+								//return false;
+							}
 						}
+						
 						if ($(this).find('.piFechaFin').val()) {
 							fechaFin = $(this).find('.piFechaFin').val();
 
 							var date = new Date(fechaFin);
-							var anioFin = date.getFullYear();
+							var anioFin = date.getUTCFullYear();
 
 							if(parseInt(anioPlanificacion) != parseInt(anioFin)){
 								banderaSuperaAnioPlanificacion = false;
-								return false;
+								//return false;
 							}
 
 						}
@@ -239,7 +260,7 @@
 					if (!isNaN(num) && num != undefined)
 						if (num > valorMaximo) {
 							valorSuperado = true;
-							return false;
+							//return false;
 						}
 				});
 
@@ -253,7 +274,7 @@
 							$("#estado").html("Revise los rangos de fechas ingresados.").addClass("alerta");
 						} else {
 							if (!banderaSuperaAnioPlanificacion) {
-								$("#estado").html("La fecha de inicio + el Número de días, no puede superar el año " + anioPlanificacion).addClass("alerta");
+								$("#estado").html("La fechas seleccionadas debe estar dentro del año " + anioPlanificacion).addClass("alerta");
 							} else {
 								JSON.parse(ejecutarJson($("#formulario")).responseText);
 							}

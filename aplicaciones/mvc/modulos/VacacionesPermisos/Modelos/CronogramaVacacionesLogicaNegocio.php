@@ -110,9 +110,13 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 	    $estadoCronogramaVacacion = $estadoCronogramaVacacion != "" ? "'" . $estadoCronogramaVacacion . "'" : "null";
 
 		$consulta = "SELECT
-						* 
+						cv.id_cronograma_vacacion, cv.identificador_funcionario || ' ' || cv.nombre_funcionario AS identificador_funcionario,
+						fe.identificador || ' ' || fe.nombre || ' ' || fe.apellido AS identificador_backup,
+						cv.total_dias_planificados, cv.estado_cronograma_vacacion
 					FROM 
-						g_vacaciones. cronograma_vacaciones 
+						g_vacaciones.cronograma_vacaciones cv
+					INNER JOIN
+						g_uath.ficha_empleado fe ON fe.identificador = cv.identificador_backup
 					WHERE
 						identificador_funcionario = '" . $identificadorFuncionario . "'
 						and ($estadoCronogramaVacacion is NULL or estado_cronograma_vacacion = $estadoCronogramaVacacion)";

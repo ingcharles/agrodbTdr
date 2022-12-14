@@ -15,7 +15,7 @@
 					<th>Identificador</th>
 					<th>Nombre</th>
 					<th>Dirección/Gestión</th>
-					<th>Fecha creación</th>
+					<th>Fecha solicitud</th>
 				</tr>
 			</thead>
 			<tbody></tbody>

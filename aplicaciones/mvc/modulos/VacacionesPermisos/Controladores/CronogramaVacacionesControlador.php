@@ -62,7 +62,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 	public function index()
 	{
 		$identificadorFuncionario = $this->identificador;
-		$modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarLista(array('identificador_funcionario' => $identificadorFuncionario));
+		$arrayParametros = ['identificador_funcionario' => $identificadorFuncionario, 'estado_cronograma_vacacion' => null];
+		$modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarCronogramaVacacionesFiltro($arrayParametros);
 		$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
 		$this->tablaHtmlCronogramaVacaciones($modeloCronogramaVacaciones);
 		require APP . 'VacacionesPermisos/vistas/listaCronogramaVacacionesVista.php';
@@ -87,7 +88,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$this->anioPlanificacion = $anioPlanificacion;
 		} else {
 			$this->accion = "Nueva solicitud de planificación";
-			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
+			$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'Ya existe una planificación habilitada.'];
+			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
 		}
 
 		require APP . 'VacacionesPermisos/vistas/formularioCronogramaVacacionesVista.php';
@@ -116,11 +118,6 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$id = $this->lNegocioCronogramaVacaciones->actualizarPlanificacionVacaciones($_POST);
 		if ($id != 0) {
 			$contenido = $id;
-			// if ($_POST['accion'] == 'Nuevo Registro'){
-			// 	$lista = $this->listarDestinatariosRegistrados($id);
-			// }else{
-			// 	$lista = $this->listarDestinatariosRegistrados($id, 'No');
-			// }
 		} else {
 			$estado = 'FALLO';
 			$mensaje = 'Error al guardar el registro !!';
@@ -177,9 +174,6 @@ class CronogramaVacacionesControlador extends BaseControlador
 
 		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
 
-		//lamar al backup del usuario 
-		//buscar en la tabla
-
 		$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
 		$estado = false;
 		switch ($estadoCronogramaRegistro) {
@@ -206,7 +200,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 			$contador = 0;
 			foreach ($tabla as $fila) {
 				$this->itemsFiltrados[] = array(
-					'<tr style="text-align:center; " id="' . $fila['id_cronograma_vacacion'] . '"
+				'<tr style="text-align:center; " id="' . $fila['id_cronograma_vacacion'] . '"
 				class="item" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\cronogramavacaciones"
 				data-opcion="editar" ondragstart="drag(event)" draggable="true"
 				data-destino="detalleItem">
@@ -214,11 +208,9 @@ class CronogramaVacacionesControlador extends BaseControlador
 				<td style="white - space:nowrap; "><b>' . $fila['id_cronograma_vacacion'] . '</b></td>
 				<td>'
 						. $fila['identificador_funcionario'] . '</td>
-				<td>' . 	date('Y/m/d', strtotime($fila['fecha_ingreso_institucion']))
-						. '</td>
 				<td>' . $fila['identificador_backup'] . '</td>
 				<td>' . $fila['total_dias_planificados'] . '</td>
-				<td>' . $fila['estado_cronograma_vacacion'] . '</td>
+				<td>' . $this->obtenerEstadoPlanificacionCronogramaVacaciones($fila['estado_cronograma_vacacion'])  . '</td>
 				</tr>'
 				);
 			}
@@ -251,13 +243,15 @@ class CronogramaVacacionesControlador extends BaseControlador
 												</thead>
 												
 										';
-
+				$arrayValidaciones = ['^(3[0]{0,1})$', '^(1[5]{0,1})$', '^(1[0]|[1-9])$', '^([7-9])$'];
+					
 			foreach ($periodos as $item) {
+
 				$datosPlanificarPeriodos .= '<tbody>
 			<tr>	
 				<td style="font-weight: bold;">' . $arrayEstados[($item->numero_periodo - 1)]  . '<input type="hidden" name="hPeriodo[]" value="1"></td>
 				<td><input value=' . $item->fecha_inicio . ' type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-				<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias[]"></td>
+				<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'. "'" .$arrayValidaciones[($numeroPeriodos- 1)] . "'" . ');" onfocus="calculo(this,'. "'" .$arrayValidaciones[($numeroPeriodos- 1)] . "'" . ');" ></td>
 				<td><input value=' . $item->fecha_fin . ' type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 			</tr>
 		</tbody>';
@@ -281,7 +275,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 													<tr>	
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(3[0]{0,1})$'" . ');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(3[0]{0,1})$'" . ');" onfocus="calculo(this,' . "'^(3[0]{0,1})$'" . ');"></td>
 														<td><input type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 												</tbody>
@@ -303,13 +297,13 @@ class CronogramaVacacionesControlador extends BaseControlador
 													<tr>
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[5]{0,1})$'" . ');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[5]{0,1})$'" . ');" onfocus="calculo(this,' . "'^(1[5]{0,1})$'" . ');"></td>
 														<td><input type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold;">Segundo periodo<input type="hidden" name="hPeriodo[]" value="2"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[5]{0,1})$'" . ');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[5]{0,1})$'" . ');" onfocus="calculo(this,' . "'^(1[5]{0,1})$'" . ');"></td>
 														<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly" ></td>
 													</tr>
 												</tbody>
@@ -329,19 +323,19 @@ class CronogramaVacacionesControlador extends BaseControlador
 													<tr>
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias"  name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
+														<td><input type="text" class="piNumeroDias"  name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');" onfocus="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
 														<td><input type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold;">Segundo periodo<input type="hidden" name="hPeriodo[]" value="2"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');" onfocus="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
 														<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold;">Tercer periodo<input type="hidden" name="hPeriodo[]" value="3"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(1[0]|[1-9])$'" . ');" onfocus="calculo(this,' . "'^(1[0]|[1-9])$'" . ');"></td>
 														<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 												</tbody>
@@ -361,25 +355,25 @@ class CronogramaVacacionesControlador extends BaseControlador
 													<tr>
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias"  name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');"></td>
+														<td><input type="text" class="piNumeroDias"  name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');" onfocus="calculo(this,' . "'^([7-9])$'" . ');"></td>
 														<td><input type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 														<td style="font-weight: bold;">Segundo periodo<input type="hidden" name="hPeriodo[]" value="2"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');"></td>
+														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');" onfocus="calculo(this,' . "'^([7-9])$'" . ');"></td>
 														<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 													</tr>
 													<tr>
 													<td style="font-weight: bold;">Tercer periodo<input type="hidden" name="hPeriodo[]" value="3"></td>
 													<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-													<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');"></td>
+													<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');" onfocus="calculo(this,' . "'^([7-9])$'" . ');"></td>
 													<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 												</tr>
 												<tr>
 													<td style="font-weight: bold;">Cuarto periodo<input type="hidden" name="hPeriodo[]" value="4"></td>
 													<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-													<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');"></td>
+													<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^([7-9])$'" . ');" onfocus="calculo(this,' . "'^([7-9])$'" . ');"></td>
 													<td><input type="text"  class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
 												</tr>
 												</tbody>
@@ -414,7 +408,6 @@ class CronogramaVacacionesControlador extends BaseControlador
 											<tr>
 												<th colspan="5">Buscar:</th>
 											</tr>
-											
                         					<tr>
                         						<td colspan="1">Estado: </td>
                         						<td colspan="4">
@@ -427,7 +420,6 @@ class CronogramaVacacionesControlador extends BaseControlador
 												</select>
                         						</td>
                         					</tr>
-                        				
                         					<tr>
                         						<td colspan="4">
                         							<button id="btnFiltrar">Buscar</button>
@@ -476,7 +468,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$funcionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, null, true);
 
 		$datos = '<fieldset>
-					<legend>Datos planificación</legend>
+					<legend>Datos de planificación</legend>
 					<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="' . $anioPlanificacion  . '" />
 
 					<div data-linea="5">

@@ -268,9 +268,9 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 								</div>
 								<div data-linea="2">
 									<label for="observacion_revision">Observación: </label>
-									<input id="observacion_revision" name="observacion_revision" value="" class="validacion">
+									<input id="observacion_revision" name="observacion_revision" value="" class="validacion" />
 								</div>	
-							</fieldset >';
+							</fieldset>';
 
 		return $resultadoRevision;
 	}

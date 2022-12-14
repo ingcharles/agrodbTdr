@@ -3,10 +3,10 @@
 <table id="tablaItems">
 	<thead><tr>
 		<th>#</th>
-		<th>Columna1</th>
-		<th>Columna2</th>
-		<th>Columna3</th>
-		<th>Columna4</th>
+		<th>Id</th>
+		<th>Responsable</th>
+		<th>Descripción</th>
+		<th>Año</th>
 		</tr></thead>
 	<tbody></tbody>
 </table>

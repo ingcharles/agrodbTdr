@@ -8,10 +8,9 @@
 		<tr>
 			<th>#</th>
 			<th>Id</th>
-			<th>Identificador</th>
-			<th>Fecha ingreso</th>
-			<th>Identificador backup</th>
-			<th>Días Planificados</th>
+			<th>Funcionario</th>
+			<th>Funcionario backup</th>
+			<th>Días planificados</th>
 			<th>Estado</th>
 		</tr>
 	</thead>
@@ -42,8 +41,6 @@
 		);
 
 function fn_filtrar() {
-
-//$("#paginacion").html("<div id='cargando'>Cargando...</div>");
 
 
 $.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/listarSolicitudesCronogramaVacacion",
