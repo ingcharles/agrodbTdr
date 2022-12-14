@@ -387,7 +387,6 @@ class BaseControlador extends Comun
 		return $nombredia . ", " . $numeroDia . " de " . $nombreMes . " de " . $anio;
 	}
 
-<<<<<<< HEAD
 
 	public function obtenerEstadoPlanificacionCronogramaVacaciones($estado)
 	{
@@ -415,7 +414,6 @@ class BaseControlador extends Comun
 	}
 
 	
-=======
 	public function construirDatosRevisionCronogramaVacaciones($idCronogramaVacacion)
 	{
 		$revisionCronogramaVacacionesLogicaNegocio = new RevisionCronogramaVacacionesLogicaNegocio();
@@ -448,5 +446,4 @@ class BaseControlador extends Comun
 
 		return $datos;
 	}
->>>>>>> 4599b2ae3491fbfe1346fbbf609f97c261b2484b
 }
