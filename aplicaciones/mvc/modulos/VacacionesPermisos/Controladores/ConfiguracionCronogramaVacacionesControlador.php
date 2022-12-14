@@ -55,7 +55,8 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 	public function nuevo()
 	{
 		$this->accion = "Nueva configuracion de cronograma de vacaciones";
-		$arrayParametros = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		//$arrayParametros = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		$arrayParametros = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
 		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametros);
 
 		if ($verificarConfiguracionCronograma->count()) {

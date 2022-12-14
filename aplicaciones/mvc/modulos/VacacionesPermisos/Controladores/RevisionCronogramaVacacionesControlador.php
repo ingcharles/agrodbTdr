@@ -91,7 +91,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				break;
 			case 'PFL_DIR_VAC_TTHH':
 				//echo "ES DE TALENTO HUMANO";
-				$estadoCronogramaVacacion = "('EnviadoTthh', 'ReprogramadoTthh')";
+				$estadoCronogramaVacacion = "('RechazadoDe','EnviadoTthh', 'ReprogramadoTthh')";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 				$this->perfilUsuarioDirector = $perfilUsuario;
@@ -100,10 +100,38 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				break;
 			case 'PFL_DE_PROG_VAC':
 				//echo "ES DIRECTOR EJECUTIVO";
-				$this->perfilUsuarioDirector = $perfilUsuario;
-				$estadoCronogramaVacacion = "EnviadoDe";
-				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
-				$this->articleHtmlCronogramaVacaciones();
+
+				$arrayParametrosCronograma = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
+				$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametrosCronograma);
+		
+				if ($verificarConfiguracionCronograma->count()) {
+					$this->perfilUsuarioDirector = $perfilUsuario.'_1';
+					$estadoCronogramaVacacion = "('EnviadoJefe')";
+					$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
+					$arrayParametros += ['busquedaDe' => "INNER JOIN g_estructura.area ar ON ar.id_area = dc.id_gestion AND ar.id_area_padre = 'DE'"];
+					
+					$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
+					$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
+					$this->tablaHtmlRevisionCronogramaVacaciones($solicitudesPlanificacionVacaciones);
+					
+				} else {
+					$this->perfilUsuarioDirector = $perfilUsuario.'_2';
+					$estadoCronogramaVacacion = "EnviadoDe";
+					$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
+					$this->articleHtmlCronogramaVacaciones();
+				}
+
+				// $this->perfilUsuarioDirector = $perfilUsuario;
+				// $estadoCronogramaVacacion = "EnviadoDe";
+				// $arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
+				// $this->articleHtmlCronogramaVacaciones();
+				// $estadoCronogramaVacacion = "('RechazadoDe','EnviadoJefe')";
+				// $arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
+				// $arrayParametros += ['busquedaDe' => "INNER JOIN g_estructura.area ar ON ar.id_area = dc.id_gestion AND ar.id_area_padre = 'DE'"];
+				
+				// $solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
+				// $this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
+				// $this->tablaHtmlRevisionCronogramaVacaciones($solicitudesPlanificacionVacaciones);
 				break;
 		}
 
@@ -252,7 +280,14 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				$estadoCronograma = "EnviadoDe";
 				break;
 			case 'PFL_DE_PROG_VAC':
-				$estadoCronograma = "Aprobado";
+				$datos = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
+				$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
+	
+				if ($verificarConfiguracionCronograma->count()) {
+					$estadoCronograma = "EnviadoTthh";
+				}else{
+					$estadoCronograma = "Aprobado";
+				}
 				break;
 		}
 
@@ -356,7 +391,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		switch ($perfilUsuario) {
 
 			case 'PFL_DIR_VAC_TTHH':
-				$estadoCronogramaVacacion = "('Aprobado')";
+				$estadoCronogramaVacacion = "('Finalizado')";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 			break;
@@ -393,13 +428,13 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$estadoCronogramaVacacion = $validarEstadoCronogramaVacacion->getEstadoCronogramaVacacion();
 
 		switch($estadoCronogramaVacacion){
-			case 'Aprobado':
+			case 'Finalizado':
 				$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
 				$this->periodoCronograma = $this->construirValidarPeriodo(array('id_cronograma_vacacion' => $idCronogramaVacacion));
 			break;
 			default:
 				$datos = ['titulo' => 'Cronograma de planificación'
-							, 'mensaje' => 'La solicitud no se encuentra en estado "Aprobado".'];
+							, 'mensaje' => 'La solicitud no se encuentra en estado "<b>Aprobado</b>".'];
 				$this->datosGenerales = $this->construirDatosProcesoNoPermitido($datos);
 			break;
 		}
@@ -418,19 +453,15 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			switch ($estado['estado']) {
 
 				case 'EnviadoDe':
+				case 'RechazadoDe':
 					$this->article .= "<h2>Cronograma Periodo Actual </h2>";
-					$estadoMostrado = "Habilitado";
+					$estadoMostrado = $this->obtenerEstadoConfiguracionCronogramaVacaciones($estado['estado']);
 					$pagina = "aprobarConfiguracionCronogramaVacaciones";
 					break;
-
-					// case 'Inactivo':
 				default:
 					$this->article .= "<h2> Cronograma Periodos Histórico </h2>";
-					$estadoMostrado = "Finalizado";
+					$estadoMostrado = $this->obtenerEstadoConfiguracionCronogramaVacaciones($estado['estado']);
 					$pagina = "aprobarConfiguracionCronogramaVacaciones";
-					// break;
-
-					// $pagina = "aprobarConfiguracionCronogramaVacaciones";
 
 					break;
 			}
@@ -487,6 +518,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			}
 		}
 
+		$observacion = $disabled !="" ?  $qDatoConfiguracion->current()->observacion : "" ;
 		$this->descripcionConfiguracionCronogramaVacaciones = '
 		<form id="formEnviarDe" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos" data-opcion="ConfiguracionCronogramaVacaciones/aprobarDeCronogramaVacaciones" data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 			<input type="hidden" name="id_configuracion_cronograma_vacacion" value="' . $qDatoConfiguracion->current()->id_configuracion_cronograma_vacacion . '" />
@@ -520,7 +552,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				<label for="comentario_configuracion_vacacion" style="vertical-align:top;">Comentario: </label>
 				<div data-linea="5">
 					
-					<textarea rows="2" cols="50" id="observacion" ' . $disabled . ' name="observacion" class="validacion" >' . $qDatoConfiguracion->current()->observacion . '</textarea>
+					<textarea rows="2" cols="50" id="observacion" ' . $disabled . ' name="observacion" class="validacion" >' . $observacion . '</textarea>
 				</div>
 			</fieldset>
 			' . $muestraGuardar . '
@@ -535,7 +567,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	public function enviarDirectorEjecutivo()
 	{
 
-		$arrayParametros = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		//$arrayParametros = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		$arrayParametros = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
 		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametros);
 
 		if ($verificarConfiguracionCronograma->count()) {
@@ -557,11 +590,25 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacaciones($arrayResumenCronograma);
 			} else {
 				$datos = ['titulo' => 'Cronograma de planificación'
-							, 'mensaje' => 'No existe un cronograma registrado para el año.'];
+							, 'mensaje' => 'No existen planificaciones de vacaciones realizadas para el año ' + $anioConfiguracionCronogramaVacacion];
 				$this->resumenCronogramaVacacion = $this->construirDatosProcesoNoPermitido($datos);
 			}
 		} else {
-			$this->resumenCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
+
+			$arrayParametros = ['estado_configuracion_cronograma_vacacion' => 'EnviadoDe'];
+			$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametros);
+			if ($verificarConfiguracionCronograma->count()) {
+				$anioConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
+				$datos = ['titulo' => 'Cronograma de planificación'
+				, 'mensaje' => 'Ya existe un cronograma de planificación de vacaciones enviado al Director Ejecutivo del año '. $anioConfiguracionCronogramaVacacion .' por aprobar'];
+				$this->resumenCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
+			}else{
+				$datos = ['titulo' => 'Cronograma de planificación'
+				, 'mensaje' => 'No existe un cronograma de planificación de vacaciones para enviar al Director Ejecutivo'];
+				$this->resumenCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
+			}
+
+			
 		}
 
 		require APP . 'VacacionesPermisos/vistas/formularioResumenEnvioCronogramaVacacionesVista.php';

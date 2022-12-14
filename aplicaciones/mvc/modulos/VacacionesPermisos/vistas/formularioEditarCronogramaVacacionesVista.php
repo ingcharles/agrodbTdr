@@ -96,7 +96,7 @@
 					var valorComboPeriodo = $("#numero_periodos option:selected").val();
 
 					
-					if (estadoCronograma.includes("Enviado")) {
+					if (estadoCronograma.includes("Enviado") || estadoCronograma.includes("Rechazado") || estadoCronograma.includes("Finalizado")) {
 						var valorMaximo = 0
 						$('.piNumeroDias').each(function(index) {
 							valorMaximo = parseInt( $(this).val())+ valorMaximo;
