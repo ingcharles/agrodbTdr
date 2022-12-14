@@ -9,7 +9,10 @@
 
 
 <form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='cronogramavacaciones/actualizarPlanificacion' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
-	<?php echo $this->datosGenerales; ?>
+	<?php 
+		echo $this->datosGenerales; 
+		echo $this->datosRevisionCronograma;
+	?>
 	<fieldset>
 		<legend>Datos de planificación</legend>
 		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
