@@ -166,10 +166,36 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$_POST['estado_cronograma_vacacion'] = $estadoCronogramaVacacion;
 		$_POST['es_reprogramacion'];
 		$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
+			if($_POST['es_reprogramacion']> 0 && $_POST['estado_solicitud']=='Aprobado'){
+				// if ($estado == 'Finalizado') {
 
+
+				// 	//Tabla de firmas físicas
+				// 	$firmaResponsable = $this->lNegocioResponsablesCertificadosNegocio->obtenerFirmasResponsablePorProvincia('Director Ejecutivo', 'DE');
+	
+				// 	$rutaArchivo = Constantes::RUTA_SERVIDOR_OPT . '/' . Constantes::RUTA_APLICACION . '/' . $rutaArchivoPdf;
+	
+				// 	//Firma Electrónica
+	
+				// 	$parametrosFirma = array(
+				// 		'archivo_entrada' => $rutaArchivo,
+				// 		'archivo_salida' => $rutaArchivo,
+				// 		'identificador' => $firmaResponsable->current()->identificador,
+				// 		'razon_documento' => 'Cronograma de Vacaciones',
+				// 		'tabla_origen' => 'g_vacaciones.configuracion_cronograma_vacaciones',
+				// 		'campo_origen' => 'ruta_consolidado_pdf',
+				// 		'id_origen' => $idConfiguracionCronogramaVacacion,
+				// 		'estado' => 'Por atender',
+				// 		'proceso_firmado' => 'NO'
+				// 	);
+	
+				// 	//Guardar registro para firma
+				// 	$this->lNegocioFirmantesLogicaNegocio->ingresoFirmaDocumento($parametrosFirma);
+				// }
+			}
 		if ($proceso) {
 			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
-		}
+		 }
 	}
 
 	/**
