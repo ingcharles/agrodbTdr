@@ -119,7 +119,11 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 	 */
 	public function buscarConfiguracionCronogramaVacaciones()
 	{
-		$consulta = "SELECT * FROM " . $this->modeloConfiguracionCronogramaVacaciones->getEsquema() . ". configuracion_cronograma_vacaciones";
+		$consulta = "SELECT cc.id_configuracion_cronograma_vacacion, cc.anio_configuracion_cronograma_vacacion, cc.descripcion_configuracion_vacacion,
+							fe.identificador || ' ' || fe.nombre || ' ' || fe.apellido AS identificador_configuracion_cronograma_vacacion
+					FROM " . $this->modeloConfiguracionCronogramaVacaciones->getEsquema() . ". configuracion_cronograma_vacaciones cc
+					INNER JOIN
+						g_uath.ficha_empleado fe ON fe.identificador = cc.identificador_configuracion_cronograma_vacacion";
 		return $this->modeloConfiguracionCronogramaVacaciones->ejecutarSqlNativo($consulta);
 	}
 

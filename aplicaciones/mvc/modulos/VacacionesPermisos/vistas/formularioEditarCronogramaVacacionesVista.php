@@ -11,7 +11,7 @@
 <form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='cronogramavacaciones/actualizarPlanificacion' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 	<?php echo $this->datosGenerales; ?>
 	<fieldset>
-		<legend>Datos planificación</legend>
+		<legend>Datos de planificación</legend>
 		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
 		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
 		<input type="hidden" name="estado_cronograma_vacacion" id="anio_cronograma_vacacion" value="EnviadoJefe" />
@@ -56,16 +56,18 @@
 	var idCronogramaVacacion = "<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>";
 	var estadoCronograma = "<?php echo $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion(); ?>";
 	var anioPlanificacion = "<?php echo $this->anioPlanificacion; ?>";
+
 	$(document).ready(function() {
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "Rechazado" || estadoCronograma == "EnviadoJefe") {
-
+		// if (estadoCronograma.includes("Rechazado")) {
+		// 	console.log("11111111111");
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
 				numero_periodos_planificar: $('#numero_periodos').val(),
 				id_cronograma_vacacion: idCronogramaVacacion
 			}, function(data) {
+				data = JSON.parse(data);
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
 					$(".piFechaFin").datepicker({
@@ -94,7 +96,7 @@
 					var valorComboPeriodo = $("#numero_periodos option:selected").val();
 
 					
-					if (estadoCronograma == "EnviadoJefe") {
+					if (estadoCronograma.includes("Enviado")) {
 						var valorMaximo = 0
 						$('.piNumeroDias').each(function(index) {
 							valorMaximo = parseInt( $(this).val())+ valorMaximo;
@@ -129,16 +131,17 @@
 					var totalDias = parseInt(valorComboPeriodo) * valorMaximo;
 					$('#total_dias').html(totalDias);
 					$('#total_dias_planificados').val(totalDias);
-					if (estadoCronograma == "EnviadoJefe") {
+					if (estadoCronograma.includes("Enviado")) {
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
 							$(elem).attr('disabled', true);
 						})
 					}
 
 				}
+
 				}
 			});
-		}
+		//}
 
 
 
@@ -191,6 +194,7 @@
 			$.post("<?php echo URL ?>VacacionesPermisos/CronogramaVacaciones/construirPlanificarPeriodos", {
 				numero_periodos_planificar: numeroPeriodosPlanificar
 			}, function(data) {
+				
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
 
@@ -249,14 +253,7 @@
 	});
 
 	function validarNumeros(campo, expresion) {
-		//let patron = new RegExp('^([1-9]|[1]?[1-9]?|[2][0-4]|10)$');
-		//let patron = new RegExp('^(1[0-2]|[1-9])$');
-		//let patron = new RegExp('^(3[0]|[1-9])$'); // 1-30
-		//let patron = new RegExp('^(3[0]{0,1})$'); // 0-30
-		//let patron = new RegExp('^(1[5]{0,1})$'); // 1-15
-		//let patron = new RegExp('^(1[0]{0,1})$'); // 1-10
-		//let patron = new RegExp('^([7-9])$'); // 7-9
-
+	
 		let patron = new RegExp(expresion);
 		$(campo).bind('input', function() {
 			var node = $(campo);
@@ -307,7 +304,7 @@
 							banderaTablaVacia = false;
 							return false;
 						}
-						console.log(indexx + "------------");
+
 						if ($(this).find('.piFechaInicio').val()) {
 							fechaInicio = $(this).find('.piFechaInicio').val();
 						}
@@ -324,31 +321,20 @@
 				});
 
 				for (let index = 0; index < arrayFechas.length - 1; index++) {
-					//if((index + 1) <= arrayFechas.length){
 					const element = arrayFechas[index];
 					const elementNext = arrayFechas[index + 1];
-					// console.log(element);
-					// console.log(elementNext.fecha_inicio);
-					// console.log(new Date(elementNext.fecha_inicio));
-
 					var fechaInicio1 = new Date(elementNext.fecha_inicio);
 					var fechaFin1 = new Date(element.fecha_fin);
-					console.log(fechaInicio1);
-					console.log(fechaFin1);
 					if (fechaInicio1 <= fechaFin1) {
 						banderaTablaFechas = false;
-						console.log("esta mal");
+
 						$('.piFechaInicio').eq(index + 1).addClass("alerta"); //.css({color:'red'});
 					}
-					//}
-
-
 				}
-				//console.log(arrayFechas);
+
 
 				$.each(input_hermanos, function(idx, x) {
 					var num = parseInt($(x).val());
-
 					if (!isNaN(num) && num != undefined) //Validamos si está vacío o no es un número para acumular
 						if (num > valorMaximo) {
 							valorSuperado = true;
@@ -365,7 +351,6 @@
 						if (!banderaTablaFechas) {
 							$("#estado").html("Revise los rangos de fechas ingresados.").addClass("alerta");
 						} else {
-
 							abrir($(this), event, false);
 							abrir($("#ventanaAplicacion #opcionesAplicacion a.abierto"), "#listadoItems", true);
 						}

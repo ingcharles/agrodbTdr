@@ -19,6 +19,7 @@ use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesModelo;
 use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
 use Agrodb\Core\Constantes;
 use Agrodb\Core\Mensajes;
+use DateTime;
 
 class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 {
@@ -58,18 +59,18 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametros);
 
 		if ($verificarConfiguracionCronograma->count()) {
-
-			$this->configuracionCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado();
+			$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'Ya existe una planificación habilitada.'];
+			$this->configuracionCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos );
 		} else {
-			$anioConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
+			$anioConfiguracionCronogramaVacacion = date('Y') + 1;
 
 			$this->configuracionCronogramaVacacion = $this->construirIngresoConfiguracionCronogramaVacaciones($anioConfiguracionCronogramaVacacion);
 		}
-		
+
 		require APP . 'VacacionesPermisos/vistas/formularioConfiguracionCronogramaVacacionesVista.php';
 	}
 
-	
+
 
 	/**
 	 * Método para registrar en la base de datos -ConfiguracionCronogramaVacaciones
@@ -127,11 +128,9 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 				data-destino="detalleItem">
 				<td>' . ++$contador . '</td>
 				<td style="white - space:nowrap; "><b>' . $fila['id_configuracion_cronograma_vacacion'] . '</b></td>
-				<td>'
-										. $fila['anio_configuracion_cronograma_vacacion'] . '</td>
-				<td>' . $fila['descripcion_configuracion_vacacion']
-										. '</td>
 				<td>' . $fila['identificador_configuracion_cronograma_vacacion'] . '</td>
+				<td>' . $fila['descripcion_configuracion_vacacion']	. '</td>
+				<td>' . $fila['anio_configuracion_cronograma_vacacion'] . '</td>
 				</tr>'
 				);
 			}
@@ -191,7 +190,7 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 											</div>
 											<div data-linea="3">
 												<label for="fecha_creacion">Fecha de creación: </label>
-												' . $datosConfiguracionCronograma->getFechaCreacion() . '
+												' . (new DateTime((string)($datosConfiguracionCronograma->getFechaCreacion())))->format('Y-m-d')  . '
 											</div>
 											<div data-linea="4">
 												<label for="identificador_configuracion_cronograma">Identificador creación: </label>
