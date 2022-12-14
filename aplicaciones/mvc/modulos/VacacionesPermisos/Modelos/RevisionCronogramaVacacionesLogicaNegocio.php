@@ -456,4 +456,38 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 
 		return true;
 	}
+
+		/**
+	 * Ejecuta una consulta(SQL) personalizada para obtener los datos de la ultima revision de cronograma
+	 *
+	 * @return array
+	 */
+
+	 public function obtenerDatosUltimaRevisionCronograma($arrayParametros)
+	 {
+
+		$idCronogramaVacacion = $arrayParametros['id_cronograma_vacacion'];
+
+		 $sqlScript = "SELECT 
+							rcv.id_revision_cronograma_vacacion
+							, rcv.id_cronograma_vacacion
+							, rcv.identificador_revisor
+							, rcv.id_area_revisor
+							, rcv.estado_solicitud
+							, rcv.observacion
+							, rcv.fecha_creacion
+							, fe.nombre || ' ' || fe.apellido as nombre_revisor
+						FROM 
+						g_vacaciones.revision_cronograma_vacaciones rcv
+						INNER JOIN (SELECT 
+										MAX(rcv.id_revision_cronograma_vacacion) as id_revision_cronograma_vacacion, rcv.id_cronograma_vacacion
+									FROM 
+										g_vacaciones.revision_cronograma_vacaciones rcv
+									GROUP BY rcv.id_cronograma_vacacion) tmcv ON tmcv.id_revision_cronograma_vacacion = rcv.id_revision_cronograma_vacacion
+						INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = rcv.identificador_revisor
+						WHERE
+							tmcv.id_cronograma_vacacion = " . $idCronogramaVacacion . ";";
+		 $res = $this->modeloRevisionCronogramaVacaciones->ejecutarSqlNativo($sqlScript);
+		 return $res;
+	 }
 }

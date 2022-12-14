@@ -22,6 +22,7 @@ use Agrodb\GUath\Modelos\DatosContratoLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\PeriodoCronogramaVacacionesLogicaNegocio;
+use Agrodb\VacacionesPermisos\Modelos\RevisionCronogramaVacacionesLogicaNegocio;
 
 class BaseControlador extends Comun
 {
@@ -382,5 +383,38 @@ class BaseControlador extends Comun
 		$meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 		$nombreMes = str_replace($meses_EN, $meses_ES, $mes);
 		return $nombredia . ", " . $numeroDia . " de " . $nombreMes . " de " . $anio;
+	}
+
+	public function construirDatosRevisionCronogramaVacaciones($idCronogramaVacacion)
+	{
+		$revisionCronogramaVacacionesLogicaNegocio = new RevisionCronogramaVacacionesLogicaNegocio();
+
+		$datos = "";
+		$arrayParametros = ['id_cronograma_vacacion' => $idCronogramaVacacion];
+
+		$datosRevisionCronograma = $revisionCronogramaVacacionesLogicaNegocio->obtenerDatosUltimaRevisionCronograma($arrayParametros);
+
+		if($datosRevisionCronograma->count()){
+
+			$datos .= '<fieldset>
+					<legend>Datos de revisión</legend>';
+			
+			foreach($datosRevisionCronograma as $item){
+
+				$nombreRevisor = $item['nombre_revisor'];
+				$observacion = ($item['observacion'] == "") ? 'Sin observación' : $item['observacion'];
+
+				$datos .= '<div data-linea="1">
+							<label for="revisor">Revisor: </label>' . $nombreRevisor . '
+							</div>
+							<div data-linea="2">
+							<label for="observacion">Observación: </label>' . $observacion . '
+							</div>';
+			}
+
+			$datos .= '</fieldset>';
+		}	
+
+		return $datos;
 	}
 }

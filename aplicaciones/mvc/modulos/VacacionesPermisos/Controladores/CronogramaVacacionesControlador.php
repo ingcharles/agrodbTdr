@@ -34,6 +34,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 
 	private $accion = null;
 	private $datosGenerales = null;
+	private $datosRevisionCronograma = null;
 	private $numeroPeriodos = null;
 	private $lNegocioPeriodoCronogramaVacaciones = null;
 	private $lNegocioConfiguracionCronogramaVacaciones = null;
@@ -176,6 +177,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$this->accion = "Editar solicitud de planificación " . $anioPlanificacion;
 
 		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
+		$this->datosRevisionCronograma = $this->construirDatosRevisionCronogramaVacaciones($idCronogramaVacacion);
 
 		//lamar al backup del usuario 
 		//buscar en la tabla
