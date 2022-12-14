@@ -17,7 +17,12 @@
 	<parameter name="anio" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[SELECT DISTINCT  fe.identificador,CONCAT(fe.apellido,' ',fe.nombre) as nombres_completos,
-	cv.estado_cronograma_vacacion,pv.fecha_inicio,pv.fecha_fin,pv.total_dias,
+	cv.estado_cronograma_vacacion,
+	to_char(pv.fecha_inicio, 'TMDay, ' || ' dd ') || 'de ' || to_char(pv.fecha_inicio, 'TMmonth') || ' de ' || to_char(pv.fecha_inicio, 'yyyy') as fecha_inicio,
+	to_char(pv.fecha_fin, 'TMDay, ' || ' dd ') || 'de ' || to_char(pv.fecha_fin, 'TMmonth') || ' de ' || to_char(pv.fecha_fin, 'yyyy') as fecha_fin,
+	--pv.fecha_inicio,
+	--pv.fecha_fin,
+	pv.total_dias,
 	ar.nombre AS nombre_unidad_administrativa,
 	arr.nombre AS nombre_gestion_administrativa, 
 	dc.nombre_puesto AS puesto_institucional,
@@ -31,7 +36,8 @@
 	WHEN pv.numero_periodo=4 THEN
 	'Cuarto Periodo'
 	END as numero_periodo,
-	mdc.fecha_inicio as fecha_ingreso,
+	--mdc.fecha_inicio as fecha_ingreso,
+	to_char(mdc.fecha_inicio, 'yyyy-mm-dd') as fecha_ingreso,
 	CONCAT(feb.apellido,' ',feb.nombre) as nombres_completos_backup,
 	cv.total_dias_planificados
 	FROM g_vacaciones.cronograma_vacaciones cv
@@ -53,79 +59,79 @@
 	CONCAT(fe.apellido,' ',fe.nombre)]]>
 	</queryString>
 	<field name="identificador" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="identificador"/>
 		<property name="com.jaspersoft.studio.field.label" value="identificador"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ficha_empleado"/>
+		<property name="com.jaspersoft.studio.field.name" value="identificador"/>
 		<fieldDescription><![CDATA[Llave principal de esta tabla; Llave foránea de la tabla g_usuario.usuarios]]></fieldDescription>
 	</field>
 	<field name="nombres_completos" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombres_completos"/>
 		<property name="com.jaspersoft.studio.field.label" value="nombres_completos"/>
+		<property name="com.jaspersoft.studio.field.name" value="nombres_completos"/>
 	</field>
 	<field name="estado_cronograma_vacacion" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="estado_cronograma_vacacion"/>
 		<property name="com.jaspersoft.studio.field.label" value="estado_cronograma_vacacion"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cronograma_vacaciones"/>
+		<property name="com.jaspersoft.studio.field.name" value="estado_cronograma_vacacion"/>
 		<fieldDescription><![CDATA[Estado de la revision del registro de planificacion de vacaciones]]></fieldDescription>
 	</field>
-	<field name="fecha_inicio" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.name" value="fecha_inicio"/>
+	<field name="fecha_inicio" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="fecha_inicio"/>
+		<property name="com.jaspersoft.studio.field.name" value="fecha_inicio"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="periodo_cronograma_vacaciones"/>
 		<fieldDescription><![CDATA[Fecha de inicio de periodo de vacaciones]]></fieldDescription>
 	</field>
-	<field name="fecha_fin" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.name" value="fecha_fin"/>
+	<field name="fecha_fin" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="fecha_fin"/>
+		<property name="com.jaspersoft.studio.field.name" value="fecha_fin"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="periodo_cronograma_vacaciones"/>
 		<fieldDescription><![CDATA[Fecha de retorno de periodo de vacaciones]]></fieldDescription>
 	</field>
 	<field name="total_dias" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="total_dias"/>
 		<property name="com.jaspersoft.studio.field.label" value="total_dias"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="periodo_cronograma_vacaciones"/>
+		<property name="com.jaspersoft.studio.field.name" value="total_dias"/>
 		<fieldDescription><![CDATA[Numero total de dias del periodo de vacaciones]]></fieldDescription>
 	</field>
 	<field name="nombre_unidad_administrativa" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombre_unidad_administrativa"/>
 		<property name="com.jaspersoft.studio.field.label" value="nombre_unidad_administrativa"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="area"/>
+		<property name="com.jaspersoft.studio.field.name" value="nombre_unidad_administrativa"/>
 	</field>
 	<field name="nombre_gestion_administrativa" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombre_gestion_administrativa"/>
 		<property name="com.jaspersoft.studio.field.label" value="nombre_gestion_administrativa"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="area"/>
+		<property name="com.jaspersoft.studio.field.name" value="nombre_gestion_administrativa"/>
 	</field>
 	<field name="puesto_institucional" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="puesto_institucional"/>
 		<property name="com.jaspersoft.studio.field.label" value="puesto_institucional"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="datos_contrato"/>
+		<property name="com.jaspersoft.studio.field.name" value="puesto_institucional"/>
 	</field>
 	<field name="numero_periodo" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="numero_periodo"/>
 		<property name="com.jaspersoft.studio.field.label" value="numero_periodo"/>
+		<property name="com.jaspersoft.studio.field.name" value="numero_periodo"/>
 	</field>
-	<field name="fecha_ingreso" class="java.sql.Date">
-		<property name="com.jaspersoft.studio.field.name" value="fecha_ingreso"/>
+	<field name="fecha_ingreso" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="fecha_ingreso"/>
+		<property name="com.jaspersoft.studio.field.name" value="fecha_ingreso"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="datos_contrato"/>
 	</field>
 	<field name="nombres_completos_backup" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombres_completos_backup"/>
 		<property name="com.jaspersoft.studio.field.label" value="nombres_completos_backup"/>
+		<property name="com.jaspersoft.studio.field.name" value="nombres_completos_backup"/>
 	</field>
 	<field name="total_dias_planificados" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="total_dias_planificados"/>
 		<property name="com.jaspersoft.studio.field.label" value="total_dias_planificados"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cronograma_vacaciones"/>
+		<property name="com.jaspersoft.studio.field.name" value="total_dias_planificados"/>
 		<fieldDescription><![CDATA[Número total de dias planificados de vacaciones]]></fieldDescription>
 	</field>
 	<group name="UnidadGroup">
 		<groupExpression><![CDATA[$F{nombre_unidad_administrativa}]]></groupExpression>
 		<groupHeader>
-			<band height="33">
+			<band height="27">
 				<textField>
-					<reportElement mode="Opaque" x="140" y="10" width="412" height="20" backcolor="#D9D7D7" uuid="f9d4ed3d-bcc8-4a36-83d4-aac4ec61f221">
+					<reportElement mode="Opaque" x="140" y="7" width="412" height="20" backcolor="#D9D7D7" uuid="f9d4ed3d-bcc8-4a36-83d4-aac4ec61f221">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -134,7 +140,7 @@
 					<textFieldExpression><![CDATA[$F{nombre_unidad_administrativa}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="10" width="140" height="20" backcolor="#D9D7D7" uuid="4daa7540-c820-4bba-9607-f8fdbd2d630c">
+					<reportElement mode="Opaque" x="0" y="7" width="140" height="20" backcolor="#D9D7D7" uuid="4daa7540-c820-4bba-9607-f8fdbd2d630c">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -151,7 +157,7 @@
 	<group name="EmpleadoGroup">
 		<groupExpression><![CDATA[$F{nombres_completos}]]></groupExpression>
 		<groupHeader>
-			<band height="90">
+			<band height="87">
 				<textField>
 					<reportElement x="241" y="20" width="311" height="20" uuid="47b76e57-0f8e-41d2-899d-c52dec051a16">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -186,7 +192,7 @@
 					<text><![CDATA[Apellidos y Nombres:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="70" width="100" height="20" uuid="0c0b8691-8303-42eb-8b17-1a264d95edd2">
+					<reportElement x="0" y="67" width="100" height="20" uuid="0c0b8691-8303-42eb-8b17-1a264d95edd2">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<box>
@@ -200,7 +206,7 @@
 					<text><![CDATA[Periodo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="100" y="70" width="90" height="20" uuid="2af8c332-3c16-42e6-b702-9d33f59dfc46">
+					<reportElement x="100" y="67" width="90" height="20" uuid="2af8c332-3c16-42e6-b702-9d33f59dfc46">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<box>
@@ -214,7 +220,7 @@
 					<text><![CDATA[Dias Planificados]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="190" y="70" width="181" height="20" uuid="5291b792-bd0e-452b-bc67-fa389558697f">
+					<reportElement x="190" y="67" width="181" height="20" uuid="5291b792-bd0e-452b-bc67-fa389558697f">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -229,7 +235,7 @@
 					<text><![CDATA[Fecha inicio]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="371" y="70" width="181" height="20" uuid="e331f8e0-2a0c-4fc7-bb4a-4e1304095f60">
+					<reportElement x="371" y="67" width="181" height="20" uuid="e331f8e0-2a0c-4fc7-bb4a-4e1304095f60">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -301,7 +307,7 @@
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[new SimpleDateFormat("YYYY-MM-DD").format($F{fecha_ingreso})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{fecha_ingreso}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="56" y="40" width="77" height="20" uuid="79319ff8-1749-404e-9c9f-c8e97cd6e548"/>
@@ -311,9 +317,9 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="18">
+			<band height="26">
 				<staticText>
-					<reportElement x="0" y="5" width="545" height="2" uuid="d8baa4f1-25e7-4a86-a5f3-186a656a67a9"/>
+					<reportElement x="0" y="10" width="545" height="2" uuid="d8baa4f1-25e7-4a86-a5f3-186a656a67a9"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
 					</box>
@@ -334,47 +340,47 @@
 			</image>
 		</band>
 	</background>
-	<title>
-		<band height="98" splitType="Stretch">
+	<pageHeader>
+		<band height="106">
 			<textField>
-				<reportElement x="10" y="66" width="540" height="30" uuid="76975e90-3fa4-42cd-87ab-3585ca98828b"/>
+				<reportElement x="20" y="60" width="540" height="30" uuid="76975e90-3fa4-42cd-87ab-3585ca98828b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["CRONOGRAMA DE VACACIONES " + $P{anio}]]></textFieldExpression>
 			</textField>
 		</band>
-	</title>
+	</pageHeader>
 	<detail>
-		<band height="22">
+		<band height="19">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.spreadsheet.SpreadsheetLayout"/>
 			<textField>
-				<reportElement x="0" y="0" width="100" height="22" uuid="a0560672-204b-4c48-94f8-950da982f3d3">
+				<reportElement x="0" y="0" width="100" height="19" uuid="a0560672-204b-4c48-94f8-950da982f3d3">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["  "+$F{numero_periodo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="0" width="90" height="22" uuid="84cfa269-70b6-4abc-a215-54ccd7b3c3b5">
+				<reportElement x="100" y="0" width="90" height="19" uuid="84cfa269-70b6-4abc-a215-54ccd7b3c3b5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{total_dias}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="0" width="181" height="22" uuid="7a2724d3-2b0f-4228-8773-541452917f8e">
+				<reportElement x="190" y="0" width="181" height="19" uuid="7a2724d3-2b0f-4228-8773-541452917f8e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["   "+new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy").format($F{fecha_inicio})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fecha_inicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="371" y="0" width="181" height="22" uuid="fe579018-6ca4-47e9-bcf9-d9e32effeff9">
+				<reportElement x="371" y="0" width="181" height="19" uuid="fe579018-6ca4-47e9-bcf9-d9e32effeff9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["    "+new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy").format($F{fecha_fin})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fecha_fin}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

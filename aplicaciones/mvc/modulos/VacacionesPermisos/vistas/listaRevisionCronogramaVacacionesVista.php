@@ -5,7 +5,7 @@
 
 <div id="paginacion" class="normal"></div>
 	<?php
-	if ($this->perfilUsuarioDirector == 'PFL_DE_PROG_VAC') {
+	if ($this->perfilUsuarioDirector == 'PFL_DE_PROG_VAC_2') {
 			echo '<div id="article">' . $this->article . '</div>';
 	} else {
 		echo '<table id="tablaItems">
@@ -28,7 +28,7 @@
 	var perfilUsuarioDirector = "<?php echo $this->perfilUsuarioDirector; ?>";
 
 	$(document).ready(function() {
-		if(perfilUsuarioDirector == 'PFL_DE_PROG_VAC'){
+		if(perfilUsuarioDirector == 'PFL_DE_PROG_VAC_2'){
 			$("#listadoItems").addClass("comunes");
 			
 		}else{

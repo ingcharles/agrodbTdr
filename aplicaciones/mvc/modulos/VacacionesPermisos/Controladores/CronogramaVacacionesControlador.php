@@ -75,8 +75,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 	public function nuevo()
 	{
 
-		$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
-
+		//$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		$datos = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
 		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
 
 		if ($verificarConfiguracionCronograma->count()) {
@@ -415,10 +415,12 @@ class CronogramaVacacionesControlador extends BaseControlador
                         						<td colspan="4">
 												<select id="estado_cronograma_vacacion" name="estado_cronograma_vacacion" style="width: 100%" class="validacion">
 												<option value="">Seleccione...</option>
-												<option value="Creado">Creado</option>
-												<option value="EnviadoJefe">Revisión Jefe</option>
-												<option value="Rechazado">Rechazado Jefe</option>
-												<option value="Aprobado">Aprobado</option>
+												<option value="Finalizado">'. $this->obtenerEstadoPlanificacionCronogramaVacaciones('Finalizado') . '</option>
+												<option value="EnviadoJefe">'. $this->obtenerEstadoPlanificacionCronogramaVacaciones('EnviadoJefe') . '</option>
+												<option value="EnviadoTthh">'. $this->obtenerEstadoPlanificacionCronogramaVacaciones('EnviadoTthh') . '</option>
+												<option value="EnviadoDe">'. $this->obtenerEstadoPlanificacionCronogramaVacaciones('EnviadoDe') . '</option>
+												<option value="Rechazado">'. $this->obtenerEstadoPlanificacionCronogramaVacaciones('Rechazado') . '</option>
+												<option value="RechazadoDe">'. $this->obtenerEstadoPlanificacionCronogramaVacaciones('RechazadoDe') . '</option>
 												</select>
                         						</td>
                         					</tr>

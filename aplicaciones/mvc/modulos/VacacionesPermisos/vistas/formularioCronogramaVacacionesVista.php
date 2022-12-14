@@ -29,9 +29,7 @@
 		var elementoFechaInicio = $(campo).parents("tr").find(".piFechaInicio");
 		var elementoFechaFin = $(campo).parents("tr").find(".piFechaFin");
 		var elementoNumeroDias = $(campo).parents("tr").find(".piNumeroDias");
-		//console.log($(campo));
-		// debugger
-		// alert(elementoFechaInicio.val());
+
 		if(elementoFechaInicio.val() != ""){
 
 			sumarDias(campo, elementoNumeroDias, elementoFechaInicio, elementoFechaFin);

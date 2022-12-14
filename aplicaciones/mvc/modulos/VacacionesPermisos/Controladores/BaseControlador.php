@@ -59,8 +59,8 @@ class BaseControlador extends Comun
 		$cronogramaVacacionesLogicaNegocio = new CronogramaVacacionesLogicaNegocio();
 		$configuracionCronogramaVacacionLogicaNegocio = new ConfiguracionCronogramaVacacionesLogicaNegocio();
 
-		$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
 
+		$datos = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
 		$verificarConfiguracionCronograma = $configuracionCronogramaVacacionLogicaNegocio->buscarLista($datos);
 
 		$idConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->id_configuracion_cronograma_vacacion;
@@ -392,14 +392,27 @@ class BaseControlador extends Comun
 	public function obtenerEstadoPlanificacionCronogramaVacaciones($estado)
 	{
 		$array = [
-			"EnviadoJefe" => "Enviado inmediato superior",
-			"EnviadoTthh" => "Enviado a talento humano",
+			"Finalizado" => "Aprobado",
+			"EnviadoJefe" => "Enviado a Jefe Inmediato Superior",
+			"EnviadoTthh" => "Enviado a Talento Humano",
+			"EnviadoDe" => "Enviado a Director Ejecutivo",
 			"Rechazado" => "Rechazado",
-			
+			"RechazadoDe" => "Rechazado por el Director Ejecutivo",
 		];
 		return $array[$estado] ;
 	}
 
+	public function obtenerEstadoConfiguracionCronogramaVacaciones($estado)
+	{
+		$array = [
+			"EnviadoDe" => "Por aprobar",
+			"Finalizado" => "Aprobado",
+			"RechazadoDe" => "Rechazado",
+		
+			
+		];
+		return $array[$estado] ;
+	}
 
 	
 =======

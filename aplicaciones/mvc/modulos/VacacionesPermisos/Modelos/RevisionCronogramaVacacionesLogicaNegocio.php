@@ -332,10 +332,10 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 				'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
 				'rotation' => 90,
 				'startColor' => [
-					'argb' => 'FF6495ED',
+					'argb' => 'A6C843'//'FF6495ED',
 				],
 				'endColor' => [
-					'argb' => 'FF6495ED',
+					'argb' => 'A6C843',
 				],
 			],
 		];
