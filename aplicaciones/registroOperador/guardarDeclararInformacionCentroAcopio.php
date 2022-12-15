@@ -44,7 +44,7 @@ try {
 		$idCentroAcopio = $cro->guardarInformacionCentroAcopio($conexion, $idArea, $idTipoOperacion, $capacidadInstalada, $codigoUnidadMedida, $numeroTrabajadores, $idLaboratorio, $numeroProveedores, $idOperadorTipoOperacion, $horaRecoleccionManiana, $horaRecoleccionTarde, $perteneceMag);
 		$idCentroAcopio = pg_fetch_result($idCentroAcopio, 0, 'id_centro_acopio');
 		
-		$cro->inactivarCentroAcopio($conexion, $idCentroAcopio);
+		$cro->inactivarCentroAcopio($conexion, $idCentroAcopio, $idOperadorTipoOperacion);
 		
 		//TODO: Preguntar Eddy
 		if($operacion['modulo_provee'] == 'moduloExterno' && $estado['estado'] == 'cargarProducto'){

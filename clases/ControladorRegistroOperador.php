@@ -5336,7 +5336,7 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 			$res = $conexion->ejecutarConsulta("INSERT INTO
 													g_operadores.centros_acopio (id_area, id_tipo_operacion, capacidad_instalada, codigo_unidad_medida, numero_trabajadores, id_laboratorio_leche, numero_proveedores, fecha_creacion, id_operador_tipo_operacion, hora_recoleccion_maniana, hora_recoleccion_tarde, pertenece_mag)
 												VALUES
-													($idArea, $idTipoOperacion, $capacidadInstalada, '$codigoUnidadMedida', $numeroTrabajadores, $idLaboratorio, $numeroProveedores, 'now()', $idOperadorTipoOperacion, '$horaRecoleccionManiana', '$horaRecoleccionTarde', '$perteneceMag');");
+													($idArea, $idTipoOperacion, $capacidadInstalada, '$codigoUnidadMedida', $numeroTrabajadores, $idLaboratorio, $numeroProveedores, 'now()', $idOperadorTipoOperacion, '$horaRecoleccionManiana', '$horaRecoleccionTarde', '$perteneceMag') RETURNING id_centro_acopio;");
 		
 			return $res;
 		}
@@ -5762,19 +5762,7 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 												id_operador_tipo_operacion = '$idOperadorTipoOperacion';");
 			return $res;
 	}
-	
-	public function inactivarCentroAcopioXAreaXIdOperadorTipoOperacion($conexion, $idArea, $idOperadorTipoOperacion){
-
-		$res = $conexion->ejecutarConsulta("UPDATE
-												g_operadores.centros_acopio
-											SET
-												estado_centro_acopio = 'inactivo'
-											WHERE
-												id_area = '$idArea' and
-												id_operador_tipo_operacion NOT IN ('$idOperadorTipoOperacion');");
-		return $res;
-	}
-	
+		
 	public function inactivarVehiculoRecolectorXAreaXIdOperadorTipoOperacion($conexion, $idArea, $idOperadorTipoOperacion){
 	
 		$res = $conexion->ejecutarConsulta("UPDATE
@@ -6056,7 +6044,7 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 	}
 	
 	public function listarCentroAcopioXIdAreaXidTipoOperacion($conexion, $idArea, $idTipoOperacion, $idOperadorTipoOperacion, $estado){
-	
+
 		$res = $conexion->ejecutarConsulta("SELECT
 												*
 											FROM
@@ -8189,6 +8177,19 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 	    $res = $conexion->ejecutarConsulta($consulta);
 	    return $res;
 	}
+
+	public function consultarUltimoCentroFaenamienTransporteXOperacioXArea($conexion, $arrayParametros){
+	    $consulta="
+					SELECT 
+					max(id_centro_faenamiento) as id_centro_faenamiento
+				FROM 
+					g_operadores.centros_faenamiento_transporte 
+				WHERE 
+					id_operacion = ".$arrayParametros['id_operacion'] ." and id_area = ".$arrayParametros['id_area'].";";
+	    $res = $conexion->ejecutarConsulta($consulta);
+	    return $res;		
+	}
+	
 	public function eliminarCentroFaenamienTransporte($conexion,$arrayParametros){
 	    $consulta="
                     DELETE FROM g_operadores.centros_faenamiento_transporte
@@ -8237,6 +8238,43 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 	    return $res;
 	}
 	
+	public function obtenerFechaActualizacionRegistroOrganicos($conexion, $idOperador, $idTipoOperacion){
+	    
+	    $res = $conexion->ejecutarConsulta("SELECT
+											to_char(min(rd.fecha_inspeccion),'YYYY-MM-DD') as fecha_creacion, to_char(max(rd.fecha_inspeccion),'YYYY-MM-DD') as fecha_actualizacion
+											FROM
+											g_revision_solicitudes.revision_documental rd
+											INNER JOIN (SELECT id_grupo
+													FROM g_revision_solicitudes.asignacion_inspector ai
+													INNER JOIN (SELECT
+																	min(id_operacion)as id_operacion, id_operador_tipo_operacion, id_historial_operacion
+																FROM
+																	g_operadores.operaciones
+																WHERE
+																	identificador_operador = '" . $idOperador . "'
+																	and id_tipo_operacion = " . $idTipoOperacion . "
+																	and id_operacion = (
+																				SELECT
+																					max(id_operacion)
+																				FROM
+																					g_operadores.operaciones
+																				WHERE
+																					identificador_operador = '" . $idOperador . "'
+																					and id_tipo_operacion = " . $idTipoOperacion . "
+																					and estado='registrado'
+																				)
+																GROUP BY id_operador_tipo_operacion, id_historial_operacion) as id_hi_op
+													ON ai.id_operador_tipo_operacion = id_hi_op.id_operador_tipo_operacion and ai.id_historial_operacion = id_hi_op.id_historial_operacion
+												WHERE
+													ai.tipo_solicitud = 'Operadores'
+													and ai.tipo_inspector ='Documental') as re_so
+											ON rd.id_grupo in (re_so.id_grupo)
+											WHERE
+											rd.estado = 'registrado'");
+	    
+	    return $res;
+	}
+	
 	public function obtenerProveedoresPorIdOperacionPorEstado($conexion, $idOperacion, $estado){
 	    
 	    $consulta = "SELECT
@@ -8265,7 +8303,7 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
                                 , s.codigo_provincia
                                 , a.id_area as id_codigo_area
                                 , s.provincia
-                           FROM g_operadores.operaciones op 
+                           FROM g_operadores.operaciones op 											
                                 INNER JOIN g_catalogos.tipos_operacion top ON op.id_tipo_operacion = top.id_tipo_operacion
                                 INNER JOIN g_operadores.productos_areas_operacion pao ON op.id_operacion = pao.id_operacion
                                 INNER JOIN g_operadores.areas a ON pao.id_area = a.id_area
@@ -8834,14 +8872,15 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 	    return $res;
     }
 	
-	public function inactivarCentroAcopio($conexion, $idDatoVehiculo){
+	public function inactivarCentroAcopio($conexion, $idDatoVehiculo, $idOperadorTipoOperacion){
 			
 		$res = $conexion->ejecutarConsulta("UPDATE
 												g_operadores.centros_acopio
 											SET
 												estado_centro_acopio = 'inactivo'
 											WHERE
-												id_centro_acopio NOT IN ($idDatoVehiculo);");
+                                                id_operador_tipo_operacion in ($idOperadorTipoOperacion)
+												and id_centro_acopio NOT IN ($idDatoVehiculo);");
 		return $res;
 	}
 	
@@ -8897,7 +8936,7 @@ public function abrirOperacionRevision ($conexion, $idOperacion){
 		$res = $conexion->ejecutarConsulta($consulta);
 		return $res;
 	}
-
+	
 	public function actualizarCentrosAcopioInspeccion($conexion, $idOperadorTipoOperacion, $identificadorRevisor, $origenInspeccion, $estadoChecklist){
 	    
 	    $consulta = "UPDATE

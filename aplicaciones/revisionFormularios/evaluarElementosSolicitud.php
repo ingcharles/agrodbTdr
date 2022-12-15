@@ -171,38 +171,38 @@ try{
 							}
 						
 							$idVigenciaDocumento = null;
-							
-							if($operacion['proceso_modificacion'] != 't'){
-								
-								if($idVigenciaDeclarada != null){									
-									$qVigenciaDeclarada = $cvd->obtenerVigenciaDeclaradaPorIdVigenciaDeclarada($conexion, $idVigenciaDeclarada);									
-									$vigenciaDeclarada = pg_fetch_assoc($qVigenciaDeclarada);									
-									$valorVigencia = $vigenciaDeclarada['valor_tiempo_vigencia_declarada'];						
-									$idVigenciaDocumento = $vigenciaDeclarada['id_vigencia_documento'];									
-									$tipoTiempoVigencia = $cvd->transformarvalorTipoVigencia($vigenciaDeclarada['tipo_tiempo_vigencia_declarada']);							
-								}
-								
+							if($operacion['proceso_modificacion'] != 't'){								
 								$existenciaOperacion = $cr->verificarExistenciaOperaciones($conexion, $operacion['identificador_operador'], $operacion['id_tipo_operacion'], $idAreas[0], 'porCaducar', $idVigenciaDocumento);//TODO:CAMBIADO
 								
 								if(pg_num_rows($existenciaOperacion) == 0){
 									$cr->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($conexion, $idOperadorTipoOperacion, $historialOperacion['id_historial_operacion']);
-									if($idVigenciaDocumento != null){								
-										$cr->actualizarFechaFinalizacionOperacionesNuevos($conexion, $idOperadorTipoOperacion, $historialOperacion['id_historial_operacion'], $valorVigencia, $tipoTiempoVigencia, $idVigenciaDocumento);//TODO:CAMBIADO
-									}								
-								}else{
+								}else{									
 									$datosOperacion = pg_fetch_assoc($existenciaOperacion);	
 									$cr->actualizarEstadoAnteriorPorOperadorTipoOperacionHistorial($conexion, $datosOperacion['id_operador_tipo_operacion'], $datosOperacion['id_historial_operacion'], $idVigenciaDocumento);//TODO:CAMBIADO
-									if($idVigenciaDocumento != null){
+									if($idVigenciaDocumento != null){										
 										$cr->actualizarFechaFinalizacionOperacionesAntiguos($conexion, $idOperadorTipoOperacion, $operacion['id_historial_operacion'], $datosOperacion['fecha_finalizacion'], $valorVigencia, $tipoTiempoVigencia, $idVigenciaDocumento);//TODO:CAMBIADO
 									}
 									$cr->actualizarEstadoPorOperadorTipoOperacionHistorial($conexion, $datosOperacion['id_operador_tipo_operacion'], $datosOperacion['id_historial_operacion'],'noHabilitado', 'Cambio de estado no habilitado por registro de nueva operación '.$fechaActual, $idVigenciaDocumento);//TODO:CAMBIADO
 									$cr->cambiarEstadoAreaOperacionPorPorOperadorTipoOperacionHistorial($conexion, $datosOperacion['id_operador_tipo_operacion'], $datosOperacion['id_historial_operacion'], $idVigenciaDocumento);
 									$cr->actualizarEstadoTipoOperacionPorIndentificadorSitio($conexion, $datosOperacion['id_operador_tipo_operacion'], 'noHabilitado');
 								}
-							}else{
-								$actualizacionFechas =false;
+							}else {								
+								$actualizacionFechas = false;
 							}
 	
+							if($idVigenciaDeclarada != null){	
+									
+								$qVigenciaDeclarada = $cvd->obtenerVigenciaDeclaradaPorIdVigenciaDeclarada($conexion, $idVigenciaDeclarada);									
+								$vigenciaDeclarada = pg_fetch_assoc($qVigenciaDeclarada);									
+								$valorVigencia = $vigenciaDeclarada['valor_tiempo_vigencia_declarada'];						
+								$idVigenciaDocumento = $vigenciaDeclarada['id_vigencia_documento'];									
+								$tipoTiempoVigencia = $cvd->transformarvalorTipoVigencia($vigenciaDeclarada['tipo_tiempo_vigencia_declarada']);							
+							}
+
+							if($idVigenciaDocumento != null){								
+								$cr->actualizarFechaFinalizacionOperacionesNuevos($conexion, $idOperadorTipoOperacion, $historialOperacion['id_historial_operacion'], $valorVigencia, $tipoTiempoVigencia, $idVigenciaDocumento);//TODO:CAMBIADO
+							}
+							
 							$qcodigoTipoOperacion= $cc->obtenerCodigoTipoOperacion($conexion, $solicitud);
 							$opcionArea=  pg_fetch_result($qcodigoTipoOperacion, 0, 'codigo');
 							$idArea=  pg_fetch_result($qcodigoTipoOperacion, 0, 'id_area');
@@ -396,7 +396,8 @@ try{
 										 		case 'FRA':
 										 			$qOperaciones=$cr->buscarOperacionesPorCodigoyAreaOperacion($conexion, $idOperador,"('$opcionArea')","('$idArea')");
 										 			if(pg_num_rows($qOperaciones)>0){
-										 				$modulosAgregados.="('PRG_ENSAYO_EFI'),('PRG_DOSSIER_PLA'),"; //Para ensayo y dossier plaguicida
+										 				$modulosAgregados.="('PRG_ENSA_EFI_MVC'),('PRG_DOSSIER_PLA'),"; //Para ensayo y dossier plaguicida
+                                                        $perfilesAgregados.="('PFL_OPE_ENSA_EFI'),";
 										 			}
 										 			
 										 			$generarReporteEmpresas = true;
@@ -984,10 +985,7 @@ try{
 														
 														$cr->actualizarEstadoDocumentoOperador($conexion, $idOperador, $idOperadorTipoOperacion, 'inactivo');
 														$cr->guardarDocumentoOperador($conexion, $solicitud, $idOperadorTipoOperacion, $rutaArchivo, 'registroOperadorLeche', $secuencial, $idOperador, 'Certificación de registro de operador de leche');
-														
-														
-														$cr->inactivarCentroAcopioXAreaXIdOperadorTipoOperacion($conexion, $identificadorArea, $idOperadorTipoOperacion);
-														
+																												
 														$cr->actualizarCentrosAcopioInspeccion($conexion, $idOperadorTipoOperacion, $inspector, 'sistemaGUIA', 'generado');
 														//Tabla de firmas físicas
 														$firmaResponsable = pg_fetch_assoc($cc->obtenerFirmasResponsablePorProvincia($conexion, $provinciaSitio, 'AI'));

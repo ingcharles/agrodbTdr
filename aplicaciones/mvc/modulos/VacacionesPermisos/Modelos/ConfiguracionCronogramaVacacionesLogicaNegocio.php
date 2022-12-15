@@ -149,6 +149,7 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 			$procesoIngreso->beginTransaction();
 			//Aprueba la configuración cronograma pasa a Finalizado
 			if ($estado == 'Finalizado') {
+				
 
 
 				//Tabla de firmas físicas
