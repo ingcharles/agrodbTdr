@@ -3,7 +3,6 @@
 <table id="tablaItems">
 	<thead><tr>
 		<th>#</th>
-		<th>Id</th>
 		<th>Responsable</th>
 		<th>Descripción</th>
 		<th>Año</th>

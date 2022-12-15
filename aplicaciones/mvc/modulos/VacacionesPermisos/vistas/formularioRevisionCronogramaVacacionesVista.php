@@ -4,14 +4,16 @@
 
 <?php 
 	echo $this->datosGenerales; 
-	echo $this->periodoCronograma;
-	echo $this->bloqueAprobacionReprogramacion;
+	echo $this->periodoCronograma;	
 ?>
 
 <form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='RevisionCronogramaVacaciones/guardar' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 	<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $_POST['id']; ?>" readonly="readonly" />
-	<?php echo $this->resultadoRevision; ?>
 	<input type="hidden" name="es_reprogramacion" id="es_reprogramacion" value="<?php echo  $this->esReprogramacion; ?>" readonly="readonly" />
+	<?php 
+		echo $this->bloqueAprobacionReprogramacion;
+		echo $this->resultadoRevision; 
+	?>
 	<div data-linea="7">
 		<button type="submit" class="guardar">Guardar</button>
 	</div>

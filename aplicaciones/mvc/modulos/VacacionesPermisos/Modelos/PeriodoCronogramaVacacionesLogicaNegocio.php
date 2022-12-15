@@ -193,9 +193,7 @@ class PeriodoCronogramaVacacionesLogicaNegocio implements IModelo
 			$proceso = $this->modeloPeriodoCronogramaVacaciones->getAdapter()
 				->getDriver()
 				->getConnection();
-			// if (!$proceso->beginTransaction()) {
-			// 	throw new \Exception('No se pudo iniciar la transacción: Guardar destinatario');
-			// }
+			
 			$proceso->beginTransaction();
 			$idCronogramaVacacion = $datos['id_cronograma_vacacion'];
 			$anioCronogramaVacacion = $datos['anio_cronograma_vacacion'];
@@ -222,7 +220,7 @@ class PeriodoCronogramaVacacionesLogicaNegocio implements IModelo
 			$statementUpdate = $this->modeloCronogramaVacaciones->getAdapter()->getDriver()->createStatement();
 
 			$arrayParametrosCronogramaVacacion = array(
-				'estado_cronograma_vacacion' => 'EnviadoTthh'
+				'estado_cronograma_vacacion' => 'EnviadoJefe'
 			);
 			$sqlActualizar = $this->modeloCronogramaVacaciones->actualizarSql('cronograma_vacaciones', $this->modeloCronogramaVacaciones->getEsquema());
 			$sqlActualizar->set($arrayParametrosCronogramaVacacion);
@@ -244,28 +242,7 @@ class PeriodoCronogramaVacacionesLogicaNegocio implements IModelo
 								'ultima_reprogramacion' => true,
 								'ruta_archivo_reprogramacion' => $rutaArchivoPdf
 				);
-				// print_r($arrayDatosDetalle);
-			
-			
-			
-			
-				// for ($i = 0; $i < count($datos['hReprogramado']); $i++) {
-
-			// 	if ($datos['hReprogramado'][$i] == 'Si') {
-			// 		$idPeriodoCronogramaVacacion = $datos['hIdPeriodoCronogramaVacacion'][$i];
-			// 		$arrayDatosDetalle = array(
-			// 			'id_cronograma_vacacion' => (int) $idCronogramaVacacion,
-			// 			'numero_periodo' => $datos['hNumeroPeriodo'][$i],
-			// 			'fecha_inicio' => $datos['hFechaInicio'][$i],
-			// 			'fecha_fin' => $datos['hFechaFin'][$i],
-			// 			'total_dias' => $datos['hNumeroDias'][$i],
-			// 			'estado_reprogramacion' => $datos['hReprogramado'][$i],
-			// 			'ultima_reprogramacion' => true
-			// 		);
-
-					// $statementUpdate = $this->modeloPeriodoCronogramaVacaciones->getAdapter()
-					// 	->getDriver()
-					// 	->createStatement();
+				
 					$statementUpdate = $this->modeloPeriodoCronogramaVacaciones->getAdapter()->getDriver()->createStatement();
 					
 
@@ -295,7 +272,6 @@ class PeriodoCronogramaVacacionesLogicaNegocio implements IModelo
 				$proceso->commit();
 			// Genero el Pdf de Reprogramación
 			 
-			// try {
 				// //$generarPdf = true;
 				$jasper = new JasperReport();
 				$datosReporte = array();
@@ -316,33 +292,8 @@ class PeriodoCronogramaVacacionesLogicaNegocio implements IModelo
 					),
 					'conexionBase' => 'SI'
 				);
-				print_r($datosReporte);
+				//print_r($datosReporte);
 				 $jasper->generarArchivo($datosReporte);
-
-				// Actualizo la ruta del archivo de reprogramacion
-				// $arrayParametrosRutaArchivo = array(
-				// 	'ruta_archivo_reprogramacion' => $rutaArchivoPdf,
-				// );
-
-				// $statementUpdate = $this->modeloPeriodoCronogramaVacaciones->getAdapter()->getDriver()->createStatement();
-
-				// foreach ($datos['hReprogramado'] as $key => $value) {
-				// 	// print_r($datos['hReprogramado'][$key]);
-				// 	// print_r($datos['hIdPeriodoCronogramaVacacion'][$key]);
-					
-				// 		$idPeriodoCronogramaVacacion = $datos['hIdPeriodoCronogramaVacacion'][$key];
-				// 		$sqlActualizar = $this->modeloPeriodoCronogramaVacaciones->actualizarSql('periodo_cronograma_vacaciones', $this->modeloPeriodoCronogramaVacaciones->getEsquema());
-				// 		$sqlActualizar->set($arrayParametrosRutaArchivo);
-				// 		$sqlActualizar->where(array('id_periodo_cronograma_vacacion' => $idPeriodoCronogramaVacacion));
-				// 		$sqlActualizar->prepareStatement($this->modeloPeriodoCronogramaVacaciones->getAdapter(), $statementUpdate);
-				// 		$statementUpdate->execute();
-					
-				// }
-			// } catch (GuardarExcepcion $ex) {
-			// 	//$generarPdf = false;
-			// 	throw new \Exception($ex->getMessage());
-			// }
-
 			
 			return true;
 		} catch (\Exception $ex) {

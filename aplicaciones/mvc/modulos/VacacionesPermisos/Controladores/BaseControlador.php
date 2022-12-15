@@ -449,4 +449,18 @@ class BaseControlador extends Comun
 
 		return $datos;
 	}
+
+	public function construirAprobacionReprogramacion($rutaArchivo){
+
+		$archivoReprogramacion ='<fieldset>
+									<legend>Reprogramación</legend>
+									<input type="hidden" name="ruta_archivo_reprogramacion" id="ruta_archivo_reprogramacion" value="' . $rutaArchivo . '" readonly="readonly" />
+									<div data-linea="3">
+									<label>Archivo Pdf: </label>
+									<a id="verReporteSolicitud" href="' . $rutaArchivo . '" target="_blank"> Descargar </a>
+									</div>
+								</fieldset>';
+		return $archivoReprogramacion;
+	}
+
 }

@@ -62,8 +62,8 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 
 			$datosBd = $tablaModelo->getPrepararDatos();
 			/*echo '<pre>';
-		print_r($datos);
-		echo '<pre>';*/
+			print_r($datos);
+			echo '<pre>';*/
 
 			if ($tablaModelo->getIdRevisionCronogramaVacacion() != null && $tablaModelo->getIdRevisionCronogramaVacacion() > 0) {
 				$idRevisionCronogramaVacacion = $this->modeloRevisionCronogramaVacaciones->actualizar($datosBd, $tablaModelo->getIdRevisionCronogramaVacacion());
@@ -80,7 +80,9 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 			$estadoCronogramaVacacion = $datos['estado_cronograma_vacacion'];
 
 			$datosCronogramaVacacion = [
-				'id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_cronograma_vacacion' => $estadoCronogramaVacacion
+				'id_cronograma_vacacion' => $idCronogramaVacacion
+				, 'estado_cronograma_vacacion' => $estadoCronogramaVacacion
+				, 'observacion' => $datos['observacion']
 			];
 
 			$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
@@ -495,9 +497,17 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 	 {
 
 		 $idCronogramaVacacion = $arrayParametros['id_cronograma_vacacion'];
-		 $sqlScript = "SELECT COUNT(*) AS cantidad FROM g_vacaciones.periodo_cronograma_vacaciones pv
-		 INNER JOIN g_vacaciones.cronograma_vacaciones  cv ON pv.id_cronograma_vacacion = cv.id_cronograma_vacacion
-		 WHERE pv.estado_registro='Activo' AND pv.estado_reprogramacion='Si' AND cv.id_cronograma_vacacion=" . $idCronogramaVacacion . ";";
+		 
+		 $sqlScript = "SELECT 
+		 					COUNT(*) AS cantidad 
+						FROM 
+							g_vacaciones.periodo_cronograma_vacaciones pv
+		 				INNER JOIN g_vacaciones.cronograma_vacaciones  cv ON pv.id_cronograma_vacacion = cv.id_cronograma_vacacion
+						WHERE 
+							pv.estado_registro = 'Activo' 
+							AND pv.estado_reprogramacion = 'Si'
+							AND pv.ultima_reprogramacion = true
+							AND cv.id_cronograma_vacacion = " . $idCronogramaVacacion . ";";
 		 $res = $this->modeloRevisionCronogramaVacaciones->ejecutarSqlNativo($sqlScript);
 		 return $res;
 	 }

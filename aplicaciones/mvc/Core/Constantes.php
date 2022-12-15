@@ -480,9 +480,9 @@ class Constantes
      * Cadenas de ambiente de desarrollo
      **/
     
-    const RUTA_SERVIDOR_OPT =  'C:/xampp/htdocs';
+    const RUTA_SERVIDOR_OPT =  'D:/xampp/htdocs';
     const RUTA_APLICACION = 'agrodbTdr';
-	const RUTA_DOMINIO = 'http://181.112.155.173'; // 1 pruebas http://181.112.155.173 // 2 produccion https://guia.agrocalidad.gob.ec
+	const RUTA_DOMINIO = 'localhost'; // 1 pruebas http://181.112.155.173 // 2 produccion https://guia.agrocalidad.gob.ec
     
     /*
 	 *Constante para la validación de tipo de inspectoe en módulo de centros de faenamiento

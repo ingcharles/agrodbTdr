@@ -12,6 +12,7 @@
 	<?php 
 		echo $this->datosGenerales; 
 		echo $this->datosRevisionCronograma;
+		echo $this->bloqueAprobacionReprogramacion;
 	?>
 	<fieldset>
 		<legend>Datos de planificación</legend>

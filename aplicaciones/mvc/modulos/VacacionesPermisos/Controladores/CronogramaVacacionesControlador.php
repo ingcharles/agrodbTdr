@@ -43,6 +43,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 	private $datosPeriodoCronograma = null;
 	private $lNegocioDatosContrato = null;
 	private $panelBusqueda = null;
+	private $bloqueAprobacionReprogramacion = null;
 	/**
 	 * Constructor
 	 */
@@ -173,6 +174,16 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$this->anioPlanificacion = $anioPlanificacion;
 		$this->accion = "Editar solicitud de planificación " . $anioPlanificacion;
 
+		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion,'estado_registro' => 'Activo','estado_reprogramacion'=>'Si'];
+		$rutaArchivo = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista($datos);
+		
+		if($rutaArchivo->count()){
+			$rutaArchivo = $rutaArchivo->current()->ruta_archivo_reprogramacion;
+			if(isset($rutaArchivo)){		
+				$this->bloqueAprobacionReprogramacion = $this->construirAprobacionReprogramacion($rutaArchivo);
+			}
+		}		
+
 		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
 		$this->datosRevisionCronograma = $this->construirDatosRevisionCronogramaVacaciones($idCronogramaVacacion);
 
@@ -207,7 +218,6 @@ class CronogramaVacacionesControlador extends BaseControlador
 				data-opcion="editar" ondragstart="drag(event)" draggable="true"
 				data-destino="detalleItem">
 				<td >' . ++$contador . '</td>
-				<td style="white - space:nowrap; "><b>' . $fila['id_cronograma_vacacion'] . '</b></td>
 				<td>'
 						. $fila['identificador_funcionario'] . '</td>
 				<td>' . $fila['identificador_backup'] . '</td>
@@ -227,13 +237,13 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$numeroPeriodos = $_POST['numero_periodos_planificar'];
 
 		$datosPlanificarPeriodos = '<fieldset>
-									<legend>Ingresar periodo</legend>';
+									<legend>Detalle de periodos</legend>';
 
 		if (isset($_POST['id_cronograma_vacacion'])) {
 			$idCronograma = $_POST['id_cronograma_vacacion'];
 			$arrayEstados = ['Primer Periodo:', 'Segundo Periodo:', 'Tercer Periodo:', 'Cuarto Periodo:'];
 
-			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => 'Activo'), 'numero_periodo asc');
+			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronograma, 'estado_registro' => array ('Activo', 'Cerrado')), 'numero_periodo asc');
 			$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">
 												<thead>
 													<tr>
