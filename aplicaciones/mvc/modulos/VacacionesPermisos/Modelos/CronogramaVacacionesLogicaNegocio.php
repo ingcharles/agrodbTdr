@@ -365,7 +365,6 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 						'total_dias' =>  $item->total_dias,
 						'estado_registro' => 'Eliminado'
 					);
-					print_r($datosDetalle);
 					$this->modeloPeriodoVacaciones->actualizar($datosDetalle, $item->id_periodo_cronograma_vacacion);
 				}
 

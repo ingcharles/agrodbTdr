@@ -166,8 +166,8 @@
 		}
 
 		if (!error) {
-			if ($('#total_dias_planificados').val() > 30) {
-				$("#estado").html("El total de días planificados no debe ser mayor a 30.").addClass("alerta");
+			if ($('#total_dias_planificados').val() != 30) {
+				$("#estado").html("El total de días planificados deben ser igual a 30.").addClass("alerta");
 			} else {
 				var input_hermanos = $('table#tPeriodosPlanificar').find(".piNumeroDias");
 				var filas = $('table#tPeriodosPlanificar').find("tr");

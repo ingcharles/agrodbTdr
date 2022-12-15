@@ -25,6 +25,7 @@ use Agrodb\Core\Mensajes;
 use Agrodb\GUath\Modelos\FichaEmpleadoLogicaNegocio;
 use Agrodb\Usuarios\Modelos\UsuariosLogicaNegocio;
 use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesLogicaNegocio;
+use Zend\Validator\File\Count;
 
 class CronogramaVacacionesControlador extends BaseControlador
 {
@@ -76,21 +77,29 @@ class CronogramaVacacionesControlador extends BaseControlador
 	public function nuevo()
 	{
 
-		//$datos = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
+		
 		$datos = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
 		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
-
+		
 		if ($verificarConfiguracionCronograma->count()) {
 
-			$anioPlanificacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
-			$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
-			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
-			$this->numeroPeriodos = $this->lNegocioPeriodoCronogramaVacaciones->obtenerNumeroPeriodos(null, true);
-			$this->datosPeriodoCronograma = $this->construirDatosPlanificacionCronograma($anioPlanificacion);
-			$this->anioPlanificacion = $anioPlanificacion;
+		   $verificarPlanificacionCreada=$this->lNegocioCronogramaVacaciones->buscarLista(array('id_configuracion_cronograma_vacacion'=>$verificarConfiguracionCronograma->current()->id_configuracion_cronograma_vacacion));
+			if($verificarPlanificacionCreada->count()){
+				$this->accion = "Nueva solicitud de planificación";
+				$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'Ya existe una planificación habilitada.'];
+				$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
+			}else{
+
+				$anioPlanificacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
+				$this->accion = "Nueva solicitud de planificación año " . $anioPlanificacion;
+				$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacaciones();
+				$this->numeroPeriodos = $this->lNegocioPeriodoCronogramaVacaciones->obtenerNumeroPeriodos(null, true);
+				$this->datosPeriodoCronograma = $this->construirDatosPlanificacionCronograma($anioPlanificacion);
+				$this->anioPlanificacion = $anioPlanificacion;
+			}
 		} else {
 			$this->accion = "Nueva solicitud de planificación";
-			$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'Ya existe una planificación habilitada.'];
+			$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'No existe una planificación habilitada.'];
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
 		}
 

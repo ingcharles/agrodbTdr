@@ -99,14 +99,15 @@
 					});
 					var valorComboPeriodo = $("#numero_periodos option:selected").val();
 
-					
 					if (estadoCronograma.includes("Enviado") || estadoCronograma.includes("Rechazado") || estadoCronograma.includes("Finalizado")) {
 						var valorMaximo = 0
+
+
 						$('.piNumeroDias').each(function(index) {
 							valorMaximo = parseInt( $(this).val())+ valorMaximo;
 						});
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
-							$(elem).attr('disabled', true);
+							$(elem).attr('disabled', estadoCronograma.includes("Rechazado") ? false : true);
 						});
 						
 						$('#total_dias').html(valorMaximo);
@@ -272,8 +273,8 @@
 		event.preventDefault();
 		var error = false;
 		if (!error) {
-			if ($('#total_dias_planificados').val() > 30) {
-				$("#estado").html("El total de días planificados no debe ser mayor a 30.").addClass("alerta");
+			if ($('#total_dias_planificados').val() != 30) {
+				$("#estado").html("El total de días planificados deben ser igual a 30.").addClass("alerta");
 			} else {
 				var input_hermanos = $('table#tPeriodosPlanificar').find(".piNumeroDias");
 				var filas = $('table#tPeriodosPlanificar').find("tr");
