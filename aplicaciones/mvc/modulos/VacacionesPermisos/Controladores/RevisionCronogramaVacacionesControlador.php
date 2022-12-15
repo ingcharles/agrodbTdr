@@ -197,8 +197,13 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			$this->lNegocioFirmantes->ingresoFirmaDocumento($parametrosFirma);
 			
 		}
-
-		$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
+		if($_POST['es_reprogramacion'] > 0 ){
+			//Cuando es reprogramacion y rechaza se envia RechazadoReprogramacion
+			$_POST['estado_cronograma_vacacion']=$estadoSolicitud == 'Rechazado' ? 'RechazadoReprogramacion':$estadoSolicitud;
+			$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
+		}else{
+			$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
+		}
 
 		if ($proceso) {
 			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
