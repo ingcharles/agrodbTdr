@@ -536,13 +536,13 @@ $("#fechaRetorno").datepicker({
     	//Revisar número de días para permisos (<14) y vacaciones (15>)
 			
     	if($("#subTipoSolicitud option:selected").attr('data-codigo') == "VA-VA"){
-	    	if(diferencia < 15){
-	        	alert("Por favor seleccione un Permiso con Cargo a Vacaciones para solicitudes menores a 15 días.");
+	    	if(diferencia < 7){
+	        	alert("Por favor seleccione un Permiso con Cargo a Vacaciones para solicitudes menores a 7 días.");
 	        	cargarValorDefecto("tipoSolicitud","");
 	        	$("#subTipoSolicitud").html("");
 	        }
     	}else if($("#subTipoSolicitud option:selected").attr('data-codigo') == "PE-PIV" || $("#subTipoSolicitud option:selected").attr('data-codigo')=="PE-PIVF"){
-	    	if(diferencia < 7){
+	    	if(diferencia >= 7){
 	        	alert("Por favor seleccione una licencia de Vacaciones para solicitudes a partir de 7 días.");
 	        	cargarValorDefecto("tipoSolicitud","");
 	        	$("#subTipoSolicitud").html("");
