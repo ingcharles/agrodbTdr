@@ -7,7 +7,6 @@
 	<thead>
 		<tr>
 			<th>#</th>
-			<th>Id</th>
 			<th>Funcionario</th>
 			<th>Funcionario backup</th>
 			<th>Días planificados</th>

@@ -31,6 +31,7 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 	private $modeloConfiguracionCronogramaVacaciones = null;
 	private $lNegocioFirmantesLogicaNegocio = null;
 	private $lNegocioResponsablesCertificadosNegocio = null;
+	private $lNegocioCronogramaVacaciones = null;
 	private $modeloCronogramaVacaciones = null;
 	/**
 	 * Constructor
@@ -42,6 +43,7 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 		$this->modeloConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesModelo();
 		$this->lNegocioFirmantesLogicaNegocio = new FirmantesLogicaNegocio();
 		$this->lNegocioResponsablesCertificadosNegocio = new ResponsablesCertificadosLogicaNegocio();
+		$this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
 		$this->modeloCronogramaVacaciones = new CronogramaVacacionesModelo();
 	}
 
@@ -120,7 +122,7 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 	public function buscarConfiguracionCronogramaVacaciones()
 	{
 		$consulta = "SELECT cc.id_configuracion_cronograma_vacacion, cc.anio_configuracion_cronograma_vacacion, cc.descripcion_configuracion_vacacion,
-							fe.identificador || ' ' || fe.nombre || ' ' || fe.apellido AS identificador_configuracion_cronograma_vacacion
+							fe.identificador || ' - ' || fe.nombre || ' ' || fe.apellido AS identificador_configuracion_cronograma_vacacion
 					FROM " . $this->modeloConfiguracionCronogramaVacaciones->getEsquema() . ". configuracion_cronograma_vacaciones cc
 					INNER JOIN
 						g_uath.ficha_empleado fe ON fe.identificador = cc.identificador_configuracion_cronograma_vacacion";
@@ -159,20 +161,24 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 
 				//Firma Electrónica
 
-				$parametrosFirma = array(
-					'archivo_entrada' => $rutaArchivo,
-					'archivo_salida' => $rutaArchivo,
-					'identificador' => $firmaResponsable->current()->identificador,
-					'razon_documento' => 'Cronograma de Vacaciones',
-					'tabla_origen' => 'g_vacaciones.configuracion_cronograma_vacaciones',
-					'campo_origen' => 'ruta_consolidado_pdf',
-					'id_origen' => $idConfiguracionCronogramaVacacion,
-					'estado' => 'Por atender',
-					'proceso_firmado' => 'NO'
-				);
+				if($firmaResponsable->count()){
 
-				//Guardar registro para firma
-				$this->lNegocioFirmantesLogicaNegocio->ingresoFirmaDocumento($parametrosFirma);
+					$parametrosFirma = array(
+						'archivo_entrada' => $rutaArchivo,
+						'archivo_salida' => $rutaArchivo,
+						'identificador' => $firmaResponsable->current()->identificador,
+						'razon_documento' => 'Cronograma de Vacaciones',
+						'tabla_origen' => 'g_vacaciones.configuracion_cronograma_vacaciones',
+						'campo_origen' => 'id_configuracion_cronograma_vacacion',
+						'id_origen' => $idConfiguracionCronogramaVacacion,
+						'estado' => 'Por atender',
+						'proceso_firmado' => 'NO'
+					);					
+
+					//Guardar registro para firma
+					$this->lNegocioFirmantesLogicaNegocio->ingresoFirmaDocumento($parametrosFirma);
+
+				}
 			}
 			$statement = $this->modeloConfiguracionCronogramaVacaciones->getAdapter()
 				->getDriver()
@@ -180,6 +186,7 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 			
 			$arrayParametrosCronograma = array(
 				'estado_cronograma_vacacion' => $estado
+				, 'observacion' => $observacion
 			);
 
 			// Actualizo los registros del Cronograma de cacaciones con estado = 'Aprobado'
@@ -189,13 +196,13 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 			$sqlActualizar->prepareStatement($this->modeloConfiguracionCronogramaVacaciones->getAdapter(), $statement);
 			$statement->execute();
 
-
-
 			$statement = $this->modeloConfiguracionCronogramaVacaciones->getAdapter()
 				->getDriver()
 				->createStatement();
 			$arrayParametrosConfiguracion = array(
-				'estado_configuracion_cronograma_vacacion' => $estado, 'observacion' => $observacion
+				'estado_configuracion_cronograma_vacacion' => $estado
+				, 'observacion' => $observacion
+				, 'identificador_director_ejecutivo' => $datos['identificador_director_ejecutivo']
 			);
 
 			$sqlActualizar = $this->modeloConfiguracionCronogramaVacaciones->actualizarSql('configuracion_cronograma_vacaciones', $this->modeloConfiguracionCronogramaVacaciones->getEsquema());
@@ -204,6 +211,28 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 			$sqlActualizar->prepareStatement($this->modeloConfiguracionCronogramaVacaciones->getAdapter(), $statement);
 			$statement->execute();
 
+			$qCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscarLista(array('id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion));
+
+			$statement = $this->modeloConfiguracionCronogramaVacaciones->getAdapter()
+			->getDriver()
+			->createStatement();
+
+			foreach($qCronogramaVacaciones as $item){
+
+				$datosRevisionCronograma = array(
+					'id_cronograma_vacacion' => (integer) $item['id_cronograma_vacacion']
+					, 'identificador_revisor' => $datos['identificador_director_ejecutivo']
+					, 'id_area_revisor' => 'DE'
+					, 'estado_solicitud' => $estado
+					, 'observacion' => $observacion);
+				
+				$sqlInsertar = $this->modeloConfiguracionCronogramaVacaciones->guardarSql('revision_cronograma_vacaciones', $this->modeloConfiguracionCronogramaVacaciones->getEsquema());
+				$sqlInsertar->columns(array_keys($datosRevisionCronograma));
+				$sqlInsertar->values($datosRevisionCronograma, $sqlInsertar::VALUES_MERGE);
+				$sqlInsertar->prepareStatement($this->modeloConfiguracionCronogramaVacaciones->getAdapter(), $statement);
+				$statement->execute();
+
+			}
 
 			$procesoIngreso->commit();
 			return true;

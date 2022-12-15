@@ -19,6 +19,7 @@ use Agrodb\VacacionesPermisos\Modelos\ConfiguracionCronogramaVacacionesModelo;
 use Agrodb\VacacionesPermisos\Modelos\CronogramaVacacionesLogicaNegocio;
 use Agrodb\Core\Constantes;
 use Agrodb\Core\Mensajes;
+use Agrodb\GUath\Modelos\FichaEmpleadoLogicaNegocio;
 use DateTime;
 
 class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
@@ -28,6 +29,7 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 	private $modeloConfiguracionCronogramaVacaciones = null;
 	private $configuracionCronogramaVacacion = null;
 	private $lNegocioCronogramaVacaciones = null;
+	private $lNegocioFichaEmpleado = null;
 	private $accion = null;
 	/**
 	 * Constructor
@@ -38,6 +40,7 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 		$this->lNegocioConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesLogicaNegocio();
 		$this->modeloConfiguracionCronogramaVacaciones = new ConfiguracionCronogramaVacacionesModelo();
 		$this->lNegocioCronogramaVacaciones = new CronogramaVacacionesLogicaNegocio();
+		$this->lNegocioFichaEmpleado = new FichaEmpleadoLogicaNegocio();
 		set_exception_handler(array($this, 'manejadorExcepciones'));
 	}
 	/**
@@ -128,7 +131,6 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 				data-opcion="editar" ondragstart="drag(event)" draggable="true"
 				data-destino="detalleItem">
 				<td>' . ++$contador . '</td>
-				<td style="white - space:nowrap; "><b>' . $fila['id_configuracion_cronograma_vacacion'] . '</b></td>
 				<td>' . $fila['identificador_configuracion_cronograma_vacacion'] . '</td>
 				<td>' . $fila['descripcion_configuracion_vacacion']	. '</td>
 				<td>' . $fila['anio_configuracion_cronograma_vacacion'] . '</td>
@@ -179,6 +181,11 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 
 		$datosConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscar($idConfiguracionCronograma);
 
+		$datos = ['identificador' =>  $datosConfiguracionCronograma->getIdentificadorConfiguracionCronogramaVacacion()];
+
+		$qDatosFuncionario = $this->lNegocioFichaEmpleado->buscarLista($datos);
+		$nombreFuncionario = $qDatosFuncionario->current()->nombre . ' ' . $qDatosFuncionario->current()->apellido;
+
 		$configuracionCronograma = '<fieldset>
 											<legend>Datos de cronograma</legend>
 											<div data-linea="1">
@@ -197,6 +204,10 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 												<label for="identificador_configuracion_cronograma">Identificador creación: </label>
 												' . $datosConfiguracionCronograma->getIdentificadorConfiguracionCronogramaVacacion() . '
 											</div>
+											<div data-linea="5">
+												<label for="nombre_configuracion_cronograma">Nombre creación: </label>
+												' . $nombreFuncionario . '
+											</div>
 										</fieldset>';
 
 		return $configuracionCronograma;
@@ -208,6 +219,7 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 	public function aprobarDeCronogramaVacaciones()
 	{
 
+		$_POST['identificador_director_ejecutivo'] = $this->identificador;
 
 		$proceso = $this->lNegocioConfiguracionCronogramaVacaciones->aprobarDeCronogramaVacaciones($_POST);
 		if ($proceso) {

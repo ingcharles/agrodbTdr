@@ -10,27 +10,8 @@
 
 <form id='formulario' data-rutaAplicacion='<?php echo URL_MVC_FOLDER; ?>VacacionesPermisos' data-opcion='PeriodoCronogramaVacaciones/guardarReprogramacionPeriodo' data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 	<?php echo $this->datosGenerales; ?>
-	<fieldset>
-		<legend>Datos de planificación</legend>
-		<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="<?php echo $this->modeloCronogramaVacaciones->getIdCronogramaVacacion(); ?>" />
-		<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="<?php echo $this->anioPlanificacion; ?>" />
-
-		<div data-linea="5">
-			<label for="identificador_backup">Funcionario reemplazo: </label>
-
-			<?php echo $this->datosFuncionarioBackup; ?>
-
-		</div>
-
-		<div data-linea="6">
-			<label for="numero_periodos_planificar">Número de periodos a planificar: </label>
-
-			<?php echo $this->numeroPeriodos; ?>
-
-		</div>
-
-
-	</fieldset>
+	
+	<?php echo $this->datosPlanificacion; ?>
 
 	<div id="dDatosPeriodo"></div>
 
@@ -268,9 +249,7 @@
 						if (!banderaTablaFechas) {
 							$("#estado").html("Revise los rangos de fechas ingresados.").addClass("alerta");
 						} else {
-
-							abrir($(this), event, false);
-							abrir($("#ventanaAplicacion #opcionesAplicacion a.abierto"), "#listadoItems", true);
+							JSON.parse(ejecutarJson($("#formulario")).responseText);
 						}
 					}
 				}
