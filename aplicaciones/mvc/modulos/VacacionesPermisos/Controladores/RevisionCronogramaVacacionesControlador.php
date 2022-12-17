@@ -158,7 +158,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	 * Método para registrar en la base de datos -RevisionCronogramaVacaciones
 	 */
 	public function guardar()
-	{
+	{      
 		$identificadorRevisor = $this->identificador;
 		$idAreaRevisor = $this->idArea;
 		$idCronogramaVacacion = $_POST['id_cronograma_vacacion'];
