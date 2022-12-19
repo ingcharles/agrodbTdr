@@ -87,7 +87,7 @@
 						changeYear: false,
 						dateFormat: 'yy-mm-dd',
 						maxDate: 0,
-						minDate: new Date(anioPlanificacion + '-01-31'),
+						minDate: new Date(anioPlanificacion + '-1-31'),
 					});
 
 					$(".piFechaInicio").datepicker({
@@ -95,9 +95,14 @@
 						changeMonth: true,
 						changeYear: false,
 						dateFormat: 'yy-mm-dd',
-						minDate: new Date(anioPlanificacion + '-01-01'),
-						
+						minDate: new Date(anioPlanificacion + '-1-01'),
+						//beforeShowDay: $.datepicker.noWeekends,
+// 						beforeShowDay:function(dt){
+   
+//    return [dt.getDay() == 0 || dt.getDay() == 1 || dt.getDay() == 2 || dt.getDay() == 3 || dt.getDay() == 4 || dt.getDay() == 5 || dt.getDay() == 6, ""];
+// },
 						onSelect: function(dateText, inst) {
+							//$('.piFechaInicio').datepicker('option', 'maxDate', "+2Y");
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
 							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");
 							var elementoNumeroDias = $(this).parents("tr").find(".piNumeroDias");

@@ -70,9 +70,8 @@ class BaseControlador extends Comun
 		$fechaIngreso = $qDatosFuncionario->current()->fecha_ingreso_institucion;
 		$unidadAdministrativa = $qDatosFuncionario->current()->nombre_unidad_administrativa;
 		$gestionAdministrativa = $qDatosFuncionario->current()->nombre_gestion_administrativa;
-
 		$puestoInstitucional = $qDatosFuncionario->current()->puesto_institucional;
-
+		$idAreaPadre = $qDatosFuncionario->current()->id_area_padre;
 		$qSaldoFuncionario = $cronogramaVacacionesLogicaNegocio->consultarSaldoFuncionario($this->identificador);
 
 		if ($qSaldoFuncionario->count()) {
@@ -94,6 +93,7 @@ class BaseControlador extends Comun
 		$diasDisponibles = $cronogramaVacacionesLogicaNegocio->devolverFormatoDiasDisponibles($minutos);
 
 		$datos = '
+		<input type="hidden" name="id_area_padre" id="id_area_padre" value="' . $idAreaPadre . '"/>
 		<input type="hidden" name="fecha_ingreso_institucion" id="fecha_ingreso_institucion" value="' . $fechaIngreso . '"/>
 		<input type="hidden" name="nombre_puesto" id="nombre_puesto" value="' . $puestoInstitucional . '"/>
 		<input type="hidden" name="id_configuracion_cronograma_vacacion" id="id_configuracion_cronograma_vacacion" value="' . $idConfiguracionCronogramaVacacion  . '"/>
@@ -145,19 +145,17 @@ class BaseControlador extends Comun
 		$cronogramaVacacionesLogicaNegocio = new CronogramaVacacionesLogicaNegocio();
 
 		$datosCronogramaVacacion = $cronogramaVacacionesLogicaNegocio->buscar($idCronogramaVacacion);
-
 		$idConfiguracionCronogramaVacacion = $datosCronogramaVacacion->getIdConfiguracionCronogramaVacacion();
+		//$datos = ['id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion];
 		$identificadorFuncionario = $datosCronogramaVacacion->getIdentificadorFuncionario();
-
-		$datos = ['id_configuracion_cronograma_vacacion' => $idConfiguracionCronogramaVacacion];
-
+		
 		$qDatosFuncionario = $cronogramaVacacionesLogicaNegocio->obtenerDatosEmpleadoFechaIngresoInstitucion($identificadorFuncionario);
 		$nombre = $qDatosFuncionario->current()->nombre;
 		$fechaIngreso = $qDatosFuncionario->current()->fecha_ingreso_institucion;
 		$unidadAdministrativa = $qDatosFuncionario->current()->nombre_unidad_administrativa;
 		$gestionAdministrativa = $qDatosFuncionario->current()->nombre_gestion_administrativa;
-
 		$puestoInstitucional = $qDatosFuncionario->current()->puesto_institucional;
+		$idAreaPadre = $qDatosFuncionario->current()->id_area_padre;
 
 		$qSaldoFuncionario = $cronogramaVacacionesLogicaNegocio->consultarSaldoFuncionario($identificadorFuncionario);
 
@@ -180,6 +178,7 @@ class BaseControlador extends Comun
 		$diasDisponibles = $cronogramaVacacionesLogicaNegocio->devolverFormatoDiasDisponibles($minutos);
 
 		$datos = '
+		<input type="hidden" name="id_area_padre" id="id_area_padre" value="' . $idAreaPadre . '"/>
 		<input type="hidden" name="fecha_ingreso_institucion" id="fecha_ingreso_institucion" value="' . $fechaIngreso . '"/>
 		<input type="hidden" name="nombre_puesto" id="nombre_puesto" value="' . $puestoInstitucional . '"/>
 		<input type="hidden" name="id_configuracion_cronograma_vacacion" id="id_configuracion_cronograma_vacacion" value="' . $idConfiguracionCronogramaVacacion  . '"/>
@@ -262,7 +261,7 @@ class BaseControlador extends Comun
 
 		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion,'estado_registro' => 'Activo'];
 
-		$qCronogramaVacacion = $periodoCronogramaVacacionesLogicaNegocio->buscarLista($datos);
+		$qCronogramaVacacion = $periodoCronogramaVacacionesLogicaNegocio->buscarLista($datos, 'numero_periodo asc');
 
 		$datosPlanificarPeriodos = '<fieldset>
 										<legend>Detalle de periodos</legend>';
@@ -399,6 +398,7 @@ class BaseControlador extends Comun
 			"EnviadoTthh" => "Enviado a Talento Humano",
 			"EnviadoDe" => "Enviado a Director Ejecutivo",
 			"Rechazado" => "Rechazado",
+			"RechazadoReprogramacion" => "Reprogramación Rechazada",
 			"RechazadoDe" => "Rechazado por el Director Ejecutivo",
 		];
 		return $array[$estado] ;

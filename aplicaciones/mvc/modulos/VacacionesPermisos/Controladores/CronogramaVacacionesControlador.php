@@ -115,6 +115,8 @@ class CronogramaVacacionesControlador extends BaseControlador
 
 		if ($proceso) {
 			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
+		}else{
+			
 		}
 	}
 
@@ -262,20 +264,18 @@ class CronogramaVacacionesControlador extends BaseControlador
 														<th>Fecha retorno</th>
 													</tr>
 												</thead>
-												
 										';
 				$arrayValidaciones = ['^(3[0]{0,1})$', '^(1[5]{0,1})$', '^(1[0]|[1-9])$', '^([7-9])$'];
-					
-			foreach ($periodos as $item) {
 
+			foreach ($periodos as $item) {
 				$datosPlanificarPeriodos .= '<tbody>
-			<tr>	
-				<td style="font-weight: bold;">' . $arrayEstados[($item->numero_periodo - 1)]  . '<input type="hidden" name="hPeriodo[]" value="1"></td>
-				<td><input value=' . $item->fecha_inicio . ' type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
-				<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'. "'" .$arrayValidaciones[($numeroPeriodos- 1)] . "'" . ');" onfocus="calculo(this,'. "'" .$arrayValidaciones[($numeroPeriodos- 1)] . "'" . ');" ></td>
-				<td><input value=' . $item->fecha_fin . ' type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
-			</tr>
-		</tbody>';
+					<tr>	
+						<td style="font-weight: bold;">' . $arrayEstados[($item->numero_periodo - 1)]  . '<input type="hidden" name="hPeriodo[]" value="1"></td>
+						<td><input value=' . $item->fecha_inicio . ' type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
+						<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,'. "'" .$arrayValidaciones[($numeroPeriodos- 1)] . "'" . ');" onfocus="calculo(this,'. "'" .$arrayValidaciones[($numeroPeriodos- 1)] . "'" . ');" ></td>
+						<td><input value=' . $item->fecha_fin . ' type="text" class="piFechaFin" name="hFechaFin[]" readonly="readonly"></td>
+					</tr>
+				</tbody>';
 			}
 			$datosPlanificarPeriodos .= '	</table>';
 		} else {
@@ -293,7 +293,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 													</tr>
 												</thead>
 												<tbody>
-													<tr>	
+													<tr>
 														<td style="font-weight: bold;">Primer periodo<input type="hidden" name="hPeriodo[]" value="1"></td>
 														<td><input type="text" class="piFechaInicio" name="hFechaInicio[]" readonly="readonly"></td>
 														<td><input type="text" class="piNumeroDias" name="hNumeroDias[]" onkeyup="calculo(this,' . "'^(3[0]{0,1})$'" . ');" onfocus="calculo(this,' . "'^(3[0]{0,1})$'" . ');"></td>

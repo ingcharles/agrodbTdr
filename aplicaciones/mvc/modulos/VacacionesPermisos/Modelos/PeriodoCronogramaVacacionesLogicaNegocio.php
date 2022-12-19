@@ -229,8 +229,7 @@ class PeriodoCronogramaVacacionesLogicaNegocio implements IModelo
 			$statementUpdate->execute();
 			
 			foreach ($datos['hReprogramado'] as $key => $value) {
-				// print_r($datos['hReprogramado'][$key]);
-				// print_r($datos['hIdPeriodoCronogramaVacacion'][$key]);
+
 				$idPeriodoCronogramaVacacion = $datos['hIdPeriodoCronogramaVacacion'][$key];
 				$arrayDatosDetalle = array(
 								'id_cronograma_vacacion' => (int) $idCronogramaVacacion,

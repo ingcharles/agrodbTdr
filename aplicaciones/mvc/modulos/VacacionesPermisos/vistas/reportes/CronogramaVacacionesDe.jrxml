@@ -36,6 +36,7 @@
 	WHEN pv.numero_periodo=4 THEN
 	'Cuarto Periodo'
 	END as numero_periodo,
+	pv.numero_periodo  numero_periodo_order,
 	--mdc.fecha_inicio as fecha_ingreso,
 	to_char(mdc.fecha_inicio, 'yyyy-mm-dd') as fecha_ingreso,
 	CONCAT(feb.apellido,' ',feb.nombre) as nombres_completos_backup,
@@ -54,6 +55,7 @@
 	ON pv.id_cronograma_vacacion=cv.id_cronograma_vacacion AND  pv.estado_registro='Activo'
 	WHERE cv.id_configuracion_cronograma_vacacion = $P{idConfiguracionCronogramaVacacion}
 	ORDER BY 
+	numero_periodo_order,
 	ar.nombre,
 	arr.nombre,
 	CONCAT(fe.apellido,' ',fe.nombre)]]>
@@ -110,6 +112,10 @@
 	<field name="numero_periodo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="numero_periodo"/>
 		<property name="com.jaspersoft.studio.field.name" value="numero_periodo"/>
+	</field>
+	<field name="numero_periodo_order" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="numero_periodo_order"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="periodo_cronograma_vacaciones"/>
 	</field>
 	<field name="fecha_ingreso" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="fecha_ingreso"/>

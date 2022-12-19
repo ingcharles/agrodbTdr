@@ -160,7 +160,7 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 	
 				$estado = false;
 				switch ($estadoCronogramaRegistro) {
-					case 'Rechazado':
+					case 'RechazadoReprogramacion':
 						$estado = true;
 						break;
 				}
@@ -203,14 +203,19 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 
 		$idCronogramaVacacion = $_POST['id_cronograma_vacacion'];
 		$numeroPeriodos = $_POST['numero_periodos'];
-
+		$estadoCronograma = $_POST['estado_cronograma'];
 		$datosPlanificarPeriodos = '<fieldset>
 									<legend>Ingresar periodo</legend>
 									<label>*Nota: </label><spam>Solo se reprogramarán los periodos seleccionados en la columna "Reprogramación".</spam>';
 		$cantidadRegistros = 0;
 		if (isset($idCronogramaVacacion)) {
 			$arrayEstados = ['Primer Periodo:', 'Segundo Periodo:', 'Tercer Periodo:', 'Cuarto Periodo:'];
-			$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => null), 'numero_periodo ASC');
+			if($estadoCronograma == "RechazadoReprogramacion"){
+				$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo'), 'numero_periodo ASC');
+			}else{
+				$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => null), 'numero_periodo ASC');
+			}
+
 			$cantidadRegistros = count($periodos);
 			if ($cantidadRegistros > 0) {
 				$datosPlanificarPeriodos .= '<table id="tPeriodosPlanificar" style="width: 100%;">

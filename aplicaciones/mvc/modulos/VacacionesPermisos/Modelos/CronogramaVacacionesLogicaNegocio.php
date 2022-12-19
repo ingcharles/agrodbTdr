@@ -134,11 +134,12 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 
 		$consulta = "SELECT
 				fe.identificador,
-				fe.apellido || ' ' || fe.nombre AS nombre, 
+				fe.apellido || ' ' || fe.nombre AS nombre,
 				mdc.fecha_inicio AS fecha_ingreso_institucion,
 				arr.nombre AS nombre_unidad_administrativa,
-				ar.nombre AS nombre_gestion_administrativa, 
-				dc.nombre_puesto AS puesto_institucional
+				ar.nombre AS nombre_gestion_administrativa,
+				dc.nombre_puesto AS puesto_institucional,
+				ar.id_area_padre
 		FROM
 				g_estructura.area ar 
 				INNER JOIN g_estructura.area arr ON arr.id_area = ar.id_area_padre AND arr.estado = 1
@@ -277,7 +278,7 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 				$this->modeloCronogramaVacaciones->actualizar($datosBd, $tablaModelo->getIdCronogramaVacacion());
 				$idRegistro = $datosBd["id_cronograma_vacacion"];
 			} else {
-				//unset($datosBd["id_cronograma_vacacion"]);
+
 				$arrayParametros = array(
 					'id_configuracion_cronograma_vacacion'=>  $_POST['id_configuracion_cronograma_vacacion'],
 					'identificador_funcionario' =>  $_POST['identificador_registro'],
@@ -289,11 +290,12 @@ class CronogramaVacacionesLogicaNegocio implements IModelo
 					'usuario_creacion' =>  $_POST['identificador_registro'],
 					'anio_cronograma_vacacion' =>  $_POST['anio_cronograma_vacacion'],
 					'numero_periodos' => $_POST['numero_periodos'],
+					'id_area_padre' => $_POST['id_area_padre'],
 					'estado_cronograma_vacacion' =>  'EnviadoJefe'
 
 				);
 
-				//print_r($arrayParametros);
+
 				$idRegistro = $this->modeloCronogramaVacaciones->guardar($arrayParametros);
 				$statement = $this->modeloCronogramaVacaciones->getAdapter()
 					->getDriver()

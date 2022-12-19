@@ -35,7 +35,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	private $lNegocioCronogramaVacaciones = null;
 	private $lNegocioUsuariosPerfiles = null;
 	private $lNegocioFichaEmpleado = null;
-	private $lNegocioConfiguracionCronogramaVacaciones = null;	
+	private $lNegocioConfiguracionCronogramaVacaciones = null;
 	private $lNegocioPeriodoCronogramaVacaciones = null;
 	private $lNegocioFirmantes = null;
 	private $descripcionConfiguracionCronogramaVacaciones = null;
@@ -46,8 +46,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	private $resultadoRevision = null;
 	private $panelBusqueda = null;
 	private $perfilUsuarioDirector = null;
-	private $esReprogramacion=null;
-	private $bloqueAprobacionReprogramacion=null;
+	private $esReprogramacion = null;
+	private $bloqueAprobacionReprogramacion = null;
 	/**
 	 * Constructor
 	 */
@@ -109,35 +109,23 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 				$arrayParametrosCronograma = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
 				$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametrosCronograma);
-		
+
 				if ($verificarConfiguracionCronograma->count()) {
-					$this->perfilUsuarioDirector = $perfilUsuario.'_1';
+					$this->perfilUsuarioDirector = $perfilUsuario . '_1';
 					$estadoCronogramaVacacion = "('EnviadoJefe')";
 					$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 					$arrayParametros += ['busquedaDe' => "INNER JOIN g_estructura.area ar ON ar.id_area = dc.id_gestion AND ar.id_area_padre = 'DE'"];
-					
+
 					$solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
 					$this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
 					$this->tablaHtmlRevisionCronogramaVacaciones($solicitudesPlanificacionVacaciones);
-					
 				} else {
-					$this->perfilUsuarioDirector = $perfilUsuario.'_2';
+					$this->perfilUsuarioDirector = $perfilUsuario . '_2';
 					$estadoCronogramaVacacion = "EnviadoDe";
 					$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 					$this->articleHtmlCronogramaVacaciones();
 				}
 
-				// $this->perfilUsuarioDirector = $perfilUsuario;
-				// $estadoCronogramaVacacion = "EnviadoDe";
-				// $arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
-				// $this->articleHtmlCronogramaVacaciones();
-				// $estadoCronogramaVacacion = "('RechazadoDe','EnviadoJefe')";
-				// $arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
-				// $arrayParametros += ['busquedaDe' => "INNER JOIN g_estructura.area ar ON ar.id_area = dc.id_gestion AND ar.id_area_padre = 'DE'"];
-				
-				// $solicitudesPlanificacionVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
-				// $this->panelBusqueda = $this->cargarPanelBusquedaSolicitud();
-				// $this->tablaHtmlRevisionCronogramaVacaciones($solicitudesPlanificacionVacaciones);
 				break;
 		}
 
@@ -158,7 +146,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	 * Método para registrar en la base de datos -RevisionCronogramaVacaciones
 	 */
 	public function guardar()
-	{      
+	{
 		$identificadorRevisor = $this->identificador;
 		$idAreaRevisor = $this->idArea;
 		$idCronogramaVacacion = $_POST['id_cronograma_vacacion'];
@@ -170,7 +158,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$_POST['estado_solicitud'] = $estadoSolicitud;
 		$_POST['estado_cronograma_vacacion'] = $estadoCronogramaVacacion;
 
-		if($_POST['es_reprogramacion'] > 0 && $_POST['estado_solicitud'] == 'EnviadoTthh'){
+		if ($_POST['es_reprogramacion'] > 0 && $_POST['estado_solicitud'] == 'EnviadoTthh') {
 
 			$_POST['estado_solicitud'] = 'ReprogramadoTthh';
 			$_POST['estado_cronograma_vacacion'] = 'ReprogramadoTthh';
@@ -184,7 +172,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			$parametrosFirma = array(
 				'archivo_entrada' => $rutaArchivo,
 				'archivo_salida' => $rutaArchivo,
-				'identificador' => '1716825326',//$identificadorInmediatoSuperior,
+				'identificador' => '1716825326', //$identificadorInmediatoSuperior,
 				'razon_documento' => 'Reprogramación de Vacaciones',
 				'tabla_origen' => 'g_vacaciones.cronograma_vacaciones',
 				'campo_origen' => 'id_cronograma_vacacion',
@@ -195,56 +183,98 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 			//Guardar registro para firma
 			$this->lNegocioFirmantes->ingresoFirmaDocumento($parametrosFirma);
-			
 		}
-		if($_POST['es_reprogramacion'] > 0 ){
+		if ($_POST['es_reprogramacion'] > 0) {
 			//Cuando es reprogramacion y rechaza se envia RechazadoReprogramacion
-			$_POST['estado_cronograma_vacacion']=$estadoSolicitud == 'Rechazado' ? 'RechazadoReprogramacion':$estadoSolicitud;
-			$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
-		}else{
+			$_POST['estado_cronograma_vacacion'] = $estadoSolicitud == 'Rechazado' ? 'RechazadoReprogramacion' : $estadoSolicitud;
+			$_POST['estado_solicitud'] = $estadoSolicitud == 'Rechazado' ? 'RechazadoReprogramacion' : $estadoSolicitud;
+
+			$procesoIngreso = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->getConnection();
+			$procesoIngreso->beginTransaction();
+
+			$arrayRevisionCronogramaVacacion = [
+				'id_cronograma_vacacion' => $idCronogramaVacacion, 'identificador_revisor' => $identificadorRevisor, 'id_area_revisor' => $_POST['id_area_revisor'], 'estado_solicitud' => $_POST['estado_solicitud'], 'observacion' => $_POST['observacion']
+			];
+
+			$this->modeloRevisionCronogramaVacaciones->guardar($arrayRevisionCronogramaVacacion);
+
+			$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->createStatement();
+
+
+			$estadoCronogramaVacacion = $_POST['estado_solicitud'];
+
+			$arrayCronogramaVacacion = [
+				'id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_cronograma_vacacion' => $estadoCronogramaVacacion, 'observacion' => $_POST['observacion']
+			];
+
+			$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
+			$sqlActualizar->set($arrayCronogramaVacacion);
+			$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion));
+			$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
+			$statement->execute();
+
+
+			$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->createStatement();
+
+			$arrayParametros = array(
+				'estado_registro' => 'Activo'
+			);
+
+			$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('periodo_cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
+			$sqlActualizar->set($arrayParametros);
+			$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Inactivo', 'ultima_reprogramacion' => true));
+			$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
+			$statement->execute();
+
+
+			$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+				->getDriver()
+				->createStatement();
+
+			$arrayParametros2 = array(
+				'estado_registro' => 'Inactivo'
+			);
+
+			$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('periodo_cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
+			$sqlActualizar->set($arrayParametros2);
+			$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => 'Si', 'ultima_reprogramacion' => true));
+			$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
+			$statement->execute();
+
+			$procesoIngreso->commit();
+
+			$proceso = true;
+		} else {
 			$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
 		}
 
 		if ($proceso) {
 			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
-		 }
+		} else {
+			Mensajes::fallo(Constantes::ERROR_GUARDAR);
+		}
 	}
 
-	/**
-	 *Obtenemos los datos del registro seleccionado para editar - Tabla: RevisionCronogramaVacaciones
-	 */
-	/*public function editar()
-		{
-			$idCronogramaVacacion = $_POST['id'];
-			$this->accion = "Revisión de cronograma de vacaciones";
-			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
-			$this->periodoCronograma = $this->construirDetallePeriodosCronograma(array('id_cronograma_vacacion' => $_POST["id"]));	
-			$this->resultadoRevision = $this->construirResultadoRevision();
-
-		$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
-
-		if ($proceso) {
-			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
-		}
-	}*/
-
-	/**
-	 *Obtenemos los datos del registro seleccionado para editar - Tabla: RevisionCronogramaVacaciones
-	 */
 	public function editar()
 	{
 		$idCronogramaVacacion = $_POST['id'];
-		$esReprogramacion=$this->lNegocioRevisionCronogramaVacaciones->obtenerCronogramaReprogramado(array('id_cronograma_vacacion' => $_POST["id"]));
+		$esReprogramacion = $this->lNegocioRevisionCronogramaVacaciones->obtenerCronogramaReprogramado(array('id_cronograma_vacacion' => $_POST["id"]));
 		$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
 		$this->esReprogramacion = $esReprogramacion->current()->cantidad;
 		$this->periodoCronograma = $this->construirDetallePeriodosCronograma(array('id_cronograma_vacacion' => $_POST["id"]));
-	
-		if($esReprogramacion->current()->cantidad > 0){
+
+		if ($esReprogramacion->current()->cantidad > 0) {
 			$this->accion = "Revisión de reprogramación de vacaciones";
-			$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion,'estado_registro' => 'Activo','estado_reprogramacion'=>'Si'];
-		    $rutaArchivo = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista($datos)->current()->ruta_archivo_reprogramacion;
+			$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => 'Si'];
+			$rutaArchivo = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista($datos)->current()->ruta_archivo_reprogramacion;
 			$this->bloqueAprobacionReprogramacion = $this->construirAprobacionReprogramacion($rutaArchivo);
-		}else{
+		} else {
 			$this->accion = "Revisión de cronograma de vacaciones";
 		}
 		$this->resultadoRevision = $this->construirResultadoRevision();
@@ -328,10 +358,10 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			case 'PFL_DIR_VAC_TTHH':
 				$datos = "estado_cronograma_vacacion IN ('ReprogramadoTthh')";
 				$verificarCronograma = $this->lNegocioCronogramaVacaciones->buscarLista($datos);
-	
+
 				if ($verificarCronograma->count()) {
 					$estadoCronograma = "Finalizado";
-				}else{
+				} else {
 					$estadoCronograma = "EnviadoDe";
 				}
 
@@ -339,10 +369,10 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			case 'PFL_DE_PROG_VAC':
 				$datos = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
 				$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
-	
+
 				if ($verificarConfiguracionCronograma->count()) {
 					$estadoCronograma = "EnviadoTthh";
-				}else{
+				} else {
 					$estadoCronograma = "Aprobado";
 				}
 				break;
@@ -404,8 +434,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				$estadoCronogramaVacacion = "('EnviadoDe')";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
-			break;
-
+				break;
 		}
 
 		if ($revisionCronogramaVacaciones->count() == 0) {
@@ -451,8 +480,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 				$estadoCronogramaVacacion = "('Finalizado')";
 				$arrayParametros += ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
 				$revisionCronogramaVacaciones = $this->lNegocioFichaEmpleado->obtenerDatosFuncionarioCronogramaVacacionesPorEstadoCronograma($arrayParametros);
-			break;
-
+				break;
 		}
 
 		if ($revisionCronogramaVacaciones->count() == 0) {
@@ -484,19 +512,20 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$validarEstadoCronogramaVacacion = $this->lNegocioCronogramaVacaciones->buscar($idCronogramaVacacion);
 		$estadoCronogramaVacacion = $validarEstadoCronogramaVacacion->getEstadoCronogramaVacacion();
 
-		switch($estadoCronogramaVacacion){
+		switch ($estadoCronogramaVacacion) {
 			case 'Finalizado':
 				$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
 				$this->periodoCronograma = $this->construirValidarPeriodo(array('id_cronograma_vacacion' => $idCronogramaVacacion));
-			break;
+				break;
 			default:
-				$datos = ['titulo' => 'Cronograma de planificación'
-							, 'mensaje' => 'La solicitud no se encuentra en estado "<b>Aprobado</b>".'];
+				$datos = [
+					'titulo' => 'Cronograma de planificación', 'mensaje' => 'La solicitud no se encuentra en estado "<b>Aprobado</b>".'
+				];
 				$this->datosGenerales = $this->construirDatosProcesoNoPermitido($datos);
-			break;
+				break;
 		}
 
-		require APP . 'VacacionesPermisos/vistas/formularioValidarPeriodoCronogramaVacaciones.php';		
+		require APP . 'VacacionesPermisos/vistas/formularioValidarPeriodoCronogramaVacaciones.php';
 	}
 
 	public function articleHtmlCronogramaVacaciones()
@@ -527,13 +556,12 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			$consulta = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($query);
 			foreach ($consulta as $fila) {
 				$this->article .= '<article id="' . $fila['anio_configuracion_cronograma_vacacion'] . '" class="item"
-			    								data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\RevisionCronogramaVacaciones"
-			    								data-opcion="' . $pagina . '" ondragstart="drag(event)"
-			    								draggable="true" data-destino="detalleItem">
-			    								<span><small><b>' . $fila["descripcion_configuracion_vacacion"]  . '</b> </small></span><br/>
-			    
-			    								<aside><small><b>Estado: </b>' . $estadoMostrado . '</small></aside>
-										</article>';
+										data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos\RevisionCronogramaVacaciones"
+										data-opcion="' . $pagina . '" ondragstart="drag(event)"
+										draggable="true" data-destino="detalleItem">
+										<span><small><b>' . $fila["descripcion_configuracion_vacacion"]  . '</b> </small></span><br/>
+										<aside><small><b>Estado: </b>' . $estadoMostrado . '</small></aside>
+									</article>';
 			}
 		}
 	}
@@ -575,7 +603,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			}
 		}
 
-		$observacion = $disabled !="" ?  $qDatoConfiguracion->current()->observacion : "" ;
+		$observacion = $disabled != "" ?  $qDatoConfiguracion->current()->observacion : "";
 		$this->descripcionConfiguracionCronogramaVacaciones = '
 		<form id="formEnviarDe" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos" data-opcion="ConfiguracionCronogramaVacaciones/aprobarDeCronogramaVacaciones" data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 			<input type="hidden" name="id_configuracion_cronograma_vacacion" value="' . $qDatoConfiguracion->current()->id_configuracion_cronograma_vacacion . '" />
@@ -583,12 +611,12 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 			<fieldset>
 				<legend>Cronograma de planificación año ' . $qDatoConfiguracion->current()->anio_configuracion_cronograma_vacacion . '</legend>
-				
+
 				<div data-linea="1">
 					<label for="descripcion_configuracion_vacacion">Descripción: </label>
 					' . $qDatoConfiguracion->current()->descripcion_configuracion_vacacion . '
 				</div>
-				
+
 				<hr/>
 				<div data-linea="2">
 				<label>Archivo Excel: </label>
@@ -646,8 +674,9 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 				$this->resumenCronogramaVacacion = $this->construirResumenCronogramaVacaciones($arrayResumenCronograma);
 			} else {
-				$datos = ['titulo' => 'Cronograma de planificación'
-							, 'mensaje' => 'No existen planificaciones de vacaciones realizadas para el año ' + $anioConfiguracionCronogramaVacacion];
+				$datos = [
+					'titulo' => 'Cronograma de planificación', 'mensaje' => 'No existen planificaciones de vacaciones realizadas para el año ' + $anioConfiguracionCronogramaVacacion
+				];
 				$this->resumenCronogramaVacacion = $this->construirDatosProcesoNoPermitido($datos);
 			}
 		} else {
@@ -656,16 +685,16 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 			$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametros);
 			if ($verificarConfiguracionCronograma->count()) {
 				$anioConfiguracionCronogramaVacacion = $verificarConfiguracionCronograma->current()->anio_configuracion_cronograma_vacacion;
-				$datos = ['titulo' => 'Cronograma de planificación'
-				, 'mensaje' => 'Ya existe un cronograma de planificación de vacaciones enviado al Director Ejecutivo del año '. $anioConfiguracionCronogramaVacacion .' por aprobar'];
+				$datos = [
+					'titulo' => 'Cronograma de planificación', 'mensaje' => 'Ya existe un cronograma de planificación de vacaciones enviado al Director Ejecutivo del año ' . $anioConfiguracionCronogramaVacacion . ' por aprobar'
+				];
 				$this->resumenCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
-			}else{
-				$datos = ['titulo' => 'Cronograma de planificación'
-				, 'mensaje' => 'No existe un cronograma de planificación de vacaciones para enviar al Director Ejecutivo'];
+			} else {
+				$datos = [
+					'titulo' => 'Cronograma de planificación', 'mensaje' => 'No existe un cronograma de planificación de vacaciones para enviar al Director Ejecutivo'
+				];
 				$this->resumenCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
 			}
-
-			
 		}
 
 		require APP . 'VacacionesPermisos/vistas/formularioResumenEnvioCronogramaVacacionesVista.php';
@@ -674,7 +703,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	// /**
 	//  * Método para construir lista de validar periodo planificacion
 	//  */
-	public function validarPlanificacionPeriodo(){
+	public function validarPlanificacionPeriodo()
+	{
 
 		$estadoCronogramaVacacion = "('Aprobado')";
 		$arrayParametros = ['estado_cronograma_vacacion' => $estadoCronogramaVacacion];
@@ -688,9 +718,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$this->tablaHtmlValidacionPlanificacionPeriodo($solicitudesPlanificacionVacaciones);
 
 		require APP . 'VacacionesPermisos/vistas/listaValidacionPlanificacionPeriodoVista.php';
-		
 	}
-	
+
 
 	// /**
 	//  * Método para construir resumen de consolidado de cronograma de vacaciones
@@ -698,8 +727,8 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	public function construirDatosProcesoNoPermitido($arrayParametros)
 	{
 		$titulo = $arrayParametros['titulo'];
-		$mensaje= $arrayParametros['mensaje'];
-		
+		$mensaje = $arrayParametros['mensaje'];
+
 		$resumenConsolidado = '<fieldset>
 		<legend>' . $titulo . '</legend>
 		<div data-linea="1">
@@ -757,7 +786,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 		return $resumenConsolidado;
 	}
-	
+
 	/**
 	 *Metodo para guardar el proceso de validacion de peroiodo
 	 */
@@ -765,18 +794,17 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 	{
 		$proceso = $this->lNegocioPeriodoCronogramaVacaciones->guardarValidarPeriodo($_POST);
 
-		if($proceso){
+		if ($proceso) {
 			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
 		}
-
-	} 
+	}
 
 	/**
 	 *Obtenemos los datos del registro seleccionado para editar - Tabla: RevisionCronogramaVacaciones
 	 */
 	public function guardarEnviarDirectorEjecutivo()
 	{
-		
+
 		$_POST['estado_configuracion_cronograma_vacacion'] = 'EnviadoDe';
 
 		//Verifica que no existan revisiones pendentes en estado "EnviadoTtthh"
@@ -805,7 +833,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$idCronogramaVacacion = $arrayParametros['id_cronograma_vacacion'];
 		$datosPlanificarPeriodos = "";
 		$banderaMostrarBotonGuardar = false;
-		
+
 		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_reprogramacion' => null];
 
 		$qCronogramaVacacion = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista($datos, 'numero_periodo ASC');
@@ -830,24 +858,24 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		foreach ($qCronogramaVacacion as $item) {
 
 			$totalDias = $totalDias + $item->total_dias;
-			
+
 			$estadoPeriodo = $item['estado_registro'];
 			$estadoReprogramacion = $item['estado_reprogramacion'];
 			$propiedadPeriodo = "";
 
 			//Valida si existe almenos un registro en estado_periodo -> activo y estado-reprogramacion -> null y permite guardar el registro
-			if($estadoPeriodo == 'Activo' && !isset($estadoReprogramacion)){
+			if ($estadoPeriodo == 'Activo' && !isset($estadoReprogramacion)) {
 				$banderaMostrarBotonGuardar = true;
 			}
 
 			($estadoPeriodo == "Cerrado") ? $propiedadPeriodo = ' disabled="disabled" checked' : $propiedadPeriodo = ' class="activo"';
 
 			$datosPlanificarPeriodos .= '<tr>	
-			<td><input type="hidden" name="hNumeroPeriodo['.$item->numero_periodo.']" value="' . $item->numero_periodo . '" ' . $propiedadPeriodo . '>Periodo ' . $item->numero_periodo . '</td>
+			<td><input type="hidden" name="hNumeroPeriodo[' . $item->numero_periodo . ']" value="' . $item->numero_periodo . '" ' . $propiedadPeriodo . '>Periodo ' . $item->numero_periodo . '</td>
 			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y', strtotime($item->fecha_inicio))) . '</td>
 			<td style="text-align: center;">' . $this->fechaEs(date('d-m-Y', strtotime($item->fecha_fin))) . '</td>
 			<td style="text-align: center;">' . $item->total_dias . '</td>
-			<td style="text-align: center;"><input type="checkbox" name="hCerrarPeriodo['.$item->numero_periodo.']" value="Cerrado" ' . $propiedadPeriodo . '></td><tr>';
+			<td style="text-align: center;"><input type="checkbox" name="hCerrarPeriodo[' . $item->numero_periodo . ']" value="Cerrado" ' . $propiedadPeriodo . '></td><tr>';
 		}
 
 		$datosPlanificarPeriodos .= '<tr>
@@ -859,15 +887,13 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 									</tbody>
 									</table>
 									</fieldset>';
-									
-		if ($banderaMostrarBotonGuardar){								
+
+		if ($banderaMostrarBotonGuardar) {
 			$datosPlanificarPeriodos .= '<div data-linea="9">
 										<button type="submit" class="guardar">Guardar</button>
-										</div>'; 
+										</div>';
 		}
 
 		return $datosPlanificarPeriodos;
 	}
-
-
 }

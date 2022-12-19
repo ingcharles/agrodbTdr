@@ -42,11 +42,12 @@
 		construirValidador();
 		distribuirLineas();
 
-		if (estadoCronograma == "Finalizado") {
+		if (estadoCronograma == "Finalizado" || estadoCronograma == "RechazadoReprogramacion"  ) {
 
 			$.post("<?php echo URL ?>VacacionesPermisos/PeriodoCronogramaVacaciones/construirReprogramarPeriodos", {
 				id_cronograma_vacacion: idCronogramaVacacion,
 				numero_periodos: numeroPeriodos,
+				estado_cronograma: estadoCronograma,
 			}, function(data) {
 				if (data.estado === 'EXITO') {
 					$("#dDatosPeriodo").html(data.datosPlanificarPeriodos);
@@ -56,7 +57,7 @@
 						changeYear: false,
 						dateFormat: 'yy-mm-dd',
 						maxDate: 0,
-						minDate: new Date(anioPlanificacion + '-01-31'),
+						minDate: new Date(anioPlanificacion + '-1-31'),
 					});
 
 					$(".piFechaInicio").datepicker({
@@ -64,7 +65,7 @@
 						changeMonth: true,
 						changeYear: false,
 						dateFormat: 'yy-mm-dd',
-						minDate: new Date(anioPlanificacion + '-01-01'),
+						minDate: new Date(anioPlanificacion + '-1-01'),
 						onSelect: function(dateText, inst) {
 							var elementoFechaInicio = $(this).parents("tr").find(".piFechaInicio");
 							var elementoFechaFin = $(this).parents("tr").find(".piFechaFin");

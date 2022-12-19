@@ -444,7 +444,6 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 					$documento->setCellValueByColumnAndRow($columnaPeriodo, $i, date("Y-m-d", strtotime($filaPeriodo['fecha_inicio'])));
 					$columnaPeriodo++;
 					$documento->setCellValueByColumnAndRow($columnaPeriodo, $i, date("Y-m-d", strtotime($filaPeriodo['fecha_fin'])));
-
 					$columnaPeriodo++;
 					$documento->setCellValueByColumnAndRow($columnaPeriodo, $i, $filaPeriodo['total_dias']);
 				}
@@ -480,13 +479,15 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 							, rcv.fecha_creacion
 							, fe.nombre || ' ' || fe.apellido as nombre_revisor
 						FROM 
-						g_vacaciones.revision_cronograma_vacaciones rcv
-						INNER JOIN (SELECT 
-										MAX(rcv.id_revision_cronograma_vacacion) as id_revision_cronograma_vacacion, rcv.id_cronograma_vacacion
-									FROM 
-										g_vacaciones.revision_cronograma_vacaciones rcv
-									GROUP BY rcv.id_cronograma_vacacion) tmcv ON tmcv.id_revision_cronograma_vacacion = rcv.id_revision_cronograma_vacacion
-						INNER JOIN g_uath.ficha_empleado fe ON fe.identificador = rcv.identificador_revisor
+							g_vacaciones.revision_cronograma_vacaciones rcv
+						INNER JOIN
+							(SELECT
+								MAX(rcv.id_revision_cronograma_vacacion) as id_revision_cronograma_vacacion, rcv.id_cronograma_vacacion
+							FROM
+								g_vacaciones.revision_cronograma_vacaciones rcv
+							GROUP BY rcv.id_cronograma_vacacion) tmcv ON tmcv.id_revision_cronograma_vacacion = rcv.id_revision_cronograma_vacacion
+						INNER JOIN
+							g_uath.ficha_empleado fe ON fe.identificador = rcv.identificador_revisor
 						WHERE
 							tmcv.id_cronograma_vacacion = " . $idCronogramaVacacion . ";";
 		 $res = $this->modeloRevisionCronogramaVacaciones->ejecutarSqlNativo($sqlScript);
@@ -497,12 +498,13 @@ class RevisionCronogramaVacacionesLogicaNegocio implements IModelo
 	 {
 
 		 $idCronogramaVacacion = $arrayParametros['id_cronograma_vacacion'];
-		 
-		 $sqlScript = "SELECT 
-		 					COUNT(*) AS cantidad 
+
+		 $sqlScript = "SELECT
+							COUNT(*) AS cantidad 
 						FROM 
 							g_vacaciones.periodo_cronograma_vacaciones pv
-		 				INNER JOIN g_vacaciones.cronograma_vacaciones  cv ON pv.id_cronograma_vacacion = cv.id_cronograma_vacacion
+		 				INNER JOIN 
+							g_vacaciones.cronograma_vacaciones  cv ON pv.id_cronograma_vacacion = cv.id_cronograma_vacacion
 						WHERE 
 							pv.estado_registro = 'Activo' 
 							AND pv.estado_reprogramacion = 'Si'
