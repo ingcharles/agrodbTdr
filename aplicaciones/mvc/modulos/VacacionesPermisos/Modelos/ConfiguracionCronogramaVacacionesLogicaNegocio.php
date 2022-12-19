@@ -146,13 +146,9 @@ class ConfiguracionCronogramaVacacionesLogicaNegocio implements IModelo
 				->getDriver()
 				->getConnection();
 
-
-
 			$procesoIngreso->beginTransaction();
 			//Aprueba la configuración cronograma pasa a Finalizado
 			if ($estado == 'Finalizado') {
-				
-
 
 				//Tabla de firmas físicas
 				$firmaResponsable = $this->lNegocioResponsablesCertificadosNegocio->obtenerFirmasResponsablePorProvincia('Director Ejecutivo', 'DE');

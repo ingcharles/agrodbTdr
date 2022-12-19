@@ -185,7 +185,7 @@ class CronogramaVacacionesControlador extends BaseControlador
 		$this->anioPlanificacion = $anioPlanificacion;
 		$this->accion = "Editar solicitud de planificación " . $anioPlanificacion;
 
-		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion,'estado_registro' => 'Activo','estado_reprogramacion'=>'Si'];
+		$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion,'estado_registro' => 'Activo', 'estado_reprogramacion'=>'Si', 'ultima_reprogramacion' => true];
 		$rutaArchivo = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista($datos);
 		
 		if($rutaArchivo->count()){

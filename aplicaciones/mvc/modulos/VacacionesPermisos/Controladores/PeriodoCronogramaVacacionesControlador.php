@@ -134,65 +134,64 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 	public function reprogramarPeriodo()
 	{
 
-		$idCronogramaVacacion = $_POST['elementos'];
+		if ($_POST['elementos'] != "") {
+			$idCronogramaVacacion = $_POST['elementos'];
+			$datos = "estado_configuracion_cronograma_vacacion IN ('Finalizado')";
+			$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
+
+			if ($verificarConfiguracionCronograma->count()) {
+
+				if ($idCronogramaVacacion != '') {
 
 
-		$datos = "estado_configuracion_cronograma_vacacion IN ('Finalizado')";
-		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
+					$this->modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscar($idCronogramaVacacion);
 
-		if ($verificarConfiguracionCronograma->count()) {
+					$idConfiguracionCronogramaVacacion = $this->modeloCronogramaVacaciones->getIdConfiguracionCronogramaVacacion();
+					$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
 
-			if ($idCronogramaVacacion != '') {
+					$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscar($idConfiguracionCronogramaVacacion);
+					$anioPlanificacion = $datosConfiguracionCronogramaVacacion->getAnioConfiguracionCronogramaVacacion();
+
+					$this->anioPlanificacion = $anioPlanificacion;
+					$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
+					$this->accion = "Reprogramar vacaciones del cronograma " . $anioPlanificacion;
 
 
-				$this->modeloCronogramaVacaciones = $this->lNegocioCronogramaVacaciones->buscar($idCronogramaVacacion);
-	
-				$idConfiguracionCronogramaVacacion = $this->modeloCronogramaVacaciones->getIdConfiguracionCronogramaVacacion();
-				$estadoCronogramaRegistro = $this->modeloCronogramaVacaciones->getEstadoCronogramaVacacion();
-				
-				$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscar($idConfiguracionCronogramaVacacion);
-				$anioPlanificacion = $datosConfiguracionCronogramaVacacion->getAnioConfiguracionCronogramaVacacion();
-	
-				$this->anioPlanificacion = $anioPlanificacion;
-				$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesAbrir($idCronogramaVacacion);
-				$this->accion = "Reprogramar vacaciones del cronograma ". $anioPlanificacion;
-	
-	
-				$estado = false;
-				switch ($estadoCronogramaRegistro) {
-					case 'RechazadoReprogramacion':
-						$estado = true;
-						break;
-				}
-				$numeroPeriodos = $this->lNegocioPeriodoCronogramaVacaciones->obtenerNumeroPeriodos($this->modeloCronogramaVacaciones->getNumeroPeriodos(), $estado);
-				$datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, $this->modeloCronogramaVacaciones->getIdentificadorBackup(), $estado);
-	
-				$this->datosPlanificacion = '<fieldset>
+					$estado = false;
+					switch ($estadoCronogramaRegistro) {
+						case 'RechazadoReprogramacion':
+							$estado = true;
+							break;
+					}
+					$numeroPeriodos = $this->lNegocioPeriodoCronogramaVacaciones->obtenerNumeroPeriodos($this->modeloCronogramaVacaciones->getNumeroPeriodos(), $estado);
+					$datosFuncionarioBackup = $this->obtenerDatosFuncionarioBackup($this->identificador, $this->modeloCronogramaVacaciones->getIdentificadorBackup(), $estado);
+
+					$this->datosPlanificacion = '<fieldset>
 												<legend>Datos de planificación</legend>
 												<input type="hidden" name="id_cronograma_vacacion" id="id_cronograma_vacacion" value="' . $this->modeloCronogramaVacaciones->getIdCronogramaVacacion() . '" />
 												<input type="hidden" name="anio_cronograma_vacacion" id="anio_cronograma_vacacion" value="' . $this->anioPlanificacion . '" />
-										
 												<div data-linea="5">
-													<label for="identificador_backup">Funcionario reemplazo: </label>										
-													' . $datosFuncionarioBackup . '										
+													<label for="identificador_backup">Funcionario reemplazo: </label>
+													' . $datosFuncionarioBackup . '
 												</div>
-										
 												<div data-linea="6">
-													<label for="numero_periodos_planificar">Número de periodos a planificar: </label>										
-													' . $numeroPeriodos . '										
-												</div>	
+													<label for="numero_periodos_planificar">Número de periodos a planificar: </label>
+													' . $numeroPeriodos . '
+												</div>
 											</fieldset>';
-
+				}
+			} else {
+				$this->accion = "Reprogramar vacaciones del cronograma";
+				$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'El cronograma no se encuentra aprobado. Usted no puede realizar una solicitud de reprogramación.'];
+				$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
 			}
-			
 		} else {
 			$this->accion = "Reprogramar vacaciones del cronograma";
-			$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'El cronograma no se encuentra aprobado. Usted no puede realizar una solicitud de reprogramación.'];
+			$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'Seleccione un registro para poder realizar la reprogramación.'];
 			$this->datosGenerales = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
 		}
 
 		require APP . 'VacacionesPermisos/vistas/formularioReprogramarCronogramaVacacionesVista.php';
-		
 	}
 
 	/**
@@ -203,18 +202,18 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 
 		$idCronogramaVacacion = $_POST['id_cronograma_vacacion'];
 		$numeroPeriodos = $_POST['numero_periodos'];
-		$estadoCronograma = $_POST['estado_cronograma'];
+		//$estadoCronograma = $_POST['estado_cronograma'];
 		$datosPlanificarPeriodos = '<fieldset>
 									<legend>Ingresar periodo</legend>
 									<label>*Nota: </label><spam>Solo se reprogramarán los periodos seleccionados en la columna "Reprogramación".</spam>';
 		$cantidadRegistros = 0;
 		if (isset($idCronogramaVacacion)) {
 			$arrayEstados = ['Primer Periodo:', 'Segundo Periodo:', 'Tercer Periodo:', 'Cuarto Periodo:'];
-			if($estadoCronograma == "RechazadoReprogramacion"){
+			// if ($estadoCronograma == "RechazadoReprogramacion") {
 				$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo'), 'numero_periodo ASC');
-			}else{
-				$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => null), 'numero_periodo ASC');
-			}
+			// } else {
+			// 	$periodos = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => null), 'numero_periodo ASC');
+			// }
 
 			$cantidadRegistros = count($periodos);
 			if ($cantidadRegistros > 0) {
@@ -247,15 +246,21 @@ class PeriodoCronogramaVacacionesControlador extends BaseControlador
 
 
 				foreach ($periodos as $item) {
+					$checked = "";
+					$disabled = "";
+					if ($item->estado_reprogramacion == "Si") {
+						$checked = 'checked="checked" disabled="disabled"';
+						$disabled = 'disabled="disabled"';
+					}
 					$datosPlanificarPeriodos .= '<tbody>
 					<tr>	
-						<td style="font-weight: bold;">' . $arrayEstados[($item->numero_periodo - 1)] . '<input type="hidden" name="hPeriodo['.$item->numero_periodo.']" value="1"></td>
-						<td><input value=' . $item->numero_periodo . ' type="hidden" class="piNumeroPeriodo" name="hNumeroPeriodo['.$item->numero_periodo.']" readonly="readonly">
-						<input value=' . $item->id_periodo_cronograma_vacacion . ' type="hidden" class="piPeriodoCronogramaVacacion" name="hIdPeriodoCronogramaVacacion['.$item->numero_periodo.']" readonly="readonly">
-						<input value=' . $item->fecha_inicio . ' type="text" class="piFechaInicio" name="hFechaInicio['.$item->numero_periodo.']" readonly="readonly"></td>
-						<td><input value=' . $item->total_dias . ' type="text" class="piNumeroDias" name="hNumeroDias['.$item->numero_periodo.']" ' . $validacion . '></td>
-						<td><input value=' . $item->fecha_fin . ' type="text" class="piFechaFin" name="hFechaFin['.$item->numero_periodo.']" readonly="readonly"></td>
-						<td style="text-align: center;"><input type="checkbox" name="hReprogramado['.$item->numero_periodo.']" value="Si" class="reprogramar"></td>;
+						<td style="font-weight: bold;">' . $arrayEstados[($item->numero_periodo - 1)] . '<input type="hidden" ' . $disabled . ' name="hPeriodo[' . $item->numero_periodo . ']" value="1"></td>
+						<td><input value=' . $item->numero_periodo . ' type="hidden" ' . $disabled . ' class="piNumeroPeriodo" name="hNumeroPeriodo[' . $item->numero_periodo . ']" readonly="readonly">
+						<input value=' . $item->id_periodo_cronograma_vacacion . ' type="hidden" ' . $disabled . ' class="piPeriodoCronogramaVacacion" name="hIdPeriodoCronogramaVacacion[' . $item->numero_periodo . ']" readonly="readonly">
+						<input value=' . $item->fecha_inicio . ' type="text" ' . $disabled . ' class="piFechaInicio" name="hFechaInicio[' . $item->numero_periodo . ']" readonly="readonly"></td>
+						<td><input value=' . $item->total_dias . ' type="text" ' . $disabled . ' class="piNumeroDias" name="hNumeroDias[' . $item->numero_periodo . ']" ' . $validacion . '></td>
+						<td><input value=' . $item->fecha_fin . ' type="text" ' . $disabled . ' class="piFechaFin" name="hFechaFin[' . $item->numero_periodo . ']" readonly="readonly"></td>
+						<td style="text-align: center;"><input type="checkbox" ' . $checked . ' name="hReprogramado[' . $item->numero_periodo . ']" value="Si" class="reprogramar"></td>;
 					</tr>
 				</tbody>';
 				}

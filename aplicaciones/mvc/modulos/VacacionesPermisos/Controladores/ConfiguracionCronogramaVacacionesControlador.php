@@ -58,13 +58,12 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 	public function nuevo()
 	{
 		$this->accion = "Nueva configuracion de cronograma de vacaciones";
-		//$arrayParametros = ['estado_configuracion_cronograma_vacacion' => 'Activo'];
 		$arrayParametros = "estado_configuracion_cronograma_vacacion IN ('Activo','RechazadoDe')";
 		$verificarConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($arrayParametros);
 
 		if ($verificarConfiguracionCronograma->count()) {
 			$datos = ['titulo' => 'Cronograma de planificación', 'mensaje' => 'Ya existe una planificación habilitada.'];
-			$this->configuracionCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos );
+			$this->configuracionCronogramaVacacion = $this->construirDatosGeneralesCronogramaVacacionesNoConfigurado($datos);
 		} else {
 			$anioConfiguracionCronogramaVacacion = date('Y') + 1;
 
@@ -84,22 +83,20 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 
 		$identificadorConfiguracionCronogramaVacacion = $this->identificador;
 		$anioConfiguracionCronogramaVacacion = $_POST['anio_configuracion_cronograma_vacacion'];
-
 		$_POST['identificador_configuracion_cronograma_vacacion'] = $identificadorConfiguracionCronogramaVacacion;
+		$where = "anio_configuracion_cronograma_vacacion = $anioConfiguracionCronogramaVacacion AND estado_configuracion_cronograma_vacacion != 'Inactivo' ";
+		$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($where);
 
-		$datos = ['anio_configuracion_cronograma_vacacion' => $anioConfiguracionCronogramaVacacion];
-
-		$datosConfiguracionCronogramaVacacion = $this->lNegocioConfiguracionCronogramaVacaciones->buscarLista($datos);
-
-		/*if($datosConfiguracionCronogramaVacacion->count()){
-				echo"existe";
-			}else{
-				echo "no existe";
-			} */
-
-		$this->lNegocioConfiguracionCronogramaVacaciones->guardar($_POST);
-
-		Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
+		if ($datosConfiguracionCronogramaVacacion->count() <= 0) {
+			$datoGuardado = $this->lNegocioConfiguracionCronogramaVacaciones->guardar($_POST);
+			if ($datoGuardado) {
+				Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
+			} else {
+				Mensajes::fallo(Constantes::ERROR_AL_GUARDAR);
+			}
+		} else {
+			Mensajes::fallo("Ya existe un cronograma de vacaciones registrado en el año " . $anioConfiguracionCronogramaVacacion);
+		}
 	}
 	/**
 	 *Obtenemos los datos del registro seleccionado para editar - Tabla: ConfiguracionCronogramaVacaciones
@@ -150,20 +147,20 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 
 		$configuracionCronograma = '<form id="formulario" data-rutaAplicacion="' . URL_MVC_FOLDER . 'VacacionesPermisos" data-opcion="configuracioncronogramavacaciones/guardar" data-destino="detalleItem" data-accionEnExito="ACTUALIZAR" method="post">
 		<fieldset>
-			<legend>Datos de cronograma</legend>					
-	
+			<legend>Datos de cronograma</legend>
+
 			<div data-linea="1">
 				<label for="anio_configuracion_cronograma_vacacion">Año cronograma: </label>
 				<input type="text" id="anio_configuracion_cronograma_vacacion" name="anio_configuracion_cronograma_vacacion" value="' . $anioCronogramaVacacion . '" readonly />
 			</div>
-	
+
 			<div data-linea="2">
 				<label for="descripcion_configuracion_vacacion">Descripción: </label>
-				<input type="text" id="descripcion_configuracion_vacacion" name="descripcion_configuracion_vacacion" value="" placeholder="Coloque una descripción" maxlength="256" class="validacion"/>
+				<input type="text" id="descripcion_configuracion_vacacion" name="descripcion_configuracion_vacacion" value="" placeholder="Coloque una descripción" maxlength="512" class="validacion"/>
 			</div>
-	
+
 		</fieldset >
-	
+
 		<div data-linea="8">
 			<button type="submit" class="guardar">Guardar</button>
 		</div>
@@ -180,9 +177,7 @@ class ConfiguracionCronogramaVacacionesControlador extends BaseControlador
 	{
 
 		$datosConfiguracionCronograma = $this->lNegocioConfiguracionCronogramaVacaciones->buscar($idConfiguracionCronograma);
-
 		$datos = ['identificador' =>  $datosConfiguracionCronograma->getIdentificadorConfiguracionCronogramaVacacion()];
-
 		$qDatosFuncionario = $this->lNegocioFichaEmpleado->buscarLista($datos);
 		$nombreFuncionario = $qDatosFuncionario->current()->nombre . ' ' . $qDatosFuncionario->current()->apellido;
 

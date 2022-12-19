@@ -151,109 +151,128 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 		$idAreaRevisor = $this->idArea;
 		$idCronogramaVacacion = $_POST['id_cronograma_vacacion'];
 		$estadoSolicitud = $_POST['resultado_revision'];
-		$estadoCronogramaVacacion = $_POST['resultado_revision'];
+		$observacion = $_POST['observacion'];
 
-		$_POST['identificador_revisor'] = $identificadorRevisor;
-		$_POST['id_area_revisor'] = $idAreaRevisor;
-		$_POST['estado_solicitud'] = $estadoSolicitud;
-		$_POST['estado_cronograma_vacacion'] = $estadoCronogramaVacacion;
+		$procesoIngreso = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+			->getDriver()
+			->getConnection();
+		$procesoIngreso->beginTransaction();
 
-		if ($_POST['es_reprogramacion'] > 0 && $_POST['estado_solicitud'] == 'EnviadoTthh') {
+		
 
-			$_POST['estado_solicitud'] = 'ReprogramadoTthh';
-			$_POST['estado_cronograma_vacacion'] = 'ReprogramadoTthh';
 
-			$identificadorInmediatoSuperior = $this->identificador;
 
-			$rutaArchivo = Constantes::RUTA_SERVIDOR_OPT . '/' . Constantes::RUTA_APLICACION . '/' . $_POST['ruta_archivo_reprogramacion'];
 
-			//Firma Electrónica
-
-			$parametrosFirma = array(
-				'archivo_entrada' => $rutaArchivo,
-				'archivo_salida' => $rutaArchivo,
-				'identificador' => '1716825326', //$identificadorInmediatoSuperior,
-				'razon_documento' => 'Reprogramación de Vacaciones',
-				'tabla_origen' => 'g_vacaciones.cronograma_vacaciones',
-				'campo_origen' => 'id_cronograma_vacacion',
-				'id_origen' => $idCronogramaVacacion,
-				'estado' => 'Por atender',
-				'proceso_firmado' => 'NO'
-			);
-
-			//Guardar registro para firma
-			$this->lNegocioFirmantes->ingresoFirmaDocumento($parametrosFirma);
-		}
 		if ($_POST['es_reprogramacion'] > 0) {
-			//Cuando es reprogramacion y rechaza se envia RechazadoReprogramacion
-			$_POST['estado_cronograma_vacacion'] = $estadoSolicitud == 'Rechazado' ? 'RechazadoReprogramacion' : $estadoSolicitud;
-			$_POST['estado_solicitud'] = $estadoSolicitud == 'Rechazado' ? 'RechazadoReprogramacion' : $estadoSolicitud;
-
-			$procesoIngreso = $this->modeloRevisionCronogramaVacaciones->getAdapter()
-				->getDriver()
-				->getConnection();
-			$procesoIngreso->beginTransaction();
-
-			$arrayRevisionCronogramaVacacion = [
-				'id_cronograma_vacacion' => $idCronogramaVacacion, 'identificador_revisor' => $identificadorRevisor, 'id_area_revisor' => $_POST['id_area_revisor'], 'estado_solicitud' => $_POST['estado_solicitud'], 'observacion' => $_POST['observacion']
-			];
-
-			$this->modeloRevisionCronogramaVacaciones->guardar($arrayRevisionCronogramaVacacion);
-
-			$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
-				->getDriver()
-				->createStatement();
 
 
-			$estadoCronogramaVacacion = $_POST['estado_solicitud'];
-
-			$arrayCronogramaVacacion = [
-				'id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_cronograma_vacacion' => $estadoCronogramaVacacion, 'observacion' => $_POST['observacion']
-			];
-
-			$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
-			$sqlActualizar->set($arrayCronogramaVacacion);
-			$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion));
-			$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
-			$statement->execute();
 
 
-			$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
-				->getDriver()
-				->createStatement();
-
-			$arrayParametros = array(
-				'estado_registro' => 'Activo'
-			);
-
-			$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('periodo_cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
-			$sqlActualizar->set($arrayParametros);
-			$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Inactivo', 'ultima_reprogramacion' => true));
-			$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
-			$statement->execute();
 
 
-			$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
-				->getDriver()
-				->createStatement();
+			if ($estadoSolicitud == 'Rechazado') {
+				$estadoSolicitud = 'RechazadoReprogramacion';
 
-			$arrayParametros2 = array(
-				'estado_registro' => 'Inactivo'
-			);
+				// $arrayRevisionCronogramaVacacion = [
+				// 	'id_cronograma_vacacion' => $idCronogramaVacacion, 'identificador_revisor' => $identificadorRevisor, 'id_area_revisor' => $idAreaRevisor, 'estado_solicitud' => $estadoSolicitud, 'observacion' => $observacion
+				// ];
 
-			$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('periodo_cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
-			$sqlActualizar->set($arrayParametros2);
-			$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => 'Si', 'ultima_reprogramacion' => true));
-			$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
-			$statement->execute();
+				// $this->modeloRevisionCronogramaVacaciones->guardar($arrayRevisionCronogramaVacacion);
 
-			$procesoIngreso->commit();
 
-			$proceso = true;
-		} else {
-			$proceso = $this->lNegocioRevisionCronogramaVacaciones->guardar($_POST);
+
+				$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+					->getDriver()
+					->createStatement();
+
+				$arrayParametros = array(
+					'estado_registro' => 'Activo'
+				);
+
+				$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('periodo_cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
+				$sqlActualizar->set($arrayParametros);
+				$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Inactivo', 'ultima_reprogramacion' => true));
+				$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
+				$statement->execute();
+
+
+				$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+					->getDriver()
+					->createStatement();
+
+				$arrayParametros2 = array(
+					'estado_registro' => 'Inactivo'
+				);
+
+				$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('periodo_cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
+				$sqlActualizar->set($arrayParametros2);
+				$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => 'Si', 'ultima_reprogramacion' => true));
+				$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
+				$statement->execute();
+			} else if ($estadoSolicitud == 'EnviadoDe') {
+
+						$estadoSolicitud = 'Finalizado';
+				// 		$estadoSolicitud = 'ReprogramadoTthh';
+
+				// 		//CEDULA DENNIS 1716825326
+						$identificadorInmediatoSuperior = $this->identificador;
+
+						$rutaArchivo = Constantes::RUTA_SERVIDOR_OPT . '/' . Constantes::RUTA_APLICACION . '/' . $_POST['ruta_archivo_reprogramacion'];
+
+						//Firma Electrónica
+
+						$parametrosFirma = array(
+							'archivo_entrada' => $rutaArchivo,
+							'archivo_salida' => $rutaArchivo,
+							'identificador' => $identificadorInmediatoSuperior,
+							'razon_documento' => 'Reprogramación de Vacaciones',
+							'tabla_origen' => 'g_vacaciones.cronograma_vacaciones',
+							'campo_origen' => 'id_cronograma_vacacion',
+							'id_origen' => $idCronogramaVacacion,
+							'estado' => 'Por atender',
+							'proceso_firmado' => 'NO'
+						);
+
+						//Guardar registro para firma
+						$this->lNegocioFirmantes->ingresoFirmaDocumento($parametrosFirma);
+					//}
+			}
+			// if ($estadoSolicitud == 'Rechazado') {
+
+			// }else if ($estadoSolicitud == 'ReprogramadoTthh'){
+
+			// }
 		}
 
+		$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()->getDriver()->createStatement();
+
+		$arrayRevisionCronogramaVacacion = [
+			'id_cronograma_vacacion' => $idCronogramaVacacion, 'identificador_revisor' => $identificadorRevisor, 'id_area_revisor' => $idAreaRevisor, 'estado_solicitud' => $estadoSolicitud, 'observacion' => $observacion
+		];
+
+		$sqlInsertar = $this->modeloRevisionCronogramaVacaciones->guardarSql('revision_cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
+		$sqlInsertar->columns(array_keys($arrayRevisionCronogramaVacacion));
+		$sqlInsertar->values($arrayRevisionCronogramaVacacion, $sqlInsertar::VALUES_MERGE);
+		$sqlInsertar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
+		$statement->execute();
+
+		$statement = $this->modeloRevisionCronogramaVacaciones->getAdapter()
+			->getDriver()
+			->createStatement();
+
+		$arrayCronogramaVacacion = [
+			'id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_cronograma_vacacion' => $estadoSolicitud, 'observacion' => $observacion
+		];
+
+		$sqlActualizar = $this->modeloRevisionCronogramaVacaciones->actualizarSql('cronograma_vacaciones', $this->modeloRevisionCronogramaVacaciones->getEsquema());
+		$sqlActualizar->set($arrayCronogramaVacacion);
+		$sqlActualizar->where(array('id_cronograma_vacacion' => $idCronogramaVacacion));
+		$sqlActualizar->prepareStatement($this->modeloRevisionCronogramaVacaciones->getAdapter(), $statement);
+		$statement->execute();
+		$proceso = true;
+
+
+		$procesoIngreso->commit();
 		if ($proceso) {
 			Mensajes::exito(Constantes::GUARDADO_CON_EXITO);
 		} else {
@@ -271,7 +290,7 @@ class RevisionCronogramaVacacionesControlador extends BaseControlador
 
 		if ($esReprogramacion->current()->cantidad > 0) {
 			$this->accion = "Revisión de reprogramación de vacaciones";
-			$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => 'Si'];
+			$datos = ['id_cronograma_vacacion' => $idCronogramaVacacion, 'estado_registro' => 'Activo', 'estado_reprogramacion' => 'Si', 'ultima_reprogramacion' => true];
 			$rutaArchivo = $this->lNegocioPeriodoCronogramaVacaciones->buscarLista($datos)->current()->ruta_archivo_reprogramacion;
 			$this->bloqueAprobacionReprogramacion = $this->construirAprobacionReprogramacion($rutaArchivo);
 		} else {

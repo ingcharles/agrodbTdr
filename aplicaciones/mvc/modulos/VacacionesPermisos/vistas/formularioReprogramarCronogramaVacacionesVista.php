@@ -161,15 +161,15 @@
 		event.preventDefault();
 		var error = false;
 
-		if ($('input.reprogramar:checked').length == 0){       
+		if ($('input.reprogramar:checked:not([disabled])').length == 0){       
 					$('input.reprogramar').addClass("alertaCombo");
 					var error = true;
 		}
 
 		if (!error) {
-			if ($('#total_dias_planificados').val() != 30) {
-				$("#estado").html("El total de días planificados deben ser igual a 30.").addClass("alerta");
-			} else {
+			// if ($('#total_dias_planificados').val() != 30) {
+			// 	$("#estado").html("El total de días planificados deben ser igual a 30.").addClass("alerta");
+			// } else {
 				var input_hermanos = $('table#tPeriodosPlanificar').find(".piNumeroDias");
 				var filas = $('table#tPeriodosPlanificar').find("tr");
 				var banderaTablaVacia = true;
@@ -254,7 +254,7 @@
 						}
 					}
 				}
-			}
+			//}
 		} else {
 			$("#estado").html("Por favor revise los campos obligatorios.").addClass("alerta");
 		}
