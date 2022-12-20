@@ -41,7 +41,8 @@
 	$(document).ready(function() {
 		construirValidador();
 		distribuirLineas();
-
+		$('#identificador_backup').attr('disabled',true);
+		$('#numero_periodos').attr('disabled',true);
 		if (estadoCronograma == "Finalizado" || estadoCronograma == "RechazadoReprogramacion"  ) {
 
 			$.post("<?php echo URL ?>VacacionesPermisos/PeriodoCronogramaVacaciones/construirReprogramarPeriodos", {

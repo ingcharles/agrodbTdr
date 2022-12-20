@@ -108,7 +108,7 @@
 							valorMaximo = parseInt( $(this).val())+ valorMaximo;
 						});
 						['.piFechaFin', '.piFechaInicio', '.piNumeroDias'].forEach(elem => {
-							$(elem).attr('disabled', estadoCronograma.includes("Rechazado") ? 'disabled' : '');
+							$(elem).attr('disabled', estadoCronograma.includes("Rechazado") ? false : '');
 							
 						});
 						
